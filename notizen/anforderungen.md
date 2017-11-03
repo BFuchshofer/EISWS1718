@@ -28,11 +28,10 @@
 
 ## Qualitätsanforderungen <br/>
 * Das System muss dem Nutzer jederzeit die Korrektheit der präsentierten Informationen gewährleisten.
-* Das System sollte dem Nutzer den einfachen Zugriff auf die verfügbaren Informationen ermöglichen.
+* Das System sollte dem Nutzer den Zugriff in Echtzeit auf die verfügbaren Informationen ermöglichen.
 * Das System muss administrativ verwaltbar sein.
 * (Das System sollte eine Synchronisation zwischen unterschiedlichen Nutzungsschnittstellen erlauben.)
 * Das System sollte dem Nutzer eine informative Rückmeldung über getätigte Interaktionen geben.
-* Das System muss dem Nutzer eine einfache Konfiguration auf seinem Endgerät ermöglichen.
+* Das System muss dem Benutzer eine einfache Konfiguration auf seinem Endgerät ermöglichen (weniger als 5 Arbeitsschritte).
 * Das System muss dem Nutzer die Gültigkeit einer Interaktion garantieren.
 
-stand 27.10.2017

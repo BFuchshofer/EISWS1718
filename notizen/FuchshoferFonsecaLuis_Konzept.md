@@ -17,8 +17,17 @@ Um dem Problem der spontanen und unstrukturierten Raumbelegung in größeren Leh
 
 *1.3 Ziele festlegen ( strategisch/taktisch )*
 
-Das __strategische Ziel__ unseres Projektes ist es eine Anwendung zu entwickeln die Personen, welche sich auf Raumsuche in einer größeren Organisation befinden, einen Raumvorschlag liefert. Für diesen Vorschlag muss garantiert sein das der Raum zum einen nicht durch eine wöchentlich wiederkehrende Veranstaltung belegt ist und zum anderen das der Raum nicht schon einer zweiten Person vorgeschlagen wurde und es somit zu einem Konflikt bei einer Raumbuchung kommt.  
-Die __taktischen Ziele__ haben wir aus den strategischen Zielen abgeleitet und mit Hilfe der Anforderungsanalyse bestärkt. So sind wir zu dem Ergebnis gelangt, dass für die Umsetzung des Projekts und damit die Entwicklung des Systems sowohl eine Datenbank als auch ein Webserver aufgesetzt werden muss. Weiterhin muss für die flexible Nutzung eine Anwendung auf dem Endgerät des Benutzers verfügbar sein und für die betreffende Lehreinrichtung konfiguriert werden. Über die Anwendung soll der Benutzer dann einen Raumvorschlag erhalten und diesen reservieren und buchen können.  
+__Strategische Ziele__   
+Das fertige System in unserem Projekt __muss__ es dem Benutzer ermöglichen innerhalb von 30 Sekunden einen freien Raum der den Erfordernisen des Benutzers entspricht zu erhalten.   
+Dabei __muss__ es alle zugänglichen Räume innerhalb der Lehreinrichtung in Echtzeit adressieren und verwalten können.  
+
+
+__Taktische Ziele__  
+Um auf unterschiedliche Rauminhalte eingehen zu können, __sollte__ jeder einzelne Raum mit zugehörigen Informationen über seine Ausstattung angereichert werden.    
+Diese Rauminformationen __müssen__ innerhalb eines persistenten Datenspeichers gespeichert, und auf Anfrage an eine Verarbeitungseinheit geschickt werden.    
+Diese Verarbeitungseinheit __muss__ ein Server sein der die Informationen in den persistenten Datenspeicher schreiben und lesen kann.    
+Außerdem __muss__ der Server diese Informationen algorithmisch anreichern und dem Benutzer an seinem Endgerät präsentieren können.    
+
 
 
 ### 2. Alleinstellungsmerkmal und Konkurrenz
@@ -29,15 +38,15 @@ __http://locaboo.com__
 + Raum und Ressourcen Management
 + Buchung von Räumen (vermietung)
 + Kundenverwaltung
-    
+
 __http://comtech-noecker.de (INTIME)__   
 + Verwaltung von Räumen, Terminen, Veranstalltungen
 + Buchung von Räumen und Ressourcen
 + Abrechnungsverfahren
-    
+
 __http://kribus.de__
 + Dienstplan, Belegungsplan, Prüfungsplan
-    
+
 __http://online-raumverwaltung.de__
 + cloudbasiert
 + Abrechnung, Angebote, Mahnungen
@@ -77,62 +86,48 @@ Durch diese Anwendungsdomäne wird die Größe der Zielgruppe auf Zugehörige de
 ### 4. Stakeholderanalyse
 | Bezeichnung | Beziehung zum System | Objektbereich | Erfordernis, Erwartung | Priorität |
 | ----------- | -------------------- | ------------- | ---------------------- | --------- |
-| __Lehrkraft__ | Anspruch | Rauminformation | korrektheit | |  
-|| Interesse | Rauminformation | einfacher Zugriff |  |
- || Interesse | Schnittstelle des Systems | einfache Konfiguration | |
- || Anrecht | Reservierung des Raumes | Gültigkeit | |
- || Anrecht | Belegung des Raumes | Gültigkeit |  |
- || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
- || Anspruch | Reservierung des Raumes | erhöhte Priorisierung | |
-| __Lerner__ | Anspruch | Rauminformation | korrektheit | |
- || Interesse | Rauminformation | einfacher Zugriff | |
- || Interesse | Schnittstelle des Systems | einfache Konfiguration |  |
- || Anrecht | Reservierung des Raumes | Gültigkeit | |
- || Anrecht | Belegung des Raumes | Gültigkeit |  |
- || Anspruch | Schnittstelle des Systems	| gute Gebrauchstauglichkeit | |
-| __Wissenschaftliche Mitarbeiter__ | Anspruch | Rauminformation | korrektheit | |
- || Interesse | Rauminformation | einfacher Zugriff | |
- || Interesse | Schnittstelle des Systems | einfache Einrichtung | |
- || Anrecht | Reservierung des Raumes | Gültigkeit | |
- || Anrecht | Belegung des Raumes | Gültigkeit |  |
- || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
-| __Institut-Verwaltung__ | Anspruch | Rauminformation | korrektheit | |
- || Interesse | Rauminformation | einfacher Zugriff |  |
- || Interesse | Schnittstelle des Systems | einfache Einrichtung | |
- || Anrecht | Reservierung des Raumes | Gültigkeit | |
- || Anrecht | Belegung des Raumes | Gültigkeit |  |
- || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
-| __Administrator__ | Anspruch | System | wartbarkeit |  |
- || Anspruch | Rauminformation | überarbeitung | |
- || Interesse | Rauminformation | einfacher Zugriff |  |
- || Anteil | System | erstellte Inhalte |  |
+| __Lehrkraft__ | Anspruch | Rauminformation | Als Lehrkraft muss ich die korrekten Rauminformationen verfügbar haben um einen Raum als für meine Arbeitsaufgabe passend klassifizieren zu können. | |  
+|               | Interesse | Rauminformation | Als Lehrkraft muss ich den einfachen Zugriff auf Funktionen des Systems verfügbar haben um das System mit möglichst wenig Aufwand auf meiner Seite nutzen zu können. |  |
+|| Interesse | Schnittstelle des Systems | Als Lehrkraft muss ich wissen welche Informationen ich in das System eintragen muss um das System effizient nutzen zu können | |
+|| Anrecht | Reservierung des Raumes | Als Lehrkraft muss ich das alleinige Recht auf eine Reservierung für einen mir vorgeschlagenen Raum verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen. | |
+|| Anrecht | Belegung des Raumes | Als Lehrkraft muss ich das alleinige Recht auf die Buchung eines von mir Reservierten Raumes verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen.	 |  |
+|| Anspruch | Schnittstelle des Systems | Als Lehrkraft muss ich wissen das ich mit dem System einen Raum effizienter finden kann um mich für die Nutzung des Systems entscheiden zu können. | |
+|| Anspruch | Reservierung des Raumes | Als Lehrkraft muss ich die Bevorzugung meiner Buchung gegenüber Studenten verfügbar haben um den Veranstaltungsfluss ohne weitere unterbrechungen fortführen zu können. | |
+| __Lerner__ | Anspruch | Rauminformation | Als Lerner muss ich die korrekten Rauminformationen verfügbar haben um einen Raum als für meine Arbeitsaufgabe passend klassifizieren zu können. | |
+|| Interesse | Rauminformation | Als Lerner muss ich den einfachen Zugriff auf Funktionen des Systems verfügbar haben um das System mit möglichst wenig Aufwand auf meiner Seite nutzen zu können. | |
+|| Interesse | Schnittstelle des Systems | Als Lerner muss ich wissen welche Informationen ich in das System eintragen muss um das System effizient nutzen zu können |  |
+|| Anrecht | Reservierung des Raumes | Als Lerner muss ich das alleinige Recht auf eine Reservierung für einen mir vorgeschlagenen Raum verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen. | |
+|| Anrecht | Belegung des Raumes | Als Lerner muss ich das alleinige Recht auf die Buchung eines von mir Reservierten Raumes verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen.	 |  |
+|| Anspruch | Schnittstelle des Systems	| Als Lerner muss ich wissen das ich mit dem System einen Raum effizienter finden kann um mich für die Nutzung des Systems entscheiden zu können. | |
+| __Wissenschaftliche Mitarbeiter__ | Anspruch | Rauminformation | Als wissenschaftlicher Mitarbeiter muss ich die korrekten Rauminformationen verfügbar haben um einen Raum als für meine Arbeitsaufgabe passend klassifizieren zu können. | |
+|| Interesse | Rauminformation | Als wissenschaftlicher Mitarbeiter muss ich den einfachen Zugriff auf Funktionen des Systems verfügbar haben um das System mit möglichst wenig Aufwand auf meiner Seite nutzen zu können. | |
+|| Interesse | Schnittstelle des Systems | Als wissenschaftlicher Mitarbeiter muss ich wissen welche Informationen ich in das System eintragen muss um das System effizient nutzen zu können | |
+|| Anrecht | Reservierung des Raumes | Als wissenschaftlicher Mitarbeiter muss ich das alleinige Recht auf eine Reservierung für einen mir vorgeschlagenen Raum verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen. | |
+|| Anrecht | Belegung des Raumes | Als wissenschaftlicher Mitarbeiter muss ich das alleinige Recht auf die Buchung eines von mir Reservierten Raumes verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen.	 |  |
+|| Anspruch | Schnittstelle des Systems | Als wissenschaftlicher Mitarbeiter muss ich wissen das ich mit dem System einen Raum effizienter finden kann um mich für die Nutzung des Systems entscheiden zu können. | |
+| __Institutsverwaltung__ | Anspruch | Rauminformation | Als Institutsverwaltung muss ich die korrekten Rauminformationen verfügbar haben um einen Raum als für meine Arbeitsaufgabe passend klassifizieren zu können. | |
+|| Interesse | Rauminformation | Als Institutsverwaltung muss ich den einfachen Zugriff auf Funktionen des Systems verfügbar haben um das System mit möglichst wenig Aufwand auf meiner Seite nutzen zu können. |  |
+|| Interesse | Schnittstelle des Systems | Als Institutsverwaltung muss ich wissen welche Informationen ich in das System eintragen muss um das System effizient nutzen zu können | |
+|| Anrecht | Reservierung des Raumes | Als Institutsverwaltung muss ich das alleinige Recht auf eine Reservierung für einen mir vorgeschlagenen Raum verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen. | |
+|| Anrecht | Belegung des Raumes | Als Institutsverwaltung muss ich das alleinige Recht auf die Buchung eines von mir Reservierten Raumes verfügbar haben um meine Arbeitsaufgabe effizient zu erledigen.	 |  |
+|| Anspruch | Schnittstelle des Systems | Als Institutsverwaltung muss ich wissen das ich mit dem System einen Raum effizienter finden kann um mich für die Nutzung des Systems entscheiden zu können. | |
+| __Administrator__ | Anspruch | System | Als Administrator muss ich die Möglichkeit der Wartung des Systems verfügbar haben um auf Institutspezifische Probleme und Wünsche eingehen zu können. |  |
+|| Anspruch | Rauminformation | Als Administrator muss ich eine Möglichkeit zum Hinzufügen, Bearbeiten und Löschen von Räumen und ihren Informationen verfügbar haben um das System flexibel an das Institut anpassen zu können. | |
+|| Interesse | Rauminformation | Als Administrator muss ich den einfachen Zugriff auf Rauminformationen verfügbar haben um diese auf ihre Korrektheit überprüfen |  |
+|| Anteil | System | Als Administrator muss ich wissen das alle von mir erstellten Inhalte des Systems auch mir gehören um das System ohne Bedenken warten zu können. |  |
 | __Angestellte__ | | | | |
-| __Institut__ | Anspruch | organisationsinternen Informationen | beschränkte Weitergabe von Ressourcen |  |
- || Anspruch | Veranstaltungen(fixe Daten) | konsistenter/nicht beeinträchtigter Ablauf | |
- || Interesse | System | aktive Nutzung | |
- || Anrecht | System | fehlerfrei(er Betrieb) | |
- || Anrecht | System | Verfügbarkeit |  |
- 
+| __Institut__ | Anspruch | organisationsinternen Informationen | Als Institut muss ich wissen das Informationen über das Institut oder Teile des Instituts nicht an außenstehende weitergegeben werden um mich für die Nutzung des Systems entscheiden zu können. |  |
+|| Anspruch | Veranstaltungen(fixe Daten) | Als Institut muss ich wissen das wöchentlich wiederkehrende Veranstaltungen in das System integriert werden können um den reibungslosen Ablauf dieser garantieren zu können. | |
+|| Interesse | System | Als Institut muss ich wissen das das System aktiv genutzt wird um mit dem System effektiv Veranstaltungen planen zu können. | |
+|| Anrecht | System | Als Institut muss ich wissen das das System fehlerfrei betrieben werden kann um mich für die Nutzung/Einbindung des Systems im Institut entscheiden zu können. | |
+|| Anrecht | System | Als Institut muss ich die dauerhafte Erreichbarkeit des Systems verfügbar haben um den reibungslosen Ablauf von Veranstaltungen garantieren zu können. |  |
+
  __Rauminformation:__ Status des Raumes (belegt/nicht belegt), Eigenschaften (Größe, Equipment, etc.)
 
 
 ### 5. Anforderungsanalyse
 
-*5.1 Erfordernisse*
-1. Als __Benutzer__, Administrator muss ich die Raumnummer wissen um diesen finden zu können.
-2. Als __Benutzer__ muss ich bestimmte Geräte in einem Raum verfügbar haben um eine Aufgabe erledigen zu können.
-3. Als __Benutzer__ muss ich wissen dass ein Raum leer / frei ist um mich für diesen entscheiden zu können.
-4. Als __Benutzer__ muss ich wissen wie lange ein Raum leer / frei ist um entscheiden zu können ob ich meine Aufgabe in dieser Zeit in diesem Raum erledigen kann.
-5. Als __Administrator__ muss ich Zugriff zum System haben um Räume und/oder ihre Eigenschaften hinzufügen zu können.
-6. Als __Administrator__ muss ich Zugriff zum System haben um Räume und/oder ihre Eigenschaften entfernen zu können.
-7. Als __Administrator__ muss ich Zugriff zum System haben um Räume und/oder ihre Eigenschaften verändern zu können.
-8. Als __Institutverwaltung__ muss ich ein Merkmal des System verfügbar haben um sich wöchentlich wiederholende Veranstaltungen / Buchungen hinzufügen zu können.
-9. Als __Lehrkraft__ muss ich eine bestimmte Raumgröße verfügbar haben um eine Vorlesung halten zu können.
-10. Als __Lehrkraft__ muss ich eine bestimmte Anzahl an Räumen verfügbar haben um Schüler bei verschiedenen Projektarbeiten aufteilen zu können.
-11. Als __Lehrkraft__ muss ich einen Raum für eine bestimmte Zeit verfügbar haben um meine Veranstaltung in diesem abschließen zu können.
-
-
-*5.2 Anforderungen*   
+*5.1 Anforderungen*   
 
 __Funktionale Anforderungen__ <br/>
 
@@ -172,9 +167,11 @@ __Qualitätsanforderungen__ <br/>
 
 *6.1 Komponenten des Systems*
 
-* Datenbank (Redis)
-* Webserver (Node.js - Express)
-* Application (Android)
+* Datenspeicher
+* Webserver
+* Client
+
+Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver und einem Datenspeicher entschieden.
 
 ### 7. Vorgehensmodell
 

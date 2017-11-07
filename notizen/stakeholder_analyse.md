@@ -2,41 +2,40 @@
 
 | Bezeichnung | Beziehung zum System | Objektbereich | Erfordernis, Erwartung | Priorität |
 | ----------- | -------------------- | ------------- | ---------------------- | --------- |
-| Lehrkraft | Anspruch | Daten | korrektheit | |  
-|| Interesse | System | einfacher Zugriff |  |
- || Interesse | System | einfache Einrichtung | |
- || Anrecht | Reservierung | Gültigkeit | |
- || Anrecht | Belegung | Gültigkeit |  |
- || Anspruch | System | gute Gebrauchstauglichkeit | |
- || Anspruch | Reservierung | erhöhte Priorisierung | |
-| Lerner | Anspruch | Daten | korrektheit | |
- || Interesse | System | einfacher Zugriff | |
- || Interesse | System | einfache Einrichtung |  |
- || Anrecht | Reservierung | Gültigkeit | |
- || Anrecht |	Belegung | Gültigkeit |  |
- || Anspruch | System	| gute Gebrauchstauglichkeit | |
-| Wissenschaftliche Mitarbeiter | Anspruch | Daten | korrektheit | |
- || Interesse | System | einfacher Zugriff | |
- || Interesse | System | einfache Einrichtung | |
- || Anrecht | Reservierung | Gültigkeit | |
- || Anrecht | Belegung | Gültigkeit |  |
- || Anspruch | System | gute Gebrauchstauglichkeit | |
-| Institut-Verwaltung | Anspruch | Daten | korrektheit | |
- || Interesse | System | einfacher Zugriff |  |
- || Interesse | System | einfache Einrichtung | |
- || Anrecht | Reservierung | Gültigkeit | |
- || Anrecht | Belegung | Gültigkeit |  |
- || Anspruch | System | gute Gebrauchstauglichkeit | |
-| Administrator | Anspruch | System | wartbarkeit |  |
- || Anspruch | Daten | überarbeitung | |
- || Interesse | System | einfacher Zugriff |  |
+| __Lehrkraft__ | Anspruch | Rauminformation | korrektheit | |  
+|| Interesse | Rauminformation | einfacher Zugriff |  |
+ || Interesse | Schnittstelle des Systems | einfache Konfiguration | |
+ || Anrecht | Reservierung des Raumes | Gültigkeit | |
+ || Anrecht | Belegung des Raumes | Gültigkeit |  |
+ || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
+ || Anspruch | Reservierung des Raumes | erhöhte Priorisierung | |
+| __Lerner__ | Anspruch | Rauminformation | korrektheit | |
+ || Interesse | Rauminformation | einfacher Zugriff | |
+ || Interesse | Schnittstelle des Systems | einfache Konfiguration |  |
+ || Anrecht | Reservierung des Raumes | Gültigkeit | |
+ || Anrecht | Belegung des Raumes | Gültigkeit |  |
+ || Anspruch | Schnittstelle des Systems	| gute Gebrauchstauglichkeit | |
+| __Wissenschaftliche Mitarbeiter__ | Anspruch | Rauminformation | korrektheit | |
+ || Interesse | Rauminformation | einfacher Zugriff | |
+ || Interesse | Schnittstelle des Systems | einfache Einrichtung | |
+ || Anrecht | Reservierung des Raumes | Gültigkeit | |
+ || Anrecht | Belegung des Raumes | Gültigkeit |  |
+ || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
+| __Institut-Verwaltung__ | Anspruch | Rauminformation | korrektheit | |
+ || Interesse | Rauminformation | einfacher Zugriff |  |
+ || Interesse | Schnittstelle des Systems | einfache Einrichtung | |
+ || Anrecht | Reservierung des Raumes | Gültigkeit | |
+ || Anrecht | Belegung des Raumes | Gültigkeit |  |
+ || Anspruch | Schnittstelle des Systems | gute Gebrauchstauglichkeit | |
+| __Administrator__ | Anspruch | System | wartbarkeit |  |
+ || Anspruch | Rauminformation | überarbeitung | |
+ || Interesse | Rauminformation | einfacher Zugriff |  |
  || Anteil | System | erstellte Inhalte |  |
-| Angestellte | | | | |
-| Institut | Anspruch | System | beschränkte Weitergabe von Ressourcen |  |
- || Anspruch | Veranstalltungen(fixe Daten) | konsistenter/nicht beeinträchtigter Ablauf | |
+| __Angestellte__ | | | | |
+| __Institut__ | Anspruch | organisationsinternen Informationen | beschränkte Weitergabe von Ressourcen |  |
+ || Anspruch | Veranstaltungen(fixe Daten) | konsistenter/nicht beeinträchtigter Ablauf | |
  || Interesse | System | aktive Nutzung | |
  || Anrecht | System | fehlerfrei(er Betrieb) | |
  || Anrecht | System | Verfügbarkeit |  |
- || Anrecht | Merkmale | Verfügbarkeit | |
-
-stand 26.10.2017
+ 
+ __Rauminformation:__ Status des Raumes (belegt/nicht belegt), Eigenschaften (Größe, Equipment, etc.)

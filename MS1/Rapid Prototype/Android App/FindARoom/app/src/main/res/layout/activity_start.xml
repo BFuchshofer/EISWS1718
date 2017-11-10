@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/infoTextZuteilung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:text="Verbleibende Zeit bis Sie einen neuen Raum vorgeschlagen bekommen:"
+        android:textAlignment="center" />
+
+
+    <TextView
+        android:id="@+id/remainingTimeToReservate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.08"
+        android:text="00:02:11"
+        android:textAlignment="center"
+        android:inputType="time"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
+    <TextView
+        android:id="@+id/reservate_roomID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.08"
+        android:text="3.202"
+        android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/reservateRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:text="Reservieren" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/common_google_signin_btn_text_dark_focused" />
+
+    <TextView
+        android:id="@+id/blank_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.35"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/infoTextDirektBuchen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:text='Um den Raum zu buchen in dem Sie sich gerade befinden, klicken Sie auf den Button "Jetzt buchen".'
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/bookingRoom_direct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:text="Jetzt buchen" />
+
+    <TextView
+        android:id="@+id/blank_field2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.19" />
+
+    <Button
+        android:id="@+id/configButton"
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:text="Einstellungen"
+        android:textSize="10sp" />
+</LinearLayout>

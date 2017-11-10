@@ -1,0 +1,6 @@
+{
+  "port":5676,
+  "ip":"localhost",
+  "address":"http://localhost",
+  "db_port":5677
+}

@@ -1,0 +1,6 @@
+.idea
+datenbank_events/node_modules/
+datenbank_events/redis/
+datenbank_room/node_modules/
+datenbank_room/redis/
+webserver/node_modules

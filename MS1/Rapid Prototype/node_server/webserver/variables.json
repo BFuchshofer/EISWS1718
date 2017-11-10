@@ -1,0 +1,9 @@
+{
+  "port":5669,
+  "ip":"localhost",
+  "address":"http://localhost",
+  "eventdbaddr":"localhost",
+  "eventdbport":5678,
+  "roomdbaddr":"localhost",
+  "roomdbport":5676
+}

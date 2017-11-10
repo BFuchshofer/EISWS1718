@@ -1,0 +1,14 @@
+{
+    "veranstaltungen":[
+        {
+            "key":"veranstaltung_ma1_ko_0401",
+            "name":"Mathematik I",
+            "day":"Montag",
+            "begin":800,
+            "end":1200,
+            "user":"Konen",
+            "room":"0.401",
+            "type":"Vorlesung"
+        }
+    ]
+}

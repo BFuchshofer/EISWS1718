@@ -1,0 +1,20 @@
+{
+  "name": "datenbank_rm",
+  "version": "1.0.0",
+  "description": "Room Database for FuchshoferFonsecaLuisEISWS1718 Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "eXeLuis",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "ip": "^1.1.5",
+    "querystring": "^0.2.0",
+    "redis": "^2.8.0"
+  }
+}

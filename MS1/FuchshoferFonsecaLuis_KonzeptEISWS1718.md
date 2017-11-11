@@ -171,7 +171,7 @@ __Qualitätsanforderungen__ <br/>
 * Webserver
 * Client
 
-Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver und einem Datenspeicher entschieden.
+Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver für den externen Zugriff und einem Datenspeicher entschieden.
 
 ### 7. Vorgehensmodell
 
@@ -185,7 +185,8 @@ User Profiles
 
 *7.3 Methoden zur Aufgabenmodellierung*
 
-Use Cases
+Essential Use Cases (Constantine & Lockwood)
+Concrete Use Cases (Constantine & Lockwood)
 
 ### 8. Risiken des Projektes
 
@@ -193,26 +194,28 @@ Use Cases
 
 Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  das ein von uns geplantes Gestaltungsmerkmal nicht umgesetzt werden kann, geregelt ist wird für jedes Erkannte Risiko ein Exit- ( Erfolgs- ), Failkriterium ( Fehlschlagskriterium ) und ein Fallback ( Alternativ Lösung ) festgelegt wodurch bei einem Fehlschlag sofort eine Alternative bereit steht, die allerdings getestet werden muss.
 
-- Barcode Scanner lässt sich nicht implementieren:
+- QR-Code Scanner lässt sich nicht implementieren:
     - Exit:
-        - Barcode Scanner ist ins System implementiert und liefert gewünschte Ergebnisse
+        - QR-Code Scanner ist ins System implementiert und liefert gewünschte Ergebnisse.
     - Fail:
-        - Barcode Scanner konnte nicht ins System implementiert werden.
-        - Barcode Scanner ist ins System implementiert liefert aber nicht die gewünschten Ergebnisee.
+        - QR-Code Scanner konnte nicht ins System implementiert werden.
+        - QR-Code Scanner ist ins System implementiert liefert aber nicht die gewünschten Ergebnisee.
     - Fallback:
-        - Barcode wird im System durch einen Zahlencode ersetzt.
-- Barcode kann nicht erkannt werden:
+        - QR-Code wird im System durch einen Zahlencode ersetzt.
+- QR-Code kann nicht erkannt werden:
     - Exit:
-        - Barcode wird erkannt und richtig im System angezeigt.
+        - QR-Code wird erkannt und richtig im System angezeigt.
     - Fail:
-        - Barcode kann nach mehrfachem scannen ( max = 5 ) nicht erkannt werden.
+        - QR-Code kann nach mehrfachem scannen ( max = 5 ) nicht erkannt werden.
     - Fallback:
-        - Barcode wird im System durch einen Zahlencode ersetzt.
+        - QR-Code wird im System durch einen Zahlencode ersetzt.
 - Filterung nach bestimmten Rauminhalten lässt sich nicht realisieren:
-    - ( Exit:
+    - Exit:
         - Es wird innerhalb von maximal 2 Sekunden ein Raumvorschlag geliefert.
     - Fail:
-        - Es wird kein Raumvorschlag geliefert )
+        - Es wird kein Raumvorschlag geliefert.
+    - Fallback:
+        - Das System übernimmt intern die Auswahl des Raumes durch Erweiterung des Algorithmuses.
 
 *8.2 Möglichkeiten der Risikominimierung*
 

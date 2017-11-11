@@ -288,8 +288,12 @@ Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  
 
 *9.4 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
 
-Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelnes Risiko oder, sofern diese den selben oder ähnlichen Themenbereich behandeln, für mehrere Risiken ein Prototyp erstellt.
-Anhand der oben aufgelisteten Risiken haben wir festgestellt das unser größtes Problem darin besteht, die Antwortzeiten des Systems so kurz zu halten, das der Benutzer mit dem System nicht länger braucht einen freien Raum zu finden als wenn er einfach durch ausprobieren die Räume in seiner Umgebung überprüft. Dazu muss natürlich erwähnt werden das die Zeit, die ein Benutzer benötigt um ohne unser System einen Raum zu finden, immer von den örtlichen Gegebenheiten abhängt, wie z.B. Länge der Flure, Laufwege zwischen zwei Räumen oder, wenn vorhanden, der Gang zu einer Anlaufstelle innerhalb der Lehreinrichtung die Informationen über freie Räume bietet.
+Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelnes Risiko oder, sofern diese den selben oder ähnlichen Themenbereich behandeln, für mehrere Risiken ein Prototyp erstellt.   
+
+Anhand der oben aufgelisteten Risiken haben wir festgestellt das unser größtes Problem darin besteht, die Antwortzeiten des Systems so kurz zu halten, das der Benutzer mit dem System nicht länger braucht einen freien Raum zu finden als wenn er einfach durch ausprobieren die Räume in seiner Umgebung überprüft. Dazu muss natürlich erwähnt werden das die Zeit, die ein Benutzer benötigt um ohne unser System einen Raum zu finden, immer von den örtlichen Gegebenheiten abhängt, wie z.B. Länge der Flure, Laufwege zwischen zwei Räumen oder, wenn vorhanden, der Gang zu einer Anlaufstelle innerhalb der Lehreinrichtung die Informationen über freie Räume bietet. Um dieses Problem zu lösen wurde ein PoC durchgeführt und im Rapid Prototyp simuliert.   
+*__Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.__*
++ Exit Kriterium ist eingetreten
+    - Risikominimierung durch möglichst wenig Interaktionsschritte für den Benutzer.
 
 ### 10. Quellen
 

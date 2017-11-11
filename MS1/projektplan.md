@@ -10,7 +10,7 @@
 | KW42 |  |  |  | Konkurenzprodukte analysieren |  | 5 | 4 |
 | KW42 |  |  |  | Alleinstellungsmerkmale unseres Produkts |  | 2 | 2 |
 | KW42 |  |  | Anwendungsdomäne festlegen |  |  | 2 | 2 |
-| KW42 |  |  | Ziele festlegen |  |  | 4 |   |
+| KW42 |  |  | Ziele festlegen |  |  | 4 |  4 |
 | 20.10.2017 |  | Exposé erstellen |  |  |  | 1 | 3 |
 |   | __MS1__ *abgabe: 12.11.2017* |   |   |   |   |   |   |
 |   |   | Projekt planen |   |   |   |   |   |  

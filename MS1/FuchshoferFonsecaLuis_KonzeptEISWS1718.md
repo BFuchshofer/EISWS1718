@@ -171,7 +171,7 @@ __Qualitätsanforderungen__ <br/>
 * Webserver
 * Client
 
-Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver und einem Datenspeicher entschieden.
+Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver für den externen Zugriff und einem Datenspeicher entschieden.
 
 ### 7. Vorgehensmodell
 
@@ -185,39 +185,77 @@ User Profiles
 
 *7.3 Methoden zur Aufgabenmodellierung*
 
-Use Cases
+Essential Use Cases (Constantine & Lockwood)
+Concrete Use Cases (Constantine & Lockwood)
 
 ### 8. Risiken des Projektes
 
-*8.1 Umgang mit auftretenden Risiken*
+*8.1 Risiken des Projekts*
+- System kann nicht zur Instalation beim Kunden bereitgestellt werden.
+- Das Zwischenspeichern von Informationen auf dem Client kann nicht umgesetzt werden.
+- Die automatische Aufhebung des Vorschlags/Reservierung/Buchung eines Raumes kann nicht automatisch erfolgen.
+- Ein QR-Code Scanner lässt sich auf seiten des Client nicht realisieren.
+- Ein gescannter QR-Code lässt sich nicht eindeutig zuordnen.
+- Eine Filterung nach bestimmten Rauminhalten durch den Benutzer lässt sich nicht umsetzen.
+
+
+*8.2 Umgang mit auftretenden Risiken*
 
 Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  das ein von uns geplantes Gestaltungsmerkmal nicht umgesetzt werden kann, geregelt ist wird für jedes Erkannte Risiko ein Exit- ( Erfolgs- ), Failkriterium ( Fehlschlagskriterium ) und ein Fallback ( Alternativ Lösung ) festgelegt wodurch bei einem Fehlschlag sofort eine Alternative bereit steht, die allerdings getestet werden muss.
 
-- Barcode Scanner lässt sich nicht implementieren:
-    - Exit:
-        - Barcode Scanner ist ins System implementiert und liefert gewünschte Ergebnisse
+- __Installation der Software lässt sich beim Kunden nicht realisieren:__
+    - Exit: 
+        - Software lässt sich auf bestehender Hardware des Kunden implementieren.
     - Fail:
-        - Barcode Scanner konnte nicht ins System implementiert werden.
-        - Barcode Scanner ist ins System implementiert liefert aber nicht die gewünschten Ergebnisee.
+        - Die Hardware des Kunden liefert nicht die benötigte Leistung für das System.
+        - Das bestehende System des Kunden erlaubt keine zusätzliche/andere Software.
+        - Installation der Software beim Kunden gestalltet sich als schwierig da in kritische Komponenten eingegriffen werden muss.
     - Fallback:
-        - Barcode wird im System durch einen Zahlencode ersetzt.
-- Barcode kann nicht erkannt werden:
+        - Das System wird auf einer von uns zur verfügung gestellten Hardware ausgeliefert.
+- __Persistente zwischenspeichern von Informationen lässt sich auf Clientseite nicht umsetzen:__
     - Exit:
-        - Barcode wird erkannt und richtig im System angezeigt.
+        - Informationen können persistent auf Clientseite gespeichert werden.
     - Fail:
-        - Barcode kann nach mehrfachem scannen ( max = 5 ) nicht erkannt werden.
+        - Kein Zugriff auf die Hardware des Clients um Dateien abzulegen.
+        - Erstellen von Dateien auf Clientseite nicht möglich.
+        - Abrufen von Dateien auf Clientseite nicht möglich.
     - Fallback:
-        - Barcode wird im System durch einen Zahlencode ersetzt.
-- Filterung nach bestimmten Rauminhalten lässt sich nicht realisieren:
-    - ( Exit:
+        - Informationen werden nicht zwischengespeichert sondern bei Bedarf vom Server angefragt.
+- __Die automatische Aufhebung von Vorschlägen/Reservierungen/Buchungen lässt sich im System nicht umsetzen.__
+    - Exit: 
+        - Automatische Aufhebung lässt sich realisieren.
+    - Fail:
+        - Funktion zur automatischen Aufhebung pausiert das System da immer auf Aktualität geprüft werden muss.
+        - Das System kann nicht automatisiert prüfen ob eine Aufhebung vorgenommen werden muss.
+    - Fallback:
+        - Bei Bedarf wird ein Countdown gestartet der im Hintergrund abläuft und bei Beendigung die Aufhebung einleitet.
+- __QR-Code Scanner lässt sich nicht implementieren:__
+    - Exit:
+        - QR-Code Scanner ist ins System implementiert und liefert gewünschte Ergebnisse.
+    - Fail:
+        - QR-Code Scanner konnte nicht ins System implementiert werden.
+        - QR-Code Scanner ist ins System implementiert liefert aber nicht die gewünschten Ergebnisee.
+    - Fallback:
+        - QR-Code wird im System durch einen Zahlencode ersetzt.
+- __QR-Code kann nicht erkannt werden:__
+    - Exit:
+        - QR-Code wird erkannt und richtig im System angezeigt.
+    - Fail:
+        - QR-Code kann nach mehrfachem scannen ( max = 5 ) nicht erkannt werden.
+    - Fallback:
+        - QR-Code wird im System durch einen Zahlencode ersetzt.
+- __Filterung nach bestimmten Rauminhalten lässt sich nicht realisieren:__
+    - Exit:
         - Es wird innerhalb von maximal 2 Sekunden ein Raumvorschlag geliefert.
     - Fail:
-        - Es wird kein Raumvorschlag geliefert )
+        - Es wird kein Raumvorschlag geliefert.
+    - Fallback:
+        - Das System übernimmt intern die Auswahl des Raumes durch Erweiterung des Algorithmuses.
 
-*8.2 Möglichkeiten der Risikominimierung*
+*8.3 Möglichkeiten der Risikominimierung*
 
 
 
-*8.3 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
+*8.4 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
 
 Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelnes Risiko oder, sofern diese den selben oder ähnlichen Themenbereich behandeln, für mehrere Risiken ein Prototyp erstellt.

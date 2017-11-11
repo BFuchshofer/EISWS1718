@@ -10,17 +10,22 @@
 | KW42 |  |  |  | Konkurenzprodukte analysieren |  | 5 | 4 |
 | KW42 |  |  |  | Alleinstellungsmerkmale unseres Produkts |  | 2 | 2 |
 | KW42 |  |  | Anwendungsdomäne festlegen |  |  | 2 | 2 |
-| KW42 |  |  | Ziele festlegen |  |  |  |  4 |
+| KW42 |  |  | Ziele festlegen |  |  | 4 |   |
 | 20.10.2017 |  | Exposé erstellen |  |  |  | 1 | 3 |
 |   | __MS1__ *abgabe: 12.11.2017* |   |   |   |   |   |   |
 |   |   | Projekt planen |   |   |   |   |   |  
 | KW42-43  |   |   | Erste Stakeholderanalyse |   |   |   4 |   |
 | KW43  |   |   | Erste Anforderungsanalyse |   |   |  6  |   |
 | KW43  |   |   | Zielhierarchie aufstellen |   |   |   4 |   |
-|   |   |   | Architekturmodell erstellen |   |   |   |   |  
-|   |   |   |   | Technische Komponenten definieren |   |  8  |   |
-| KW43  |   |   |   | Kommunikation der Komponenten festlegen |   |  5  |   |
-| KW43  |   |   |   | Kommunikationsmodel erstellen |   |  1  |   |
+|   |   |   | Erste Modelle erstellen |   |   |   |   |  
+|   |   |   |   | Erste Technische Komponenten definieren |   |  8  |   |
+| KW43  |   |   |   | Erste Kommunikation der Komponenten festlegen |   |  2  |   |
+| KW43  |   |   |   | Erstes Kommunikationsmodel erstellen |   |    |   |
+| KW43  |   |   |   |  | Deskriptives Modell  |  1  |   |
+| KW43  |   |   |   |  | Präskriptives Modell  |  1  |   |
+|   |   |   |   | Erstes Architekturmodell erstellen |   |    |   |
+|   |   |   |   |  | Deskriptives Modell  |  1  |   |
+|   |   |   |   |  | Präskriptives Modell |  1  |   |
 |   |   |   | Vorgehensmodell festlegen |   |   |   |   |  
 | KW43  |   |   |   | Modelle vergleichen |   |  6  |   |
 |   |   |   | Methoden festlegen |   |   |   |   |  
@@ -46,6 +51,7 @@
 |   |   |   |   | Präskriptive Aufgaben |   |  10  |   |
 |   |   | ggf. Architekturmodell überarbeiten |   |   |   |  4  |   |
 |   |   | Gestalltungslösung(en) entwickeln |   |   |   |   |   |  
+|   |   |   | Interface Content festlegen |   |   | 4  |   |  
 |   |   |   | Gestaltungslösung(en) aus Anforderungen ableiten |   |   |   |   | 
 |   |   |   |   | Interface-Mockups |   |  6  |   |
 |   |   |   |   | Interface und Funktionale Prototypen erstellen |   |  12  |   |
@@ -67,8 +73,9 @@
 |   |   | Fazit erstellen |   |   |   |   2 |   |
 |   |   | Prozessassessment erstellen |   |   |   |   4 |   |
 |   | Plakat erstellen *abgabe: 02.01.2018* |   |   |   |   |  3  |   |
+|   | Präsentation des Projekts *abgabe: 05.02.2018* |   |   |   |   |  2  |   |
 |   |  |   |   |   |   |   |  |  
-|   |  |   |   |   |   |  __664 gesamt__  |   |
+|   |  |   |   |   |   |  __668 gesamt__  |   |
 | __Datum/KW__ | __Aktivität__ | __1. Unteraktivität__ | __2. Unteraktivität__ | __3. Unteraktivität__ | __4. Unteraktivität__ | __Workload geplant__ | __Workload gebraucht__ |
 
 

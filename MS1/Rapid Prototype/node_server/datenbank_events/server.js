@@ -13,7 +13,10 @@ global.bodyParser           = require( 'body-parser' );
 global.path                 = require( 'path' );
 var ip                      = require( 'ip' );                                                         // node module we use to show the local system ip in server startup
 
-
+global.Promise             = require( 'bluebird' );
+Promise.promisifyAll( redis );
+Promise.promisifyAll( redis.RedisClient.prototype );
+Promise.promisifyAll( redis.Multi.prototype );
 
 // VARIABLES
 global.VARIABLES            = require( './variables.json' );

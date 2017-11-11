@@ -3,8 +3,9 @@ var router                  = express.Router();
 router.get( '/', function( req, res ){
 
 });
-//TODO: get /room
-/*router.get( '/room/:key', function( req, res ){
+
+/*
+router.get( '/room/:key', function( req, res ){
     console.log( req.params.key );
     var options             = {
         host: VARIABLES.roomdbaddr,
@@ -26,6 +27,8 @@ router.get( '/', function( req, res ){
     });
     externalRequest.end();
 });*/
+
+/* old suggestion GET now in POST
 router.get( '/room/suggestion', function( req, res ){
     var options             = {
         host: VARIABLES.roomdbaddr,
@@ -40,13 +43,14 @@ router.get( '/room/suggestion', function( req, res ){
     var externalRequest     = http.request( options, function( externalResponse ){
         if( externalResponse.statusCode == 200 ){
             externalResponse.on( 'data', function( chunk ){
-                console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+                //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
                 res.status(200).send( chunk );
             });
         }
     });
     externalRequest.end();
 });
+*/
 router.get( '/veranstaltung', function( req, res ){
     var options             = {
         host: VARIABLES.eventdbaddr,

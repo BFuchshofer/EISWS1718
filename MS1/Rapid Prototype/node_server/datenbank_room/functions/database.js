@@ -6,6 +6,7 @@
  *
  */
 
+var institut_room_key       = 'rm_thkoeln_';
 var suggestion_time         = 30*1000;      // 30 sec * 1000 millisec
 var reservation_time        = 15*60*1000;   // 15 min * 60 sec * 1000 millisec
 var booking_time            = 1*60*60*1000; // 1 h * 60 min * 60 sec * 1000 millisec
@@ -13,7 +14,9 @@ var booking_time            = 1*60*60*1000; // 1 h * 60 min * 60 sec * 1000 mill
 var test_rooms              = require( '../test_data/test_rooms.json' );
 
 function roomExists( key, callback ){
-    roomDB.exists( key, function( err, res ){
+    console.log( key );
+    roomDB.exists( institut_room_key + key, function( err, res ){
+        console.log( res );
         if( res === 1 ){
             callback( null, true );
         } else {
@@ -23,7 +26,7 @@ function roomExists( key, callback ){
 }
 function roomExistsPromise( key ){
     return new Promise( function( resolve, reject ){
-        roomDB.exists( key, function( err, res ){
+        roomDB.exists( institut_room_key + key, function( err, res ){
             if( res === 1 ){
                 resolve( true );
             } else if( res === 0 ){
@@ -41,10 +44,10 @@ function roomExistsPromise( key ){
  * @param {Function} callback
  */
 function addRoom( room ){
-    roomExistsPromise( room.key )
+    roomExistsPromise( room.number )
         .then( function( result ){
             if( !result ){
-                console.log( room.key );
+                //console.log( room.key );
                 roomDB.multi()
                 .hmset( room.key, {
                     'number': room.number,
@@ -65,8 +68,8 @@ function addRoom( room ){
                     'chalkboard': room.chalkboard,
                     'whiteboard': room.whiteboard
                 })
-                .lpush( 'ls_rooms', room.key )
-                .lpush( 'ls_empty', room.key )
+                .lpush( 'ls_rooms', institut_room_key + room.number )
+                .lpush( 'ls_empty', institut_room_key + room.number )
                 .exec( function( err, res ){
                     console.log( 'Room created! Key stored in ls_rooms && ls_empty');
                 });
@@ -118,14 +121,14 @@ function addRoom( room ){
  * @param {Function} callack
  */
 function getRoom( key, callback ){
-    roomDB.hgetall( key, function( err, obj ){
+    roomDB.hgetall( institut_room_key + key, function( err, obj ){
         console.log( 'database.js - getRoom - obj: ' + obj );
         callback( null, obj );
     });
 }
 function getRoomPromise( key ){
     return new Promise( function( resolve, reject ){
-        roomDB.hgetall( key, function( err, obj ){
+        roomDB.hgetall( institut_room_key + key, function( err, obj ){
             if( obj != null ){
                 resolve( obj );
             } else {
@@ -136,28 +139,73 @@ function getRoomPromise( key ){
 }
 
 /**
+ *
+ */
+function getRoomField( key, field, callback ){
+    roomDB.hget( institut_room_key + key, field, function( err, obj ){
+        console.log( obj );
+        callback( null, obj );
+    });
+}
+function getRoomFieldPromise( key, field ){
+
+}
+
+/**
  * edit multiple fields of a room in roomDB
  * @param {String} key
  * @param {Object} room
  * @param {Function} callback
  */
 function editRoom( key, room, callback ){
-
+    //TODO: finish editRoom
+}
+function editRoomPromise( key, room ){
+    //TODO: finish editRoom with Promise
 }
 
-
-function editRoomField( key, field, value, callback ){
-    roomDB.hset( key,  field, value , function( err, res ){
-        console.log( 'database.js - editRoomField - res: ' + res );
+/**
+ * edit a specified field of a room in roomDB
+ * @param {String} key
+ * @param {String} field
+ * @param {String} value
+ * @param {Function} callback
+ */
+function editRoomField( key, field, value ){
+    roomDB.hset( institut_room_key + key,  field, value , function( err, res ){
+        console.log( '[EDIT] ' + key + ', ' + field + ' ' + value );
+    });
+}
+function editRoomFieldPromise( key, field, value ){
+    return new Promise( function( resolve, reject ){
+        roomDB.hset( institut_room_key + key, field, value, function( err, res ){
+            if( res != null ){
+                console.log( '[EDIT] ' + key + ', ' + field + ' ' + value );
+                resolve( 1 );
+            } else {
+                reject();
+            }
+        });
     });
 }
 
+/**
+ * deletes a specified Room from roomDB
+ * @param {String} key
+ * @param {Funciton} callback
+ */
 function delRoom( key, callback ){
-
+    //TODO: finish delRoom
+}
+function delRoomPromise( key ){
+    //TODO finish delRoom with Promise
 }
 
 /**
  * getRoomFromListByIndex
+ * @param {String} listname
+ * @param {Integer} index
+ * @param {Function} callback
  */
 function getRoomFromListByIndex( listname, index, callback ){
     roomDB.lindex( listname, index, function( err, res ){
@@ -168,52 +216,111 @@ function getRoomFromListByIndex( listname, index, callback ){
 }
 
 
+function addRoomToEmptyList( key ){
+    //TODO: find a way to edit the list
+}
+function remRoomFromEmptyList( key ){
+    //TODO: find a way to edit the list
+}
 
 // ROOM INTERACTIONS
-function getSuggestion(){ //TODO: insert algorithm + arguments
+
+/**
+ * sets the suggestiontimes for a specific room
+ */
+
+/*
+function getSuggestion( user, begin, end ){ //TODO: insert algorithm + arguments
     var suggestion = 'rm_thkoeln_0401';
 
-    ///////////////////////////////////////////////////////////////
-    /*
-    var empty_rooms = 0;
-    roomDB.llen( 'ls_empty', function( err, res ){
-        empty_rooms = res;
-        var rooms_array = [];
-        console.log( 'database.js - getSuggestion - empty_rooms: ' + empty_rooms );
-        if( empty_rooms >= 1 ){
-            getRoomFromListByIndex( 'ls_empty', 0, function( err, obj ){
-                rooms_array.push( obj );
+    ///////////////////////////////////////////////////ALGORITHM
+    ////////////////////////////////////////////////////////////
+
+    setSuggestion( suggestion, user, begin, end );
+    return { "johntitor":{"number":suggestion, "user": user, "suggestion_begin": begin, "suggestion_end":end}};
+}
+function getSuggestionPromise(){
+    return new Promise( function( resolve, reject ){
+        var suggestion = 'rm_thkoeln_0401';
+
+        //////////////////// ALGORITHM
+
+        //////////////////////////////
+
+        var time                = Date.now();
+        var time_end            = time + suggestion_time;
+        editRoomFieldPromise( suggestion, "suggestion_begin", time )
+            .then( function( res ){
+                //TODO: do something
+            })
+            .catch( function(){
+                console.error( 'Could not write in roomDB' );
             });
-        }
-        console.log( 'database.js - getSuggestion - rooms_array: ' + rooms_array.length );
-
+        editRoomFieldPromise( suggestion, "suggestion_end", time_end )
+            .then( function( res ){
+                //TODO: do something
+            })
+            .catch( function(){
+                console.error( 'Could not write in roomDB' );
+            });
     });
-    */
+}
+*/
+function setSuggestion( key, user, begin, end ){
+    editRoomField( institut_room_key + key, "occupied", user );
+    editRoomField( institut_room_key + key, "suggestion_begin", begin );
+    editRoomField( institut_room_key + key, "suggestion_end", end );
+    return { "johntitor":{"number":key, "user": user, "suggestion_begin": begin, "suggestion_end":end}};
+}
+/**
+ * sets the reservationtimes for a specific room
+ */
+function setReservation( key, user, begin, end ){
 
-    ///////////////////////////////////////////////////////////////
-
-
-
-    var timerbegin          = Date.now();
-    console.log( 'database.js - getSuggestion - suggestion_begin: ' + timerbegin );
-    var timerend            = timerbegin + suggestion_time;
-    editRoomField( suggestion, "suggestion_begin", timerbegin );
-    editRoomField( suggestion, "suggestion_end", timerend );
-    return { "key":suggestion, "suggestion_begin": timerbegin, "suggestion_end":timerend};
+    editRoomField( institut_room_key + key, "occupied", user );
+    editRoomField( institut_room_key + key, "reservation_begin", begin );
+    editRoomField( institut_room_key + key, "reservation_end", end );
+    return { "reservation_begin":begin, "reservation_end":end };
+}
+function setReservationPromise( key, user, begin, end ){
+    //TODO:
 }
 
 /**
- * sets the reservationtimer for a specific room
+ * sets the bookingtimes for a specific room
  */
-function getReservation( key, callback ){
-
-    var timerbegin          = Date.now();
-    var timerend            = timerbegin + reservation_time;
-
-    editRoomField( key, "reservation_begin", timerbegin );
-    editRoomfield( key, "reservation_end", timerend );
-    return { "reservation_begin":timerbegin, "reservation_end":timerend };
+function setBooking( key, user, begin, end ){
+    editRoomField( institut_room_key + key, "occupied", user );
+    editRoomField( institut_room_key + key, "booking_begin", begin );
+    editRoomField( institut_room_key + key, "booking_end", end );
+    return { "booking_begin":begin, "booking_end":end };
 }
+function setBookingPromise( key, user, begin, end ){
+    //TODO:
+}
+
+
+
+
+function getEmptyRooms( callback ){
+    var rooms = [];
+    roomDB.llenAsync( 'ls_empty').
+    then( function( data ){
+        for( var i = 0; i < data; i++ ){
+            roomDB.lindexAsync( 'ls_empty', i ).
+            then(function( key ){
+                roomDB.hgetallAsync( key ).
+                then( function( result ){
+                    rooms.push( result );
+                    if( rooms.length == data ){
+                        callback( rooms );
+                    }
+                });
+            });
+        }
+    });
+}
+
 
 
 
@@ -236,15 +343,27 @@ module.exports              =
             setupTestDB();
         },
         roomExists: function( key, callback ){
-            return roomExists( key, callback );
+            roomExists( key, callback );
         },
         getRoom: function ( key, callback ){
             getRoom( key, callback );
         },
-        getSuggestion: function(){
-            return getSuggestion();
-        },
         getRoomPromise: function( key ){
             return getRoomPromise( key );
+        },
+        getSuggestion: function( user, begin, end ){
+            return getSuggestion( user, begin, end );
+        },
+        setSuggestion: function( key, user, begin, end ){
+            return setSuggestion( key, user, begin, end );
+        },
+        setReservation: function( key, user, begin, end ){
+            return setReservation( key, user, begin, end );
+        },
+        setBooking: function( key, user, begin, end ){
+            return setBooking( key, user, begin, end );
+        },
+        getEmptyRooms: function( callback ){
+            getEmptyRooms( callback );
         }
     };

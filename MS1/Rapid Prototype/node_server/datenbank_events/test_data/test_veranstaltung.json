@@ -9,6 +9,16 @@
             "user":"Konen",
             "room":"0.401",
             "type":"Vorlesung"
+        },
+        {
+            "key":"veranstaltung_ti1_ei_1402",
+            "name":"Theoretische Informatik I",
+            "day":"Montag",
+            "begin":1400,
+            "end":1700,
+            "user":"Eisemann",
+            "room":"1.402",
+            "type":"Vorlesung"
         }
     ]
 }

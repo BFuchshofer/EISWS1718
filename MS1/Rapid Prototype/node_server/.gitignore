@@ -1,6 +1,13 @@
 .idea
+
+redis/
 datenbank_events/node_modules/
 datenbank_events/redis/
+datenbank_events/package-lock.json
+
 datenbank_room/node_modules/
 datenbank_room/redis/
+datenbank_room/package-lock.json
+
 webserver/node_modules
+webserver/package-lock.json

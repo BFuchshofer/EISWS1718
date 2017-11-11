@@ -14,5 +14,10 @@ router.get( '/veranstaltung', function( req, res ){
         res.status(200).send( result );
     });
 });
+router.get( '/veranstaltung/:day', function( req, res ){
+    DB_FUNCTIONS.getVeranstaltungenForDay( req.params.day, function( result ){
+        res.status(200).send( result );
+    });
+});
 
 module.exports              = router;

@@ -4,12 +4,14 @@ router.get( '/', function( req, res ){
 
 });
 //TODO: get /room
-/*
-router.get( '/room/:key', function( req, res ){
-    console.log( 'GET ROOM' );
-    console.log( req.params.key );
-    res.sendStatus(200);
-});*/
+
+router.get( '/room/empty', function( req, res ){
+    DB_FUNCTIONS.getEmptyRooms( function( result ){
+        res.status(200).send( result );
+    });
+});
+
+/* old suggestion GET now in POST
 router.get( '/room/suggestion/promise', function( req, res ){
     console.log( 'GET ROOM SUGGESTION PROMISE' );
     var suggestion = DB_FUNCTIONS.getSuggestion();
@@ -41,9 +43,10 @@ router.get( '/room/suggestion', function( req, res ){
         };
         result.suggestion_begin = suggestion.suggestion_begin;
         result.suggestion_end = suggestion.suggestion_end;
-        console.log( 'get.js      - /room/suggestion: ' + result );
+        //console.log( 'get.js      - /room/suggestion: ' + result );
         result_json.room = result;
         res.status(200).send( result_json );
     }.bind({suggestion:suggestion}));
 });
+*/
 module.exports              = router;

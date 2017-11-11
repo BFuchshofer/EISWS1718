@@ -1,8 +1,8 @@
 {
   "rooms":[
     {
-      "key":"rm_thkoeln_0401",
-      "number":0.401,
+      "key":"rm_thkoeln_0.401",
+      "number":"0.401",
       "occupied":false,
       "suggestion_begin":-1,
       "suggestion_end":-1,
@@ -21,8 +21,8 @@
       "whiteboard":0
     },
     {
-      "key":"rm_thkoeln_1402",
-      "number":1.402,
+      "key":"rm_thkoeln_1.402",
+      "number":"1.402",
       "occupied":false,
       "suggestion_begin":-1,
       "suggestion_end":-1,

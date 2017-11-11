@@ -22,7 +22,7 @@ function veranstaltungExists( key, callback ){
     });
 }
 
-function setVeranstaltung( veranstaltung, callback ){
+function addVeranstaltung( veranstaltung ){
     console.log( 'setVeranstaltung' );
     veranstaltungExists( veranstaltung.key, function( err, res ){
         if( !res ){
@@ -38,6 +38,7 @@ function setVeranstaltung( veranstaltung, callback ){
                     'type':veranstaltung.type
                 } )
                 .lpush( 'ls_veranstaltungen', veranstaltung.key )
+                .lpush( 'ls_' + veranstaltung.day, veranstaltung.key )
                 .exec( function( err, res ){
                     console.log( 'Event created! Key stored in ls_veranstaltungen');
                 });
@@ -47,12 +48,6 @@ function setVeranstaltung( veranstaltung, callback ){
     }.bind({veranstaltung:veranstaltung}));
 }
 
-function setupTestDB(){
-    // Create Rooms as Hashes and save rm_key in ls_rooms
-    console.log( 'setubTestDB' );
-    setVeranstaltung( test_veranstaltung.veranstaltungen[0] );
-}
-
 function getVeranstaltung( key, callback ){
     console.log( 'MOTHERFUCKER' );
     veranstaltungDB.hgetall( key, function( err, obj ){
@@ -60,12 +55,73 @@ function getVeranstaltung( key, callback ){
         callback( null, obj );
     }.bind({callback:callback}) );
 }
-function editVeranstaltung( key, veranstaltung, callback ){
+function getVeranstaltungField( key, field, callback ){
 
 }
+
+function getVeranstaltungen(){
+    return new Promise( function( resolve, reject ){
+        veranstaltungDB.keys( 'veranstaltung_*', function( err, res ){
+            if( res != null ){
+                resolve( res );
+            } else {
+                reject( new Error( 'Could not get' ));
+            }
+        });
+    });
+}
+
+function getVeranstaltungenForDay( day, callback ){
+    var veranstaltung = [];
+    veranstaltungDB.llenAsync( 'ls_' + day ).
+    then( function( data ){
+        for( var i = 0; i < data; i++ ){
+            veranstaltungDB.lindexAsync( 'ls_' + day, i ).
+            then(function( key ){
+                veranstaltungDB.hgetallAsync( key ).
+                then( function( result ){
+                    veranstaltung.push( result );
+                    if( veranstaltung.length == i ){
+                        callback( veranstaltung );
+                    }
+                });
+            });
+        }
+    });
+}
+function getVeranstaltungenForRoom( number, callback ){
+    var veranstaltungen = [];
+}
+
+
+function editVeranstaltung( key, veranstaltung, callback ){
+}
+function editVeranstaltungField( key, field, value ){
+        veranstaltungDB.hset( key, field, value, function( err, res ){
+            console.log( 'database.js - editVeranstaltung - res: ' + res );
+        });
+}
+
 function delVeranstaltung( key, callback ){
 
 }
+
+
+
+
+
+
+
+
+
+
+function setupTestDB(){
+    // Create Rooms as Hashes and save rm_key in ls_rooms
+    console.log( 'setubTestDB' );
+    addVeranstaltung( test_veranstaltung.veranstaltungen[0] );
+    addVeranstaltung( test_veranstaltung.veranstaltungen[1] );
+}
+
 
 
 
@@ -73,13 +129,19 @@ function delVeranstaltung( key, callback ){
 
 module.exports              =
     {
-        veranstaltungExists: function( key, callback ){
-            return veranstaltungExists( key, callback );
-        },
         setupTestDB: function(){
             setupTestDB();
         },
+        veranstaltungExists: function( key, callback ){
+            veranstaltungExists( key, callback );
+        },
         getVeranstaltung: function( key, callback ){
-            return getVeranstaltung( key, callback );
+            getVeranstaltung( key, callback );
+        },
+        getVeranstaltungField: function( key, field, callback ){
+            getVeranstaltungField( key, field, callback );
+        },
+        getVeranstaltungenForDay: function( day, callback ){
+            getVeranstaltungenForDay( day, callback );
         }
     };

@@ -1,22 +1,89 @@
-var router                  = express.Router();
+var router                      = express.Router();
+
+var suggestion_time             = 30*1000;       // 30 sec * 1000 millisec
+var reservation_time            = 15*60*1000;   // 15 min * 60 sec * 1000 millisec
+var booking_time                = 1*60*60*1000; // 1 h * 60 min * 60 sec * 1000 millisec
+
+
+router.post( '/room/suggestion', function( req, res ){
+    req.on( 'data', function( chunk ){
+        var data                    = JSON.parse( chunk );
+
+        //console.log( data );
+
+        var suggestion_begin        = Date.now();
+        var suggestion_end          = suggestion_begin + suggestion_time;
+        var post_data = {
+            "room":{
+                "room_nr":null,
+                "user":data.user,
+                "suggestion_begin":suggestion_begin,
+                "suggestion_end":suggestion_end
+            }
+        };
+
+        //console.log( post_data );
+
+        ///////////////////////////////////////// GETS FOR ALGORITHM
+        suggestion_func.getSuggestion( null, function( result ){
+            console.log( result );
+            post_data.room.room_nr = result;
+
+            var options                 = {
+                host: VARIABLES.roomdbaddr,
+                port: VARIABLES.roomdbport,
+                path: '/room/suggestion',
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                }
+            };
+
+            var externalRequest         = http.request( options, function( externalResponse ){
+                if( externalResponse.statusCode == 200 ){
+                    externalResponse.on( 'data', function( chunk ){
+
+                        //console.log( 'get.js     - exRes: ' +  chunk );
+
+                        res.status(200).send( chunk );
+                    });
+                }
+            });
+            externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+            externalRequest.end();
+
+
+
+        });
+        ////////////////////////////////////////////////////////////
+
+
+
+        //res.status(200).send( 'OK' );
+    });
+
+});
 
 router.post( '/room/reservation', function( req, res ){
     req.on( 'data', function( chunk ){
-        var data = JSON.parse( chunk );
-        console.log( data );
-        //TODO: put-request to roomDB
+        var data                = JSON.parse( chunk );
 
-        var timer_begin = Date.now();
-        var timer_end = timer_begin + 15*60*1000;
+        console.log( data );
+
+        var reservation_begin   = Date.now();
+        var reservation_end     = reservation_begin + reservation_time;
         var post_data = {
             "johntitor":{
-                "key":data.key,
+                "room_nr":data.room_nr,
                 "user":data.user,
-                "reservation_begin":timer_begin,
-                "reservation_end":timer_end
+                "reservation_begin":reservation_begin,
+                "reservation_end":reservation_end
             }
         };
-        console.log( post_data );
+
+        //console.log( post_data );
+
         var options             = {
             host: VARIABLES.roomdbaddr,
             port: VARIABLES.roomdbport,
@@ -31,7 +98,9 @@ router.post( '/room/reservation', function( req, res ){
         var externalRequest     = http.request( options, function( externalResponse ){
             if( externalResponse.statusCode == 200 ){
                 externalResponse.on( 'data', function( chunk ){
-                    console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
+                    //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
                     res.status(200).send( chunk );
                 });
             }
@@ -43,58 +112,27 @@ router.post( '/room/reservation', function( req, res ){
 
     });
 });
-/* old
-router.post( '/room/booking', function( req, res ){
-    console.log( 'IN POST /room/booking' );
-    req.on( 'data', function( chunk ){
-        var data = JSON.parse( chunk );
-        console.log( data );
-        //TODO: check if room is already suggested to or reserved or booked by another user
-        //TODO: put-request to roomDB set timer to system time
 
-        var timer_begin = Date.now();
-        var timer_end = timer_begin + 1*60*60*1000;
-        res.status(200).send( { 'booking_begin': timer_begin, "booking_end":timer_end } );
-    });
-});
-router.post( '/room/cancelbooking', function( req, res ){
-    req.on( 'data', function( chunk ){
-        var data = JSON.parse( chunk );
-        console.log( data );
-        //TODO: check if room is already suggested to or reserved or booked by another user
-        //TODO: put-request to roomDB set timer to -1
-
-        res.status(200).send( 'OK' );
-    });
-});
-router.post( '/room/extendbooking', function( req, res ){
-    req.on( 'data', function( chunk ){
-        var data = JSON.parse( chunk );
-        console.log( data );
-
-
-        var timer_end = Date.now() + 1*60*60*1000;
-        res.status(200).send( { "endTimeBooking":timer_end } );
-    });
-});
-*/
 router.post( '/room/booking', function( req, res ){
 
         req.on( 'data', function( chunk ){
             var data = JSON.parse( chunk );
-            console.log( data );
+
+            //console.log( data );
 
             var timer_begin = Date.now();
-            var timer_end = timer_begin + 1*60*60*1000;
+            var timer_end = timer_begin + booking_time;
             var post_data = {
                 "johntitor":{
-                    "key":data.key,
+                    "room_nr":data.room_nr,
                     "user":data.user,
                     "booking_begin":timer_begin,
                     "booking_end":timer_end
                 }
             };
-            console.log( post_data );
+
+            //console.log( post_data );
+
             var options             = {
                 host: VARIABLES.roomdbaddr,
                 port: VARIABLES.roomdbport,
@@ -109,7 +147,9 @@ router.post( '/room/booking', function( req, res ){
             var externalRequest     = http.request( options, function( externalResponse ){
                 if( externalResponse.statusCode == 200 ){
                     externalResponse.on( 'data', function( chunk ){
-                        console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
+                        //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
                         res.status(200).send( chunk );
                     });
                 }
@@ -129,12 +169,12 @@ router.post( '/room/cancelreservation', function( req, res ){
 
             var post_data = {
                 "johntitor":{
-                    "key":data.key,
+                    "room_nr":data.room_nr,
                     "user":data.user,
                     "confirmation":true
                 }
             };
-            //TODO: change in roomDB
+
             var options             = {
                 host: VARIABLES.roomdbaddr,
                 port: VARIABLES.roomdbport,
@@ -149,7 +189,9 @@ router.post( '/room/cancelreservation', function( req, res ){
             var externalRequest     = http.request( options, function( externalResponse ){
                 if( externalResponse.statusCode == 200 ){
                     externalResponse.on( 'data', function( chunk ){
-                        console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
+                        //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
                         res.status(200).send( chunk );
                     });
                 }
@@ -169,12 +211,12 @@ router.post( '/room/cancelbooking', function( req, res ){
 
             var post_data = {
                 "johntitor":{
-                    "key":data.key,
+                    "room_nr":data.room_nr,
                     "user":data.user,
                     "confirmation":true
                 }
             };
-            //TODO: change in roomDB
+
             var options             = {
                 host: VARIABLES.roomdbaddr,
                 port: VARIABLES.roomdbport,
@@ -189,7 +231,9 @@ router.post( '/room/cancelbooking', function( req, res ){
             var externalRequest     = http.request( options, function( externalResponse ){
                 if( externalResponse.statusCode == 200 ){
                     externalResponse.on( 'data', function( chunk ){
-                        console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
+                        //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
                         res.status(200).send( chunk );
                     });
                 }
@@ -205,20 +249,22 @@ router.post( '/room/cancelbooking', function( req, res ){
 router.post( '/room/extendbooking', function( req, res ){
     req.on( 'data', function( chunk ){
         var data = JSON.parse( chunk );
-        console.log( data );
-        //TODO: put-request to roomDB
+
+        //console.log( data );
 
         var timer_begin = Date.now();
-        var timer_end = timer_begin + 1*60*60*1000;
+        var timer_end = timer_begin + booking_time;
         var post_data = {
             "johntitor":{
-                "key":data.key,
+                "room_nr":data.room_nr,
                 "user":data.user,
                 "booking_begin":timer_begin,
                 "booking_end":timer_end
             }
         };
-        console.log( post_data );
+
+        //console.log( post_data );
+
         var options             = {
             host: VARIABLES.roomdbaddr,
             port: VARIABLES.roomdbport,
@@ -233,7 +279,9 @@ router.post( '/room/extendbooking', function( req, res ){
         var externalRequest     = http.request( options, function( externalResponse ){
             if( externalResponse.statusCode == 200 ){
                 externalResponse.on( 'data', function( chunk ){
-                    console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
+                    //console.log( 'get.js     - exRes: ' + JSON.parse( chunk ));
+
                     res.status(200).send( chunk );
                 });
             }

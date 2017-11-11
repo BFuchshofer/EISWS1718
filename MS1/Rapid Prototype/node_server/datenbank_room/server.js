@@ -15,6 +15,7 @@ var ip                      = require( 'ip' );                                  
 global.querystring          = require( 'querystring' );
 
 global.Promise             = require( 'bluebird' );
+Promise.promisifyAll( redis );
 Promise.promisifyAll( redis.RedisClient.prototype );
 Promise.promisifyAll( redis.Multi.prototype );
 

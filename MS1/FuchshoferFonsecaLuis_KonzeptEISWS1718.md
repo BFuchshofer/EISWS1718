@@ -1,5 +1,3 @@
-
-
 ### 1. Nutzungskontext
 
 *1.1 Nutzungsproblem*
@@ -206,6 +204,8 @@ Concrete Use Cases (Constantine & Lockwood)
 ### 9. Risiken des Projektes
 
 *9.1 Risiken des Projekts*
+- Das System liefert einen freien Raum nicht in absehbarer Zeit.
+- Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
 - System kann nicht zur Instalation beim Kunden bereitgestellt werden.
 - Das Zwischenspeichern von Informationen auf dem Client kann nicht umgesetzt werden.
 - Die automatische Aufhebung des Vorschlags/Reservierung/Buchung eines Raumes kann nicht automatisch erfolgen.
@@ -218,6 +218,21 @@ Concrete Use Cases (Constantine & Lockwood)
 
 Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  das ein von uns geplantes Gestaltungsmerkmal nicht umgesetzt werden kann, geregelt ist wird für jedes Erkannte Risiko ein Exit- ( Erfolgs- ), Failkriterium ( Fehlschlagskriterium ) und ein Fallback ( Alternativ Lösung ) festgelegt wodurch bei einem Fehlschlag sofort eine Alternative bereit steht, die allerdings getestet werden muss.
 
+- __Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne:__
+    - Exit:
+        - Zeit für die Raumsuche beschränkt sich auf max. 10 Sekunden.
+    - Fail:
+        - Zeit für die Raumsuche beträgt mehr als 10 Sekunden.
+    - Fallback:
+        - Funktionen kürzen um Antwortszeiten des Systems zu verringern.
+- __Durch physisches Belegen eines Raumes in der Umgebung des Benutzers ohne das System zu nutzen, entstehen Konflikte zwischen Personengruppen:__
+    - Exit:
+        - Der Benutzer nutzt ausschließlich das System um einen freien Raum zu finden.
+    - Fail:
+        - Personen die einen Raum suchen nutzen nicht das System sondern suchen sich selber einen Raum der ihren Ansprüchen genügt.
+        - Personen halten sich weiter in einem Raum auf, obwohl eine Reservierung vorliegt oder eine reguläre Veranstalltung statfindet.
+    - Fallback:
+        - Anwender des Systems haben ein Anrecht auf die Reservierung/Buchung eines Raumes gegenüber anderen Personen (muss vom Kunden entschieden werden).
 - __Installation der Software lässt sich beim Kunden nicht realisieren:__
     - Exit: 
         - Software lässt sich auf bestehender Hardware des Kunden implementieren.
@@ -274,6 +289,7 @@ Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  
 *9.4 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
 
 Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelnes Risiko oder, sofern diese den selben oder ähnlichen Themenbereich behandeln, für mehrere Risiken ein Prototyp erstellt.
+Anhand der oben aufgelisteten Risiken haben wir festgestellt das unser größtes Problem darin besteht, die Antwortzeiten des Systems so kurz zu halten, das der Benutzer mit dem System nicht länger braucht einen freien Raum zu finden als wenn er einfach durch ausprobieren die Räume in seiner Umgebung überprüft. Dazu muss natürlich erwähnt werden das die Zeit, die ein Benutzer benötigt um ohne unser System einen Raum zu finden, immer von den örtlichen Gegebenheiten abhängt, wie z.B. Länge der Flure, Laufwege zwischen zwei Räumen oder, wenn vorhanden, der Gang zu einer Anlaufstelle innerhalb der Lehreinrichtung die Informationen über freie Räume bietet.
 
 ### 10. Quellen
 

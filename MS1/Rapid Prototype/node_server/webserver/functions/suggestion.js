@@ -1,5 +1,7 @@
 global.WEEK                 = [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag' ];
 
+
+
 function getVeranstaltungen( callback ){
     var veranstaltungen = [];
     /////////veranstaltungDB
@@ -60,13 +62,12 @@ function getEmptyRooms( callback ){
 }
 
 function getSuggestion( filter, callback ){
-    //console.log( 'In get Suggestion' );
     var suggestion = null;
     var date = new Date();
     //var hour = date.getHours();
     //var min  = date.getMinutes();
-    var hour = 17;
-    var min = 30;
+    var hour = 17;      // Stunde zum Testen
+    var min = 30;       // Minute zum Testen
 
     var size_max = 0;
     ////////////////////////
@@ -76,29 +77,18 @@ function getSuggestion( filter, callback ){
                 for( var i = 0; i < rooms.length; i++ ){
 
 
-                    //console.log( ' ' );
-                    //console.log( '==================================' );
-                    //console.log( 'Loop:        ' + i );
-                    //console.log( '==================================' );
-                    //console.log( 'SizeMAX:     ' + size_max );
-                    //console.log( 'RoomNR:      ' + rooms[i].number );
-
-
                     for( var j = 0; j < result.length; j++ ){
 
-                        //console.log( '             - ' +  result[j].room );
 
                         // Bricht den Schleifendurchlauf ab, wenn die momentane Zeit innerhalb einer Veranstaltungszeit liegt UND die betreffenden Räume die selben sind
                         if(( result[j].begin<=(hour*100+min) && result[j].end>=(hour*100+min) ) && rooms[i].number == result[j].room ){
 
-                            //console.log( 'RIP' );
 
                             break;
                         }
                         // Bricht den Scheifendurchlauf ab, wenn der betreffende Raum innerhalb der nächsten Stunde( Belegungszeit ) durch eine Veranstaltung belegt ist.
                         if( result[j].begin<=((hour+1)*100+min) && result[j].end>=((hour+1)*100+min) && rooms[i].number == result[j].room ){
 
-                            //console.log( 'RIP2' );
 
                             break;
                         }
@@ -112,20 +102,11 @@ function getSuggestion( filter, callback ){
                     if( filter == null ){
                         // Bricht den Schleifendurchlauf ab, wenn die maximale Größe des Raumes ( wie viele Sitzplätze maximal ) größer ist als vom bisher kleinsten raum
 
-                        //console.log( '----------------------------------' );
-                        //console.log( 'SizeMAX:     ' + size_max );
-                        //console.log( 'RoomSizeMAX: ' + rooms[i].size_max );
-
                         if( parseInt( rooms[i].size_max, 10 ) > size_max && size_max != 0 ){
 
-                            //console.log( '----------------------------------' );
-                            //console.log( '             ' + rooms[i].number );
-                            //console.log( '----------------------------------' );
 
                         } else {
-                            //console.log( '----------------------------------' );
-                            //console.log( 'Best Room:   ' + rooms[i].number );
-                            //console.log( '----------------------------------' );
+
                             size_max = rooms[i].size_max;
 
                             suggestion = rooms[i].number;
@@ -134,19 +115,10 @@ function getSuggestion( filter, callback ){
                         //TODO: Schließe Räume anhand des 'filter' aus
                     }
 
-                    //TODO: Gewichtung nach Equipment
-
-                    if( i == (rooms.length - 1 )){
-
-                        //console.log( 'Suggestion:  ' + suggestion );
-                        //callback( suggestion );
-
-                    }
 
                 }
                 callback( suggestion );
             } else {
-                //console.log( 'NO ROOMS' );
                 callback( null );
             }
         });

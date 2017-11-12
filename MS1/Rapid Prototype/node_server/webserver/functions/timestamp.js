@@ -1,2 +1,0 @@
-//TODO: setTimestamp();
-//TODO: compareTimestamp();

@@ -177,7 +177,7 @@ router.post( '/room/cancelreservation', function( req, res ){
             var data = JSON.parse( chunk );
 
             console.log( data );
-            
+
             var post_data = {
                 "johntitor":{
                     "room_nr":data.room_nr,

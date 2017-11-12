@@ -11,7 +11,6 @@ global.querystring          = require( 'querystring' );
 // VARIABLES
 global.VARIABLES            = require( './variables.json' );
 global.suggestion_func      = require( './functions/suggestion.js' );
-global.suspend_func         = require( './functions/suspension.js' );
 
 var app                     = express();
 global.jsonParser           = bodyParser.json();

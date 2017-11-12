@@ -1,1 +1,6 @@
 # Anleitung
+
+* Laden Sie sich die Find_a_Room.apk auf ihr Smartphone.
+* Beachten Sie dabei das sie für die Installation dieser Anwendung die Option "Aus unbekannten Quellen zulassen" in ihrem Smartphone aktivieren müssen. Diese finden Sie in der Regel unter den Einstellungen oder Sie werden bei der Installation gefragt ob sie diese Option aktivieren wollen.
+* Nachdem sie die Anwendung installiert und gestartet haben, geben Sie in den Textfeldern die angezeigten Daten ein. Dabei wird auf ein korrektes Email-Format geachtet! Die URL ist die IP-Adresse des Servers (http://localhost:port). Für localhost setzten Sie die entsprechende IP-Adresse ein. Beachten Sie dabei das Sie sich im selben Netzwerk wie der Server befinden müssen. Am einfachsten lässt sich das über einen mobilen Hotspot lösen in dem sowohl der Server als auch Ihr Endgerät verbunden sind. Alternativ lässt sich das über das Heimnetzwerk lösen, wobei sie die IP-Adresse des Rechners auf der der Server läuft angeben müssen.
+* Haben Sie die korrekten Daten eingegeben und ist der Server mit den Datenbanken gestartet, wird Ihnen ein freier Raum präsentiert den sie Reservieren können. Um den Raum zu buchen, scannen Sie den entsprechenden QR-Code ein. Die QR-Codes der aktuell im System befindlichen Räume, befinden sich unter "/MS1/Rapid Prototype/imgs".

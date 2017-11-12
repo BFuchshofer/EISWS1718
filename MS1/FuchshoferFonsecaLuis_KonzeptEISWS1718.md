@@ -194,12 +194,18 @@ Nach spezifikation des Nutzungskontextes und der Anwendungsdomäne sind wir zu d
 
 *8.2 Methoden zur Benutzermodellierung*
 
-User Profiles
+- User Roles
+- User Role Maps 
 
 *8.3 Methoden zur Aufgabenmodellierung*
 
-Essential Use Cases (Constantine & Lockwood)
-Concrete Use Cases (Constantine & Lockwood)
+- Essential Use Cases (Constantine & Lockwood)
+- Concrete Use Cases (Constantine & Lockwood)
+- UML Diagramme
+
+* 8.4 Methoden zur Modellierung von UI-Inhalten
+- Content Models
+- Navigation Maps
 
 ### 9. Risiken des Projektes
 
@@ -293,6 +299,7 @@ Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelne
 Anhand der oben aufgelisteten Risiken haben wir festgestellt das unser größtes Problem darin besteht, die Antwortzeiten des Systems so kurz zu halten, das der Benutzer mit dem System nicht länger braucht einen freien Raum zu finden als wenn er einfach durch ausprobieren die Räume in seiner Umgebung überprüft. Dazu muss natürlich erwähnt werden das die Zeit, die ein Benutzer benötigt um ohne unser System einen Raum zu finden, immer von den örtlichen Gegebenheiten abhängt, wie z.B. Länge der Flure, Laufwege zwischen zwei Räumen oder, wenn vorhanden, der Gang zu einer Anlaufstelle innerhalb der Lehreinrichtung die Informationen über freie Räume bietet. Um dieses Problem zu lösen wurde ein PoC durchgeführt und im Rapid Prototyp simuliert.   
 *__Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.__*
 + Exit Kriterium ist eingetreten
+    - Die Zeit die man benötigt einen freien Raum zu finden liegt nach unseren Messungen deutlich unter der Maximalzeit (10 Sekunden). Dabei sind wir von einer optimalen Umgebung des Systems ausgegangen (gutes Internet, keine störenden Prozesse auf dem Endgerät). Dabei startet der Nutzer die Anwendung auf seinem Endgerät und bekommt einen freien Raum mit Raumnummer präsentiert. Er hat dann die Möglichkeit den Raum zu reservieren, was dem finden und sichern eines Raumes entspricht.
     - Risikominimierung durch möglichst wenig Interaktionsschritte für den Benutzer.
 
 ### 10. Quellen

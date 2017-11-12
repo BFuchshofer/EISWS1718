@@ -29,7 +29,6 @@ public class VerficationActivity extends AppCompatActivity {
     EditText url;
     EditText email;
 
-    TextView textView;
     public Button sendVerification;
 
     FileInputStream input;
@@ -37,6 +36,8 @@ public class VerficationActivity extends AppCompatActivity {
     private String configFile = "internalData.json";
     private boolean fileFound = false;
     public static boolean interactFromConfigBtn = false;
+
+    public JSONObject fileDataJSON;
 
     static final int READ_BLOCK_SIZE = 100;
 
@@ -48,6 +49,7 @@ public class VerficationActivity extends AppCompatActivity {
             input = openFileInput(configFile);
             fileFound = true; // Wenn bereits ein File existiert
             openFileInput(configFile).close();
+            readFile(configFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             fileFound = false; // Falls noch kein File existiert (erster Start)
@@ -63,7 +65,19 @@ public class VerficationActivity extends AppCompatActivity {
             id = (EditText) findViewById(R.id.id);
             url = (EditText) findViewById(R.id.url);
             email = (EditText) findViewById(R.id.email);
-            textView = (TextView) findViewById(R.id.textView);
+
+            if (fileFound == true) {
+                try {
+                    vorname.setText(fileDataJSON.getString("vorname"));
+                    nachname.setText(fileDataJSON.getString("nachname"));
+                    id.setText(fileDataJSON.getString("companyID"));
+                    email.setText(fileDataJSON.getString("email"));
+                    url.setText(fileDataJSON.getString("url"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
             sendVerification = (Button) findViewById(R.id.sendVerification);
             sendVerification.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +137,37 @@ public class VerficationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Gibt alle Daten aus dem TextFile aus
+    public void readFile(String fName) {
+
+        String fileName = fName;
+
+
+        try {
+            FileInputStream fileIn = openFileInput(fileName);
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            String stringData = "";
+            int charRead;
+
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                stringData += readstring;
+            }
+            InputRead.close();
+            JSONObject data = new JSONObject(stringData);
+            fileDataJSON = data;
+            //fileData = stringData;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
 

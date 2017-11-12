@@ -19,9 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.08"
-        android:text="00:02:11"
-        android:textAlignment="center"
         android:inputType="time"
+        android:text="-"
+        android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.08"
-        android:text="3.202"
+        android:text="Warte auf Raumvorschlag"
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="30sp"
@@ -73,7 +73,7 @@
         android:id="@+id/blank_field2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.19" />
+        android:layout_weight="0.16" />
 
     <Button
         android:id="@+id/configButton"

@@ -22,7 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,13 +37,13 @@ public class BarcodeResult extends AppCompatActivity {
     Button extendBooking;
     private String roomID;
     private String qrResult;
-    private long remainingBookedTime = ReservateActivity.returnTimeBookingEnd();
+    private long remainingBookedTime;
     private JSONObject givenRoom;
     public boolean checkTime = true;
 
     public boolean postOK = false;
 
-    public String confirmation;
+    public boolean confirmation;
 
     public JSONObject fileDataJSON;
     public String fileData;
@@ -56,6 +58,15 @@ public class BarcodeResult extends AppCompatActivity {
 
     public CountDownTimer countDownTimerBooking;
 
+    // File
+    private FileOutputStream output;
+
+    // Check fo actives
+    public long time_endBooking;
+    public boolean boolean_endBooking;
+    public String activeRoom;
+    public boolean boolean_activeRoom;
+
     // HTTP-Requests
     private RequestQueue mRequestQueueGET;
     private RequestQueue mRequestQueuePOST;
@@ -65,9 +76,9 @@ public class BarcodeResult extends AppCompatActivity {
     private boolean getOK = false;
 
     // Server URLs
-    public String url = "http://192.168.2.105:5669/room";
-    public String urlBookingCancel = url+"/cancelbooking";
-    public String urlBookingExtend = url+"/extendbooking";
+    public String url;
+    public String urlBookingCancel;
+    public String urlBookingExtend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +86,42 @@ public class BarcodeResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode_result);
 
-        setDynamicEndTimeBooked(remainingBookedTime);
+        setDynamicEndTimeBooked(remainingBookedTime, 0);
+
+        readFile(fileName, 0, "");
+        try {
+            url = fileDataJSON.getString("url");
+            urlBookingCancel = url + "/room/cancelbooking";
+            urlBookingExtend = url + "/room/extendbooking";
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         bookedInfo = (TextView) findViewById(R.id.bookedInfo);
         remainingTimeBooked = (TextView) findViewById(R.id.remainingTimeBooked);
         booked_roomID = (TextView) findViewById(R.id.booked_roomID);
 
-        readFile(fileName);
+        try {
+            booked_roomID.setText(currentRoom.getString("number"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         cancelBooking = (Button) findViewById(R.id.cancelBooking);
         extendBooking = (Button) findViewById(R.id.extendBooking);
+
+        // Passt den CountDown entsprechend der bereits vorligenden Reservierung an.
+        if (StartActivity.returnActiveTimeBooking() != 0) {
+            time_endBooking = StartActivity.returnActiveTimeBooking();
+            setDynamicEndTimeBooked(0, time_endBooking);
+        } else {
+            remainingBookedTime = ReservateActivity.returnTimeBookingEnd();
+
+            writeFile(remainingBookedTime);
+
+            setDynamicEndTimeBooked(remainingBookedTime, 0);
+
+        }
 
         cancelBooking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,55 +146,17 @@ public class BarcodeResult extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-/*
-        mRequestQueueGET = Volley.newRequestQueue(this);
-        getJsonRequest = new JsonObjectRequest(Request.Method.GET, bookedRoomURL, null, new Response.Listener<JSONObject>() {
-
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-                    roomID = response.getJSONObject("room").getString("id"); // mache die empfangene Raum ID global verfügbar
-                    if (roomID.equals(qrResult)) {
-                        booked_roomID.setText(roomID); // eventuell noch dynamischer anpassen, oder so lassen wenn wir die datennamen so definieren
-                        long endBookedTime;
-                        endBookedTime = response.getJSONObject("room").getLong("endTimeBooking");
-                        setDynamicEndTimeBooked(endBookedTime);
-                    } else {
-                        //TODO
-                        //eventuell  noch überarbeiten. Überprüfung auf Serverseite lösen?
-                        booked_roomID.setText("Raum stimmt nicht mit der Reservierung überein");
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    booked_roomID.setText("Kein JSON Format gefunden.");
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                booked_roomID.setText("Server antwortet nicht.");
-                getOK = false; // weglassen?
-                Log.i(TAG, "Error: " + error.toString());
-
-            }
-        });
-
-        getJsonRequest.setTag(REQUESTTAG);
-
-        mRequestQueueGET.add(getJsonRequest);
-*/
-
     }
 
-    private void setDynamicEndTimeBooked(long endBookedTime) {
+    private void setDynamicEndTimeBooked(long endBookedTime, long activeEndBookingTime) {
 
-        long tmp = endBookedTime - System.currentTimeMillis();
+        long tmp;
+        if (activeEndBookingTime != 0) {
+            tmp = activeEndBookingTime - System.currentTimeMillis();
+        } else {
+            tmp = endBookedTime - System.currentTimeMillis();
+        }
+
         //remainingTimeBooked.setText("");
         countDownTimerBooked = new CountDownTimer(tmp, 1000) {
             @Override
@@ -187,11 +186,12 @@ public class BarcodeResult extends AppCompatActivity {
         // prüfe ob der Benutzer die Berechtigung hat seine Raumbuchung zu verlängern
         // connect to Server
         // POST (mit roomID) an den Server und verlängere die Buchung
+        // erweitere die Buchung im File
 
     }
 
     // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName) {
+    public void readFile(String fName, long type1, String type2) {
 
         String fileName = fName;
 
@@ -219,10 +219,41 @@ public class BarcodeResult extends AppCompatActivity {
 
     }
 
+    //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
+    public void writeFile(long endReservationTime) {
+
+
+        readFile(fileName, 0, "");
+        try {
+            output = openFileOutput(fileName, MODE_PRIVATE);
+            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
+            JSONObject newData = new JSONObject(fileData); // Nehme die Daten vom File und schreibe sie in ein neues JSONObject
+
+            try {
+                if (endReservationTime != 0) {
+                    newData.put("endReservationTime", endReservationTime);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            writeOnOutput.write(newData.toString()); // Schreibe die aktuallisierten Daten ins File
+
+            writeOnOutput.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
+                    Toast.LENGTH_LONG).show();
+        }
+        readFile(fileName, 0, "");
+
+    }
+
 
 
     private void cancel() {
-
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -242,7 +273,7 @@ public class BarcodeResult extends AppCompatActivity {
                 try {
 
                     // Der Response vom POST muss im body daten mitliefern! So  umsetzen? (REST konform?) Oder doch lieber ein GET machen?
-                    confirmation = response.getJSONObject("johntitor").getString("confirmation");
+                    confirmation = response.getJSONObject("johntitor").getBoolean("confirmation");
                     postOK = true;
 
                     countDownTimerBooking.start();
@@ -261,18 +292,7 @@ public class BarcodeResult extends AppCompatActivity {
                 postOK = false;
             }
         });
-            /*
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
 
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id", "testValue");
-                params.put("time", "testValue");
-                return super.getParams();
-            }
-        };
-        */
         mRequestQueuePOST.add(postJsonRequest);
         //TODO
         // connect to server
@@ -288,11 +308,18 @@ public class BarcodeResult extends AppCompatActivity {
             public void onFinish() {
                 Intent nextActivity = new Intent(getApplicationContext(), StartActivity.class);
                 if (postOK == true) { // unterschiedliche Anfragen unterscheiden? Wie umsetzen?
-                    startActivityForResult(nextActivity, 0);
-                    //Toast.makeText(getApplicationContext(), "Buchung erfolgreich.", Toast.LENGTH_LONG).show();
+                    if (confirmation == true) {
 
+                        //TODO
+                        // entferne die reservierung aus dem File
+
+                        startActivityForResult(nextActivity, 0);
+                        Toast.makeText(getApplicationContext(), "Stornierung erfolgreich.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Stornierung gescheitert.", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Stornierung gescheitert.", Toast.LENGTH_LONG).show();
+                    booked_roomID.setText("Keine Anwtowrt vom Server.");
                 }
             }
         };

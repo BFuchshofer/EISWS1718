@@ -1,7 +1,6 @@
 package com.example.basti.findaroom;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
@@ -26,7 +24,6 @@ public class BarcodeScanner extends AppCompatActivity {
 
     SurfaceView cameraPreview;
     TextView cameraText;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +43,6 @@ public class BarcodeScanner extends AppCompatActivity {
                 .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1600, 1024)
                 .build();
-
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -64,45 +60,28 @@ public class BarcodeScanner extends AppCompatActivity {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
             }
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-
                 cameraSource.stop();
             }
         });
-
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-
             }
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
-
-                //TODO
-                /* Ergebnis des QR-Codes enthält unter anderem die RaumID */
-
-                // Überprüfen ob gefundene RaumID bereits einem anderen Benutzer vorgeschlagen wurde --> Buchung nicht möglich!
-                // Überprüfen ob gefundene RaumID buchbar ist
-                    // Ist der Raum gerade reserviert?  --> JA: Buchung nicht möglich! | NEIN: Buchung möglich.
-                    // Ist der Raum gerade gebucht?     --> JA: Buchung nicht möglich! | NEIN: Buchung möglich.
-                    // Liegt in absehbarer Zeit (festlegen!) eine Reservierung/Buchung dieses Raumes vor? --> JA: Buchung nicht möglich! | NEIN: Buchung möglich.
-
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size()>0) {
+                if (barcodes.size() > 0) {
                     Intent intent = new Intent();
                     intent.putExtra("barcode", barcodes.valueAt(0));
-                    setResult(CommonStatusCodes.SUCCESS,intent);
+                    setResult(CommonStatusCodes.SUCCESS, intent);
                     finish();
                 }
-
-
             }
         });
     }
-
 }

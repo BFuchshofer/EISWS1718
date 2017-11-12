@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/infoText1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_weight="0.20"
         android:text="Bitte gehen Sie in den angegebenen Raum und klicken Sie dann auf den Button 'Buchen'."
         android:textAlignment="center"
@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/infoText2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_weight="0.17"
         android:text="Verbleibende Zeit bis die Reservierung verfällt"
         android:textAlignment="center" />
@@ -25,14 +25,14 @@
     <TextView
         android:id="@+id/remainingTimeToBook"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_weight="0.08"
         android:textAlignment="center" />
 
     <TextView
         android:id="@+id/book_roomID"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_weight="0.26"
         android:text="3.202"
         android:textAlignment="center"

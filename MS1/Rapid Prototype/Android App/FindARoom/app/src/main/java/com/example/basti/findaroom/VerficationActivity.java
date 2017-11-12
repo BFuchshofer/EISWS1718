@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,40 +21,46 @@ import java.io.OutputStreamWriter;
 
 public class VerficationActivity extends AppCompatActivity {
 
+    static final int READ_BLOCK_SIZE = 100;
+    //Common variables
+    public static boolean interactFromConfigBtn = false;
+    //File
+    public FileInputStream input;
+    public FileOutputStream output;
+    public String fileName = "internalData.json";
+    public boolean fileFound = false;
+    public JSONObject fileDataJSON;
+    public String fileData;
+    //Widgets
     EditText vorname;
     EditText nachname;
     EditText id;
     EditText url;
     EditText email;
+    Button sendVerification;
 
-    public Button sendVerification;
-
-    FileInputStream input;
-    FileOutputStream output;
-    private String configFile = "internalData.json";
-    private boolean fileFound = false;
-    public static boolean interactFromConfigBtn = false;
-
-    public JSONObject fileDataJSON;
-
-    static final int READ_BLOCK_SIZE = 100;
-
+    // Um zu überprüfen ob die VerificationActivity.java über einen Config Button aufgerufen wird.
+    public static void checkForConfigButtonInteraction() {
+        interactFromConfigBtn = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         try {
-            input = openFileInput(configFile);
+            input = openFileInput(fileName);
             fileFound = true; // Wenn bereits ein File existiert
-            openFileInput(configFile).close();
-            readFile(configFile);
+            openFileInput(fileName).close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             fileFound = false; // Falls noch kein File existiert (erster Start)
+            readFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        readFile(fileName);
 
+        // Überprüfe beim start ob es ein erster start ist oder ob auf die Einstellungen zugegriffen werden soll
         if (fileFound == false || (fileFound == true && interactFromConfigBtn == true)) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_verfication);
@@ -66,6 +70,7 @@ public class VerficationActivity extends AppCompatActivity {
             url = (EditText) findViewById(R.id.url);
             email = (EditText) findViewById(R.id.email);
 
+            // Lade die bestehenden Daten aus dem File in die Textzeilen.
             if (fileFound == true) {
                 try {
                     vorname.setText(fileDataJSON.getString("vorname"));
@@ -73,22 +78,16 @@ public class VerficationActivity extends AppCompatActivity {
                     id.setText(fileDataJSON.getString("companyID"));
                     email.setText(fileDataJSON.getString("email"));
                     url.setText(fileDataJSON.getString("url"));
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
             sendVerification = (Button) findViewById(R.id.sendVerification);
             sendVerification.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    //TODO
-                    // Prüfe ob gültige Werte in die Textzeilen eingetragen wurden
-                    // Formatiere ggf. die Werte in ein entsprechendes Format
-
                     interactFromConfigBtn = false;
+                    readFile(fileName);
                     writeFile();
                 }
 
@@ -100,38 +99,54 @@ public class VerficationActivity extends AppCompatActivity {
             verification();
         }
     }
-    // Um zu überprüfen ob die VerificationActivity.java über einen Config Button aufgerufen wird.
-    public static void checkForConfigButtonInteraction() {
-        interactFromConfigBtn = true;
-    }
 
     //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
     public void writeFile() {
 
         try {
-            output = openFileOutput(configFile, MODE_PRIVATE);
+            output = openFileOutput(fileName, MODE_PRIVATE);
             OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-
-            JSONObject userConfig = new JSONObject();
-            try {
-                userConfig.put("vorname", vorname.getText().toString());
-                userConfig.put("nachname", nachname.getText().toString());
-                userConfig.put("companyID", id.getText().toString());
-                userConfig.put("email", email.getText().toString());
-                userConfig.put("url", url.getText().toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (fileFound == true) {
+                JSONObject userConfig = new JSONObject(fileData);
+                if ((email.getText().toString().matches("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w]{2,4}$")) == true) { //https://www.computerbase.de/forum/showthread.php?t=677550
+                    userConfig.put("vorname", vorname.getText().toString());
+                    userConfig.put("nachname", nachname.getText().toString());
+                    userConfig.put("companyID", id.getText().toString());
+                    userConfig.put("email", email.getText().toString());
+                    userConfig.put("url", url.getText().toString());
+                    writeOnOutput.write(userConfig.toString());
+                    verification();
+                }
+            } else {
+                JSONObject userConfig = new JSONObject();
+                try {
+                    //Überprüft die Email auf korrektes Format und speichert sie ein
+                    if ((email.getText().toString().matches("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w]{2,4}$")) == true) { //https://www.computerbase.de/forum/showthread.php?t=677550
+                        if ((userConfig.has("vorname") == false) || (userConfig.has("vorname") && userConfig.getString("vorname").equals(vorname.getText().toString()) == false)) {
+                            userConfig.put("vorname", vorname.getText().toString());
+                        }
+                        if ((userConfig.has("nachname") == false) || (userConfig.has("nachname") && userConfig.getString("nachname").equals(nachname.getText().toString()) == false)) {
+                            userConfig.put("nachname", nachname.getText().toString());
+                        }
+                        if ((userConfig.has("companyID") == false) || (userConfig.has("companyID") && userConfig.getString("companyID").equals(id.getText().toString()) == false)) {
+                            userConfig.put("companyID", id.getText().toString());
+                        }
+                        if ((userConfig.has("email") == false) || (userConfig.has("email") && userConfig.getString("email").equals(email.getText().toString()) == false)) {
+                            userConfig.put("email", email.getText().toString());
+                        }
+                        if ((userConfig.has("url") == false) || (userConfig.has("url") && userConfig.getString("url").equals(url.getText().toString()) == false)) {
+                            userConfig.put("url", url.getText().toString());
+                        }
+                        writeOnOutput.write(userConfig.toString());
+                        verification();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Keine gültige Email erkannt. Bitte korigieren Sie ihre Eingabe", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-           // JSONObject userData = new JSONObject();
-           // writeOnOutput.write(userData.toString());
-            writeOnOutput.write(userConfig.toString());
-
-
             writeOnOutput.close();
-            verification();
-
-
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
@@ -139,20 +154,17 @@ public class VerficationActivity extends AppCompatActivity {
         }
     }
 
+
     // Gibt alle Daten aus dem TextFile aus
     public void readFile(String fName) {
 
         String fileName = fName;
-
-
         try {
             FileInputStream fileIn = openFileInput(fileName);
             InputStreamReader InputRead = new InputStreamReader(fileIn);
-
             char[] inputBuffer = new char[READ_BLOCK_SIZE];
             String stringData = "";
             int charRead;
-
             while ((charRead = InputRead.read(inputBuffer)) > 0) {
                 String readstring = String.copyValueOf(inputBuffer, 0, charRead);
                 stringData += readstring;
@@ -160,17 +172,11 @@ public class VerficationActivity extends AppCompatActivity {
             InputRead.close();
             JSONObject data = new JSONObject(stringData);
             fileDataJSON = data;
-            //fileData = stringData;
-
+            fileData = stringData;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
-
-
 
 
     private void verification() {

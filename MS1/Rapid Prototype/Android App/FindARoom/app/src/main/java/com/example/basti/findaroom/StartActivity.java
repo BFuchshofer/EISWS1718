@@ -35,9 +35,7 @@ public class StartActivity extends AppCompatActivity {
     public static long remainingTimeReservation;
 
     public static JSONObject fileDataJSON;
-    public static String time; //bekommene Zeit vom Server die der Nutzer hat um den Raum zu reservieren
     // Variablen für andere Klassen
-    public static String givenRoom;
     public static JSONObject currentRoom;
 
     // Check fo actives
@@ -70,12 +68,8 @@ public class StartActivity extends AppCompatActivity {
 
     // Common Variables
     private boolean checkTime = true;
-
-    private String toastQRCodeErkannt = "QR-Code erkannt!";
-
     private boolean checkForActiveRoom = false;
     private boolean postOK = false;
-
     private FileOutputStream output;
     // URLs
     private String url;
@@ -87,9 +81,6 @@ public class StartActivity extends AppCompatActivity {
     private JsonObjectRequest postJsonRequest;
     private boolean postOk = false; // Ist der POST Req erfolgreich angenommen worden
 
-    public static JSONObject returnJSONObject() {
-        return fileDataJSON;
-    }
 
     public static JSONObject returnGivenRoom() {
         return currentRoom;
@@ -97,11 +88,6 @@ public class StartActivity extends AppCompatActivity {
 
     public static long returnRemainingTimeReservation() {
         return remainingTimeReservation;
-    }
-
-    // Um in anderen Klassen auf das Ergebnis des QR-Codes heranzukommen
-    public static String getQRResult() {
-        return qrResult;
     }
 
     public static long returnActiveTimeReservation() {

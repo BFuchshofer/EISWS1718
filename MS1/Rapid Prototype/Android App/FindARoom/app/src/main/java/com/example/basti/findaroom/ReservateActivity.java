@@ -35,23 +35,17 @@ import static android.content.ContentValues.TAG;
 public class ReservateActivity extends AppCompatActivity {
 
     static final int READ_BLOCK_SIZE = 100;
-    private static final String REQUESTTAG = "string request first";
     public static String qrResult;
     public static long bookingTime_end; // Verbleibende Zeit bis die Buchung ausläuft
-    //public static JSONObject fileDataJSON = StartActivity.returnJSONObject();
     public static JSONObject fileDataJSON;
     static public long remainingTimeReservation;
     public boolean checkTime = true;
     public String confirmation;
     // Check fo actives
     public long time_endReservation;
-    public boolean boolean_endReservation;
-    public String activeRoom;
-    public boolean boolean_activeRoom;
     // File
     public String fileName = "internalData.json";
     public String fileData;
-    public JSONObject currentRoom = StartActivity.returnGivenRoom();
     // Server URLs
     public String url;
     public String urlBooking;
@@ -62,30 +56,19 @@ public class ReservateActivity extends AppCompatActivity {
     Button cancelReservation;
     TextView infoText1;
     TextView infoText2;
-    String qrCodeErkannt = "QR-Code erkannt!";
-    String name;
-    String nachname;
-    String id;
+    // Common Variables
     private CountDownTimer countDownTimerBooking;
     private CountDownTimer countDownTimerBookingShort;
     private CountDownTimer countDownTimerCancelReservationShort;
-    private String givenRoom;
-    private boolean getOK = false;
     private boolean postOK = false;
     // HTTP-Requests
-    private RequestQueue mRequestQueueGET;
     private RequestQueue mRequestQueuePOST;
-    private JsonObjectRequest getJsonRequest;
     private JsonObjectRequest postJsonRequest;
     private FileOutputStream output;
 
     // Um in anderen Klassen auf das Ergebnis des QR-Codes heranzukommen
     public static String getQRResult() {
         return qrResult;
-    }
-
-    public static long returnTimeBookingEnd() {
-        return bookingTime_end;
     }
 
     @Override

@@ -31,13 +31,11 @@ import static android.content.ContentValues.TAG;
 public class BarcodeResult extends AppCompatActivity {
 
     static final int READ_BLOCK_SIZE = 100;
-    private static final String REQUESTTAG = "string request first";
     public boolean checkTime = true;
     public boolean postOK = false;
     public String confirmation;
     public JSONObject fileDataJSON;
     public String fileData;
-    public JSONObject currentRoom = StartActivity.returnGivenRoom();
     public String fileName = "internalData.json";
     public CountDownTimer countDownTimerBooking;
     // Check fo actives
@@ -51,9 +49,7 @@ public class BarcodeResult extends AppCompatActivity {
     TextView booked_roomID;
     Button cancelBooking;
     Button extendBooking;
-    private String roomID;
     private String qrResult;
-    private long remainingBookedTime;
     private JSONObject givenRoom;
     private CountDownTimer countDownTimerBooked;
     // File
@@ -61,7 +57,6 @@ public class BarcodeResult extends AppCompatActivity {
     // HTTP-Requests
     private RequestQueue mRequestQueuePOST;
     private JsonObjectRequest postJsonRequest;
-    private boolean getOK = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,6 @@
 .idea
+start.bat
+dump.rdb
 
 redis/
 datenbank_events/node_modules/

@@ -14,7 +14,7 @@ router.post( '/room/suggestion', function( req, res ){
         var suggestion_begin        = Date.now();
         var suggestion_end          = suggestion_begin + suggestion_time;
         var post_data = {
-            "room":{
+            "johntitor":{
                 "room_nr":null,
                 "user":data.user,
                 "suggestion_begin":suggestion_begin,
@@ -27,31 +27,35 @@ router.post( '/room/suggestion', function( req, res ){
         ///////////////////////////////////////// GETS FOR ALGORITHM
         suggestion_func.getSuggestion( null, function( result ){
             console.log( result );
-            post_data.room.room_nr = result;
+            if( result != null ){
+                post_data.johntitor.room_nr = result;
 
-            var options                 = {
-                host: VARIABLES.roomdbaddr,
-                port: VARIABLES.roomdbport,
-                path: '/room/suggestion',
-                method: 'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
-                }
-            };
+                var options                 = {
+                    host: VARIABLES.roomdbaddr,
+                    port: VARIABLES.roomdbport,
+                    path: '/room/suggestion',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
 
-            var externalRequest         = http.request( options, function( externalResponse ){
-                if( externalResponse.statusCode == 200 ){
-                    externalResponse.on( 'data', function( chunk ){
+                var externalRequest         = http.request( options, function( externalResponse ){
+                    if( externalResponse.statusCode == 200 ){
+                        externalResponse.on( 'data', function( chunk ){
 
-                        //console.log( 'get.js     - exRes: ' +  chunk );
-
-                        res.status(200).send( chunk );
-                    });
-                }
-            });
-            externalRequest.write( new Buffer( JSON.stringify( post_data )) );
-            externalRequest.end();
+                            //console.log( 'get.js     - exRes: ' +  chunk );
+                            //suspend_func.suspendSuggestion( post_data.room.room_nr );
+                            res.status(200).send( chunk );
+                        });
+                    }
+                });
+                externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+                externalRequest.end();
+            } else {
+                res.status( 204 ).send( 'NO ROOM AVAILABLE' );
+            }
 
 
 
@@ -145,6 +149,7 @@ router.post( '/room/booking', function( req, res ){
             };
 
             var externalRequest     = http.request( options, function( externalResponse ){
+                console.log( externalResponse.statusCode );
                 if( externalResponse.statusCode == 200 ){
                     externalResponse.on( 'data', function( chunk ){
 
@@ -152,6 +157,11 @@ router.post( '/room/booking', function( req, res ){
 
                         res.status(200).send( chunk );
                     });
+                } else if( externalResponse.statusCode == 401 ){
+                    console.log( 'hi2' );
+                    res.status( 401 ).send( 'UNAUTHORIZED' );
+                } else if( externalResponse.statusCode == 404 ){
+                    res.status( 404 ).send( 'NOT FOUND' );
                 }
             });
             externalRequest.write( new Buffer( JSON.stringify( post_data )) );
@@ -236,6 +246,11 @@ router.post( '/room/cancelbooking', function( req, res ){
 
                         res.status(200).send( chunk );
                     });
+                } else if( externalResponse.statusCode == 401 ){
+                    console.log( 'hi2' );
+                    res.status( 401 ).send( 'UNAUTHORIZED' );
+                } else if( externalResponse.statusCode == 404 ){
+                    res.status( 404 ).send( 'NOT FOUND' );
                 }
             });
             externalRequest.write( new Buffer( JSON.stringify( post_data )) );

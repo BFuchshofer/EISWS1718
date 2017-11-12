@@ -7,7 +7,11 @@ router.get( '/', function( req, res ){
 
 router.get( '/room/empty', function( req, res ){
     DB_FUNCTIONS.getEmptyRooms( function( result ){
-        res.status(200).send( result );
+        if( result != null ){
+            res.status(200).send( result );
+        } else {
+            res.status( 204 ).send( 'NO ROOM AVAILABLE' );
+        }
     });
 });
 

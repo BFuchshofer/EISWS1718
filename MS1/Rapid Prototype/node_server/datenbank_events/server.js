@@ -45,6 +45,7 @@ veranstaltungDB.on( 'connect', function(){
 
 
 // ERROR HANDLING
+//TODO: DB SHUTDOWN ERROR HANDLING
 app.use( function( err, req, res, next ){
     res.status( err.status || 500 );
 });

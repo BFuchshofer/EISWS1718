@@ -1,8 +1,8 @@
 var router                      = express.Router();
 
-var suggestion_time             = 30*1000;       // 30 sec * 1000 millisec
-var reservation_time            = 15*60*1000;   // 15 min * 60 sec * 1000 millisec
-var booking_time                = 1*60*60*1000; // 1 h * 60 min * 60 sec * 1000 millisec
+var suggestion_time             = VARIABLES.suggestion_time;        // 30 sec * 1000 millisec
+var reservation_time            = VARIABLES.reservation_time;       // 15 min * 60 sec * 1000 millisec
+var booking_time                = VARIABLES.booking_time;           // 1 h * 60 min * 60 sec * 1000 millisec
 
 
 router.post( '/room/suggestion', function( req, res ){
@@ -26,7 +26,7 @@ router.post( '/room/suggestion', function( req, res ){
 
         ///////////////////////////////////////// GETS FOR ALGORITHM
         suggestion_func.getSuggestion( null, function( result ){
-            console.log( result );
+            //console.log( result );
             if( result != null ){
                 post_data.johntitor.room_nr = result;
 
@@ -149,7 +149,7 @@ router.post( '/room/booking', function( req, res ){
             };
 
             var externalRequest     = http.request( options, function( externalResponse ){
-                console.log( externalResponse.statusCode );
+                console.log( 'Booking statusCode: ' + externalResponse.statusCode );
                 if( externalResponse.statusCode == 200 ){
                     externalResponse.on( 'data', function( chunk ){
 
@@ -158,7 +158,6 @@ router.post( '/room/booking', function( req, res ){
                         res.status(200).send( chunk );
                     });
                 } else if( externalResponse.statusCode == 401 ){
-                    console.log( 'hi2' );
                     res.status( 401 ).send( 'UNAUTHORIZED' );
                 } else if( externalResponse.statusCode == 404 ){
                     res.status( 404 ).send( 'NOT FOUND' );
@@ -177,6 +176,8 @@ router.post( '/room/cancelreservation', function( req, res ){
         req.on( 'data', function( chunk ){
             var data = JSON.parse( chunk );
 
+            console.log( data );
+            
             var post_data = {
                 "johntitor":{
                     "room_nr":data.room_nr,
@@ -247,7 +248,6 @@ router.post( '/room/cancelbooking', function( req, res ){
                         res.status(200).send( chunk );
                     });
                 } else if( externalResponse.statusCode == 401 ){
-                    console.log( 'hi2' );
                     res.status( 401 ).send( 'UNAUTHORIZED' );
                 } else if( externalResponse.statusCode == 404 ){
                     res.status( 404 ).send( 'NOT FOUND' );

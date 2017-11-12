@@ -5,7 +5,7 @@ router.post( '/room/suggestion', function( req, res ){
     req.on( 'data', function( chunk ){
         var data = JSON.parse( chunk );
 
-        //console.log( data );
+        console.log( data );
 
         var johntitor = data.johntitor;
 
@@ -96,7 +96,7 @@ router.post( '/room/booking', function( req, res ){
 router.post( '/room/cancelreservation', function( req, res ){
     req.on( 'data', function( chunk ){
         var data = JSON.parse( chunk );
-        //console.log( data );
+        console.log( data );
 
         var johntitor = data.johntitor;
         DB_FUNCTIONS.getOccupiedBy( johntitor.room_nr )
@@ -120,14 +120,13 @@ router.post( '/room/cancelreservation', function( req, res ){
             res.status(404).send( 'NOT FOUND' );
         });
 
-        res.status( 200 ).send( data );
     });
 });
 
 router.post( '/room/cancelbooking', function( req, res ){
     req.on( 'data', function( chunk ){
         var data = JSON.parse( chunk );
-        //console.log( data );
+        console.log( data );
 
         var johntitor = data.johntitor;
 

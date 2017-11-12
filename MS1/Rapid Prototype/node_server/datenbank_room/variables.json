@@ -2,5 +2,8 @@
   "port":5676,
   "ip":"localhost",
   "address":"http://localhost",
-  "db_port":5677
+  "db_port":5677,
+  "suggestion_time":30000,
+  "reservation_time":30000,
+  "booking_time":60000
 }

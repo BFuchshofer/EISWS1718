@@ -12,7 +12,7 @@ function getVeranstaltungen( callback ){
         method: 'GET',
     };
 
-    console.log( vdb_options.path );
+    //console.log( vdb_options.path );
 
     var externalRequest         = http.request( vdb_options, function( externalResponse ){
         if( externalResponse.statusCode == 200 ){
@@ -40,7 +40,7 @@ function getEmptyRooms( callback ){
         method: 'GET',
     };
 
-    console.log( rdb_options.path );
+    //console.log( rdb_options.path );
 
     var externalRequest         = http.request( rdb_options, function( externalResponse ){
         if( externalResponse.statusCode == 200 ){
@@ -86,19 +86,19 @@ function getSuggestion( filter, callback ){
 
                     for( var j = 0; j < result.length; j++ ){
 
-                        console.log( '             - ' +  result[j].room );
+                        //console.log( '             - ' +  result[j].room );
 
                         // Bricht den Schleifendurchlauf ab, wenn die momentane Zeit innerhalb einer Veranstaltungszeit liegt UND die betreffenden Räume die selben sind
                         if(( result[j].begin<=(hour*100+min) && result[j].end>=(hour*100+min) ) && rooms[i].number == result[j].room ){
 
-                            console.log( 'RIP' );
+                            //console.log( 'RIP' );
 
                             break;
                         }
                         // Bricht den Scheifendurchlauf ab, wenn der betreffende Raum innerhalb der nächsten Stunde( Belegungszeit ) durch eine Veranstaltung belegt ist.
                         if( result[j].begin<=((hour+1)*100+min) && result[j].end>=((hour+1)*100+min) && rooms[i].number == result[j].room ){
 
-                            console.log( 'RIP2' );
+                            //console.log( 'RIP2' );
 
                             break;
                         }

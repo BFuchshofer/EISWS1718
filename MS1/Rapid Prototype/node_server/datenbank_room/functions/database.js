@@ -7,10 +7,10 @@
  */
 
 //TODO: put in variables.json
-var institut_room_key       = 'rm_thkoeln_';
-var suggestion_time         = 30*1000;      // 30 sec * 1000 millisec
-var reservation_time        = 30*1000;   // 15 min * 60 sec * 1000 millisec
-var booking_time            = 1*60*1000; // 1 h * 60 min * 60 sec * 1000 millisec
+var institut_room_key           = 'rm_thkoeln_';
+var suggestion_time             = VARIABLES.suggestion_time;        // 30 sec * 1000 millisec
+var reservation_time            = VARIABLES.reservation_time;       // 15 min * 60 sec * 1000 millisec
+var booking_time                = VARIABLES.booking_time;           // 1 h * 60 min * 60 sec * 1000 millisec
 
 var test_rooms              = require( '../test_data/test_rooms.json' );
 
@@ -280,14 +280,14 @@ function suspendBooking( key, time ){
     setRoomTimer( key, timer );
 }
 
-
+//TODO: pop item from array after use
 var timers = [];
 function setRoomTimer( key, timer ){
     timers.push( timer );
     roomDB.set( 'timer_' + key, (timers.length - 1), function( err, res ){
         console.log( res );
     });
-    console.log( timers[ timers.length-1] == timer );
+    console.log( timers[ timers.length-1 ] == timer );
 }
 
 

@@ -49,7 +49,6 @@ function addVeranstaltung( veranstaltung ){
 }
 
 function getVeranstaltung( key, callback ){
-    console.log( 'MOTHERFUCKER' );
     veranstaltungDB.hgetall( key, function( err, obj ){
         console.log( 'databas.js - getVeranstaltung() - result: ' + JSON.stringify( obj ));
         callback( null, obj );
@@ -118,8 +117,9 @@ function delVeranstaltung( key, callback ){
 function setupTestDB(){
     // Create Rooms as Hashes and save rm_key in ls_rooms
     console.log( 'setubTestDB' );
-    addVeranstaltung( test_veranstaltung.veranstaltungen[0] );
-    addVeranstaltung( test_veranstaltung.veranstaltungen[1] );
+    for( var i = 0; i < test_veranstaltung.veranstaltungen.length; i++ ){
+        addVeranstaltung( test_veranstaltung.veranstaltungen[i] );
+    }
 }
 
 

@@ -6,3 +6,4 @@ Die installierbare APK und die Anleitung befindet sich im Unterordner /APK.
 # Quellen (verwendete Module/Software)
 * [Android Studios](https://developer.android.com/studio/index.html)
 * [volley-http library](https://developer.android.com/training/volley/index.html)
+* [Android Barcode Scanner](https://developers.google.com/vision/android/barcodes-overview)

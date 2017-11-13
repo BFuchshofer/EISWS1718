@@ -170,19 +170,13 @@ Der Studiengang Medieninformatik der TH-Köln am Campus Gummersbach bietet einen
 * Webserver
 * Client
 
-*6.2 Architekturmodell (deskriptiv)*   
-![Deskriptives Architekturmodell](url)
+*6.2 Modelle*   
 
-*6.3 Architekturmodell (präskriptiv)*   
-![Präskriptives Architekturmodell](url)
+* Deskriptives Kommunikationsmodell   
+https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/MS1/imgs/deskriptiv_kommunikationsModell.png
 
-### 7. Erstes Kommunikationsmodell
-
-*7.1 Kommunikationsmodell (deskriptiv)*   
-![Deskriptives Kommunikationsmodell](url)
-
-*7.2 Kommunikationsmodell (präskriptiv)*   
-![Präskriptives Kommunikationsmodell](url)
+* Präskriptives Kommunikationsmodell   
+https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/MS1/imgs/präskriptiv_kommunikationsModell.png
 
 Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver für den externen Zugriff und einem Datenspeicher entschieden.
 
@@ -288,11 +282,8 @@ Damit in unserem Projekt der Umgang mit auftretenden Risiken, wie zum Beispiel  
     - Fallback:
         - Das System übernimmt intern die Auswahl des Raumes durch Erweiterung des Algorithmuses.
 
-*9.3 Möglichkeiten der Risikominimierung*
 
-
-
-*9.4 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
+*9.3 Wie werden diese durch PoC ( Proof of Concept ) adressiert ?*
 
 Um die einzelnen Risiken in PoC's zu adressieren wird entweder für ein einzelnes Risiko oder, sofern diese den selben oder ähnlichen Themenbereich behandeln, für mehrere Risiken ein Prototyp erstellt.   
 

@@ -173,10 +173,10 @@ Der Studiengang Medieninformatik der TH-Köln am Campus Gummersbach bietet einen
 *6.2 Modelle*   
 
 * Deskriptives Kommunikationsmodell   
-https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/MS1/imgs/deskriptiv_kommunikationsModell.png
+https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/MS1/imgs/deskriptiv_kommunikationsModell.PNG
 
 * Präskriptives Kommunikationsmodell   
-https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/MS1/imgs/präskriptiv_kommunikationsModell.png
+https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/MS1/imgs/pr%C3%A4skriptiv_kommunikationsModell.PNG
 
 Für einen ersten Entwurf des Systems haben wir uns für die Umsetzung einer Smartphone-applikation als Client, einem Webserver für den externen Zugriff und einem Datenspeicher entschieden.
 
@@ -197,7 +197,7 @@ Nach spezifikation des Nutzungskontextes und der Anwendungsdomäne sind wir zu d
 - Concrete Use Cases (Constantine & Lockwood)
 - UML Diagramme
 
-* 8.4 Methoden zur Modellierung von UI-Inhalten
+*8.4 Methoden zur Modellierung von UI-Inhalten*
 - Content Models
 - Navigation Maps
 

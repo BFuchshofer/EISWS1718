@@ -35,6 +35,13 @@
 - Gestalltungslösungen entwickeln
     - Einleitung
     - 1. Gestalltungslösung
+        - präskriptives Architekturmodell
+        - präskriptives Kommunikationsmodell
+        - Komponenten des Systems
+        - Datenstruktur
+        - UI
+        - Evaluation
+        - Fazit (mit Pro/Con)
     - 2. Gestalltungslösung
     - 3. Gestalltung....
 <!-- hier noch etwas machen? -->

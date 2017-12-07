@@ -2,24 +2,30 @@
 
 ### Aufgaben
 
-* Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.
-* Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.
-* Der Benutzer sucht einen Raum für mehrere Personen.
-* Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann.
-* Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann.
-* Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann.
-* Der Benutzer möchte einen freien Raum für einen bestimmten Zeitraum für andere Benutzer sperren.
-* Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne reservieren.
-* Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne buchen.
-* Der Benutzer möchte einen von ihm gesperrten Raum wieder freigeben.
-* Der Benutzer möchte einen von ihm gefundenen freien Raum buchen.
-* Der Benutzer möchte die Reservierung für einen von ihm reservierten Raum stornieren.
-* Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum stornieren.
-* Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern.
-* Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.   
+* Benutzeraufgaben
+    - Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.
+    - Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.
+    - Der Benutzer sucht einen Raum für mehrere Personen.
+    - Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann.
+    - Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann.
+    - Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann.
+    - Der Benutzer möchte einen freien Raum für einen bestimmten Zeitraum für andere Benutzer sperren.
+    - Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne reservieren.
+    - Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne buchen.
+    - Der Benutzer möchte einen von ihm gesperrten Raum wieder freigeben.
+    - Der Benutzer möchte einen von ihm gefundenen freien Raum buchen.
+    - Der Benutzer möchte die Reservierung für einen von ihm reservierten Raum stornieren.
+    - Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum stornieren.
+    - Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern.
+    - Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.   
 
-*__Aufgaben für den Admin?__*
-
+* Adminaufgaben
+    - Der Administrator möchte das System starten.
+    - Der Administrator möchte das System stopen.
+    - Der Administrator möchte einen Raum im System hinzufügen.
+    - Der Administrator möchte einen Raum aus dem System entfernen.
+    - Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.
+    - Der Administrator möchte Informationen über einen bestehenden Raum im System abändern.
 
 ### Essential Use Cases
 
@@ -187,8 +193,11 @@ __Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht 
 
 
 ### Concrete Use Cases
-
+___
+<span style="color:red;">TODO</span>
 <!-- TODO: Conrete use Cases müssen mehr die Tätigkeit beschreiben die der nutzer macht. "Benutzer startet die app".... SIEHE Use cases von Robert -->
+___
+
 
 __Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.__  
 *searchingStandardRoom* 
@@ -313,6 +322,7 @@ __Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht 
 
 
 # Zu Klären
+<span style="color:red;">TODO</span>
 * "für eine bestimmte Zeitspanne" - der Nutzer kann die zeitspanne festlegen?
 
 

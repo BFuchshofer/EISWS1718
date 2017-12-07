@@ -6,11 +6,12 @@ Um einen ersten Überblick über potenzielle Benutzer und Interessenten an unser
 Konkret lassen sich daraus folgende Stakeholder erschließen:
 
 ___
-hier Stakeholdernamen eintragen ??
+TODO: Stakeholdernamen eintragen
 ___
 
-### Fazit - Anforderungsdialog
+Zum erreichen der Projektziele wird ein verteiles System mit verteilter Anwendungslogik benötigt. Das System muss dabei einen gesellschaftlichen oder wirtschaftlichen Nutzen erzielen können. 
 
+### Fazit - Anforderungsdialog
 
 
 

@@ -1,62 +1,28 @@
 # Vorgehensmodell
 ### Einleitung
-<!-- anwendung, funktionen, benötigte Mittel beschreiben, daraus deduktiv auf ein Vorgehensmodell schließen -->
+Das anzuwendende Vorgehensmodell in diesem Projekt behandelt im Idealfall die Charakteristiken des Projektfeldes. Dazu zählen z.B. die Projektziele, Aufgaben und organisationale Anforderungen die gegeben sein müssen um das Projekt effektiv bearbeiten zu können. Im folgenden soll deduktiv auf ein passendes Vorgehensmodell für dieses Projekt geschloßen werden, welches im Entwicklungsprozess angewand wird.
 
-<!-- 
-### User-Centered Design:
-
-Das Vorgehensmodell der nutzerzentrierten Gestaltung von Norman und Draper sieht
-wie aus dem Namen erkennbar den Benutzer als Mittelpunkt für die Gestaltung
-eines Systems und generiert auf Basis des Nutzungskontextes sowie der Benutzer
-und ihrer Aufgaben als auch ihrer projektspezifischen Kompetenzen ein System
-welches über eine hohe Gebrauchstauglichkeit verfügt. Damit die möglichst hohe
-Gebrauchstauglichkeit erreicht werden kann sollten die Benutzer möglichst in
-alle Schritte und Aufgaben involviert sein.
-
-
-### ISO 9241-210:
-
-Das Big-Picture der ISO-Norm 9241 stellt die Grundlage für die meisten
-Vorgehensmodelle. Ergebnis ist eine Gestaltungslösung welche durch mehrfache
-Evaluation und Iteration und eine menschzentrierte Gestaltung ( Human Centered
-Design ) ähnlich wie die nutzungszentrierte Gestaltung ein hohes Maß an
-Gebrauchstauglichkeit aufweist.  
-Allerdings handelt es sich bei diesem Vorgehensmodell um eine ISO-Norm und
-liefert somit kaum Methodik für die jeweiligen Prozessschritte.
-
-
-### Discount Usability Engineering:
-
-Dieses Vorgehensmodell von Jacob Nielsen erzielt die Gestaltungslösung durch das
-erfüllen von drei Aktivitäten. So werden Szenarien in UI-Mockups und dann in
-Gestaltungslösungen überführt.
-Die Gestaltungslösungen werden dann mit Hilfe der Methode „think-aloud“ und 10
-Heuristiken evaluiert. Das Ergebnis ist eine Gestaltungslösung mit einer nur
-mäßigen Gebrauchstauglichkeit, da in diesem Vorgehensmodell nicht auf die
-Erfordernisse und Anforderungen der Benutzer bzw. Stakeholde eingeht.
-
-
-### Scenario Based Usability Engineering:
-
-Dieses von Mary Beth Rosson und John M. Carrol entwickelte Vorgehensmodell
-generiert auf Basis von Szenarien in den drei in sich iterativen Phasen Analyse,
-Design und Evaluation eine Gestaltungslösung. Durch die vermehrte Verwendung von
-Szenarien eignet sich dieses Vorgehensmodell gut für den Umgang mit Benutzern
-und Benutzergruppen da Szenarien für Außenstehende ein besser zu verstehendes
-Medium darstellen. Durch die Einbindung von Benutzern wird hier die Ermittlung
-von Erfordernissen und Anforderungen sowie das Verstehen, Beschreiben und
-modellieren menschlichen Handelns unterstützt.
-
-
-### Usability Engineering Lifecycle:
-
-Deborah Mayhew liefert mit dem Modell „Usability Engineering Lifecycle“ eine in
-drei Aktivitäten  aufgeteilte Vorgehensweise für die Generierung eines
-Gebrauchstauglichen Systems.
-Die der Aktivitäten Anforderungsanalyse, Design-Test-Entwicklung und
-Installation sind jeweils in Unteraktivitäten aufgeteilt. Durch die Iterativen
-Arbeitsschritte, die hohe Skalierbarkeit und die Anforderungen der Benutzer als
-Basis entsteht bei der Durchführung ein System mit hoher Gebrauchstauglichkeit.
--->
+### Auswahl eines Vorgehensmodell
+Da das zu entwickelnde System dem Benutzer eine Möglichkeit bieten muss ein ganz bestimmtes Ziel zu erreichen, das innerhalb der Anwendungsdomäne immer das selbe ist, liegt es nahe das in der Entwicklung ein besonderer Fokus auf die Modellierung der Aufgaben eines Benutzers gelegt werden muss. Die Aufgaben, deren Erfüllung das System gewährleisten muss, beschränken sich auf ein übergeordnetes Ziel, dem finden eines Raumes. Die Benutzer und ihre Eigenschaften haben zwar eine gewisse Relevanz, müssen aber nicht wie z.B. im *[User-Centred Design]() von Norman und Draper* im Fokus des gesamten Entwicklungsprozzesses liegen. Die Aufführung aller potenziellen Benutzer des Systems schränkt sich, wenn man das Anwendungsumfeld betrachtet, stark ein. Das führt uns zu dem Schluss das eine ausführliche Benutzermodellierung in diesem Kontext nicht zwingend notwendig ist. Aus diesem Grund sind auch Vorgehensmodelle die eine starke Einbindung von Benutzern oder Vertretern dieser beinhalten nicht relevant für diesen Projektkontext. Dazu zählen z.B. das *[Scenario Based Usability Engineering]() Vorgehen von Mary Beth Rosson und John M. Carrol*, das mittels einfach zu verstehender Szenarien, für Benutzer die Möglichkeit bietet effektiv am Entwicklungsprozess teilhaben zu können. Daher sollte der Fokus unseres Projektes eher auf die möglichst effektive Nutzung unseres Systems gelegt werden. Dadurch soll sichergestellt werden das
+der Benutzer oder die Benutzergruppe durch die Verwendung unseres Systems hinsichtlich seines Hauptziels nicht behindert sonder viel mehr unterstützt wird.
 
 ### Fazit - Vorgehensmodell
+Da in unserem Projekt weder die Einbindung von Benutzern in den Entwicklungsprozess noch die ausführliche Benutzermodellierung in einem benutzerzentriertem Vorgehen ein besonders großen Wert hat, haben wir uns für das *[Usage-Centred Design]() von Constantine und Lockwood* entschieden. Dieses Vorgehensmodell legt einen besonderen Wert auf die Anwendung des Systems, also die Fokussierung auf den Aufgabenbereich einer Anwendung. Desweiteren ist es durch seine skalierbarkeit und dem Auslassen von Methoden ein ideales Vorgehensmodell für ein Projekt dieser Größe.
+
+---
+Für die effektive Nutzung unseres Systems sind weniger die speziellen
+Bedürfnisse und Eigenschaften eines einzelnen Benutzers von Bedeutung, sondern
+viel mehr die Benutzergruppe in der er sich befindet. Daraus resultierend ist
+für dieses Projekt die Benutzermodellierung zwar wichtig kann aber in einem
+kleineren Rahmen durchgeführt werden.
+Weiterhin ist die Aufgabe die unser System erfüllt, bzw. das Ergebnis das unser
+System erzielt für den Benutzer bzw. die Benutzergruppen nur eine
+Nebensächlichkeit bei der Erfüllung eines größeren übergeordnetem Ziel.
+Daher sollte der Fokus unseres Projektes eher auf die möglichst effektive
+Nutzung unseres Systems gelegt werden. Dadurch soll sichergestellt werden das
+der Benutzer oder die Benutzergruppen durch die Verwendung unseres Systems
+hinsichtlich seines Hauptziels nicht behindert sonder viel mehr unterstützt wird.  
+Aus diesen Gründen haben wir uns für die Verwendung des Vorgehensmodells
+"Usage Centered Design" entschieden, da dieses auf Basis von Modellen und
+unterschiedlichen Modellierungen dabei hilft ein effizientes Werkzeug zu
+generieren.

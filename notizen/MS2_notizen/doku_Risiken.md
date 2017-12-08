@@ -6,12 +6,13 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
 - Eine Filterung nach bestimmten Rauminhalten durch den Benutzer lässt sich nicht umsetzen.
 
 ### Projektrisiken
-- Benutzer eines Raumes belegen den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
+- Benutzer eines Raumes blockieren den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
 - Automatische Standortbestimmung des Benutzers innerhalb des Anwendungsfeldes ist nicht möglich.
     - technisch nicht möglich
     - Datenschutztechnisch nicht möglich
 - Das System liefert einen freien Raum nicht in absehbarer Zeit.
 - Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
+- Es lässt sich nicht gewährleisten das ein Raum auch tatsächlich frei ist wenn dem Benutzer dieser ausgegeben wird. (andere benutzer blockieren den raum z.b. weil er nicht abgeschloßen ist)
 
 
 <!-- auflistung von Risiken -->

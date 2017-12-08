@@ -1,6 +1,6 @@
 # Anwendungsfälle (Task Modeling)
 
-### Aufgaben
+## Aufgaben
 
 * Benutzeraufgaben
     - Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.
@@ -27,7 +27,47 @@
     - Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.
     - Der Administrator möchte Informationen über einen bestehenden Raum im System abändern.
 
-### Essential Use Cases
+## Essential Use Cases
+
+#### Administratoraufgaben
+
+__Der Administrator möchte einen Raum im System hinzufügen.__  
+*addRoom* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte einen Raum aus dem System entfernen.__  
+*deleteRoom* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.__  
+*addRoomInformations* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte Informationen über einen bestehenden Raum im System abändern.__  
+*updateRoomInformations* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+#### Benutzeraufgaben
 
 __Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.__  
 *searchingStandardRoom* 
@@ -39,7 +79,7 @@ __Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.__
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.__
+__Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.__   
 *searchingSilentRoom*
 
 | User Intention | System Responsibility |
@@ -49,7 +89,7 @@ __Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.__
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer sucht einen Raum für mehrere Personen.__
+__Der Benutzer sucht einen Raum für mehrere Personen.__   
 *searchingRoomForSeveralPersons*
 
 | User Intention | System Responsibility |
@@ -60,7 +100,7 @@ __Der Benutzer sucht einen Raum für mehrere Personen.__
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann.__
+__Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann.__   
 *searchingSeveralRoomsForSeveralPersons*
 
 | User Intention | System Responsibility |
@@ -71,7 +111,7 @@ __Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen 
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann.__
+__Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann.__   
 *searchingRoomWithSpecificEquipment*
 
 | User Intention | System Responsibility |
@@ -82,7 +122,7 @@ __Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen ka
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann.__
+__Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann.__   
 *searchingRoomWithSpecificSize*
 
 | User Intention | System Responsibility |
@@ -93,7 +133,7 @@ __Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe 
 |   | Raumnummer zurückgeben |
 
 
-__Der Benutzer möchte einen freien Raum für einen bestimmten Zeitraum für andere Benutzer sperren.__
+__Der Benutzer möchte einen freien Raum für einen bestimmten Zeitraum für andere Benutzer sperren.__   
 *lockRoom*
 
 | User Intention | System Responsibility |
@@ -104,7 +144,7 @@ __Der Benutzer möchte einen freien Raum für einen bestimmten Zeitraum für and
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte einen freien Raum für eine bestimmte Zeitspanne reservieren.__
+__Der Benutzer möchte einen freien Raum für eine bestimmte Zeitspanne reservieren.__   
 *reservateGivenRoom*
 
 | User Intention | System Responsibility |
@@ -115,7 +155,7 @@ __Der Benutzer möchte einen freien Raum für eine bestimmte Zeitspanne reservie
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne buchen.__
+__Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne buchen.__   
 *bookGivenRoom*
 
 | User Intention | System Responsibility |
@@ -126,7 +166,7 @@ __Der Benutzer möchte einen freien Raum für eine bestimmte Zetspanne buchen.__
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte einen von ihm gesperrten Raum wieder freigeben.__
+__Der Benutzer möchte einen von ihm gesperrten Raum wieder freigeben.__   
 *unlockRoom*
 
 | User Intention | System Responsibility |
@@ -137,7 +177,7 @@ __Der Benutzer möchte einen von ihm gesperrten Raum wieder freigeben.__
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte einen von ihm gefundenen freien Raum buchen.__
+__Der Benutzer möchte einen von ihm gefundenen freien Raum buchen.__   
 *bookSpecificRoom*
 
 | User Intention | System Responsibility |
@@ -148,7 +188,7 @@ __Der Benutzer möchte einen von ihm gefundenen freien Raum buchen.__
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte die Reservierung für einen von ihm reservierten Raum stornieren.__
+__Der Benutzer möchte die Reservierung für einen von ihm reservierten Raum stornieren.__   
 *cancelRoomReservation*
 
 | User Intention | System Responsibility |
@@ -159,7 +199,7 @@ __Der Benutzer möchte die Reservierung für einen von ihm reservierten Raum sto
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum stornieren.__
+__Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum stornieren.__   
 *cancelRoomBooking*
 
 | User Intention | System Responsibility |
@@ -170,7 +210,7 @@ __Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum stornieren.
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern.__
+__Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern.__   
 *extendRoomBooking*
 
 | User Intention | System Responsibility |
@@ -181,7 +221,7 @@ __Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern
 |   | Statusmeldung zurückgeben |
 
 
-__Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.__
+__Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.__   
 *checkRoomStatus*
 
 | User Intention | System Responsibility |
@@ -192,12 +232,51 @@ __Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht 
 |   | Statusmeldung zurückgeben |
 
 
-### Concrete Use Cases
+## Concrete Use Cases
 ___
 <span style="color:red;">TODO</span>
 <!-- TODO: Conrete use Cases müssen mehr die Tätigkeit beschreiben die der nutzer macht. "Benutzer startet die app".... SIEHE Use cases von Robert -->
 ___
+#### Administratoraufgaben
 
+__Der Administrator möchte einen Raum im System hinzufügen.__  
+*addRoom* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte einen Raum aus dem System entfernen.__  
+*deleteRoom* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.__  
+*addRoomInformations* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+__Der Administrator möchte Informationen über einen bestehenden Raum im System abändern.__  
+*updateRoomInformations* 
+
+| User Intention | System Responsibility |
+| ---------------| --------------------- |
+|   |  |
+|   |  |
+|   |  |
+
+
+#### Benutzeraufgaben
 
 __Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.__  
 *searchingStandardRoom* 

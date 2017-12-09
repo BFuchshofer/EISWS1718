@@ -17,7 +17,9 @@ abgeändert werden kann.
 ### Interface Content Modeling (ARBEITSTITEL)
 
 Sinn der Content-List ist es eine übersichtliche Auflistung der verschiedenen
-"interaction spaces" mit ihren zugehörigen Inhalten zu erstellen.
+Dialoge mit ihren zugehörigen Inhalten zu erstellen. Für dieses Projekt wurden
+die "interaction spaces" der Content List hinzugefügt um eine bessere zuordnung
+der Dialoge zu ermöglichen.
 Ein "interaction space" wird dabei in die verschiedenen Dialoge aufgeteilt.
 Im Falle dieses Projektes werden die Interaction spaces *userSpace*,
 *managementSpace*, *adminSpace* und *staffSpace* mit ihren Dialogen
@@ -93,42 +95,28 @@ __staffSpace__
 
 ___
 
-__roomSuggestion__  
+#### Benutzeraufgaben Content Model
 
-| User                                      | System                |
-|:------------------------------------------|----------------------:|
-| *optional* Raumspezifikationen definieren |                       |
-| Vorschlag anfragen                        |                       |
-|                                           | Vorschlag anzeigen    |
+| Use Case  | Tools and Materials   | Funktionen und Operatoren     |
+|:----------|:---------------------:|------------------------------:|
+|  1 - 6    | roomNumber            |
+|           | Filter für Raumeigenschaften |
+|  7 - 9    | roomNumber            |
+|           | duration              |
+| 10 - 13   | roomNumber            |
+| 14        | roomNumber            |
+| 15        | Suche nach Raumnummer |
+|           | isBlocked             |
 
-__roomReservation__  
+#### Adminaufgaben Content Model
 
-| User                                      | System                |
-|:------------------------------------------|----------------------:|
-| Raum auswählen                            |                       |
-| Raum reservieren                          |                       |
-|                                           | Restliche Reservierungsdauer anzeigen  |
-| *optional* Reservierung Abbrechen         |                       |
-|                                           | verlassen             |
+| Use Case  | Tools and Materials   |
+|:----------|----------------------:|
+|  1 - 2    | Name des Systems oder Teil Systems |
+|  3        | Liste mit benötigten Rauminformationen |
+|  4        | roomNumber            |
+|  5 - 6    | im System vorhandene Rauminformationen incl. roomNumber |
 
-__roomUserVerification__  
-
-| User                                      | System                |
-|:------------------------------------------|----------------------:|
-| für die Raum Nutzung verifizieren         |                       |
-|                                           | Ergebnis anzeigen     |
-| wiederholen bis verifiziert               |                       |
-|       oder Abbrechen                      |                       |
-|                                           | verlassen             |
-
-__roomBooking__  
-
-| User                                      | System                |
-|:------------------------------------------|----------------------:|
-| Raum buchen                               |                       |
-|                                           | Restliche Buchungsdauer anzeigen |
-| *optional* Buchung Abbrechen              |                       |
-|                                           | verlassen    |
 
 #### Context Navigation Map
 

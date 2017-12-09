@@ -13,6 +13,7 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
 - Das System liefert einen freien Raum nicht in absehbarer Zeit.
 - Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
 - Es lässt sich nicht gewährleisten das ein Raum auch tatsächlich frei ist wenn dem Benutzer dieser ausgegeben wird. (andere benutzer blockieren den raum z.b. weil er nicht abgeschloßen ist)
+- Kruskal Algorithmus lässt sich nicht implementieren
 
 
 <!-- auflistung von Risiken -->

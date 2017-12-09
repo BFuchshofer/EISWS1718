@@ -1,10 +1,11 @@
 # Verteilte Anwendungslogik
 ### Einleitung
 
+<!--
 ### Client
 * automatisierte Standortbestimmung mit visueller Anzeige des aktuellen Standortes.
-<!-- oder ist das  nur I/O? -->
-
+    - oder ist das  nur I/O?
+-->
 
 ### Server
 * qualitative Verarbeitung der Rauminformationen

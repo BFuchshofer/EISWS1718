@@ -19,9 +19,9 @@
     - Der Benutzer möchte die Buchung für einen von ihm gebuchten Raum verlängern.
     - Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.   
 
-* Adminaufgaben
-    - Der Administrator möchte das System starten.
-    - Der Administrator möchte das System stopen.
+* Administratoraufgaben
+    - (Der Administrator möchte das System starten.)
+    - (Der Administrator möchte das System stopen.)
     - Der Administrator möchte einen Raum im System hinzufügen.
     - Der Administrator möchte einen Raum aus dem System entfernen.
     - Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.

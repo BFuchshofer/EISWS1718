@@ -18,12 +18,12 @@
 #### Deskriptiv <!-- oder deskriptiv vor den gestalltungslösungen? ändert sich ja nicht -->
 ![deskriptiv Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/notizen/MS2_notizen/imgs/deskriptiv_architektur.png)  
 #### Präskriptiv
-![präskiptives Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/notizen/MS2_notizen/imgs/präskriptiv_architektur.png)  
+![präskiptives Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/pr%C3%A4skriptiv_architektur.PNG)  
 
 ## Kommunikation des Systems
 ### Kommunikation der Komponenten
 #### Deskriptiv <!-- oder deskriptiv vor den gestalltungslösungen? ändert sich ja nicht -->
-![deskriptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/notizen/MS2_notizen/imgs/deskriptiv_kommunikation.png)  
+![deskriptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/deskriptiv_kommunikation.PNG)  
 #### Präskriptiv
 ![präskiptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/kommunikationsdiagramm_v3.png)  
 ### Kommunikation mit dem Benutzer
@@ -31,8 +31,99 @@
 #### Präskriptiv
 
 
-## Datenstruktur
-
+## Datenstruktur/Informationen
+* Benutzerinformationen
+    - (Lehreinrichtungs )Email
+    - Status im Bezug auf die Lehreinrichtung
+        - Zugangsberechtigungen
+* Rauminformationen
+    - Raumnummer/RaumID
+    - Gebäude
+    - Gebäudetrakt
+    - Stockwerk
+    - Gang
+    - Raumtyp (Präsentation/Stilles arbeiten/Gruppenarbeit)
+    - Raumgröße (in Bezug auf max. Personenanzahl)
+    - Rauminhalte
+        - Tische
+            - Anzahl
+            - fest
+            - flexibel
+        - Stühle
+            - Anzahl
+            - fest
+            - flexibel
+        - Stuhltisch
+            - Anzahl
+            - fest
+            - flexibel
+        - Beamer
+            - Anzahl
+            - fest
+            - flexibel
+        - Computer
+            - Anzahl
+            - fest
+            - flexibel
+        - Whiteboard
+            - Anzahl
+            - fest
+            - flexibel
+        - Smartboard
+            - Anzahl
+            - fest
+            - flexibel
+        - Tafel
+            - Anzahl
+            - fest
+            - flexibel
+        - OHP
+            - Anzahl
+            - fest
+            - flexibel
+        - Fernseher
+            - Anzahl
+            - fest
+            - flexibel
+        - Boxen
+            - Anzahl
+            - fest
+            - flexibel
+        - etc. (je nach Lehreinrichtung variabel)
+            - z.B. Spezielles Equipment (Kamera/Tonstudio/Greenscreen/Mischer/besondere Gerätschaften)
+    - Max. Bestuhlung
+* Sonstige Markante Eigenschaften
+    - Gebäude
+        - Gebäudetrakte
+    - Gebäudetrakt
+        - Stockwerke
+    - Stockwerk
+        - Gänge
+    - Gang
+        - Räume
+        - markante Punkte/Eigenschaften
+    - Räume
+        - Raumeigenschaften
+    - Markante Punkte/Eigenschaften
+        - Position Treppenhaus/Treppenhäuser
+        - Position Fahrstuhl/Fahrstühle
+        - Position Ein-/Ausgang/-gänge
+        - Position Notausgang/-gänge
+* Belegungsplan
+    - wöchentlich wiederkehrender Belegungsplan für jeden Raum
+        - für jeden Tag/jede Stunde die Belegung festlegen
+            - Raumnummer/RaumID
+            - Start
+            - Ende
+            - Veranstalltungsname
+            - betreuende Lehrkraft
+    - dynamischer Belegungsplan für jeden Raum
+        - für jeden Tag/jede Stunde die Belegung, je nach aktueller Auslastung festlegen
+            - Raumnummer/RaumID
+            - BenutzerID des Buchers
+            - Anzahl Personen im Raum
+            - Start der Buchung
+            - Ende der Buchung
 
 ## Standortbestimmung des Benutzers
 * BLE Beacons im Gebäude vor jedem Raum/in bestimmten Abstand
@@ -61,6 +152,7 @@
     - dann muss jede Lehreinrichtung individuell berechnet werden
 * es kann keine Metergenaue Angabe gemacht werden, immer nur ungefähre Angaben
 * Zeitersparnis ist auch variabel, je nach Laufgeschwindigkeit/Schrittgröße
+* System bezieht nur die position des Benutzers beim abschicken des Requests ein!
 
 ## Problem - Flexible Räume (Verteilte Anwendungslogik)
 * da Räume Equipment beinhalten kann, das von einem zu einem anderen Raum transportiert wird, wird eine erkennung benötigt.

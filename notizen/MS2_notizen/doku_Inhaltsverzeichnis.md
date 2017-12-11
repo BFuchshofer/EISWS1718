@@ -35,8 +35,8 @@
 - Gestalltungslösungen entwickeln
     - Einleitung
     - 1. Gestalltungslösung
-        - präskriptives Architekturmodell
         - präskriptives Kommunikationsmodell
+        - präskriptives Architekturmodell
         - Komponenten des Systems
         - Datenstruktur
         - UI

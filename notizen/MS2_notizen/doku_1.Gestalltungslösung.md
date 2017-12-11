@@ -205,6 +205,52 @@
     - + Personenerkennung relativ genau
     - - guter PC benötigt (hohe Auslastung durch Bildanalyse)
     - Objekte können das Bild verdecken
+    
+    
+### Raum buchen - Vorgehen
+__1. Der Benutzer steht vor einem vermeintlich freien Raum und möchte diesen belegen.__
+* Anfrage starten indem der Benutzer einen spezifischen Button auf dem Endgerät klickt.
+* Benutzer wird aufgefordert sich der Tür des entsprechenden Raumes zu nähern.
+* Der Minicomputer des Raumes sendet konstant ein BLE Signal mit seiner Raumnummer.
+* Das Endgerät erkennt das Signal des Minicomputer des Raumes und speichert die Raumnummer.
+* Das Endgerät sendet eine Anfrage mit der Raumnummer an den Server und fragt den Status ab.
+* Der Server gibt als Antwort entweder "Raum ist verfügbar" oder "Raum ist nicht verfügbar" zurück.
+* Ist der Raum verfügbar kann der Benutzer über einen Button die Raumbuchung starten.
+* Das Endgerät schickt einen Request an den Server mit der Anfrage auf Raumbuchung und erhhält einen einmalig generierten Schlüßel zurück. Zeitgleich schickt der Server den Schlüßel an den Minicomputer innerhalb des Raumes.
+* Der Benutzer muss sein Endgerät in die Nähe der Tür bewegen, so das der Minicomputer den vom Handy gesendeten Schlüßel erkennen kann.
+* Stimmen die beiden Schlüßel überein, wird der Raum entsperrt.
+* Zeitgleich wird die Raumbuchung durch einen Request an den Server bestätigt und in der DB hinterlegt.
+
+* Smartphone des Benutzers --> Sender und Empfänger über BLE
+    - Sender
+        - sendet den generierten Schlüßel an den Minicomputer
+    - Empfänger
+        - empfängt Raumnummer vom Minicomputer
+        - empfängt Statusmeldung vom Minicomputer
+* Minicomputer --> Sender und Empfänger über BLE
+    - Sender
+        - sendet die Raumnummer seines Raumes an Endgeräte im nahen Umfeld
+        - sendet Status des Vergleichs des Schlüßels an den Benutzer
+    - Empfänger
+        - Empfängt den generierten Schlüßel vom Endgerät des Benutzers um ihn zu vergleichen
+
+
+__2. Der Benutzer hat einen Raumvorschlag und einen Schlüßel vom System erhalten, steht nun vor dem Raum und möchte ihn buchen.__
+* Buchung starten indem der Benutzer einen spezifischen Button auf dem Endgerät klickt.
+* Der Benutzer muss sein Endgerät in die Nähe der Tür bewegen, so das der Minicomputer den vom Handy gesendeten Schlüßel erkennen kann.
+* Stimmen die beiden Schlüßel überein, wird der Raum entsperrt.
+* Zeitgleich wird die Raumbuchung vom Minicomputer durch einen Request an den Server bestätigt und in der DB hinterlegt.
+
+* Smartphone des Benutzers --> Sender und Empfänger über BLE
+    - Sender
+        - sendet den generierten Schlüßel an den Minicomputer
+    - Empfänger
+        - empfängt Statusmeldung vom Minicomputer
+* Minicomputer --> Sender und Empfänger über BLE
+    - Sender
+        - sendet Status des Vergleichs des Schlüßels an den Benutzer
+    - Empfänger
+        - Empfängt den generierten Schlüßel vom Endgerät des Benutzers um ihn zu vergleichen
 
 ## User Interface
 

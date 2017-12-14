@@ -1,7 +1,7 @@
 ### Ziele
 
 #### Einleitung
-Anhand des identifizierten Nutzungsproblems und der ermittelten Alleinstellungsmerkmale, lassen sich konkrete Ziele aufstellen die so ein System  erfüllen muss um einen qualitativen Lösungsansatz zu erzielen.   
+Anhand des identifizierten Nutzungsproblems und des ermittelten Alleinstellungsmerkmals, lassen sich konkrete Ziele aufstellen die so ein System  erfüllen muss um einen qualitativen Lösungsansatz zu erzielen.   
 Die folgenden Ziele sind unterteilt in Strategische, Taktische und Operative Ziele, die zu Teilen wärend des Entwicklungsprozesses gebildet wurden.
 
 #### Strategische Ziele   

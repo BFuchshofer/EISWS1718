@@ -39,8 +39,8 @@
 * Das System muss dem Benutzer die Möglichkeit bieten die Reservierung eines Raumes aufheben.
 * Das System muss dem Benutzer die Möglichkeit bieten die Buchung eines Raumes aufheben.
 * Das System muss dem Benutzer die Möglichkeit bieten die Buchung eines Raumes zu verlängern.
-* Das System sollte einem Administrator die Möglichkeit bieten Räume oder zugehörige Informationen dem System hinzuzufügen.
-* Das System sollte einem Administrator die Möglichkeit bieten 
+* Das System sollte einem Administrator die Möglichkeit bieten neue Räume im System hinzuzufügen.
+* Das System sollte einem Administrator die Möglichkeit bieten bestehende Rauminformationen zu aktuallisieren.
 
 ### Schnittstellenanforderungen <br/>
 * Das System muss fähig sein, Informationen aus einem persistenten Speicher zu beziehen.
@@ -51,6 +51,8 @@
 * Das System muss fähig sein über ein Netzwerk mit anderen Systemkomponenten zu kommunizieren.
 * Das System muss fähig sein Informationen auf Clientseite zu verarbeiten. 
 * Das System muss Informationen in einem persistenten Datenspeicher eindeutig zuordnen können.
+
+* Das System muss 
 
 
 

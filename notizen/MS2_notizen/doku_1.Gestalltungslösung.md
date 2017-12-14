@@ -109,6 +109,20 @@
         - Position Fahrstuhl/Fahrstühle
         - Position Ein-/Ausgang/-gänge
         - Position Notausgang/-gänge
+* Filtermöglichkeiten
+    - Anzahl Personen
+    - Anzahl Räume
+    - Anzahl Sitzmöglichkeiten
+    - Raumtyp
+        - Präsentationsraum
+        - Gruppenarbeitsraum
+        - Vorlesungsraum
+        - PC Raum
+        - stiller Arbeitsraum (Einzelarbeit)
+        - Spezieller Raum  
+            - Raum mit speziellem Equipment
+        - Barierefreiheit
+        - 
 * Belegungsplan
     - wöchentlich wiederkehrender Belegungsplan für jeden Raum
         - für jeden Tag/jede Stunde die Belegung festlegen
@@ -132,6 +146,7 @@
 * Server kann die ID zuordnen und anhand der Entfernung den ungefähren Standort des Benutzers ermitteln.
 * Standort wird an das Endgerät des Benutzers gesand und bei Bedarf in einer Raumanfrage mitgesand
 * Prozess iteriert nach bestimmter Zeit um den aktuellsten Standort festzustellen
+* falls kein Standort gefunden werden kann, wird ein Pseudostandort vorgeschlagen (Eingangshalle, Treppenhaus C, ...)
 
 ## Laufwegoptimierung (Alleinstellungsmerkmal)
 * der Server kann anhand des Standortes des Benutzers und seinen Wünschen einen Raum ausgeben der sich in seiner Nähe befindet.

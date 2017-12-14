@@ -13,15 +13,14 @@
 <!-- MCI -->
 - Stakeholder(analyse)
 - Vorgehensmodell(e)
-- Anforderungsdialog
 - Benutzermodellierung 
-<!-- Reihenfolge: "Benutzer - Anforderungen - Aufgaben" so richtig? -->
+- Benutzungsmodellierung
 - Anforderungen an das System
     - "im späteren Verlauf noch erweitern"
-- Benutzungsmodellierung
 - Content Modelling
 - Operational Modelling <!--wird das benötigt bei uns? -->
 <!-- WBA2 -->
+- 
 - Kommunikationsmodell
     - präskriptives Modell
     - deskriptives Modell
@@ -31,19 +30,7 @@
     - deskriptives Modell
         - alternativen abwägen
 - Datenstruktur
-<!-- Gestalltungslösungen/Ergebnisse -->
-- Gestalltungslösungen entwickeln
-    - Einleitung
-    - 1. Gestalltungslösung
-        - präskriptives Kommunikationsmodell
-        - präskriptives Architekturmodell
-        - Komponenten des Systems
-        - Datenstruktur
-        - UI
-        - Evaluation
-        - Fazit (mit Pro/Con)
-    - 2. Gestalltungslösung
-    - 3. Gestalltung....
+
 <!-- hier noch etwas machen? -->
 - Fazit
     - "Ergebnisse zusammenfassen"

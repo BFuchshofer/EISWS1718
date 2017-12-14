@@ -1,30 +1,5 @@
 # Role Models
 
-### Aktive Nutzer des Systems
-- Lehrkraft
-    - freien Raum
-    - große Räume
-    - spezielle Ausstattung
-    - Sitzplätze
-- Lerner
-    - freien Raum
-    - bestimmte Ausstattung
-    - Sitzplätze (Arbeitsplätze)
-- Wissenschaftlicher Mitarbeiter
-    - freien Raum
-    - spezielle Ausstattung
-    -
-- Institutsverwaltung
-    - freien Raum/freie Räume
-    - Buchung/Reservierung in der Zukunft
-- Administrator
-    - Verwaltung der Datenbank
-    - Verwaltung der Software
-    - Verwaltung des Servers
-- Angestellter (Putzfrau)
-    - belegte Räume
-- Institut (kein direkter Nutzer)
-______________
 ### User Roles
 - __FreeRoomSearcher__
     - häufige Verwendung
@@ -43,27 +18,42 @@ ______________
         - __CasualRoomWithEquipmentSearcher__ (specializes)
             - sucht für sofort einen freien Raum mit gewünschten Rauminhalten
             - sucht Arbeitsmöglichkeiten
-        - __ProfessionalRoomWithEquipmentSearcher__ (specializes)
+        - __RoomWithProfessionalEquipmentSearcher__ (specializes)
             - sucht für sofort einen freien Raum mit gewünschten speziellen Rauminhalten
+        - __SpecificRoomBooker__
+            - direktes buchen eines Raumes
         - __RoomScheduler__ (includes)
             - sucht für einen bestimmten Zeitraum in der Zukunft einen freien Raum
             - verantwortungsbewusste Raumreservierung
 
-- __DBAdministrator__
+- __Administrator__
     - einfache Nutzung
     - effiziente Ausführung der Arbeitsaufgaben
     - fehler analyse
     - hohe Toleranz bezüglich häufig verwendeter Formate
+        - __DBAdministrator__
+            - Verwaltung und Aktuallisierung von Informationen innerhalb eines persistenten Datenspeichers
+        - __ServerAdministrator__
+            - Verwaltung und Wartung des/der Server(s) des Systems
 
-- __Staff__
+- __RoomStatusChecker__
     - einfache Nutzung
     - häufige Verwendung
     - wenige Interaktionsschritte
-    - prüfen ob ein Raum gerade nicht belegt ist.
-        - __MaintainStaff__
-            - blockieren von Räumen für eine bestimmte Zeitspanne
-        - __CleaningStaff__ (resembles)
-            -
+    - den Status eines bestimmten Raumes abfragen
+        - __SpecificRoomBooker__
+            - direktes buchen eines Raumes
+        - __RoomScheduler__
+            - sucht für einen bestimmten Zeitraum in der Zukunft einen freien Raum
+            - verantwortungsbewusste Raumreservierung
+        - __SpecificRoomBlocker__
+            - temporäres blockieren von Räumen zwecks Wartungs-/Reinigungsarbeiten
+                - __CleaningStaff__
+                - __MaintainStaff__
+            
+            
+            
+            
 _______________            
 ### Focal Roles
 *Focal roles are those few user roles judged to be the most common or typical or that are deemed particularly important fromsomeother perspective.*

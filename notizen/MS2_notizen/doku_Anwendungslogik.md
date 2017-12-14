@@ -10,13 +10,26 @@
 ### Server
 * qualitative Verarbeitung der Rauminformationen
     - Raumausgabe in Bezug auf die Position des Benutzers
+    
+
 
 ### Minicomputer
 * erkennen von Rauminhalten die den Raum verlassen oder betreten
 * Aktuallisierungen werden an den Server geschickt und in der DB gespeichert.
 
 
+* Aktuallisierung einer Liste von Rauminhalten
+
+
+### Client 
+* automatische Standortbestimmung des Benutzers wenn die Anwendung gestartet ist
+
+
 ### Fazit - Verteilte Anwendungslogik
+
+
+
+
 
 
 

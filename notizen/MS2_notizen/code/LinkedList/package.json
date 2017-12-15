@@ -1,0 +1,14 @@
+{
+  "name": "linkedlist",
+  "version": "1.0.0",
+  "description": "Test für die LinkedList in Node.js",
+  "main": "LinkedList.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^1.4.1"
+  }
+}

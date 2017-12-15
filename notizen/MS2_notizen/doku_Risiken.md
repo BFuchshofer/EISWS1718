@@ -14,7 +14,8 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
 - Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
 - Es lässt sich nicht gewährleisten das ein Raum auch tatsächlich frei ist wenn dem Benutzer dieser ausgegeben wird. (andere benutzer blockieren den raum z.b. weil er nicht abgeschloßen ist)
 - Kruskal Algorithmus lässt sich nicht implementieren
-
+- Verkettete Liste lässt sich nicht implementieren
+- Inteferenzen stören die Standortbestimmung durch die Beacons
 
 <!-- auflistung von Risiken -->
 

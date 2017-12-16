@@ -1,4 +1,4 @@
-# Role Models
+# Benutzermodellierung
 
 ### User Roles
 - __FreeRoomSearcher__
@@ -6,23 +6,23 @@
     - einfache Nutzung
     - wenige Interaktionsschritte
 
-        - __SilentWorkingRoomSearcher__ (specializes)
+        - __SilentWorkingRoomSearcher__
             - sucht für sofort einen freien Raum
             - sucht stille Arbeitsmöglichkeit
-        - __CasualSingleRoomSearcher__ (specializes)
+        - __CasualSingleRoomSearcher__
             - sucht für sofort einen freien Raum
             - sucht Arbeitsmöglichkeiten für mehrere Personen
-        - __CasualMultiRoomSearcher__ (specializes)
+        - __CasualMultiRoomSearcher__
             - sucht für sofort mehrere freie Räume
             - sucht Arbeitsmöglichkeiten für mehrere Personen
-        - __CasualRoomWithEquipmentSearcher__ (specializes)
+        - __CasualRoomWithEquipmentSearcher__
             - sucht für sofort einen freien Raum mit gewünschten Rauminhalten
             - sucht Arbeitsmöglichkeiten
-        - __RoomWithProfessionalEquipmentSearcher__ (specializes)
+        - __RoomWithProfessionalEquipmentSearcher__
             - sucht für sofort einen freien Raum mit gewünschten speziellen Rauminhalten
         - __SpecificRoomBooker__
             - direktes buchen eines Raumes
-        - __RoomScheduler__ (includes)
+        - __RoomScheduler__
             - sucht für einen bestimmten Zeitraum in der Zukunft einen freien Raum
             - verantwortungsbewusste Raumreservierung
 

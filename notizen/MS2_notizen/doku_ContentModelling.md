@@ -17,105 +17,94 @@ abgeändert werden kann.
 ### Interface Content Modeling (ARBEITSTITEL)
 
 Sinn der Content-List ist es eine übersichtliche Auflistung der verschiedenen
-Dialoge mit ihren zugehörigen Inhalten zu erstellen. Für dieses Projekt wurden
-die "interaction spaces" der Content List hinzugefügt um eine bessere zuordnung
-der Dialoge zu ermöglichen.
+"interaction spaces" mit ihren zugehörigen Inhalten zu erstellen.
 Ein "interaction space" wird dabei in die verschiedenen Dialoge aufgeteilt.
-Im Falle dieses Projektes werden die Interaction spaces *userSpace*,
-*managementSpace*, *adminSpace* und *staffSpace* mit ihren Dialogen
+Im Falle dieses Projektes werden die Interaction spaces *userSpace*, *instituteSpace* and *adminSpace* mit ihren Dialogen
 untergliedert ([siehe Content List]()).  
 Der *userSpace* besteht zum Beispiel aus den folgenden Dialogen:
 
-* Room Suggestion Dialogue
-* Room Reservation Dialogue
-* Room Booking Dialogue
-* Room User Verification Dialogue
-* Room Cancel Reservation Dialogue
-* Room Cancel Booking Dialogue
+* Start Dialogue
+* Filter Dialogue
+* Reservation Dialogue
+* Multi Reservation Dialogue
+* Booking Dialogue
+* Multi Booking Dialogue
 
 Der erste Teil der Dialogbezeichnung wurde so gewählt das durch diesen
-verdeutlicht wird, welche Informationen während diesem verarbeitet werden.
-So sind die Dialoge welche mit "Room" beginnen Dialoge über die ein Benutzer
-mit einem im System gespeicherten Raum interagieren kann.  
-Die Dialoge können wiederum durch Inhalte untergliedert werden. Dabei wurde in
-diesem Projekt darauf geachtet das nur zwingend Notwendige Inhalte eingetragen
-wurden, damit so wenig für das endgültige Aussehen, sowie den Aufbau des
-Interfaces vorgegeben bzw. festgelegt wird.
+verdeutlicht wird, welche Aktion diesem Dialog vorausgegangen ist. Der Dialog
+__Reservation Dialogue__ beschreibt zum Beispiel den Context den der Benutzer
+sieht, nachdem er erfolgreich einen Raum reserviert hat.
+Die Dialoge werden weiterhin durch benötigte Inhalte erweitert und untergliedert.
+Dabei wurde in diesem Projekt darauf geachtet, dass so wenig endgültige
+Designeigenschaften der Elemente vorgegeben werden.
 
 #### Content List
 __userSpace__  
-    __Room Suggestion Dialogue__  
-        *roomNumber*  
-            Textfeld welches die Raumnummer des Vorschlages anzeigt.  
-        *filterSelector*  
-            Liste verfügbarer Filtereinstellungen  
-    __Room Reservation Dialogue__  
-        *roomNumber*  
-        *reservationDuration*  
-    __Room Booking Dialogue__  
-        *roomNumber*  
-        *bookingDuration*  
-    __Room User Verification__  
-        *roomNumber*  
-        *userName* or *userEmail*  
-    __Room Cancel Reservation Dialogue__  
-        *roomNumber*  
-    __Room Cancel Booking Dialogue__  
-        *roomNumber*  
-__managementSpace__  
-    __Room Search Dialogue__  
-    __Room Booking Dialogue__  
-        *bookFrom*  
-            Inputfeld für die Uhrzeit und den Tag  
-        *bookTo*  
-            Inputfeld für die Uhrzeit und den Tag  
-    __Room Cancel Booking Dialogue__  
-__adminSpace__  
-    __Room Search Dialogue__  
-    __Room Add Dialogue__  
-        *roomInformation*
-            Liste unbedingt notwendiger Informationen um einen validen Raum dem System hinzuzufügen.  
-    __Room Edit Dialogue__  
-        *roomInformation*  
-            Liste der momentan im System gespeicherten Informationen über einen bestimmten Raum  
-    __Room Delete Dialogue__  
-        *roomNumber*  
-    __Equipment Add Dialogue__  
-    __Equipment Edit Dialogue__  
-    __Equipment Delete Dialogue__  
-__staffSpace__  
-    __Room Search Dialogue__  
-    __Room Block Dialogue__  
-        *roomNumber*  
-        *blockFrom*  
-            Inputfeld für die Uhrzeit und den Tag  
-        *blockTo*  
-            Inputfeld für die Uhrzeit und den Tag  
-    __Room Cancel Block Dialogue__  
+    __Start Dialogue ( Gleicher Startpunkt für userSpace und instituteSpace )__
+        *toolSelection*
+            Eine Auswahl an verfügbaren Funktionen und Tools.
+    __Filter Dialogue__
+        *roomEquipment*
+            Eine Auswahl an möglichem Equipment.
+        *roomProperties*
+            Eine Auswahl an möglichen Raumeigenschaften.
+        *roomSize*
+            Auswahl der Größe des Raumes.
+    __Reservation Dialogue__
+        *roomNumber*
+            Anzeige der Identifikation des reservierten Raumes.
+        *reservationDuration*
+            Anzeige der restlichen Dauer der Reservierung.
+    __Multi Reservation Dialogue__
+        *roomNumberList*
+            Anzeige der Identifikationen der reservierten Räume.
+        *reservationDuration*
+            Anzeige der restlichen Dauer der Reservierungen.
+    __Booking Dialogue__
+        *roomNumber*
+            Anzeige der Identifikation des gebuchten Raumes.
+        *bookingDuration*
+            Anzeige der restlichen Dauer der Buchung.
+    __Multi Booking Dialogue__
+        *roomNumberList*
+            Anzeige der Identifikationen der gebuchten Räume.
+        *bookingDuration*
+            Anzeige der restlichen Dauer der Reservierungen.
 
-___
+__instituteSpace__
+    __Start Dialogue ( Gleicher Startpunkt für userSpace und instituteSpace )__
+        *toolSelection*
+            Eine Auswahl an verfügbaren Funktionen und Tools.
+    __Search Dialogue__
+    __Block Dialogue__
+        *roomNumber*
+            Anzeige der Identifikation des geblockten Raumes.
+        *blockingDuration*
+            Anzeige der restlichen Dauer der Blockung.
 
-#### Benutzeraufgaben Content Model
-
-| Use Case  | Tools and Materials   | Funktionen und Operatoren     |
-|:----------|:---------------------:|------------------------------:|
-|  1 - 6    | roomNumber            |
-|           | Filter für Raumeigenschaften |
-|  7 - 9    | roomNumber            |
-|           | duration              |
-| 10 - 13   | roomNumber            |
-| 14        | roomNumber            |
-| 15        | Suche nach Raumnummer |
-|           | isBlocked             |
-
-#### Adminaufgaben Content Model
-
-| Use Case  | Tools and Materials   |
-|:----------|----------------------:|
-|  1 - 2    | Name des Systems oder Teil Systems |
-|  3        | Liste mit benötigten Rauminformationen |
-|  4        | roomNumber            |
-|  5 - 6    | im System vorhandene Rauminformationen incl. roomNumber |
+__adminSpace__
+    __Start Dialogue__
+        *toolSelection*
+            Eine Auswahl der nur für den Administrator verfügbaren Funktionen und Tools.
+    __Search Dialogue__
+    __Add Room Dialogue__
+        *roomInformationForm*
+            Eine Formular mit notwendigen und optionalen Raumeigenschaften und Rauminformationen.
+    __Edit Room Dialogue__
+        *roomInformationForm*
+            Ein Formular mit allen im System verfügbaren Rauminformationen.
+    __Delete Room Dialogue__
+        *roomNumber*
+            Anzeige der Identifikation des zu löschenden Raumes
+    __Add Equipment Dialogue__
+        *equipInformationForm*
+            Ein Formular mit notwendigen und optionalen Equipmenteigenschaften und Equipmentinformationen.
+    __Edit Equipment Dialogue__
+        *equipInformationForm*
+            Ein Formular mit allen im System verfügbaren Equipmentinformationen.
+    __Delete Equipment Dialogue__
+        *equipID*
+            Anzeige der Identifikation des zu löschenden Equipments.
 
 
 #### Context Navigation Map
@@ -123,3 +112,8 @@ ___
 
 
 ### Fazit - Content Modelling
+
+Die aus dem Content Modelling entstandenen Artefakte können für das
+Interfacedesign verwendet werden, da durch diese die wichtigen Informationen
+und Übergänge zwischen verschiedenen Dialogen aufgezeigt werden. Die Artefakte
+wurden allerdings so wenig vom Endgültigen Design vorgegeben wurde.

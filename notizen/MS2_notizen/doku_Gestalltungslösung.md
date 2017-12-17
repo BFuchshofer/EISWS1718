@@ -304,6 +304,17 @@ Mit dieser Berechnungsmethode für freie Räume in der Nähe des Benutzers kann 
 -->
 
 ## Problem - Flexible Räume (Verteilte Anwendungslogik)
+
+### Einleitung
+Das innerhalb von Räumen befindliche Equipment ist bis auf wenige Ausnahmen in der Regel nicht fest installiert. So hat der Benutzer die Möglichkeit Gegenstände von Raum zu Raum zu tragen um Räume flexibel nutzen zu können. Im System müssen diese verschiebungen von Equipment durch irgendeine Methode vermerkt werden um zu gewährleisten das immer bekannt ist was sich in einem Raum gerade an Ausrüstunge bfeindet. Im folgenden sollen Möglichkeiten diskutiert werden, die zur flexiblen Raumgestalltung eingesetzt werden können.
+
+### 
+Zur Lösung dieses Problems muss innerhalb des Systems eine erkennung erfolgen die die dynamische Equipmentverschiebung erkennen und im System vermerken kann.
+Die einfachste Möglichkeit wäre durch das einbinden des Benutzers anwendbar. Dabei hat der Benutzer die Aufgabe durch eine Interaktion mit dem System Gegenstände die er aus einem Raum entfernt aus dem Inventar des  Raumes auszutragen. Im nächsten Schritt muss er das entwendete Equipment im gewünschten Raum zum Inventar hinzufügen. Die Umsetzung könnte innerhalb eines einfachen Dialogs zwischen Benutzer und System erfolgen indem er den zu entfernenden Gegenstand des Raumes auswählt und durch z.B. einen Button dem System mitteilt das dieser Gegenstand nicht länger teil des Inventar des Raumes ist. Im nächsten Schritt trägt der Benutzer den Gegenstand im Inventar des Zielraums ein.
+Um zu gewährleisten das der Gegenstand im gewünschten Zielraum auch wieder eingetragen wird sollte ein durchgehender Prozess dafür sorgen das der Benutzer nach dem Austragen eines Gegenstandes aus einem Raum als nächsten Schritt zwingend das erneute eintragen des Gegenstandes in einem Raum vornehmen muss. Andernfalls besteht die Möglichkeit das ein Gegenstand aus dem System verschwindet und nicht mehr auffindbar ist.
+Die Möglichkeit den Benutzer für diese Aufgabe einzubeziehen halten wir allerdings nicht für optimal, da der Benutzer zusätzliche Interaktionsschritte unternehmen muss um dieses Ziel zu erreichen. Eine automatisierte Möglichkeit ohne den Benutzer zusätzlich zu belasten wäre zu bevorzugen.
+Nach einer Recherche zum Thema Gegenstanderkennung bzw zurodnung sind wir auf die RFID-Technologie (Radio Frequency Identification) gestoßen. Durch das markieren von Gegenständen und dem anbringen eines Sensors lassen sich Gegenstände über die RFID-Technik erkennen. Um dieses Prinzip umzusetzen muss jeder Gegenstand der relevant für das System ist einen RFID Sender besitzen. Es gibt verschiedene RFID Sender die für unterschiedliche Einsatzzwecke geeigent sind. In unserem Kontext wäre eine Möglichkeit ideal die ohne interne Stromversorgung auskommt, da es Umständlich wäre bei jedem Gegenstand eine interne Batterie zu wechseln sobald diese leer ist. Diese passiven RFID-Sender funktionieren über ein Magnetfeld das durch den Empfängersensor aufgebaut wird.
+
 * da Räume Equipment beinhalten kann, das von einem zu einem anderen Raum transportiert wird, wird eine erkennung benötigt.
 * Erkennung über passive RFID Aufkleber
 * aktive Aufkleber benötigen Batterie, Auswechseln dieser wäre bei der Menge nicht vertretbar

@@ -1,1 +1,90 @@
-test
+% Vorlage von Stefan Macke ----------------------------------------------------
+% Als Vorlage für diese Projektdokumentation wurde die Vorlage:
+% 'LaTeX-Vorlage zur IHK Projektdokumentation für Fachinformatiker Anwendungsentwicklung'
+% von Stefan Macke, zu finden unter http://fiae.link/LaTeXVorlageFIAE, verwended und für
+% den Zweck unseres Projektes und der TH Köln angepasst.
+%
+% Es wurden lediglich die Strukturierung des Arbeitsordners und einige strukturelle
+% Dokumentations Dateien, wie z.B.: abkuerzungen.tex oder befehle.tex sowie der grundsätzliche
+% Stil des dokuments übernommen und unseren Bedürfnisse entsprechend angepasst.
+% -----------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------
+% Autoren dieser Projektdokumentation:
+% Bastian Fuchshofer 	( Matrikel-Nummer: )
+% Niklas Fonseca Luis 	( Matrikel-Nummer: )
+%
+% Struktur und Stil auf Basis der Vorlage von Stefan Macke ( http://fachinformatiker-anwendungsentwicklung.net )
+% Permalink zur Vorlage: http://fiae.link/LaTeXVorlageFIAE
+% -----------------------------------------------------------------------------
+
+\documentclass[
+	ngerman,
+	toc=listof, % Abbildungsverzeichn is sowie Tabellenverzeichnis in das Inhaltsverzeichnis aufnehmen
+	toc=bibliography, % Literaturverzeichnis in das Inhaltsverzeichnis aufnehmen
+	footnotes=multiple, % Trennen von direkt aufeinander folgenden Fußnoten
+	parskip=half, % vertikalen Abstand zwischen Absätzen verwenden anstatt horizontale Einrückung von Folgeabsätzen
+	numbers=noendperiod % Den letzten Punkt nach einer Nummerierung Entfernen ( nach DIN 5008 )
+]{scrartcl}
+\pdfminorversion=5 % erlaubt das Einfügen von pdf-Dateien bis Version 1.7, ohne eine Fehlermeldung zu werfen ( keine Garantie für fehlerfreies Einbetten! )
+\usepackage[utf8]{inputenc} % muss als erstes eingebunden werden, da Meta/Packages ggfs. Sonderzeichen enthalten
+
+\input{meta} % Metadaten zu diesem Dokument ( Autor usw. )
+\input{Allgemein/packages} % verwendete Packages
+\input{Allgemein/seitenstil} % Definitionen zum Aussehen der Seiten
+\input{Allgemein/befehle} % eigene allgemeine Befehle, die z.B. die Arbeit mit LaTeX erleichtern
+\input{befehle} % eigene projektspezifische Befehle, z.B. Abkürzungen usw.
+
+\begin{document}
+
+\phantomsection
+\thispagestyle{plain}
+\pdfbookmark[1]{Deckblatt}{deckblatt}
+\input{deckblatt}
+\cleardoublepage
+
+% Preface ---------------------------------------------------------------------
+\phantomsection
+\pagenumbering{Roman}
+\pdfbookmark[1]{Inhaltsverzeichnis}{inhalt}
+\tableofcontents
+\cleardoublepage
+
+\phantomsection
+\listoffigures
+\cleardoublepage
+
+\phantomsection
+\listoftables
+\cleardoublepage
+
+\phantomsection
+\lstlistoflistings
+\cleardoublepage
+
+\newcommand{\abkvz}{Abkürzungsverzeichnis}
+\renewcommand{\nomname}{\abkvz}
+\section*{\abkvz}
+\markboth{\abkvz}{\abkvz}
+\addcontentsline{toc}{section}{\abkvz}
+\input{abkuerzungen}
+\clearpage
+
+% Inhalt ----------------------------------------------------------------------
+\pagenumbering{arabic}
+\input{inhalt.tex}
+
+% Literatur -------------------------------------------------------------------
+\clearpage
+\renewcommand{\refname}{Literaturverzeichnis}
+\bibliography{bibliographie}
+\bibliographystyle{Allgemein/natdin} % DIN-Stil des Literaturverzeichnisses
+%\input{erklaerung}
+
+% Anhang ----------------------------------------------------------------------
+\clearpage
+\appendix
+\pagenumbering{arabic}
+\input{anhang}
+
+\end{document}

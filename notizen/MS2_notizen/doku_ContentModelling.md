@@ -16,7 +16,7 @@ abgeändert werden kann.
 
 ### Interface Content Modeling (ARBEITSTITEL)
 
-Sinn der Content-List ist es eine übersichtliche Auflistung der verschiedenen
+Sinn der Content List ist es eine übersichtliche Auflistung der verschiedenen
 "interaction spaces" mit ihren zugehörigen Inhalten zu erstellen.
 Ein "interaction space" wird dabei in die verschiedenen Dialoge aufgeteilt.
 Im Falle dieses Projektes werden die Interaction spaces *userSpace*, *instituteSpace* and *adminSpace* mit ihren Dialogen
@@ -109,6 +109,15 @@ __adminSpace__
 
 #### Context Navigation Map
 
+Als Erweiterung zur Content List wurde eine [Context Navigation Map erstellt]().
+Diese verdeutlicht die Übergänge zwischen den einzelnen Dialogen. In diese
+Context Navigation Map wurden Vorschläge für verschiedene
+Interaktionsmöglichkeiten eingetragen. So kann die Beschriftung __[Buchen]__ an
+einem Übergang im späteren Projekt durch einen Button mit der Beschriftung
+"Buchen" umgesetzt werden. Bei diesen Beschriftungen handelt es sich allerdings
+nur um einen Vorschlag und keinen fertigen Entwurf, d.h. die Interaktion bzw.
+der Übergang kann nach dem Interfacedesign auch durch eine andere Aktion
+aktiviert werden.
 
 
 ### Fazit - Content Modelling

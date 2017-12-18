@@ -12,7 +12,6 @@
 * Das System muss Benutzereingaben verarbeiten können.
 * Das System muss Benutzereingaben auswerten können.
 * Das System muss anhand von ihm zur Verfügung stehenden Daten eine Raumauswahl treffen können.
-<!--* Das System muss anhand von Benutzerspezifizierten Eingaben und im System definierten Kriterien eine Raumauswahl treffen können. -->
 * Das System muss gewährleisten das Lerner nur einen Raum gleichzeitig reservieren können.
 * Das System muss gewährleisten das Lerner nur einen Raum gleichzeitig belegen können.
 * Das System sollte die Möglichkeit bieten das Lehrkräfte mehrere Räume reservieren können.
@@ -21,10 +20,9 @@
 * Das System sollte die Möglichkeit bieten das die Institut-Verwaltung mehrere Räume gleichzeitig belegen kann.
 * Das System sollte die Möglichkeit bieten Benutzergruppen anhand von bestimmten Merkmalen zu unterscheiden.
 * Das System sollte die Möglichkeit bieten Eingaben von unterschiedlichen Benutzergruppen zu verarbeiten. 
-* Das System sollte die Möglichkeit bieten Lerner eine Raumverlängerung nach Ablauf eines vordefinierten Zeitraums zu ermöglichen.
-
+* Das System sollte die Möglichkeit bieten Benutzern eine Verlängerung der Raumbuchung nach Ablauf eines vordefinierten Zeitraums zu ermöglichen.
 * Das System muss die Möglichkeit besitzen den aktuellen Standort des Benutzers zu bestimmen.
-
+* Das System muss eine Überprüfung von aktuell vorhandenem Raumequipment innerhalb eines Raumes ermöglichen.
 
 
 
@@ -52,7 +50,6 @@
 * Das System muss fähig sein Informationen auf Clientseite zu verarbeiten. 
 * Das System muss Informationen in einem persistenten Datenspeicher eindeutig zuordnen können.
 
-* Das System muss 
 
 
 
@@ -60,13 +57,12 @@
 * Das System muss dem Benutzer jederzeit die Korrektheit der präsentierten Informationen gewährleisten.
 * Das System sollte dem Benutzer den Zugriff in Echtzeit auf die verfügbaren Informationen ermöglichen.
 * Das System muss administrativ verwaltbar sein.
-* (Das System sollte eine Synchronisation zwischen unterschiedlichen Nutzungsschnittstellen erlauben.)
 * Das System sollte dem Benutzer eine informative Rückmeldung über seine getätigten Interaktionen geben.
 <!-- * Das System muss dem Benutzer eine einfache Konfiguration auf seinem Endgerät ermöglichen. -->
 * Das System muss dem Benutzer eine einfache Konfiguration auf seinem Endgerät ermöglichen (weniger als 5 Arbeitsschritte).
 * Das System muss dem Benutzer die Gültigkeit einer von ihm getätigten Interaktion garantieren.
-* Das System sollte auf dem Endgerät des Benutzers <span style="color:cyan">möglichst wenig Speicherplatz</span> benötigen.
-* Das System muss für den Benutzer in einer portablen Form vorliegen.
+* Das System sollte auf dem Endgerät des Benutzers maximal 100MB Speicherplatz benötigen.
+* Die Schnittstelle des Systems muss für den Benutzer in einer portablen Form vorliegen.
 * Das System muss für den Benutzer einfach zu erlernen sein.
 * Das System sollte Fehlermeldungen eindeutig beschreiben.
 * Das System sollte dem Benutzer alle benötigten Funktionen zur Aufgabenerledigung zur verfügung stellen.
@@ -89,9 +85,6 @@ ___
 * Das System muss bis zum 28.01.2018, 23:59 Uhr fertiggestellt sein.
 
 
-# Zu Klären
-* UI für verschiedene Benutzergruppen als Anforderunge formulieren?
 
 
-
-stand 02.12.2017
+stand 17.12.2017

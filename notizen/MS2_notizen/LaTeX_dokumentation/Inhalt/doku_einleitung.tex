@@ -1,0 +1,422 @@
+% !TEX root = ../projektdokumentation.tex
+\section{Einleitung}
+\label{sec:Einleitung}
+
+Der Faktor Zeit spielt in vielen Lebenslagen eine entscheidende Rolle! Sei es
+die Einhaltung von Fristen für Abgaben von Dokumentationen, Präsentationen oder
+entwickelten Produkten, die genaue Dokumentation von geleisteten Arbeitsstunden
+oder der Wegstrecke die zurückgelegt werden muss, um von Punkt A nach Punkt B
+zu gelangen. In vielen Bereichen ist es wichtig Zeit einzusparen, da Zeit
+bekanntermaßen Geld ist. In nicht gewerbstätigen Bereichen ist der Faktor Zeit
+dahingehend wichtig, da mit mehr Zeit auch mehr Aktivitäten ausgeführt werden
+können. Es liegt also nahe, auch in diesen Bereichen die verfügbare Zeit zu
+optimieren. Ein Punkt an dem dieses Projekt anknüpfen soll, ist das schnelle
+und unkomplizierte finden von Räumen die den Erfordernissen und Erwartungen
+einer Person oder Personengruppe entsprechen.
+
+
+\section{Nutzungsproblem}
+\label{sec:Nutzungsproblem}
+
+Um die Belegungen von Räumen zu verwalten, benutzen die meisten Unternehmen und
+Organisationen den klassischen Belegungsplan der sich vor jedem Raum befindet,
+indem sich Mitarbeiter oder andere Personen über die Belegung von bestimmten
+Räumen informieren können. Dieser Belegungsplan ist meist eine auf Papier
+gedruckte Tabelle mit den Tagen und Uhrzeiten wann dieser Raum von wem
+offiziell belegt ist. Daraus lässt sich dann ableiten, wann ein Raum nicht
+belegt, und theoretisch von anderen Personen genutzt werden kann. Allerdings
+sind in diesen Plänen in der Regel nur fest definierte Belegungen, die oft
+wöchentlich wiederkehren, verzeichnet. Dynamische Nutzungen eines Raumes lassen
+sich daraus meist nicht ableiten. Die logischste Möglichkeit herauszufinden, ob
+ein Raum leer ist, ist natürlich diesen einfach zu öffnen und nachzuschauen.
+Dies setzt allerdings voraus, dass man sich bereits vor solch einem
+entsprechenden Raum befindet. Um auch Personen die Raumsuche zu ermöglichen,
+die sich nicht zufällig in einem Gang mit möglichen Arbeitsräumen befinden,
+oder vor einem entsprechenden Raum stehen, wird ein System benötigt, dass über
+Entfernung überprüft, ob ein Raum zur Verfügung steht oder nicht. Um den Faktor
+Zeit ins Spiel zu nehmen, wird ein System benötigt, dass in Abhängigkeit der
+aktuellen Position des Benutzers einen freien Raum angibt, der sich in der Nähe
+des Benutzers befindet. Muss man sich erst in ein Gebäude, Stockwerk oder Gang
+begeben um Informationen über den Status eines Raumes einzuholen, wird Zeit in
+Form von zusätzlichen Laufwegen verschwendet, da die Möglichkeit besteht, dass
+kein Raum in diesem Gebäude aktuell zur Verfügung steht und man so andere
+Bereiche aufsuchen muss. Neben einer Zeitersparnis eliminiert man außerdem den
+Störfaktor der entsteht wenn eine nach einen freien Raum suchende Person einen
+Raum betritt in dem bereits gearbeitet wird. Die Möglichkeit bei der Raumsuche
+Zeit zu sparen, die man somit für wichtige Arbeiten verwenden kann, ist also
+durchaus relevant um effektiver arbeiten zu können.   
+In diesem Projekt soll es um die Einsparung von Zeit in Form von verkürzten
+Laufwegen bzw. einer verkürzten Suchzeit für einen Raum gehen.
+
+
+\section{Technologie unabhängiger Lösungsvorschlag}
+\label{sec:Technologie unabhängiger Lösungsvorschlag}
+
+Um dem Problem der spontanen und unstrukturierten Raumbelegung entgegen zu
+wirken ist ein System nötig, welches sowohl die verfügbaren Räume, als auch
+wöchentlich wiederkehrende und spontane Belegungen aufnimmt, um damit einer
+Person oder Personengruppe auf Raumsuche einen Raum vorzuschlagen. Dieser
+Raumvorschlag sollte in Abhängigkeit der aktuellen Position des Benutzers
+erfolgen, um einen kurzen Laufweg gewährleisten zu können. Das System muss den
+Standort des Benutzers automatisch ermitteln und die Berechnung des
+Raumvorschlages einbeziehen können. 
+Der Benutzer sollte dabei die Möglichkeit haben sich aus der Ferne über den
+Status eines Raumes informieren zu können.
+Bei Bedarf sollte die Möglichkeit bestehen diesen Raum für eine bestimmte
+Zeitspanne zu buchen, damit gewährleistet wird das kein anderer Benutzer diesen
+Raum für seine Zwecke verwendet.
+Dabei sollte darauf geachtet werden, dass der vorgeschlagene Raum auch dem
+Vorhaben der Person genügt. Eventuelle Bedürfnisse über die Rauminhalte müssen
+dem System vom Benutzer mitgeteilt werden.
+
+
+\section{Ziele}
+\label{sec:Ziele}
+
+\subsection{Einleitung}
+\label{sec:Ziele_Einleitung}
+
+Anhand des identifizierten Nutzungsproblems und des ermittelten
+Alleinstellungsmerkmals, lassen sich konkrete Ziele aufstellen die so ein
+System  erfüllen muss um einen qualitativen Lösungsansatz zu erzielen.   
+Die folgenden Ziele sind unterteilt in strategische, taktische und operative
+Ziele, die zu Teilen wärend des Entwicklungsprozesses gebildet wurden.
+
+\subsection{Strategische Ziele}
+\label{sec:Strategische Ziele}
+
+\begin{itemize}
+	\item Das fertige System in unserem Projekt \textbf{muss} es dem Benutzer
+	ermöglichen innerhalb von 30 Sekunden einen freien Raum zu erhalten der
+	den Erfordernissen des Benutzers entspricht.
+	\item Dabei \textbf{muss} das System alle zugänglichen Räume innerhalb
+	der Lehreinrichtung in Echtzeit adressieren und verwalten können.\\
+	\textit{04.12.2017}\\
+	\item Außerdem \textbf{muss} das System Gegenstände die sich in einem Raum
+	befinden und diesen charakterisieren erkennen, adressieren und verwalten
+	können.
+\end{itemize}
+
+\subsection{Taktische Ziele}
+\label{sec:Taktische Ziele}
+
+\begin{itemize}
+	\item Um eine effektive Raumsuche gewährleisten zu können \textbf{muss} der
+	Standort des Benutzers in die Raumauswahl mit einbezogen werden.
+\end{itemize}
+
+\subsection{Operative Ziele}
+\label{sec:Operative Ziele}
+
+\begin{itemize}
+	\item Der Benutzer \textbf{muss} eine Auswahl an benötigten Gegenständen
+	treffen, die in die Raumsuche mit einbezogen werden.
+	\item Der Standort des Benutzers \textbf{wird} automatisch bestimmt.
+	\item Das Betreten/Verlassen eines Gegenstandes aus/in einen Raum \textbf{muss}
+	vom System erkannt werden.
+	\item Alle für den Raum relevanten Gegenstände \textbf{müssen} markiert werden.
+	\item Vor Betreten eines Raumes \textbf{muss} festgestellt werden ob ein
+	Benutzer eine Aufenthaltsberechtigung hat.
+	\item Falls keine Aufenthaltsberechtigung vorliegt \textbf{muss} eine solche
+	\ggfs vom System beantragt werden.
+\end{itemize}
+
+
+\section{Domänenspezifische Recherche}
+\label{sec:Domänenspezifische Recherche}
+
+\subsection{Einleitung}
+\label{sec:Domänen_Einleitung}
+
+Das beschriebene Problem der dynamischen Raumsuche kann so gut wie in jeder
+Organisation auftreten in der es mehrere Räume gibt, die für unterschiedliche
+Arbeiten genutzt werden können. Vorallem in Organisationen die eine Vielzahl
+von verschiedensten Räumen besitzen, möglicherweise sogar über mehrere Etagen
+oder Komplexe verteilt, ist die Gefahr groß, dass eine arbeitsplatzsuchende
+Person Zeit mit langen Laufwegen verschwendet, da ihr nicht bekannt ist wo sich
+der nächste frei nutzbare Raum befindet. Das Problem nimmt größere Ausmaße an,
+je mehr Personen einen freien Raum suchen.
+
+\subsection{Unternehmen}
+\label{sec:Unternehmen}
+
+Dadurch das große Unternehmen in der Regel auch viele Mitarbeiter beschäftigen,
+und diese Arbeitsmöglichkeiten benötigen, kommt dieser Nutzungsbereich als
+Möglichkeit in Frage. Mitarbeiter brauchen ggf. Räume für Präsentationen mit
+speziellem Equipment wie Beamer oder Whiteboards, oder benötigen einen Raum in
+dem mit mehreren Personen kreativ gearbeitet werden kann. Genauso werden
+Arbeitsmöglichkeiten benötigt, in dem einzelne Personen in Ruhe ihre Arbeit
+erledigen können. In Unternehmen herrscht allerdings meistens eine
+kontrollierte Arbeitsumgebung, wo über den Tag schon geplant wurde, welche
+Personen oder Personengruppen was für Räume oder Equipment benötigen, da in
+Projekten in der Regel ein konkreter Ablauf von Tätigkeiten vorliegt. Außerdem
+werden Arbeitsmöglichkeiten für Mitarbeiter meist dadurch gewährleistet, dass
+sie einen festen Schreibtisch oder Büro besitzen.
+
+\subsection{Fazit - Unternehmen}
+\label{sec:Fazit - Unternehmen}
+
+In großen Unternehmen mit vielen Mitarbeitern besteht in der Theorie ein Bedarf
+an einem System, dass ein besseres Raummanagement und Zeitersparnis liefert,
+allerdings werden diese Faktoren durch die kontrollierte Arbeitsumgebung von
+Unternehmen oft selbst gelöst.
+
+\subsection{Lehreinrichtungen}
+\label{sec:Lehreinrichtungen}
+
+Lehreinrichtungen mit vielen Schülern, Studenten oder Auszubildenden Personen
+sind ein guter Kandidat um eine Lösung für ein solches Nutzungsproblem zu
+finden. Dadurch das Lerner neben festen Veranstaltungen noch beispielsweise
+Gruppenarbeiten oder Stillarbeit erledigen, ergibt sich eine sehr variable
+Anzahl an Personen, die im gleichen Zeitraum einen freien Raum benötigen.
+Die Nutzergruppen beschränken sich also auf die Angestellten und Mitarbeiter
+der Lehreinrichtung, sowie alle Lerner die interessiert an einer Funktion sind,
+die es ihnen ermöglicht, schnell und einfach einen freien Raum zu finden, der
+ihren Ansprüchen genügt.
+Dabei ist nicht nur das finden von freien Räumen sondern, je nach Kontext, die
+Information ob ein Raum gerade belegt ist interessant. Eventuell vorhandenes
+Reinigungs- oder Wartungspersonal kann somit z.B. erfahren, welcher Raum
+aktuell belegt ist um die darin befindlichen Personen nicht zu stören.
+Desweiteren können Mitarbeiter die Wartungsarbeiten innerhalb eines Raumes
+durchführen herrausfinden, wann sie für ihre Arbeiten den Raum belegen und
+nutzen können. Die Laufwege und dadurch das Zeitmanagement von Mitarbeitern
+kann somit ebenfalls optimiert werden.
+
+\subsection{Fazit - Lehreinrichtungen}
+\label{sec:Fazit - Lehreinrichtungen}
+
+Die Anwendungsdomäne der Lehreinrichtungenn mit Fokus auf einer großen
+Personen und Raumanzahl bietet durch die Vielzahl an Bedürfnissen der
+einzelnen Benutzer und der benötigten hohen Produktivität der Arbeiten
+eine gute und sinnvolle Möglichkeit.
+
+\subsection{Fazit zur Domänen spezifischen Recherche}
+\label{sec:Fazit zur Domänen spezifischen Recherche}
+
+Im direkten Vergleich von Unternehmen und Lehreinrichtungen bietet die
+Anwendungsdomäne der Lehreinrichtung mit vielen beteiligten Personen und vielen
+Räumen das ideale Umfeld für ein System, dass den Benutzern dabei hilft Zeit
+bei der Suche nach einem freien Raum zu sparen. Für Lehreinrichtungen mit
+wenigen Räumen und/oder Benutzern, ist dieses System weniger relevant, da eine
+wirkliche Zeitersparnis in den meisten Fällen nicht gewährleistet werden kann.
+
+
+\section{Marktrecherche}
+\label{sec:Marktrecherche}
+
+\subsection{Einleitung}
+\label{sec:Markt_recherheEinleitung}
+
+Schaut man sich im Internet nach Angeboten zu Raumplanungssystemen um, finden
+sich viele Angebote die in diese Richtung gehen. Im Zuge einer Marktrecherche
+wurden verschiedene Anbieter von Raumplanungs-Managementsystemen auf ihre
+angebotenen Funktionalitäten überprüft, Vor- und Nachteile ermittelt und auf
+den benötigten Projektkontext hin verglichen.
+
+\subsection{Locaboo}
+\label{sec:Locaboo}
+
+Locaboo (\citep{Locaboo}) wirbt mit einem Belegungsplan für Sport-,
+Bildungs- und Freizeitstätten. Dabei soll die Softwarelösung aus dem 
+Hause LOY GmbH die Verwaltung von verschiedenen Räumen und Bereichen
+übersichtlich und zeitsparend möglich machen. Genannt werden Funktionen die
+eine effektivere Auslastung der angebotenen Räume oder Bereiche ermöglichen,
+sowie die einfache Vermietung von Ressourcen. Das übersichtliche angebotene
+Dashboard soll eine schnelle und zuverlässige Übersichtsseite der vorhandenen
+Ressourcen, und der Einstellung von Informationen wie Raumdaten oder
+Preisquellen ermöglichen.
+
+\begin{itemize}
+	\item Vorteile:
+		\begin{itemize}
+			\item funktionales und übersichtliches Dashboard
+			\item effektives Raum- und Ressourcenmanagement
+			\item Möglichkeit um für verschiedene Einsatzzwecke Spezialmodule zu buchen
+			\item Möglichkeit Teilflächen von \bspw Räumen zu buchen.
+			\item flexible Abrechnungsmethoden
+			\item Einbindung von Kundenaktivitäten
+		\end{itemize}
+	\item Nachteile:
+		\begin{itemize}
+			\item Fokus auf Verfügbarkeit und Auslastung von Räumen und Ressourcen
+			\item keine flexible Raumsuche in Abhängigkeit des Standortes des Benutzers
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Fazit - Locaboo}
+\label{sec:Fazit - Locaboo}
+
+Diese Softwarelösung ist als ein digitaler Kalender zu sehen der im Prinzip die
+digitalisierte und standortunabhängige Version des Belegungsplanes vor jedem
+Raum darstellt. Es gibt zwar die Möglichkeit schnell und einfach Belegungen
+hinzuzufügen oder zu entfernen, jedoch liegt der Fokus mehr auf der verwaltung
+von Räumen aus Veranstaltersicht, und nicht aus der Sicht der einzelnen Raumnutzer.  
+
+\subsection{INTIME}
+\label{sec:INTIME}
+
+INTIME (\citep{INTIME}) von \textit{COMTEC} bietet ebenfalls die Möglichkeit
+Räume und Gebäude besser verwalten zu können. Dabei bietet es auch neben
+zahlreichen Zusatzfunktionen die für Lehreinrichtungen weniger relevant sind,
+für den einzelnen Benutzer die Möglichkeit schnell einen Raum zu finden der
+seinen Erwartungen und Erfordernissen entspricht.
+
+\begin{itemize}
+	\item Vorteile:
+		\begin{itemize}
+			\item effektives Raum- und Ressourcenmanagement
+			\item Einzelpersonen oder Gruppen können nach einem Raum suchen
+			\item Möglichkeit bestimmte Gegenstände zu einem Raum dazu zu buchen
+			\item Kalenderfunktion
+			\item Bestandsaufnahmen von vorhandener Technik und Ressourcen
+		\end{itemize}
+	\item Nachteile:
+		\begin{itemize}
+			\item keine flexible Raumsuche in Abhängigkeit des Standortes des Benutzers möglich
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Fazit - INTIME}
+\label{sec:Fazit - INTIME}
+
+Die Softwarelösung *INTIME* beschränkt sich auf das Verwalten und Managen von
+Ressourcen. Die Benutzer des Systems sind Personen die auch aktiv einen Raum
+suchen. Ob sich der Raum allerdings in der Nähe des Benutzers oder am anderen
+Ende des Gebäudekomplexes befindet ist nicht ersichtlich. Hier wird der Faktor
+Zeit also nicht vollständig berücksichtigt, der Fokus liegt vielmehr auf der
+Verfügbarkeitsüberprüfung.
+
+\subsection{Online-Raumverwaltung}
+\label{sec:Online-Raumverwaltung}
+
+Die Softwarelösung zur Raumverwaltung der Firma \textit{OMOC interactive} liefert eine
+cloudbasierte Möglichkeit um es dem Benutzer zu ermöglichen, Raumreservierungen
+vorzunehmen. Die Software ist von verschiedenen Endgeräten aus bedienbar und
+bietet alle gebuchten Funktionalitäten komfortabel an. *OMOC interactive* wirbt
+mit einer leichten Integration auf Websites, Outlook und auf Wunsch auch die
+Übernahme von bereits bestehenden Daten in das neue System. Die Software bietet
+eine Verwaltung von Veranstaltungen und Ressourcen ohne Installation und
+Wartungskosten für den Kunden.
+
+\begin{itemize}
+	\item Vorteile:
+		\begin{itemize}
+			\item Verwaltung von komplexen Veranstaltungen
+			\item Planen und abbrechen von Veranstaltungen
+			\item von überall bedienbar
+			\item Cloudbasiert
+			\item Rechnung/Mahnungen mit einem Klick verschicken
+			\item Integration der Software in verschiedene Systeme möglich
+		\end{itemize}
+	\item Nachteile:
+		\begin{itemize}
+			\item keine flexible Raumsuche in Abhängigkeit des Standortes des Benutzers.
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Fazit - Online-Raumverwaltung}
+\label{sec:Online-Raumverwaltung}
+
+Die Funktionen der Online-Raumverwaltung (\citep{OnRaum}) der
+\textit{OMOC interactive} bietet zwar eine praktische und cloudbasierte
+Möglichkeit um Räume für Veranstaltungen zu organisieren und verwalten, hier
+liegt der Fokus aber mehr auf der Vermietung solcher Räume. Der Endbenutzer,
+mit seinem Interesse im kompletten Prozess der Raumsuche Zeit zu sparen, ist
+hier nicht adressiert.   
+
+\subsection{Raumplaner der TH Köln}
+\label{sec:Raumplaner der TH Köln}
+
+Innerhalb der Anwendungsdomäne der Lehreinrichtungen stellt die 
+Technische Hochschule Köln (Campus Gummersbach) ein Online-Tool(\cite{THK-OnlineTool})
+zur Verfügung, mit dem Einsicht in Raumbelegungen innerhalb des Campus
+vorgenommen werden können. Es besteht die Möglichkeit Informationen zu
+bestimmten Räumen einzuholen die unter anderem Belegungen, Zeitrahmen der
+Belegung und Ausstattung des Raumes beinhalten.
+
+\begin{itemize}
+	\item Vorteile:
+		\begin{itemize}
+			\item Übersicht über alle verfügbaren Räume
+			\item bei vielen Räumen Angaben zum Rauminhalt
+			\item Start- und Endzeitpunkt der Belegung
+		\end{itemize}
+	\item Nachteile:
+		\begin{itemize}
+			\item nur wöchentlich wiederkehrende Veranstaltungen
+			\item lediglich eine Digitalisierung der Aushangpläne vor jedem Raum
+			\item keine flexible Raumsuche in Abhängigkeit des Standortes des Benutzers
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Fazit - Online-Tool der TH Köln}
+\label{sec:Fazit - Online-Tool der TH Köln}
+
+Das Online-Tool der TH Köln bietet zwar eine Übersicht über alle vorhandenen
+Räume innerhalb der Lehreinrichtung und liefert in vielen Fällen auch Angaben
+über das Equipment der Räume mit, allerdings sind auch hier keine
+Zeiteinsparungen im kompletten Raumsuchungsprozess möglich. Die dynamische
+Erfassung von Raumbelegungen ist auch hier nicht gewährleistet.
+
+
+\subsection{Fazit zur Marktrecherche}
+\label{sec:Fazit zur Marktrecherche}
+
+Es gibt viele Softwarelösungen für ein besseres Raummanagement, jedoch ist
+keine davon darauf ausgelegt, dem einfachen Benutzer einen freien Raum in
+seiner Nähe anzuzeigen und diesen für ihn zu reservieren / buchen. Fast alle
+gefundenen Lösungen beziehen sich auf die Vermietung von Räumen oder
+Veranstaltungsorten die von einem Unternehmen verwaltet werden.
+Der Anwendungsbereich ist also vorrangig im kommerziellen Bereich. Benutzer
+sind in den meisten Fällen die Unternehmen selbst, die eine Managementfunktion
+benötigen. Dabei bieten aber fast alle Softwarelösungen auch die Möglichkeit
+für einfache Endbenutzer Informationen über einen freien Raum zu bekommen,
+den sie gerade benötigen. Diese Funktionen beschränken sich aber auf den
+Verfügbarkeits-Check eines Raumes, unabhängig vom Standort des Raumes zur
+Person. Den gefundenen Softwarelösungen fehlt somit ein wichtiges Feature um im
+kompletten Prozess der Raumsuche, beginnend bei dem Verfügbarkeitscheck eines
+Raumes, über den Laufweg zu diesem Raum, bis zur tatsächlichen Belegung.
+
+
+\section{Alleinstellungsmerkmale}
+\label{sec:Alleinstellungsmerkmale}
+
+Betrachtet man die identifizierten Konkurenzprodukte, erkennt man das der
+Verfügbarkeitscheck von bestimmten Räumen bei den meisten Produkkten eine
+kleine, wenn auch nicht unbedeutende, Teilfunktion darstellt. Zeit wird nur
+dahingehend eingespart, da man sich schnell und einfach über einen freien Raum
+informieren kann. Die Möglichkeit Zeit zu sparen, indem man kürzere Laufwege
+und Suchzeiten berechnet, ist in keinem der Produkte namentlich erwähnt.
+Unser System wird also genau an diesem Punkt anknüpfen um die gefundenen Lücken
+zu schließen. Konkret bedeutet das, das sich folgendes Alleinstellungsmerkmal
+für unser System im Vergleich zur gefundenen Konkurenz ergibt:
+
+\begin{itemize}
+	\item Zeitersparnis durch insgesamt verkürzte Laufwege und Suchzeiten.
+\end{itemize}
+
+
+\section{Risiken}
+\label{sec:Risiken}
+
+\subsection{Einleitung}
+\label{sec:Risiken_Einleitung}
+
+Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen
+Realisierung des Systems wurden erste Risiken identifiziert. Im Verlauf des
+Projektes wird diese Liste an Risiken bezüglich auf verwendete Technologien
+und neuen Erkentnissen stetig aktualisiert. Da noch keine Technologien
+feststehen die verwendet werden sollen, sind die Risiken aktuell nur auf das
+Projekt als ganzes bezogen. Sobald Technologien feststehen, und sich darauf
+neue Risiken ergeben, wird die Liste im Anhang vervollständigt.
+
+\subsection{Projektrisiken}
+\label{sec:Projektrisiken}
+
+\begin{itemize}
+	\item Benutzer eines Raumes blockieren den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
+	\item Das System liefert einen freien Raum nicht in absehbarer Zeit.
+	\item Das Finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
+	\item Es lässt sich nicht gewährleisten das ein Raum auch tatsächlich frei ist, wenn dem Benutzer
+	dieser ausgegeben wird. ( andere Benutzer blockieren den Raum \zB weil er nicht abgeschlossen ist)
+\end{itemize}

@@ -310,10 +310,10 @@ Das innerhalb von Räumen befindliche Equipment ist bis auf wenige Ausnahmen in 
 
 ### 
 Zur Lösung dieses Problems muss innerhalb des Systems eine erkennung erfolgen die die dynamische Equipmentverschiebung erkennen und im System vermerken kann.
-Die einfachste Möglichkeit wäre durch das einbinden des Benutzers anwendbar. Dabei hat der Benutzer die Aufgabe durch eine Interaktion mit dem System Gegenstände die er aus einem Raum entfernt aus dem Inventar des  Raumes auszutragen. Im nächsten Schritt muss er das entwendete Equipment im gewünschten Raum zum Inventar hinzufügen. Die Umsetzung könnte innerhalb eines einfachen Dialogs zwischen Benutzer und System erfolgen indem er den zu entfernenden Gegenstand des Raumes auswählt und durch z.B. einen Button dem System mitteilt das dieser Gegenstand nicht länger teil des Inventar des Raumes ist. Im nächsten Schritt trägt der Benutzer den Gegenstand im Inventar des Zielraums ein.
+Die einfachste Möglichkeit wäre durch das einbinden des Benutzers möglich. Dabei hat der Benutzer die Aufgabe durch eine Interaktion mit dem System Gegenstände die er aus einem Raum entfernt aus dem Inventar des  Raumes auszutragen. Im nächsten Schritt muss er das entwendete Equipment im gewünschten Raum zum Inventar hinzufügen. Die Umsetzung könnte innerhalb eines einfachen Dialogs zwischen Benutzer und System erfolgen indem er den zu entfernenden Gegenstand des Raumes auswählt und durch z.B. einen Button dem System mitteilt das dieser Gegenstand nicht länger Teil des Inventar des Raumes ist. Im nächsten Schritt trägt der Benutzer den Gegenstand im Inventar des Zielraums ein.
 Um zu gewährleisten das der Gegenstand im gewünschten Zielraum auch wieder eingetragen wird sollte ein durchgehender Prozess dafür sorgen das der Benutzer nach dem Austragen eines Gegenstandes aus einem Raum als nächsten Schritt zwingend das erneute eintragen des Gegenstandes in einem Raum vornehmen muss. Andernfalls besteht die Möglichkeit das ein Gegenstand aus dem System verschwindet und nicht mehr auffindbar ist.
 Die Möglichkeit den Benutzer für diese Aufgabe einzubeziehen halten wir allerdings nicht für optimal, da der Benutzer zusätzliche Interaktionsschritte unternehmen muss um dieses Ziel zu erreichen. Eine automatisierte Möglichkeit ohne den Benutzer zusätzlich zu belasten wäre zu bevorzugen.
-Nach einer Recherche zum Thema Gegenstanderkennung bzw zurodnung sind wir auf die RFID-Technologie (Radio Frequency Identification) gestoßen. Durch das markieren von Gegenständen und dem anbringen eines Sensors lassen sich Gegenstände über die RFID-Technik erkennen. Um dieses Prinzip umzusetzen muss jeder Gegenstand der relevant für das System ist einen RFID Sender besitzen. Es gibt verschiedene RFID Sender die für unterschiedliche Einsatzzwecke geeigent sind. In unserem Kontext wäre eine Möglichkeit ideal die ohne interne Stromversorgung auskommt, da es Umständlich wäre bei jedem Gegenstand eine interne Batterie zu wechseln sobald diese leer ist. Diese passiven RFID-Sender funktionieren über ein Magnetfeld das durch den Empfängersensor aufgebaut wird.
+Nach einer Recherche zum Thema Gegenstanderkennung bzw zurodnung sind wir auf die RFID-Technologie (Radio Frequency Identification) gestoßen. Durch das markieren von Gegenständen und dem anbringen eines Sensors lassen sich Gegenstände über die RFID-Technik erkennen. Um dieses Prinzip umzusetzen muss jeder Gegenstand der relevant für das System ist einen RFID Sender besitzen. Es gibt verschiedene RFID Sender die für unterschiedliche Einsatzzwecke geeigent sind. In unserem Kontext wäre eine Möglichkeit ideal die ohne interne Stromversorgung auskommt, da es Umständlich wäre bei jedem Gegenstand eine interne Batterie zu wechseln sobald diese leer ist. Diese passiven RFID-Sender benötigen zwar ebenfalls Strom um ein Signal mit ihrer eindeutigen ID zu senden, diese wird aber durch den Empfägersensor gestellt. Dabei baut der Empfänger ein Magnetfeld in einem bestimmten Bereich auf. Passiert der passive RFID Sender nun diesen Bereich werden winzige Mengen Strom kontaktlos übertragen so das der Sender ein Signal senden kann. In unserem Kontext muss der Empfänger also im Türbereich angebracht werden, so das gewährleistet werden kann das er alle Gegenstände beim verlassen bzw. betreten erkennen kann. Zusätzlich muss gewährleistet werden das ein Gegenstand nicht ausversehen aus dem Raum ausgetragen wird wenn er in die Nähe des Empfängers kommt. Der Empfangsbereich muss also auf einen bestimmten bereich begränzt werden. Unserer Meinung nach reicht ein schmaler "Empfangsstreifen" der in etwa die Breite eines Türrahmens hat. Damit werden alle Gegenstände erkannt die durch den Türrahmen bewegt werden. Der Magnetfeldsender muss also auf einen Bereich ausgerichtet werden. [Wie?]() Da es verschiedene RFID-Sender gibt die auf den GEgenständen angebracht werden können, müssen sie speziell auf den Anwendungskontext ausgerichtet sein. Die einfachste und auch günstiges Variante wäre ein flacher RFID Sticker der auf jeden Gegenstand geklebt werden kann. Da die Reichweite von solchen Stickern aber begrenzt ist wird ein entsprechend starker Empfänger benötigt um die Sticker zu erkennen.
 
 * da Räume Equipment beinhalten kann, das von einem zu einem anderen Raum transportiert wird, wird eine erkennung benötigt.
 * Erkennung über passive RFID Aufkleber
@@ -434,6 +434,14 @@ werden. Allerdings sollte darauf geachtet werden dass die Bilder nur
 Lokal analysiert werden, danach gelöscht und nur das Ergebnis also
 zum Beispiel "2 Personen" weiterverwendet wird.
 
+### NFC
+Eine weitere Möglichkeit der Benutzererkennung innerhalb von Räumen wären der Einsatz von NFC. 
+Fast jedes neue Smartphone besitzt die Möglichkeit NFC einzusetzen. Bekannt ist diese Methode z.B. durch das Bezahlen bei der z.B. ein Smartphone vor ein Lesegerät gehalten wird womit eine Überweisung getätigt werden kann. Der Vorteil bei dem Prozess ist das sensible Daten nur ausgelesen werden 
+
+
+### BLE Beacons
+Der Einsatz von Beacons wurde bereits bei der Standortbestimmung von Benutzern angesprochen. Ebenfalls anwendbar wäre diese Methode bei der bestimmung von Benutzern innerhalb von Räumen. Es wird also nach dem Standort innerhalb eines bestimmten Bereiches gesucht. Dabei müsste das Endgerät des Benutzers als sendender Beacon umfunktioniert werden und ein Empfängerät scannt innerhalb eines Raumes nach Bluetooth Signalen. Sofern sich innerhalb des Raumes bzw. in einem bestimmten Umkreis des Empfängers Bluetooth Signale empfangen lassen, kann das System davon ausgehen das sich eine oder mehrere Personen im Raum befinden. Sobald das Signal des Benutzers eine bestimmte Entfernung überschreitet, weis das System das dieser Benutzer den Raum vermutlich verlassen hat. Falls das Signal des Benutzers wegen Störungen im Frequenzbereich vorrübergehend nicht erreicht werden kann, sollte das System den Benutzer nicht sofort als nicht mehr vorhanden , bzw. den Raum als leer kennzeichnen, sondern eine gewisse Zeitspanne einräumen in der weiter nach Benutzersignalen innerhalb eines Raumes gescannt wird. Ist nach Ablauf dieser Zeit kein Benutzer erkannt worden, wird der Raum wieder im System für andere Benutzer freigegeben. Der offensichtliche Nachteil dieser Technologie für die Benutzererkennung ist, dass nicht jeder Benutzer zwingend ein empfangsfähiges Endgerät dabei haben muss. Da immer nur ein Benutzer einen Raum für z.B. eine Gruppe von Personen bucht, besteht die Gefahr das die ANzahl der Personen im Raum nicht erkannt werden kann. Verlässt der Benutzer der den Raum gebucht hat den Raum wird er vom System nicht mehr erkannt und der Raum wird wieder freigegeben obwohl sich noch arbeitende Personen im Raum aufhalten. Ein zusätzliches Problem besteht im gelegentlichen verlassen des Raumes, z.B. für den Toilettenbesuch. Wird die im System hinterlegte Zeit überschritten, wird der Raum wieder freigegeben obwohl das vom Benutzer eigentlich nicht gewollt ist.
+
 
 ### Fazit - Personenerkennung im Raum
 
@@ -523,6 +531,18 @@ __2. Der Benutzer hat einen Raumvorschlag und einen Schlüßel vom System erhalt
         - sendet Status des Vergleichs des Schlüßels an den Benutzer
     - Empfänger
         - Empfängt den generierten Schlüßel vom Endgerät des Benutzers um ihn zu vergleichen
+
+## Risiken
+### Einleitung
+Im Entwicklungsprozess für technologiebezogene Gestalltungslösungen sind uns verschiedene Probleme aufgefallen die noch berücksichtigt werden müssen.
+
+### Missbrauch des Systems
+* unnötige Anfragen
+* nicht benutzen von Räumen trotz reservierung/buchung
+
+### Das System wird nicht genutzt (ARBEITSTITEL)
+Da in manchen Lehreinrichtungen Räume existieren die sich nicht abschließen lassen oder generell nicht abgeschloßen werden, besteht die Gefahr das Raumsuchende Personen sich einfach in einen Raum setzen der bereits schon reserviert oder gebucht worden ist. Das System wird also einfach umgangen, was den gesamten Ablauf gefährden kann.
+
 
 ## User Interface
 

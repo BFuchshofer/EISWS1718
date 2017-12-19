@@ -3,7 +3,7 @@
 * reservieren
     - Ein vorgegebenes Zeitintervall in dem der vom System an den Benutzer herrausgegebene Raum für andere Benutzer nicht zur verfügung steht.
 * buchen
-    - Ein vorgegebenes Zeitintervall in dem ein Benutzer oder eine Benutzergruppe einen oder mehrere Räume für arbeiten nutzen kann. Der Raum steht für dieses Zeitintervall für andere Benutzer nicht zur Verfügung.
+    - Der Zeitpunkt ab dem ein Benutzer oder eine Benutzergruppe einen oder mehrere Räume für arbeiten nutzen können. Der Raum steht für diesen Zeitraum für andere Benutzer nicht zur Verfügung.
 * sperren/blockieren
     - Ein Zeitintervall in dem ein Raum oder mehrere Räume für andere Benutzer gesperrt ist.
 * freigeben

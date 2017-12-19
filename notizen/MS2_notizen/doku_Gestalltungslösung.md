@@ -5,18 +5,12 @@ Da die Grundbausteine für die Entwicklung einer optimalen Gestaltlösung durch 
 
 
 ## Idee
-Um das Ziel, einen Raum zu finden der den Bedürfnissen und Erwartungen des Benutzers entspricht, zu erfüllen, haben wir uns in einer ersten Idee ein 3-teiliges System überlegt bestehend aus Server, Client und Datenspeicher. Der Server stellt dabei die Verarbeitungseinheit und zentrale Instanz des Systems dar. Er bezieht dabei Informationen aus einer Datenbank, sowie vom Client. Innerhalb der Datenbank sind sowohl Informationen über alle verfügbaren Räume und ihre aktuellen Rauminhalte und Belegung der Räume, sowie Informationen über die statischen, wöchentlich wiederkehrenden Veranstaltungen.
+Um das Ziel, einen Raum zu finden der den Bedürfnissen und Erwartungen des Benutzers entspricht, zu erfüllen, haben wir uns in einer ersten Idee ein 3-teiliges System überlegt bestehend aus Server, Client und Datenspeicher. Der Server stellt dabei die Verarbeitungseinheit und zentrale Instanz des Systems da. Er bezieht dabei Informationen aus einer Datenbank, sowie vom Client. Innerhalb der Datenbank sind sowohl Informationen über alle verfügbaren Räume und ihre aktuellen Rauminhalte und Belegung der Räume, sowie Informationen über die statischen, wöchentlich wiederkehrenden Veranstaltungen.
 Der Client stellt dabei die Schnittstelle zwischen Benutzer und System da. Unserer Meinung nach wäre eine Anwendung auf Smartphone oder Tablet des Benutzers eine gute Möglichkeit, weil davon ausgegangen werden kann, dass der Benutzer diese Geräte immer dabeihat. Laut einer Studie der [Bitkom research](https://www.bitkom.org/Presse/Anhaenge-an-PIs/2017/02-Februar/Bitkom-Pressekonferenz-Smartphone-Markt-Konjunktur-und-Trends-22-02-2017-Praesentation.pdf) benutzen 78% der befragten Personen ab 14 Jahren im Januar 2017 ein Smartphone. Mit einer Nutzerzahl von 54 Millionen Menschen in Deutschland (Tendenz steigend) bietet es sich an das Smartphone oder Tablet in den Prozess einzubeziehen. Das Einbeziehen von Systemkomponenten des Benutzers hat außerdem den Vorteil das eine Standortunabhängige Nutzung des Systems ermöglicht wird. So müssen nicht auf z.B. Terminals oder Anzeigetafeln an festen Positionen im Gebäude, Informationen über Räume bezogen werden. 
-In einem [Brainstorming]() über den groben Aufbau und Funktion des Systems haben wir mehrere Probleme identifiziert, auf die in diesem Teil der Dokumentation eingegangen werden soll. Darunter zählen z.B. eine "Standortbestimmung" der Benutzer innerhalb des Gebäudes um einen konkreten Raumvorschlag liefern zu können, oder auch die Verifizierung der Anwesenheit von Gegenständen oder Personen innerhalb von Räumen. Da es je nach Umfeld sein kann, dass es Räume gibt die nicht von jeder Personengruppe genutzt werden kann oder darf, muss die Zugangsberechtigung für Räume geklärt werden, so das gewährleistet wird das nicht jeder Zugang zu allen Räumen hat. 
+In einem [Brainstorming]() über den groben Aufbau des Systems haben wir mehrere Probleme identifiziert, auf die in diesem Teil der Dokumentation eingegangen werden soll. Darunter zählen z.B. eine "Standortbestimmung" der Benutzer innerhalb des Gebäudes um einen konkreten Raumvorschlag liefern zu können, oder auch die Verifizierung der Anwesenheit von Gegenständen oder Personen innerhalb von Räumen. Da es je nach Umfeld sein kann, dass es Räume gibt die nicht von jeder Personengruppe genutzt werden kann oder darf, muss die Zugangsberechtigung für Räume geklärt werden, so das gewährleistet wird das nicht jeder Zugang zu allen Räumen hat. Außerdem muss geprüft werden wieviele Personen sich in einem Raum gerade aufhalten um Aufschlus über die Auslastung der Räume zu bekommen. Diese Informationen sind außerdem wichtig um festzustellen ob ein Raum gerade belegt ist oder nicht.
 
-<!-- Liste mit Problemen machen?
-* Standortbestimmung
-* Gegenstände im Raum
-* Personen im Raum
-* Zugang zum Raum
--->
 
-## Datenstruktur/Relevante Informationen (ARBEITSTITEL)
+## Datenstruktur und relevante Informationen
 
 ### Einleitung
 Um im System Informationen verarbeiten zu können, müssen diese erst einmal definiert werden.
@@ -27,7 +21,7 @@ Dabei unterscheiden wir zwischen Benutzerinformationen, Rauminformationen, Filte
 Eine Verifizierung eines Benutzers des Systems ist notwendig, da gewährleistet werden muss, dass nur Angestellte und Mitglieder der Lehreinrichtung Zugang zu den System- bzw. Rauminformationen erhalten. Deswegen sollte beim Systemzugriff geprüft werden ob der Benutzer eine Zugangsberechtigung für das System besitzt. Eine einfache Möglichkeit das zu lösen, wäre eine Authentifizierung über eine Lehreinrichtungskennung, z.B. eine spezielle E-Mail-Adresse. Diese E-Mail-Adresse muss bei der Erstinstallation angegeben werden, und wird bei jeder Interaktion mit dem System übertragen um den Benutzer zu verifizieren. Der Server besitzt einen Datensatz mit berechtigten E-Mail-Adressen, und kann so überprüfen ob die Anfrage des Benutzers bearbeitet werden darf. Aus der E-Mail-Adresse lassen sich dann auch, z.B. über das Format der Adresse oder anhand einer weiteren Liste im System, die Zugangsberechtigungen für bestimmte Räume prüfen. Falls die Lehreinrichtung nicht möchte das ein bestimmter Raum von jeder Benutzergruppe genutzt werden kann, lässt sich so eine Berechtigungsabfrage durchführen, ohne dass der Benutzer zusätzliche Interaktionsschritte unternehmen muss. Außerdem muss der Standort des Benutzers festgelegt werden damit er durch das System bei der Raumauswahl berücksichtigt werden kann. Zu den infrage kommenden Technologien dazu, kommen wir in einem [späteren Abschnitt]().
 
 ### Rauminformationen
-Um einen Raum im System eindeutig identifizieren zu können, muss die Raumnummer als Ausgangspunkt hinterlegt werden. Zusätzlich muss sämtliches, für das System relevante, Equipment aufgelistet werden, damit im späteren Verlauf eine Suche nach einem bestimmten Raum ermöglicht werden kann. Dieses Equipment kann je nach Raum oder Raum typ unterschiedlich ausfallen und hängt in der Regel von seinem gedachten Verwendungszweck ab. Räume die für Präsentationszwecke gedacht sind, besitzen in der Regel ein Präsentationsmedium wie etwa Beamer, Fernseher, OHP oder Whiteboard. Zusätzlich werden, wie in fast jedem Raum, Sitzmöglichkeiten benötigt. Die Größe, und damit die Anzahl der Sitzplätze sind ebenfalls relevant, da nur so auf einen Raum für eine bestimmte Anzahl an Personen hingearbeitet werden kann. Die dynamischen Rauminhalte, und mit welchen Technologien diese aktualisiert werden können, werden im Kapitel [Flexible Räume]() behandelt. Diese Rauminhalte sind je nach Lehreinrichtung und vorhandenem Equipment variabel und müssen sich an dem spezifischen Kontext ausrichten. Eine weitere relevante Information ist der Standort des Raums um einen kurzen Weg zwischen Benutzer und gesuchten Raum zu berechnen. Dieser lässt sich im Idealfall aus der Raumnummer ableiten, indem diese so aufgebaut ist das das Gebäude, Stockwerk und der Gang daraus ersichtlich wird. Auch diese Informationen sind variabel und müssen auf das jeweilige Umfeld angepasst werden. Alternativ lassen sich diese Informationen auch einzeln im System abspeichern.
+Um einen Raum im System eindeutig identifizieren zu können, muss die Raumnummer als Ausgangspunkt hinterlegt werden. Zusätzlich muss sämtliches, für das System relevante, Equipment aufgelistet werden, damit im späteren Verlauf eine Suche nach einem bestimmten Raum ermöglicht werden kann. Dieses Equipment kann je nach Raum oder Raum Typ unterschiedlich ausfallen und hängt in der Regel von seinem gedachten Verwendungszweck ab. Räume die für Präsentationszwecke gedacht sind, besitzen in der Regel ein Präsentationsmedium wie etwa Beamer, Fernseher, OHP oder Whiteboard. Zusätzlich werden, wie in fast jedem Raum, Sitzmöglichkeiten benötigt. Die Größe, und damit die Anzahl der Sitzplätze sind ebenfalls relevant, da nur so auf einen Raum für eine bestimmte Anzahl an Personen hingearbeitet werden kann. Die dynamischen Rauminhalte, und mit welchen Technologien diese aktualisiert werden können, werden im Abscnitt [Flexible Räume]() behandelt. Diese Rauminhalte sind je nach Lehreinrichtung und vorhandenem Equipment variabel und müssen sich an dem spezifischen Kontext ausrichten. Eine weitere relevante Information ist der Standort des Raums um einen kurzen Weg zwischen Benutzer und gesuchten Raum zu berechnen. Dieser lässt sich im Idealfall aus der Raumnummer ableiten, indem diese so aufgebaut ist das das Gebäude, Stockwerk und der Gang daraus ersichtlich wird. Auch diese Informationen sind variabel und müssen auf das jeweilige Umfeld angepasst werden. Alternativ lassen sich diese Informationen auch einzeln im System abspeichern.
 
 ### Filtermöglichkeiten
 Damit der Benutzer nach einem Raum suchen kann, muss das System ihm die Möglichkeit bieten auf Wünsche und Möglichkeiten einzugehen. Dazu sollte der Benutzer die Möglichkeit haben durch spezielle Filter seinen Raumwunsch zu konkretisieren. Diese Filter betreffen z.B. den Rauminhalt der benötigt wird damit der Benutzer seine Arbeit verrichten kann. Der Benutzer kann durch auswählen seinen Raumwunsch eingrenzen und dem System mitteilen der diese Wünsche in seiner Raumauswahl berücksichtigt. Der Benutzer sollte aber auch grundlegendere Informationen angeben können, wie z.B. den barrierefreien Zugang zu Räumen. Da kann der Benutzer z.B. angeben das er einen Fahrstuhl benötigt um die Etagen im Gebäude wechseln zu können.
@@ -36,131 +30,26 @@ Damit der Benutzer nach einem Raum suchen kann, muss das System ihm die Möglich
 Da in einer Lehreinrichtung oft Veranstaltungen existieren die im wöchentlichen Muster wiederholt werden, existiert dazu meist ein Belegungsplan. Dieser gibt an in welchem Raum in welcher Zeitspanne eine Veranstaltung, also eine Belegung des Raumes, stattfindet. Diese Liste mit Informationen, sofern vorhanden, ist für die Ausgabe von freien Räumen an den Benutzer eine wichtige Grundlage. Mit ihr können viele Räume schon vorab ausgeschlossen werden, bevor sie in die Berechnung mit einfließen. Zusätzlich muss eine Liste existieren die Auskunft über die dynamische Belegung von Räumen Aufschluss gibt. In dieser Liste sollten alle aktuellen Belegungen von Räumen verzeichnet sein, damit das System bei seinen Berechnungen unterstützt wird. Die Liste sollte mit Informationen gefüllt sein die Aufschlüsse über den belegten Raum, die Anzahl der Personen in diesem Raum, Start- und Endzeitpunkt der Belegung sowie die Benutzeridentifizierung des Benutzers, der den Raum gebucht hat, gibt.
 
 ### Sonstige Eigenschaften
-Grundlegende Informationen wie alle zur Verfügung stehenden Räume innerhalb der Lehreinrichtung, die Anzahl der Gebäude, Stockwerke und Gänge, Positionen von Ein-/Ausgängen, Treppenhäuser, Notausgänge, Fahrstühle und eventuell weitere Informationen die vom Umfeld abhängen, sind ebenfalls eine wichtige Grundlage für das System. Mit diesen Informationen und denen der Räume und Benutzer, können im System später Raumvorschläge für den Benutzer effizient berechnet werden.
+Grundlegende Informationen wie alle zur Verfügung stehenden Räume innerhalb der Lehreinrichtung, die Anzahl der Gebäude, Stockwerke und Gänge, Positionen von Ein-/Ausgängen, Treppenhäuser, Notausgänge, Fahrstühle und eventuell weitere Informationen die vom Umfeld abhängen, sind ebenfalls eine wichtige Grundlage für das System. Mit diesen Informationen und denen der Räume und Benutzer, können im System später Raumvorschläge z.B. für Benutzer die einen barrierefreien Zugang benötigen erstellt werden.
 
-### Fazit - Datenstruktur/Relevante Informationen (ARBEITSTITEL)
-Die benötigten Informationen im System sollten innerhalb eines persistenten Datenspeichers, bspw. einem Datenbankserver hinterlegt sein. Der Server als Verarbeitungseinheit erfragt die jeweils auf die Anfrage passenden, benötigten Daten aus dem Speicher und verarbeitet diese. Diese Auflistung an benötigten Informationen befindet sich als ausführliche Beschreibung im [Anhang](). In dieser Liste werden im Verlauf der Ausarbeitung auch die benötigten Variablen und Listen in Code bzw. Pseudocode aufgeführt werden.
-
-
-<!---
-* Benutzerinformationen
-    - (Lehreinrichtungs )Email
-    - Status im Bezug auf die Lehreinrichtung
-        - Zugangsberechtigungen
-    - Standort des Benutzers
-* Rauminformationen
-    - Raumnummer/RaumID
-    - Gebäude
-    - Gebäudetrakt
-    - Stockwerk
-    - Gang
-    - Raumtyp (Präsentation/Stilles arbeiten/Gruppenarbeit)
-    - Raumgröße (in Bezug auf max. Personenanzahl)
-    - Rauminhalte
-        - Tische
-            - Anzahl
-            - fest
-            - flexibel
-        - Stühle
-            - Anzahl
-            - fest
-            - flexibel
-        - Stuhltisch
-            - Anzahl
-            - fest
-            - flexibel
-        - Beamer
-            - Anzahl
-            - fest
-            - flexibel
-        - Computer
-            - Anzahl
-            - fest
-            - flexibel
-        - Whiteboard
-            - Anzahl
-            - fest
-            - flexibel
-        - Smartboard
-            - Anzahl
-            - fest
-            - flexibel
-        - Tafel
-            - Anzahl
-            - fest
-            - flexibel
-        - OHP
-            - Anzahl
-            - fest
-            - flexibel
-        - Fernseher
-            - Anzahl
-            - fest
-            - flexibel
-        - Boxen
-            - Anzahl
-            - fest
-            - flexibel
-        - etc. (je nach Lehreinrichtung variabel)
-            - z.B. Spezielles Equipment (Kamera/Tonstudio/Greenscreen/Mischer/besondere Gerätschaften)
-    - Max. Bestuhlung
-* Sonstige Markante Eigenschaften
-    - Gebäude
-        - Gebäudetrakte
-    - Gebäudetrakt
-        - Stockwerke
-    - Stockwerk
-        - Gänge
-    - Gang
-        - Räume
-        - markante Punkte/Eigenschaften
-    - Räume
-        - Raumeigenschaften
-    - Markante Punkte/Eigenschaften
-        - Position Treppenhaus/Treppenhäuser
-        - Position Fahrstuhl/Fahrstühle
-        - Position Ein-/Ausgang/-gänge
-        - Position Notausgang/-gänge
-* Filtermöglichkeiten
-    - Anzahl Personen
-    - Anzahl Räume
-    - Anzahl Sitzmöglichkeiten
-    - Raumtyp
-        - Präsentationsraum
-        - Gruppenarbeitsraum
-        - Vorlesungsraum
-        - PC Raum
-        - stiller Arbeitsraum (Einzelarbeit)
-        - Spezieller Raum  
-            - Raum mit speziellem Equipment
-        - Barierefreiheit
-        - 
-* Belegungsplan
-    - wöchentlich wiederkehrender Belegungsplan für jeden Raum
-        - für jeden Tag/jede Stunde die Belegung festlegen
-            - Raumnummer/RaumID
-            - Start
-            - Ende
-            - Veranstalltungsname
-            - betreuende Lehrkraft
-    - dynamischer Belegungsplan für jeden Raum
-        - für jeden Tag/jede Stunde die Belegung, je nach aktueller Auslastung festlegen
-            - Raumnummer/RaumID
-            - BenutzerID des Buchers
-            - Anzahl Personen im Raum
-            - Start der Buchung
-            - Ende der Buchung
--->
+### Fazit - Datenstruktur und relevante Informationen
+Die benötigten Informationen im System sollten innerhalb eines persistenten Datenspeichers, bspw. einem Datenbankserver hinterlegt sein. Der Server als Verarbeitungseinheit erfragt die jeweils auf die Anfrage passenden, benötigten Daten aus dem Speicher und verarbeitet diese. Diese Auflistung an benötigten Informationen und die grobe Datenstruktur befindet sich als ausführliche Beschreibung im [Anhang](tabelle_datenstruktur.md). In dieser Liste werden im Verlauf der Ausarbeitung auch die benötigten Variablen und Listen in Code bzw. Pseudocode aufgeführt werden.
 
 
 ## Komponenten des Systems
-Wie bereits erwähnt soll unser System aus drei Hauptkomponenten bestehen. Als Server dient uns ein in Node.js aufgesetzter Webserver der mittels HTTP-Requests mit den anderen Systemkomponenten kommunizieren kann. Der Webserver dient als zentrale Verarbeitungseinheit für das System und behandelt alle eingehenden Anfragen der Benutzer. Die Kommunikation funktioniert sowohl von Richtung Client als auch in Richtung Datenbankserver über einfache HTTP-Requests die im besten Fall über ein geschlossenes Netzwerk innerhalb der Lehreinrichtung arbeitet. Damit besteht die Voraussetzung das der Benutzer sich im selben Netzwerk wie das System befinden muss, bspw. über eine aktive WLAN-Verbindung. Damit würde eine zusätzliche Authentifizierung der Benutzer erfolgen, da für gewöhnlich nur Personen Zugang zu einer WLAN-Verbindung haben, die dort auch Mitglied oder angestellt sind. Da aber wahrscheinlich nicht alle Lehreinrichtungen eine WLAN-Verbindung stellen können, sollte der Zugang zum System auch über eine Mobilfunkverbindung mit dem Internet möglich sein. Als Grundvoraussetzung um das System nutzen zu können, ist aber trotzdem eine aktive Internetverbindung an die sich der Node.js Server anknüpfen kann. In unserem Projekt gehen wir davon aus das die Lehreinrichtung sowohl einen verfügbaren Internetanschluß als auch eine WLAN Verfügbarkeit überall im Gebäude gewährleisten kann. Andernfalls ist dieses Projekt für diese spezielle Lehreinrichtung nicht relevant.
-Der Datenbankserver des Systems dient als Verbindungselement zwischen Webserver und Datenbank. Dabei liest der Datenbankserver die benötigten Informationen des Webservers aus der Datenbank aus und leitet sie weiter. Außerdem ist er für das abspeichern von neuen oder aktualisierten Informationen zuständig die ihm der Webserver vermittelt.
 
-<!-- Wieso Trennung der beiden? Begründen! -->
+### Einleitung
+Wie bereits erwähnt soll unser System aus drei Hauptkomponenten bestehen. 
 
+
+### Webserver
+Als Server dient uns ein über [Node.js]() aufgesetzter Webserver mit dem [Express Framework]() der mittels HTTP-Requests mit den anderen Systemkomponenten kommunizieren kann. Der Webserver dient als zentrale Verarbeitungseinheit für das System und behandelt alle eingehenden Anfragen der Benutzer. Die Kommunikation funktioniert sowohl von Richtung Client als auch in Richtung Datenbankserver über einfache HTTP-Requests die im besten Fall über ein geschlossenes Netzwerk innerhalb der Lehreinrichtung arbeiten. Damit besteht die Voraussetzung das der Benutzer sich im selben Netzwerk wie das System befinden muss, bspw. über eine aktive WLAN-Verbindung. Damit würde eine zusätzliche Authentifizierung der Benutzer erfolgen, da für gewöhnlich nur Personen Zugang zu einer WLAN-Verbindung haben, die dort auch Mitglied oder angestellt sind. Da aber wahrscheinlich nicht alle Lehreinrichtungen eine WLAN-Verbindung stellen können, sollte der Zugang zum System theoretisch auch über eine Mobilfunkverbindung mit dem Internet möglich sein. Als Grundvoraussetzung um das System nutzen zu können, ist aber trotzdem eine aktive Internetverbindung an die sich der Webserver anknüpfen kann. In unserem Projekt gehen wir davon aus das die Lehreinrichtung sowohl einen verfügbaren Internetanschluß als auch eine WLAN Verfügbarkeit überall im Gebäude gewährleisten kann.
+
+### Datenbankserver
+Der Datenbankserver des Systems dient als Verbindungselement zwischen Webserver und Datenbank. Dabei liest der Datenbankserver die benötigten Informationen des Webservers aus der Datenbank aus und leitet sie weiter. Außerdem ist er für das abspeichern von neuen oder aktualisierten Informationen zuständig die ihm der Webserver übermittelt.
 Wie bereits festgestellt wird es im System 2 Datensätze geben die Informationen über die Raumbelegung geben. Es bietet sich an diese auch in logisch getrennten Datenbanken einzuordnen um eine Wartung dieser zu vereinfachen. Auf der einen Datenbank sind nur Informationen vorhanden die bereits im Systemumfeld vorliegen, wie z.B. der reguläre Veranstaltungsplan der regelmäßig wiederkehrenden Veranstaltungen speichert. Die andere Datenbank enthält die von uns dynamisch erzeugten Informationen über die aktuelle Belegung der Räume durch die Benutzer des Systems. Durch die Trennung dieser Datensätze kann je nach Bedarf der Inhalt der Datenbanken verändert werden, ohne den Ablauf der anderen Datenbank zu beeinflussen.
 
+### Client
 Die 3. Komponente auf Clientseite ist eine Anwendung auf dem Endgerät des Benutzers. In unserem Projekt haben wir uns auf eine Applikation, basierend auf dem Android Betriebssystem fokussiert. Eine Umsetzung auf einem anderen Betriebssystem, wie z.B. iOS ist aber auch denkbar, wird in diesem Projekt aber nicht behandelt. Diese Anwendung stellt die Kommunikations-  und Interaktionsschnittstelle mit den Funktionen des Systems da. Der einfache Benutzer des Systems kann durch die Installation dieser Anwendung auf seinem Android basierten Endgerät wie z.B. Smartphone oder Tablet die Funktionalitäten des Systems nutzen. Die Anwendung kommuniziert dabei über HTTP-Request mit dem Server des Systems und sendet Informationen die zur Berechnung einer Raumauswahl benötigt werden. Dabei sollte der Anwendung bekannt sein, unter welcher Adresse sich der Webserver befindet. Um das dynamisch und auf verschiedene Lehreinrichtungen einfach anpassen zu können, sollte unter anderem diese Adresse bei der ersten Konfiguration in der Anwendung gespeichert werden. Da sich der Benutzer sowieso durch z.B. Eingabe einer Email identifizieren muss, kann durch ein zusätzliches Eingabefeld auch die Webadresse des Servers vom Benutzer erfragt werden.
 
 
@@ -172,10 +61,6 @@ In unserem System sind wir auf folgende Komponenten gekommen, die ausführlich i
 * Datenbank_2 (dynamischer Veranstalltungsplan)
 * Anwendung auf Endgerät des Benutzers
 
-<!--
-* Minicomputer in jedem Raum (mit Bluetooth)
-* Bluetooth (BLE) Beacon an jeder Raumtür
--->
 
 Um die Kommunikation und die Architektur der Komponenten des Systems deutlich dazustellen, haben wir Schaubilder erstellt die es ermöglichen einen Eindruck über unseren Aufbau des Systems zu erhalten.
 
@@ -210,14 +95,11 @@ Um die Kommunikation und die Architektur der Komponenten des Systems deutlich da
 Damit durch unser System ein Raum ermittelt werden kann, der sowohl den
 Erfordernissen des Benutzers entspricht, als auch einen möglichst kurzen Laufweg für den Benutzer gewährleistet, muss der Standort des Benutzers innerhalb des Gebäudes bestimmt werden.
 Als Methoden zur Feststellung des Standortes haben wir sowohl die Bestimmung
-durch Benutzereingaben, als auch die durch GPS und Bluetooth-Beacons innerhalb des
-Gebäudes betrachtet.
+durch Benutzereingaben, als auch die durch GPS und Bluetooth-Beacons innerhalb des Gebäudes betrachtet.
 
 ### Standortbestimmung durch Benutzereingabe
 Die Standortbestimmung über Benutzereingaben würde dabei so funktionieren, dass der Benutzer einen Bezugspunkt innerhalb eines Gebäudes, z.B. eine Raumnummer oder die Kennzeichnung eines Treppenhauses, angibt. Wir haben uns allerdings gegen diese Methode entschieden da sie eine zusätzliche Interaktion
-durch den Benutzer erfordert und das gegebenenfalls den Nutzungsfluss des Systems
-stören könnte. Diese Methode kann allerdings als Fallback verwendet werden,
-wenn die Standortbestimmung durch andere Methoden oder Technologien scheitert.
+durch den Benutzer erfordert und das gegebenenfalls den Nutzungsfluss des Systems stören könnte. Diese Methode kann allerdings als Fallback verwendet werden, wenn die Standortbestimmung durch andere Methoden oder Technologien scheitert.
 * Vorteile
     - Benutzer kann selber seinen Startpunkt der Suche angeben
 * Nachteile
@@ -236,7 +118,6 @@ ungenaue Messung zu falschen Ergebnissen innerhalb des Systems führen kann.
     - sehr weit verbreitet
 * Nachteile
     - innerhalb von Gebäuden können Signalstörungen auftreten
-    - 
 
 ### Standortbestimmung durch Bluetooth-Beacons
 Bluetooth-Beacons sind das Indoor-Äquivalent zum klassischen GPS und ermöglichen innerhalb von Gebäuden eine exakte Standortbestimmung auf bis zu 1 Meter [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons). Dazu kann eine Entfernungsbestimmung vom Endgerät des Benutzers zum Beacon durch auslesen von Signaldaten aufgestellt werden, womit ein grober Standort bestimmt werden kann. Durch das Hinzufügen von mehreren Beacons lässt sich dieser Standort weiter eingrenzen da durch das Aufspannen einer Fläche ein Schnittpunkt gebildet werden kann. Durch die Bluetooth Low Energy Technik (BLE) die seit Version 4.0 im Bluetooth Industriestandard spezifiziert wurde, sind diese Beacons äußerst stromsparend und können dabei im Batteriebetrieb je nach eingestelltem Sendeintervall 2-8 Jahre [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons) senden. Durch die Möglichkeit diese an das Stromnetz anzuschließen, lässt sich die Betriebsdauer beliebig erhöhen.
@@ -247,7 +128,6 @@ Auf dem Markt sind bereits spezielle Beacons vorhanden die für das bestimmen vo
     - einfach zu handhaben
     - bekannte, altbewärte Technologie (Bluetooth)
     - Langlebigkeit kann beliebig erhöht werden
-    - 
 
 * Nachteile
     - Bluetooth und Wifi-Signale teilen sich eine Frequenz (2,4 GHz), kann zu Störungen führen
@@ -257,19 +137,7 @@ Auf dem Markt sind bereits spezielle Beacons vorhanden die für das bestimmen vo
 
 ### Fazit - Standortbestimmung des Benutzers
 Nach unserer Recherche, wäre das Verwenden von Beacons zur Standortbestimmung ideal für unser Projekt geeignet. Durch die günstigen Anschaffungskosten und die Langlebigkeit der einzelnen Beacons lassen sie sich auch in großen Massen innerhalb eines Gebäudes anbringen. Dass die BLE Beacons sowieso schon für die Standortbestimmung eingesetzt werden, unterstützt unsere Ansicht.
-Nach unseren Erkenntnissen wäre das Anbringen eines Beacons an jedem Raum bzw. in einem bestimmten, festgelegten Abstand von Vorteil, da dadurch eine Beacon-Raum Zuweisung erreicht werden kann. Anhand dieser Informationen, die im System hinterlegt sind, kann eine Standortbestimmung durch den Benutzer erfolgen. Das Endgerät des Benutzers scannt dabei selbstständig nach Beacons in der Nähe und speichert diese. Wenn der Benutzer einen freien Raum sucht, kann der zuletzt gespeicherte Beacon bzw. seine ID, im Request mit übergeben werden. Damit kann das System den Standort des Benutzers anhand des erkannten Raumes in seiner Nähe in seine Berechnung für einen Raum mit einbeziehen. Zusätzlich kann durch das Auslesen von Entfernungen zwischen Beacon und Benutzer eine genauere Standortbestimmung erfolgen. Dafür muss das System die Position aller Beacons in Abhängigkeit zu ihrem zugehörigen Raum wissen. Um diese Zuordnung einfach zu halten, wäre es ratsam die Beacons direkt an oder über der Tür zum Raum anzubringen. So kann erreicht werden das jede Person im Gang das Signal eines Beacons empfangen kann. Damit Signaldämpfungen minimiert werden, sollten die Beacons in einer Höhe angebracht werden, die über den Köpfen der Personen liegt. Dafür würde sich der Bereich über der Tür, in ca. 2 Meter Höhe anbieten. Um große Abstände zwischen 2 Räumen zu überbrücken, sollte in einem festgelegten Abstand ein Beacon angebracht werden, der im System als Pseudo-Raum zur Positionsbestimmung genutzt werden kann. Damit ein kurzer Weg zwischen Benutzer und gewünschten Raum errechnet werden kann, müssen alle möglichen Laufwege im System vermerkt sein. Dazu gehören auch markante Punkte wie Treppenhäuser, Ein-/Ausgänge und Fahrstühle die ebenfalls mit einem Beacon ausgestattet werden sollten, um die Standortbestimmung des Benutzers zu optimieren.
-
-
-
-<!--
-* BLE Beacons im Gebäude vor jedem Raum/in bestimmten Abstand
-* Endgerät (Smartphone/Tablet) dient als Empfänger
-* gefundene Beacon ID und Entfernung zu diesem wird vom Endgerät des Benutzers an den Server gesand (HTTP)
-* Server kann die ID zuordnen und anhand der Entfernung den ungefähren Standort des Benutzers ermitteln.
-* Standort wird an das Endgerät des Benutzers gesand und bei Bedarf in einer Raumanfrage mitgesand
-* Prozess iteriert nach bestimmter Zeit um den aktuellsten Standort festzustellen
-* falls kein Standort gefunden werden kann, wird ein Pseudostandort vorgeschlagen (Eingangshalle, Treppenhaus C, ...)
--->
+Nach unseren Erkenntnissen wäre das Anbringen eines Beacons an jedem Raum bzw. in einem bestimmten, festgelegten Abstand von Vorteil, da dadurch eine Beacon-Raum Zuweisung erreicht werden kann. Anhand dieser Informationen, die im System hinterlegt sind, kann eine Standortbestimmung durch den Benutzer erfolgen. Das Endgerät des Benutzers scannt dabei selbstständig nach Beacons in der Nähe und speichert diese. Wenn der Benutzer einen freien Raum sucht, kann der zuletzt gespeicherte Beacon bzw. seine ID, im Request mit übergeben werden. Damit kann das System den Standort des Benutzers anhand des erkannten Raumes in seiner Nähe in seine Berechnung für einen Raum mit einbeziehen. Zusätzlich kann durch das Auslesen von Entfernungen zwischen Beacon und Benutzer eine genauere Standortbestimmung erfolgen. Dafür muss das System die Position aller Beacons in Abhängigkeit zu ihrem zugehörigen Raum wissen. Um diese Zuordnung einfach zu halten, wäre es ratsam die Beacons direkt an oder über der Tür zum Raum anzubringen. So kann erreicht werden das jede Person im Gang das Signal eines Beacons empfangen kann. Damit Signaldämpfungen minimiert werden, sollten die Beacons in einer Höhe angebracht werden, die über den Köpfen der Personen liegt. Dafür würde sich der Bereich über der Tür, in ca. 2 Meter Höhe anbieten. Um große Abstände zwischen 2 Räumen zu überbrücken, sollte in einem festgelegten Abstand ein Beacon angebracht werden, der im System als Pseudo-Raum zur Positionsbestimmung genutzt werden kann. Damit ein kurzer Weg zwischen Benutzer und gewünschten Raum errechnet werden kann, müssen alle möglichen Laufwege im System vermerkt sein. Dazu gehören auch markante Punkte wie Treppenhäuser, Ein-/Ausgänge und Fahrstühle die ebenfalls mit einem Beacon ausgestattet werden sollten, um die Standortbestimmung des Benutzers zu optimieren. Für den Fall das kein Beacon durch das Endgerät des Benutzers erkannt werden kann, sollte, sofern vorhanden, der letzte erkannte Beacon als aktueller Standort genutzt werden. Dabei sollte der Benutzer darauf hingewiesen werden das kein Beacon im Umkreis gefunden wurde und deshalb eine korrekte Standortbestimmung nicht verfügbar ist. Wahlweise sollte der Benutzer die Möglichkeit haben einen Startpunkt zu wählen, bspw. der Haupteingang des Gebäudes. Der Einsatz von Bluetooth Beacons birgt auch einige Risiken, die wir im [Anhang](Risiken bei der Standortbestimmung) dokumentiert haben. Als Ergänzung ist bei jedem Risiko angegeben wie wir mit ihm verfahren werden sofern er eintritt.
 
 
 ## Laufwegoptimierung (Alleinstellungsmerkmal)
@@ -277,18 +145,33 @@ Nach unseren Erkenntnissen wäre das Anbringen eines Beacons an jedem Raum bzw. 
 ### Einleitung
 Das deskriptive Aufgabenmodell der Raumsuche im Kontext der Lehreinrichtungen, setzt das manuelle suchen von Räumen innerhalb des Gebäudes voraus. An diesem Punkt kann viel Zeit verschwendet werden, wenn sich zusätzliche Laufwege von Raum zu Raum ergeben, da festgestellt wird das ein gerade überprüfter Raum schon belegt ist oder nicht das Equipment beinhaltet das vom Benutzer benötigt wird. Es wird also eine Möglichkeit gesucht mit der der Benutzer nicht mit unnötigen Laufwegen belastet wird. Das Problem hängt eng mit der Standortbestimmung des Benutzers zusammen, da ein Laufweg immer von der aktuellen Position des Benutzers zum, vom System berechneten, nächsten freien Raum der den Bedürfnissen und Erwartungen des Benutzers entspricht berechnet werden muss. Im Folgenden wollen wir dieses Problem, das unserem Alleinstellungsmerkmal entspricht, versuchen zu lösen.
 
+### Verkettete Liste / Dijkstra-Algorithmus (ARBEITSTITEL)
 Damit ein Weg berechnet werden kann, werden in unserem Fall mindestens 2 Punkte benötigt. Zum einen der aktuelle Standort des Benutzers den wir über Bluetooth Beacons ermitteln werden, und zum anderen der Raum bzw. die Raumnummer des Raumes den der Benutzer benötigt. Um einen optimalen Weg berechnen zu können muss das System Abwägungen über mehrere Räume aber auch mehrere vorhandenen Laufwegen durchführen können.
-
-Wir sind zu dem Entschluss gekommen das die einfachste Methode eine verkettete Liste wäre die im System hinterlegt ist. Dabei muss für jede Lehreinrichtung eine eigene Liste erzeugt werden die sich aus der Anzahl der Räume, ihren Standorten und Rauminhalten sowie besonderen Merkmalen innerhalb des Gebäudes zusammensetzt. Dabei sollte z.B. der Administrator des Systems der Lehreinrichtung, die Möglichkeit haben diese Liste jederzeit zu aktualisieren um auf z.B. Neuanschaffungen oder Umfunktionierung von Gebäuden oder Räumen eingehen zu können.
+Wir sind zu dem Entschluss gekommen das die einfachste Methode eine verkettete Liste wäre die im System hinterlegt ist und anhand eines leicht modifizierten Dijkstra-Algorithmus die Raumsuche übernimmt. Dabei muss für jede Lehreinrichtung eine eigene Liste erzeugt werden die sich aus der Anzahl der Räume, ihren Standorten und Rauminhalten sowie besonderen Merkmalen innerhalb des Gebäudes zusammensetzt. Dabei sollte z.B. der Administrator des Systems der Lehreinrichtung, die Möglichkeit haben diese Liste jederzeit zu aktualisieren um auf z.B. Neuanschaffungen oder Umfunktionierung von Gebäuden oder Räumen eingehen zu können.
 Jeder Raum im System wird als ein Knoten innerhalb der Liste dargestellt. Dabei sind angrenzende Knoten in der Liste gleichbedeutend mit angrenzenden Räumen im Gebäude. So lässt sich im System ein Weg von Raum zu Raum bzw. von Knoten zu Knoten berechnen. Wie schon erwähnt, sollten auch markante Punkte wie Treppenhäuser oder Fahrstühle als Knoten innerhalb der Liste angegeben werden, da sie ebenfalls als Wegstrecke zwischen zwei Punkten genutzt werden können. Als Ergebnis enthält man eine Liste in der alle Räume und markante Punkte des Gebäudes als Knoten modelliert wurden. Die einzelnen Knoten besitzen verschiedene Attribute die diesen Knoten beschreiben. Jeder Knoten enthält eine eindeutige ID die ihn innerhalb der verketteten Liste eindeutig identifiziert. Die ID lässt sich dabei frei bestimmen und sollte dementsprechend den Typ des Knoten kennzeichnen. Bspw. sollten Raumknoten mit dem Präfix "room" gekennzeichnet werden, wobei ein Treppenhaus das Präfix "stairs" beinhalten sollte. Das sorgt dafür das ein Knoten schneller und gezielter angesprochen werden kann. Zusätzlich sollte die ID die, in der Regel bereits bestehende, Raumnummer beinhalten. Existiert keine Raumnummer, muss der Raum im System mit einer eindeutigen Kennung versehen werden, durch die der Raum sich identifizieren lässt. Dabei sollte dann aber auch berücksichtigt werden das der Benutzer eine Raumnummer oder eine ähnliche Kennzeichnung benötigt um den Raum im Gebäude zu finden. Hierbei muss auf das gegebene Umfeld Rücksicht genommen werden.
 Ist jeder Raum im System eindeutig identifiziert und über einen Namen oder ID in der verketteten Liste vorhanden, sollte jeder Knoten zusätzliche Eigenschaften erhalten die für die Berechnung eines Raumes für den Benutzer benötigt werden.
 Damit ein Raumvorschlag ausgegeben werden kann, muss das System den kürzesten Weg zwischen Benutzer und möglichen Räumen berechnen. Dabei muss das System eine Entscheidung treffen können welcher der infrage kommenden Räume er dem Benutzer vorschlagen sollte um einen möglichst kurzen Weg zu gewährleisten. Um diesen Weg zu berechnen haben wir uns eine Gewichtung überlegt anhand dessen das System den kürzesten Weg zwischen 2 Punkten berechnen kann. Jeder Knoten besitzt die Gewichtung zu jedem seiner angrenzenden Knoten die vom Algorithmus ausgelesen wird. Wir treffen dabei die Unterscheidung zwischen Verbindungen zu Räumen, Treppenhäusern oder Aufzügen.
-In [Schaubild 1]() ist so eine Gewichtung schematisch zum besseren Verständnis abgebildet. Kann das System mehrere Wege zu einem Raum berechnen, wird jeder dieser Wege berechnet und auf seinen Wert hin überprüft. Der Weg mit dem geringsten Gesamtergebnis gilt als passender Raum für den Benutzer. Sollte es noch andere Räume geben die ebenfalls den Bedürfnissen des Benutzers entsprechen, wird die Wegberechnung für diese Räume ebenfalls durchgeführt. Wurden alle infrage kommenden Räume berechnet wird der Raum der das geringste Gesamtergebnis besitzt an den Benutzer ausgegeben. 
-Mit dieser Berechnungsmethode für freie Räume in der Nähe des Benutzers kann keine metergenaue Angabe gemacht werden, die Entfernung bezieht sich lediglich auf die angegebene Gewichtung jedes Knoten. Deswegen ist eine passende Gewichtungsangabe dringend erforderlich. Es gilt je nach Gebäude und Abstände der Räume untereinander eine unterschiedliche Gewichtung zu legen damit eine möglichst realistische Wegberechnung aufgestellt werden kann. Diese Gewichtung muss je nach Anwendungsumgebung individuell festgelegt werden. Z.B. müssen Stellen berücksichtigt werden wo zwischen 2 Räumen eine größere Entfernung vorhanden sind als normal. Die Gewichtung muss zwischen diesen 2 Knoten also erhöht werden um die erhöhte Entfernung zu simulieren. Ein Stockwerkwechsel sollte ebenfalls mit einer speziellen Gewichtung angegeben werden. Ein Treppenhaus bedeutet einen zusätzlichen Aufwand und je nach Umgebung auch einen erhöhten Zeitbedarf der in Form einer erhöhten Gewichtung berücksichtigt werden muss. Im Spezialfall das ein Benutzer einen barrierefreien Zugang benötigt, z.B. in Form eines Fahrstuhls, muss zuerst der Weg vom Standort des Benutzers zum Fahrstuhl und von dort aus der Weg zu einem freien Raum berechnet werden. Der Raum sollte dann von der Position des Fahrstuhls aus berechnet werden, da der Benutzer ohnehin dorthin unterwegs sein wird.
+In [Schaubild 1](gewichtung_Liste_bsp.png) ist so eine Gewichtung schematisch zum besseren Verständnis abgebildet. Dabei ist ersichtlich das unterschiedliche Knotentypen eine unterschiedliche maximale Anzahl an Kanten besitzen kann. Wir haben uns auf folgende maximale Kantenzahl festgelegt:
+* Räume : 1-2 benachbarte Knoten/genutzte Kanten
+* Fahrstühle/Treppenhäuser : 1-6 benachbarte Knoten/genutzte Kanten (Norden, Süden, Westen, Osten, Oben, Unten)
+* Ein-/Ausgänge : 1-beliebig viele benachbarte Knoten/genutzte Kanten
+
+Um den Algorithmus sinnvoll anwenden zu können, sollte für jedes vorhandene Gebäude mit systemrelevanten Räumen eine eigene verkettete Liste angelegt werden. Diese Listen sollten über Einstiegs- bzw. Austrittsknoten logisch miteinander verbunden werden. Dies ist nötig um zu gewährleisten das ein Ausgang eines Gebäudes zu beliebig vielen Eingängen anderere Gebäude führen kann.
+Der von uns definierte Algorithmus sucht sich vom Standpunkt des Benutzers ausgehend den Weg, der am kürzesten ist. Dabei wird immer die niedrigste Summe der Kantengewichtungen fokussiert betrachtet. Ergibt sich auf einem anderen Weg eine niedrigere Summe als auf dem bisherigen Weg, wird dieser Weg in den Fokus der Raumermittlung gelegt. Der erste Raum den der Algorithmus erreicht wird als Raumvorschlag an den Benutzer ausgegeben. 
+Um nicht jeden einzelnen Weg berechnen zu müssen wird bei der Berechnung in zwei Arten unterschieden.
+
+* 1. Der Benutzer und der Zielraum befinden sich in unterschiedlichen Gebäuden.
+    - In diesem Fall wird als Zwischenpunkt der Weg zu einer Übergangsmöglichkeit gesucht. Es wird z.B. der nächstgelegene Ausgang aus dem aktuellen Gebäude gesucht. Von dort aus wird die Kante zum Zielgebäude gewählt, in dem sich der Zielraum befindet.
+* 2. Der Benutzer und der Zielraum befinden sich im selben Gebäude.
+    - Trifft das zu, wird der normale Algorithmus angewand, in dem bei allen Knoten bis hin zum Zielraum geprüft wird in welcher Entfernung er sich befindet.
+Diese Unterscheidung hilft uns dabei unnötige Berechnungszeiten zu vermeiden und effektiver Anfragen bearbeiten zu können.
+
+Mit diesen Berechnungsmethoden für freie Räume in der Nähe des Benutzers kann keine metergenaue Angabe gemacht werden, die Entfernung bezieht sich lediglich auf die angegebene Gewichtung jedes Knoten. Deswegen ist eine passende Gewichtungsangabe dringend erforderlich. Es gilt je nach Gebäude und Abstände der Räume untereinander eine unterschiedliche Gewichtung zu legen damit eine möglichst realistische Wegberechnung aufgestellt werden kann. Diese Gewichtung muss je nach Anwendungsumgebung individuell festgelegt werden. Zum Beispiel müssen Stellen berücksichtigt werden wo zwischen 2 Räumen eine größere Entfernung vorhanden sind als normal. Die Gewichtung muss zwischen diesen 2 Knoten also erhöht werden um die erhöhte Entfernung zu simulieren. Ein Stockwerkwechsel sollte ebenfalls mit einer speziellen Gewichtung angegeben werden. Ein Treppenhaus bedeutet einen zusätzlichen Aufwand und je nach Umgebung auch einen erhöhten Zeitbedarf der in Form einer erhöhten Gewichtung berücksichtigt werden muss. Für den Spezialfall das ein Benutzer einen barrierefreien Zugang benötigt und Räume infrage kommen die sich in einem anderen Stockwerk befinden, wird als Zwischenziel ein Fahrstuhl oder andere barrierefreie Möglichkeit zum Stockwerkwechsel gesucht.
 
 
 ### Fazit - Laufwegoptimierung
-
+Die verkettete Liste mit einem Dijkstra-Algorithmus ergibt in unserem Projekt eine sinvolle Methode um die kürzeste Entfernung zwischen einem Start- und mehreren Endpunkten zu bestimmen.
+Das der Einsatz einer verketteten Liste in diesem Anwendungsumfeld funktioniert, zeigt die Durchführung des Proof of Concepts den wir im [Anhang](Risiken bei der Laufwegbestimmung) dokumentiert haben.
 
 <!--
 * der Server kann anhand des Standortes des Benutzers und seinen Wünschen einen Raum ausgeben der sich in seiner Nähe befindet.
@@ -339,6 +222,7 @@ Den Minicomputer als Verarbeitungseinheit haben wir im [Architekturmodell]() und
 
 
 ### Fazit - Problem - Flexible Räume (Verteilte Anwendungslogik)
+Die Überprüfung ob der Einsatz von RFID Technik für die Equipmentmarkierung in unserem Anwendungsfeld funktioniert simulieren wir durch erstellte Datensätze. Dabei können wir aufgrund von mangelnder Technologie aktuell nicht auf echte RFID Transponder und Lesegeräte zurückgreifen. Um diese Technik dennoch zu prüfen haben wir eine Simulation erstellt die überprüft ob der vorgesehene Ablauf funktioniert. Die Dokumentation des Proof of Concepts befindet sich im [Anhang](Risiken bei der Markierung von Gegenständen).
 
 <!--
 * da Räume Equipment beinhalten kann, das von einem zu einem anderen Raum transportiert wird, wird eine erkennung benötigt.
@@ -380,8 +264,7 @@ Da wir in unserem System einen besonderen Raum haben in denen mehrere verschiede
 
 ### Einleitung
 Zur Findung einer Methode für effektive Personenzählung haben wir ein
-Brainstorming durchgeführt und alle Methoden aufgeschrieben die uns eingefallen
-sind. Darunter befinden sich Methoden wie die algorithmische Personenzählung
+Brainstorming durchgeführt verschiedene Methoden betrachtet. Dazu gehören  Methoden wie die algorithmische Personenzählung
 durch Wärmebild- und Videokamera, aber auch die Erkennung durch Lichtschranken,
 Druckplatten und Bewegungsmelder.
 Im Folgenden werden die einzelnen Methoden kurz erläutert und einige Vor- und
@@ -567,16 +450,7 @@ __2. Der Benutzer hat einen Raumvorschlag und einen Schlüßel vom System erhalt
     - Empfänger
         - Empfängt den generierten Schlüßel vom Endgerät des Benutzers um ihn zu vergleichen
 -->
-## Risiken
-### Einleitung
-Im Entwicklungsprozess für technologiebezogene Gestalltungslösungen sind uns verschiedene Probleme aufgefallen die noch berücksichtigt werden müssen.
 
-### Missbrauch des Systems
-* unnötige Anfragen
-* nicht benutzen von Räumen trotz reservierung/buchung
-
-### Das System wird nicht genutzt (ARBEITSTITEL)
-Da in manchen Lehreinrichtungen Räume existieren die sich nicht abschließen lassen oder generell nicht abgeschloßen werden, besteht die Gefahr das Raumsuchende Personen sich einfach in einen Raum setzen der bereits schon reserviert oder gebucht worden ist. Das System wird also einfach umgangen, was den gesamten Ablauf gefährden kann.
 
 
 ## User Interface
@@ -585,4 +459,4 @@ Da in manchen Lehreinrichtungen Räume existieren die sich nicht abschließen la
 ## Evaluation
 
 
-## Fazit - 1. Gestalltungslösung
+## Fazit 

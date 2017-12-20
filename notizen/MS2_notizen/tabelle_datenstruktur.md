@@ -238,11 +238,12 @@
   "roomInformation": {
             "roomID": "",
             "roomStatus": "",
+            "roomType": "",
             "itemList": "",
             "userList": ""
             }
-}            
-         
+}   
+       
             
             
             

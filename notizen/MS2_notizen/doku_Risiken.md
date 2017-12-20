@@ -3,11 +3,9 @@
 Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Realisierung des Systems wurden erste [Risiken](Liste im Anhang?) identifiziert. Im Verlauf des Projektes wird diese Liste an Risiken bezüglich auf verwendete Technologien und neuen Erkentnissen stetig aktualisiert. Da noch keine Technologien feststehen die verwendet werden sollen, sind die Risiken aktuell nur auf das Projekt als ganzes bezogen. Sobald Technologien feststehen, und sich daraus neue Risiken ergeben, wird die Liste im Anhang vervollständigt.
 
 ### Erste Risiken (ARBEITSTITEL)
-
+<!--
 - Benutzer eines Raumes blockieren den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
-
-
-- __Das System liefert einen freien Raum nicht in absehbarer Zeit:__
+- __Personenerkennung im Raum ermöglicht dynamische Überprüfung des Status:__
     - Exit:
         - Die Antwortzeit des Servers beträgt weniger als 10 Sekunden.
     - Fail:
@@ -15,9 +13,10 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
     - Fallback:
         - Funktionen kürzen um Antwortszeiten des Systems zu verringern.
         - Besserer Netzausbau für stabilere und verkürzte Kommunikation.
+-->
 
-
-- __Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne:__
+- Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
+- __Die benötigte Zeit zum finden eines freien Raumes ist kürzer wenn das System benutzt wird:__
     - Exit:
         - Zeit für die Raumsuche beschränkt sich auf max. 10 Sekunden.
     - Fail:

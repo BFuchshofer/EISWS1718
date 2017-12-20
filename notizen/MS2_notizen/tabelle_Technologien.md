@@ -1,0 +1,110 @@
+# Technologien
+
+## Personenerkennung im Raum
+
+### Druckplatten im Boden
+Bei der Zählung von Personen durch eine druckempfindliche Matte im Eingangs-
+bereich kann durch Algorithmen sowohl die Anzahl der Personen als auch die
+Laufrichtung dieser durch analyse der Drucksensoren bestimmt werden.
+Diese Matten können im Eingangsbereich zu den Räumen unter Fußmatten versteckt
+werden und sind robust genug so dass keine Schäden durch Equipment welches
+über diese gerollt wird entstehen sollte. Allerdings ist auf der Webseite des
+[Anbieters](http://www.instacounting.com/intro.html) auf den wir uns bei dieser
+Methode beziehen keiner Information dazu zu finden ob ein Gegenstand, zum
+Beispiel ein Whiteboard mit rollen, beim Schieben über die Matte als Person
+erkannt wird oder nicht. Hierfür müsste sofern möglich ein eigenes System
+entwickelt oder das bestehende um algorithmen zur Erkennung von bestimmten
+Merkmalen, wie z.B. des Reifenabstandes, und der Zuordnung dieser  erweitert
+werden. Weiterhin kann es durch das Verrutschen der Matte dazu kommen das Türen
+nicht mehr richtig schließen. Dies kann durch das Befestigen der Matte auf dem
+Boden behoben werden. Außerdem muss die Matte eine zu ermittelnde Mindestgröße
+besitzen, damit Menschen mit größerer Schrittweite auch von dieser erkannt
+werden.
+
+### Lichtschranken und Bewegungsmelder
+Einige Methoden können zu einer Gruppe zusammengeschlossen werden, da diese
+in etwa ähnlich funktionieren oder ähnliche Vor- und Nachteile besitzen. So
+bilden die Bewegunsmelder und Lichtschranken zum Beispiel eine solche Gruppe.
+Die Vorteile dieser Methoden sind zum Einen die Datenschutz unbedenkliche
+Verwendung, da durch diese Methoden weder Bild- noch Tonmaterial aufgenommen
+wird und somit auch keine Personenbezogenen Daten erhoben werden können.
+Der Große Nachteil dieser Methoden ist, dass durch die Verwendung eines
+einzelnen Gerätes weder die Laufrichtung noch die genaue Anzahl der Personen
+bestimmen kann. So kann es zum Beispiel dazu führen, dass mehrere Personen
+parallel oder leicht versetzt einen Raum betreten, vom System aber nur als
+eine Person erkannt werden, da die Sensoren nur einen durchgängigen Impuls
+senden. Desweiteren ist der große Abdeckungsbereich des Bewegungsmelders
+eher hinderlich, da es dadurch auch zu Fehldeutungen kommen kann, wenn
+ein Benutzer sich der Tür nur nähert, ohne hindurchgehen zu wollen.
+Dieses Problem könnte für den Bewegungsmelder gelöst werden, indem künstlich
+sein Wirkungsbereich eingedämmt wird. Außerdem könnte durch die Verwendung
+mehrerer Geräte sowohl eine genauere bestimmung der Anzahl sowie der
+Laufrichtung von Personen bestimmt werden. Dies trifft nicht zu, wenn
+mehrere Personen gleichzeitig mit Unterschiedlichen Laufrichtungen hindurch
+laufen. Ein weiteres Problem tritt auf, wenn Gegenstände durch den
+Wirkungsbereich geschoben werden, da der Sensor nicht zwischen Mensch und
+Gegenstand unterscheiden kann. Um das Problem zu beseitigen könnte als
+die Dauer des Impulses gemessen werden und anhand dessen entscheidet
+das System ob es sich um einen Gegenstand oder eine Person handelt.
+
+### Zählermechanik (ARBEITSTITEL)
+Die Methode eines Zählers oder einer Mechanik im Eingangsbereich oder der
+Tür haben wir als einzelne Methode ausgeschlossen, da zwar eine effektive
+Erkennung einer Interaktion mit einem Raum erkannt werden kann, jedoch
+nicht festgestellt werden kann, ob der Raum betreten oder verlassen wird,
+oder ob nur die Tür geöffnet wird. Es könnte durch die Kombination mit
+einer anderen eine effektivere Methode generiert werden. Weiterhin könnte
+durch verwendung von Algorithmen bestimmt werden, ob eine Tür zum Beispiel
+mehrfach aufgehalten wird und anhand der Zeit die eine Tür offen ist, wie
+viele Personen möglicherweise hindurchgegangen sind. Dies führt allerdings
+zu keiner genauen Anzahl an Personen im Raum.
+
+### Wärmebildkameras
+Eine effektive Methode welche auch die persöhnlichen Daten der Benutzer
+schützen würde wäre die Verwendung einer Wärmebildkamera mit zugehörigem
+Algorithmus zur Personenzählung. Diese erreicht abhängig vom Algorithmus
+eine sehr hohe Genauigkeit und ermöglicht wie zuvor gesagt die anonyme
+Zählung der Personen in einem Raum. Wir haben diese Methode allerdings in
+diesem Projekt ausgeschlossen, da durch die hohen Anschaffungskosten
+eine Verwendung im Nutzungskontext einer Lehreinrichtung mit mehreren
+hundert Räumen zum momentanen Zeitpunkt nicht denkbar ist.
+Durch die Weiterentwicklung dieser Technologie sollte die Verwendung,
+falls die Anschaffungskosten wesentlich geringer ausfallen, nocheinmal
+im Rahmen dieses Projektes evaluiert werden.
+
+### Video-/Bildanalyse
+Eine ähnliche und kostengünstigere Alternative bietet eine Analyse von
+Video/- bzw. Bildmaterial mit der durch algorithmische Personenerkennung die Anzahl der Personen ermittelt werden kann. Der wichtigste Unterschied zur Wärmebildkamera ist hierbei
+allerdings die fehlende Anonymität der Benutzer, da ein Video aus dem
+inneren des Raumes aufgenommen wird. Es kann ebenfalls durch Verwendung
+der richtigen Algorithmen eine hohe Genauigkeit erziehlt, und so
+eine effektive Personenzählung durchgeführt werden. Da die Analyse
+solcher Videos sehr viel Rechenleistung benötigt und bei größeren Räumen
+die Videos ebenfalls hochauflösender sein müssen könnte in diesem Projekt
+eine Analyse von einzelnen Bildern, welche in festgelegten Intervallen
+aufgenommen werden, durchgeführt werden. Dadurch könnte eine gute
+Schätzung der Personen die sich in einem Raum befinden erreicht werden.
+Die Frage des Datenschutzes müsste bei der Umsetzung des Projektes mit
+dem Datenschutzbeauftragten der jeweiligen Lehreinrichtung besprochen
+werden. Allerdings sollte darauf geachtet werden dass die Bilder nur
+Lokal analysiert werden, danach gelöscht und nur das Ergebnis also
+zum Beispiel "2 Personen" weiterverwendet wird.
+
+### NFC
+Eine weitere Möglichkeit der Benutzererkennung innerhalb von Räumen wären der Einsatz von NFC (Near Field Communication). 
+Fast jedes neue Smartphone besitzt die Möglichkeit NFC einzusetzen. Bekannt ist diese Methode z.B. durch das kontaktlose Bezahlen mit einem Smartphone. 
+Die Reichweite von NFC liegt aktuell nur bei [wenigen Zentimetern](https://developer.android.com/guide/topics/connectivity/nfc/index.html), weswegen ein passives Erkennen von Benutzern nur schwer möglich ist. Der Benutzer müsste, um über NFC erkannt zu werden, sein Endgerät sehr nahe an das Lesegerät halten, was eine aktive Interaktion des Benutzers vorraussetzt. In unserem Projektkontext halten wir diese Methode für kontraproduktiv, da der Benutzer sich aktiv am Scanner verifizieren muss was eine zusätzliche Aktivität bedeutet.
+
+
+### BLE Beacons
+Der Einsatz von Beacons wurde bereits bei der Standortbestimmung von Benutzern angesprochen. Ebenfalls anwendbar wäre diese Methode bei der Bestimmung von Benutzern innerhalb von Räumen.
+Es wird also nach dem Standort innerhalb eines bestimmten Bereiches gesucht. Dabei müsste das Endgerät des Benutzers als sendender Beacon umfunktioniert werden und ein Empfängerät scannt innerhalb eines Raumes nach Bluetooth Signalen. Sofern sich innerhalb des Raumes bzw. in einem bestimmten Umkreis des Empfängers Bluetooth Signale empfangen lassen, kann das System davon ausgehen das sich eine oder mehrere Personen im Raum befinden. Sobald das Signal des Benutzers eine bestimmte Entfernung überschreitet, weis das System das dieser Benutzer den Raum vermutlich verlassen hat. Falls das Signal des Benutzers wegen Störungen im Frequenzbereich vorrübergehend nicht erreicht werden kann, sollte das System den Benutzer nicht sofort als nicht mehr vorhanden , bzw. den Raum als leer kennzeichnen, sondern eine gewisse Zeitspanne einräumen in der weiter nach Benutzersignalen innerhalb eines Raumes gescannt wird. Ist nach Ablauf dieser Zeit kein Benutzer erkannt worden, wird der Raum wieder im System für andere Benutzer freigegeben. Der offensichtliche Nachteil dieser Technologie für die Benutzererkennung ist, dass nicht jeder Benutzer zwingend ein empfangsfähiges Endgerät dabei haben muss. Da immer nur ein Benutzer einen Raum für z.B. eine Gruppe von Personen bucht, besteht die Gefahr das die Anzahl der Personen im Raum nicht erkannt werden kann. Verlässt der Benutzer der den Raum gebucht hat den Raum wird er vom System nicht mehr erkannt und der Raum wird wieder freigegeben obwohl sich noch arbeitende Personen im Raum aufhalten. Ein zusätzliches Problem besteht im gelegentlichen verlassen des Raumes, z.B. für den Toilettenbesuch. Wird die im System hinterlegte Zeit überschritten, wird der Raum wieder freigegeben obwohl das vom Benutzer eigentlich nicht gewollt ist.
+
+
+
+
+
+
+
+
+

@@ -7,8 +7,74 @@ Da die Grundbausteine für die Entwicklung einer optimalen Gestaltlösung durch 
 ## Idee
 Um das Ziel, einen Raum zu finden der den Bedürfnissen und Erwartungen des Benutzers entspricht, zu erfüllen, haben wir uns in einer ersten Idee ein 3-teiliges System überlegt bestehend aus Server, Client und Datenspeicher. Der Server stellt dabei die Verarbeitungseinheit und zentrale Instanz des Systems da. Er bezieht dabei Informationen aus einer Datenbank, sowie vom Client. Innerhalb der Datenbank sind sowohl Informationen über alle verfügbaren Räume und ihre aktuellen Rauminhalte und Belegung der Räume, sowie Informationen über die statischen, wöchentlich wiederkehrenden Veranstaltungen.
 Der Client stellt dabei die Schnittstelle zwischen Benutzer und System da. Unserer Meinung nach wäre eine Anwendung auf Smartphone oder Tablet des Benutzers eine gute Möglichkeit, weil davon ausgegangen werden kann, dass der Benutzer diese Geräte immer dabeihat. Laut einer Studie der [Bitkom research](https://www.bitkom.org/Presse/Anhaenge-an-PIs/2017/02-Februar/Bitkom-Pressekonferenz-Smartphone-Markt-Konjunktur-und-Trends-22-02-2017-Praesentation.pdf) benutzen 78% der befragten Personen ab 14 Jahren im Januar 2017 ein Smartphone. Mit einer Nutzerzahl von 54 Millionen Menschen in Deutschland (Tendenz steigend) bietet es sich an das Smartphone oder Tablet in den Prozess einzubeziehen. Das Einbeziehen von Systemkomponenten des Benutzers hat außerdem den Vorteil das eine Standortunabhängige Nutzung des Systems ermöglicht wird. So müssen nicht auf z.B. Terminals oder Anzeigetafeln an festen Positionen im Gebäude, Informationen über Räume bezogen werden. 
-In einem [Brainstorming]() über den groben Aufbau des Systems haben wir mehrere Probleme identifiziert, auf die in diesem Teil der Dokumentation eingegangen werden soll. Darunter zählen z.B. eine "Standortbestimmung" der Benutzer innerhalb des Gebäudes um einen konkreten Raumvorschlag liefern zu können, oder auch die Verifizierung der Anwesenheit von Gegenständen oder Personen innerhalb von Räumen. Da es je nach Umfeld sein kann, dass es Räume gibt die nicht von jeder Personengruppe genutzt werden kann oder darf, muss die Zugangsberechtigung für Räume geklärt werden, so das gewährleistet wird das nicht jeder Zugang zu allen Räumen hat. Außerdem muss geprüft werden wieviele Personen sich in einem Raum gerade aufhalten um Aufschlus über die Auslastung der Räume zu bekommen. Diese Informationen sind außerdem wichtig um festzustellen ob ein Raum gerade belegt ist oder nicht.
+Als zusätzliches Präsentationsmedium für den Administrator ziehen wir ein User Interface im Browser in betracht über das er die Möglichkeit besitzt, Änderungen im System vorzunehmen.
+In einem [Brainstorming]() über den groben Aufbau des Systems haben wir mehrere Probleme identifiziert, auf die in diesem Teil der Dokumentation eingegangen werden soll. Darunter zählen z.B. eine Standortbestimmung der Benutzer innerhalb des Gebäudes um einen konkreten Raumvorschlag liefern zu können, oder auch die Verifizierung der Anwesenheit von Gegenständen oder Personen innerhalb von Räumen. Da es je nach Umfeld sein kann, dass es Räume gibt die nicht von jeder Personengruppe genutzt werden kann oder darf, muss die Zugangsberechtigung für Räume geklärt werden, so das gewährleistet wird das nicht jeder Zugang zu allen Räumen hat. Außerdem muss geprüft werden wieviele Personen sich in einem Raum gerade aufhalten um Aufschlus über die Auslastung der Räume zu bekommen. Diese Informationen sind außerdem wichtig um festzustellen ob ein Raum gerade belegt ist oder nicht.
 
+
+## Kommunikation des Systems
+
+### Deskriptives Kommunikationsmodell
+Da im aktuellen Kontext kein technisches System existiert haben wir anhand der [Deskriptiven Aufgabenmodellierung](Verweis) ein Modell entwickelt, dass die Kommunikation im aktuellen Kontext darstellen soll.
+![deskriptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/deskriptiv_kommunikation.PNG)  
+
+### Präskriptives Kommunikationsmodell
+Im zu entwickelnden System haben wir uns dazu entschloßen eine REST-Konforme Architektur zu verwenden.
+Dabei basiert unsere Kommunikation auf dem Client-Server Paradigma. Wie in [Bild ?](client_server.png) dargestellt hat der Client den aktiven Part und stellt Anfragen an den Server. Dabei haben wir auf die Unterscheidungen der einzelnen Aufgaben geachtet. Ein Kommunikationsaufbau vom Server zum Client halten wir in diesem Kontext für nicht sinvoll, da zuviele Endgeräte der Benutzer existieren um sie gezielt durch den Server ansprechen zu können. In unserem Kontext ist dies aber auch nicht nötig da der Server lediglich als Verarbeitungseinheit angesehen wird und keine Anfragen an den Client senden muss.
+Um REST-Konformität zu gewährleisten wird serverseitig kein Zustand gespeichert. Jede Anfrage des Benutzers liefert alle benötigten Informationen für den Server mit. Dazu gehören auch die Verifikation des Benutzers durch die E-Mail Adresse. Fragt der Client einen freien Raum an, werden die E-Mail Adresse und die eventuell benötigten Gegenstände des Benutzers im Body des Requests an den Server gesendet. Nach einer Verarbeitung dieser Informationen sendet der Server einen gefundenen Raum als Response an den Client zurück. Ist der gefundene Raum an den Benutzer ausgegeben, speichert der Server diese Information in der Datenbank. Bei Änderungen bezüglich den Status dieses Raumes, werden die Informationen in der Datenbank aktualisiert.
+Hat der Benutzer einen Raum vom Server empfangen, werden diese Informationen im Gerätespeicher des Endgerätes zwischengespeichert. Durch das Caching dieser Informationen sind sie noch vorhanden, sollte der Benutzer die Anwendung ausversehen schließen. Die Anwendung hat dann die Möglichkeit diese Informationen wiederherzustellen. Um diese auf Aktualität zu prüfen sollte ein Zeitstempel gespeichert werden anhand dem verglichen werden kann ob die Anfrage noch aktuell ist. Damit sparen wir uns einen zusätzlichen Request zum Server um die Aktualität zu prüfen. Die verbleibende Gültigkeitsdauer einer Information muss dabei sowohl auf Serverseite als auch beim Client gleich sein.
+Für die Adressierung der Ressourcen benutzen wir einfache Bezeichner die sich je nach Inhalt des Bodys oder eines zusätzlichen Query String unterscheiden lassen. Für den Hauptteil der Benutzer sind die Ressourcennamen jedoch unsichtbar, da über eine Applikation keine sichtbare URI angesteuert wird. Lediglich der Administrator mit einem User Interface über einen Webbrowser hat in unserem System die Möglichkeit Einsicht in die Ressourcenbenennung zu nehmen.
+Anhand der identifizierten Aufgaben aus der [Benutzungsmodelierung]() haben wir eine Ressourcenadressierung vorgenommen. Die identifizierten Ressourcen sind nicht endgültig und können sich im Entwicklungsprozess der Gestaltungslösung oder der Implementation des vertikalen Prototyps noch ändern. Die Auflistung der Ressourcen und ihre Adressierungen befinden sich im [Anhang](tabelle_Ressourcen.md).
+
+![präskiptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/kommunikationsdiagramm_v3.png)  
+
+
+## Architektur des Systems
+
+### Einleitung
+Um die Kommunikation und die Architektur der Komponenten des Systems deutlich dazustellen, haben wir Schaubilder erstellt die es ermöglichen einen Eindruck über unseren Aufbau des Systems zu erhalten.
+
+### Deskriptives Architekturmodell
+Da es aktuell kein technisches System gibt auf dem wir uns in unserem Projekt beziehen können, lässt sich auch kein deskriptives Architekturmodell ermitteln. 
+
+
+### Präskriptives Architekturmodell
+Um ein präskriptives Architekturmodell aufzustellen, haben wir zuerst Komponenten identifiziert die in unserem System relevant sind.
+
+#### Webserver
+Als Server dient uns ein über [Node.js]() aufgesetzter Webserver mit dem [Express Framework]() der mittels HTTP-Requests mit den anderen Systemkomponenten kommunizieren kann. Der Webserver dient als zentrale Verarbeitungseinheit für das System und behandelt alle eingehenden Anfragen der Benutzer. Die Kommunikation funktioniert sowohl von Richtung Client als auch in Richtung Datenbankserver über einfache HTTP-Requests die im besten Fall über ein geschlossenes Netzwerk innerhalb der Lehreinrichtung arbeiten. Damit besteht die Voraussetzung das der Benutzer sich im selben Netzwerk wie das System befinden muss, bspw. über eine aktive WLAN-Verbindung. Damit würde eine zusätzliche Authentifizierung der Benutzer erfolgen, da für gewöhnlich nur Personen Zugang zu einer WLAN-Verbindung haben, die dort auch Mitglied oder angestellt sind. Da aber wahrscheinlich nicht alle Lehreinrichtungen eine WLAN-Verbindung stellen können, sollte der Zugang zum System theoretisch auch über eine Mobilfunkverbindung mit dem Internet möglich sein. Als Grundvoraussetzung um das System nutzen zu können, ist aber trotzdem eine aktive Internetverbindung an die sich der Webserver anknüpfen kann. In unserem Projekt gehen wir davon aus das die Lehreinrichtung sowohl einen verfügbaren Internetanschluß als auch eine WLAN Verfügbarkeit überall im Gebäude gewährleisten kann.
+
+#### Datenbankserver
+Der Datenbankserver des Systems dient als Verbindungselement zwischen Webserver und Datenbank. Dabei liest der Datenbankserver die benötigten Informationen des Webservers aus der Datenbank aus und leitet sie weiter. Außerdem ist er für das abspeichern von neuen oder aktualisierten Informationen zuständig die ihm der Webserver übermittelt.
+Wir haben festgestellt das logische Unterscheidungen bei den Datensätzen getroffen werden können. Wir haben eine logische Trennung der regulären und der dynamischen Raumbelegung getrofen um eine eventuell bereits bestehende Datenbank mit regulären Veranstalltungsdaten in das System eingliedern zu können. Es bietet sich an diese auch in logisch getrennten Datenbanken einzuordnen um eine Wartung dieser zu vereinfachen. Auf der einen Datenbank sind nur Informationen vorhanden die bereits im Systemumfeld vorliegen, wie z.B. der reguläre Veranstaltungsplan der regelmäßig wiederkehrenden Veranstaltungen speichert. Die andere Datenbank enthält die von uns dynamisch erzeugten Informationen über die aktuelle Belegung der Räume durch die Benutzer des Systems. Durch die Trennung dieser Datensätze kann je nach Bedarf der Inhalt der Datenbanken verändert werden, ohne den Ablauf der anderen Datenbank zu beeinflussen.
+Als Datenbank haben wir uns für [Redis](https://redis.io/) entschieden, die eine einfache Schlüssel-Werte-Datenstruktur besitzt. Da keine komplexen Datenstrukturen benötigt werden ist diese Datenbank ideal für uns geeignet. Ein Vorteil von Redis sind die schnellen Zugriffszeiten die bei ca. 100.000 Schreibvorgängen/s und ca. 80.000 Lesevorgängen/s liegen können was die Bearbeitung von mehreren Anfragen vereinfacht.
+
+#### Client
+Die 3. Komponente auf Clientseite ist eine Anwendung auf dem Endgerät des Benutzers. In unserem Projekt haben wir uns auf eine Applikation, basierend auf dem Android Betriebssystem fokussiert. Eine Umsetzung auf einem anderen Betriebssystem, wie z.B. iOS ist aber auch denkbar, wird in diesem Projekt aber nicht behandelt. Diese Anwendung stellt die Kommunikations-  und Interaktionsschnittstelle mit den Funktionen des Systems da. Der einfache Benutzer des Systems kann durch die Installation dieser Anwendung auf seinem Android basierten Endgerät wie z.B. Smartphone oder Tablet die Funktionalitäten des Systems nutzen. Die Anwendung kommuniziert dabei über HTTP-Request mit dem Server des Systems und sendet Informationen die zur Berechnung einer Raumauswahl benötigt werden. Dabei sollte der Anwendung bekannt sein, unter welcher Adresse sich der Webserver befindet. Um das dynamisch und auf verschiedene Lehreinrichtungen einfach anpassen zu können, sollte unter anderem diese Adresse bei der ersten Konfiguration in der Anwendung gespeichert werden. Da sich der Benutzer sowieso durch z.B. Eingabe einer Email identifizieren muss, kann durch ein zusätzliches Eingabefeld auch die Webadresse des Servers vom Benutzer erfragt werden.
+
+
+
+![präskiptives Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/pr%C3%A4skriptiv_architektur.PNG)  
+
+## Fazit - Architektur des Systems
+In unserem System sind wir auf folgende Komponenten gekommen, die je nach Einsatz von Technologien zu einem späteren Zeitpunkt in der Entwicklung noch ergänzt werden können.
+
+* Webserver
+    - Verarbeitungseinheit für Anfragen des Benutzers
+* Datenbankserver
+    - Verarbeitungseinheit für Datenbankzugriffe
+* Datenbank_1
+    - regulärer Veranstalltungsplan
+* Datenbank_2
+    - dynamischer Veranstalltungsplan
+    - Rauminformationen
+    - Gegenstandsinformationen
+    - Benutzerinformationen
+* Applikation auf Endgerät des Benutzers
+    - zur Kommunikation/Interaktion mit dem System
+    
+Dabei ist das Systeme in einer 3-Schichten Architektur aufgebaut. Wie in [Abbildung ? ](3_schichten_architektur.png) gezeigt nehmen wir eine strikte Trennung zwischen Anwendungslogik und Ressourcenmanagement vor. Das bringt uns den Vorteil das bei Änderungen der Datenhaltung, die Anwendungslogik nicht angepasst werden muss. Als Beispiel sei zu nennen das die Lehreinrichtung ihre eigene Datenhaltung in das System integrieren möchte.
+
+![3-Schichten Architektur]()  
 
 ## Datenstruktur und relevante Informationen
 
@@ -35,59 +101,6 @@ Grundlegende Informationen wie alle zur Verfügung stehenden Räume innerhalb de
 ### Fazit - Datenstruktur und relevante Informationen
 Die benötigten Informationen im System sollten innerhalb eines persistenten Datenspeichers, bspw. einem Datenbankserver hinterlegt sein. Der Server als Verarbeitungseinheit erfragt die jeweils auf die Anfrage passenden, benötigten Daten aus dem Speicher und verarbeitet diese. Diese Auflistung an benötigten Informationen und die grobe Datenstruktur befindet sich als ausführliche Beschreibung im [Anhang](tabelle_datenstruktur.md). In dieser Liste werden im Verlauf der Ausarbeitung auch die benötigten Variablen und Listen in Code bzw. Pseudocode aufgeführt werden.
 
-
-## Komponenten des Systems
-
-### Einleitung
-Wie bereits erwähnt soll unser System aus drei Hauptkomponenten bestehen. 
-
-
-### Webserver
-Als Server dient uns ein über [Node.js]() aufgesetzter Webserver mit dem [Express Framework]() der mittels HTTP-Requests mit den anderen Systemkomponenten kommunizieren kann. Der Webserver dient als zentrale Verarbeitungseinheit für das System und behandelt alle eingehenden Anfragen der Benutzer. Die Kommunikation funktioniert sowohl von Richtung Client als auch in Richtung Datenbankserver über einfache HTTP-Requests die im besten Fall über ein geschlossenes Netzwerk innerhalb der Lehreinrichtung arbeiten. Damit besteht die Voraussetzung das der Benutzer sich im selben Netzwerk wie das System befinden muss, bspw. über eine aktive WLAN-Verbindung. Damit würde eine zusätzliche Authentifizierung der Benutzer erfolgen, da für gewöhnlich nur Personen Zugang zu einer WLAN-Verbindung haben, die dort auch Mitglied oder angestellt sind. Da aber wahrscheinlich nicht alle Lehreinrichtungen eine WLAN-Verbindung stellen können, sollte der Zugang zum System theoretisch auch über eine Mobilfunkverbindung mit dem Internet möglich sein. Als Grundvoraussetzung um das System nutzen zu können, ist aber trotzdem eine aktive Internetverbindung an die sich der Webserver anknüpfen kann. In unserem Projekt gehen wir davon aus das die Lehreinrichtung sowohl einen verfügbaren Internetanschluß als auch eine WLAN Verfügbarkeit überall im Gebäude gewährleisten kann.
-
-### Datenbankserver
-Der Datenbankserver des Systems dient als Verbindungselement zwischen Webserver und Datenbank. Dabei liest der Datenbankserver die benötigten Informationen des Webservers aus der Datenbank aus und leitet sie weiter. Außerdem ist er für das abspeichern von neuen oder aktualisierten Informationen zuständig die ihm der Webserver übermittelt.
-Wie bereits festgestellt wird es im System 2 Datensätze geben die Informationen über die Raumbelegung geben. Es bietet sich an diese auch in logisch getrennten Datenbanken einzuordnen um eine Wartung dieser zu vereinfachen. Auf der einen Datenbank sind nur Informationen vorhanden die bereits im Systemumfeld vorliegen, wie z.B. der reguläre Veranstaltungsplan der regelmäßig wiederkehrenden Veranstaltungen speichert. Die andere Datenbank enthält die von uns dynamisch erzeugten Informationen über die aktuelle Belegung der Räume durch die Benutzer des Systems. Durch die Trennung dieser Datensätze kann je nach Bedarf der Inhalt der Datenbanken verändert werden, ohne den Ablauf der anderen Datenbank zu beeinflussen.
-
-### Client
-Die 3. Komponente auf Clientseite ist eine Anwendung auf dem Endgerät des Benutzers. In unserem Projekt haben wir uns auf eine Applikation, basierend auf dem Android Betriebssystem fokussiert. Eine Umsetzung auf einem anderen Betriebssystem, wie z.B. iOS ist aber auch denkbar, wird in diesem Projekt aber nicht behandelt. Diese Anwendung stellt die Kommunikations-  und Interaktionsschnittstelle mit den Funktionen des Systems da. Der einfache Benutzer des Systems kann durch die Installation dieser Anwendung auf seinem Android basierten Endgerät wie z.B. Smartphone oder Tablet die Funktionalitäten des Systems nutzen. Die Anwendung kommuniziert dabei über HTTP-Request mit dem Server des Systems und sendet Informationen die zur Berechnung einer Raumauswahl benötigt werden. Dabei sollte der Anwendung bekannt sein, unter welcher Adresse sich der Webserver befindet. Um das dynamisch und auf verschiedene Lehreinrichtungen einfach anpassen zu können, sollte unter anderem diese Adresse bei der ersten Konfiguration in der Anwendung gespeichert werden. Da sich der Benutzer sowieso durch z.B. Eingabe einer Email identifizieren muss, kann durch ein zusätzliches Eingabefeld auch die Webadresse des Servers vom Benutzer erfragt werden.
-
-
-## Fazit - Komponenten des Systems
-In unserem System sind wir auf folgende Komponenten gekommen, die ausführlich im [Anhang]() in Form einer grafischen Auflistung erläutert wurden.
-* Webserver 
-* Datenbankserver
-* Datenbank_1 (regulärer Veranstalltungsplan)
-* Datenbank_2 (dynamischer Veranstalltungsplan)
-* Anwendung auf Endgerät des Benutzers
-
-
-Um die Kommunikation und die Architektur der Komponenten des Systems deutlich dazustellen, haben wir Schaubilder erstellt die es ermöglichen einen Eindruck über unseren Aufbau des Systems zu erhalten.
-
-## Architektur des Systems
-
-<!--
-#### Deskriptiv
-![deskriptiv Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/tree/master/notizen/MS2_notizen/imgs/deskriptiv_architektur.png)  
--->
-
-### Präskriptives Architekturmodell
-![präskiptives Architekturmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/pr%C3%A4skriptiv_architektur.PNG)  
-
-## Kommunikation des Systems
-
-<!--
-### Kommunikation der Komponenten
-#### Deskriptiv
-![deskriptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/deskriptiv_kommunikation.PNG)  
--->
-
-### Präskriptiv
-![präskiptives Kommunikationsmodell](https://github.com/eXeLuis/EISWS1718FuchshoferFonsecaLuis/blob/master/notizen/MS2_notizen/imgs/kommunikationsdiagramm_v3.png)  
-
-### Kommunikation mit dem Benutzer
-#### Deskriptiv <!-- oder deskriptiv vor den gestalltungslösungen? ändert sich ja nicht -->
-#### Präskriptiv
 
 
 ## Standortbestimmung des Benutzers
@@ -120,8 +133,8 @@ ungenaue Messung zu falschen Ergebnissen innerhalb des Systems führen kann.
     - innerhalb von Gebäuden können Signalstörungen auftreten
 
 ### Standortbestimmung durch Bluetooth-Beacons
-Bluetooth-Beacons sind das Indoor-Äquivalent zum klassischen GPS und ermöglichen innerhalb von Gebäuden eine exakte Standortbestimmung auf bis zu 1 Meter [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons). Dazu kann eine Entfernungsbestimmung vom Endgerät des Benutzers zum Beacon durch auslesen von Signaldaten aufgestellt werden, womit ein grober Standort bestimmt werden kann. Durch das Hinzufügen von mehreren Beacons lässt sich dieser Standort weiter eingrenzen da durch das Aufspannen einer Fläche ein Schnittpunkt gebildet werden kann. Durch die Bluetooth Low Energy Technik (BLE) die seit Version 4.0 im Bluetooth Industriestandard spezifiziert wurde, sind diese Beacons äußerst stromsparend und können dabei im Batteriebetrieb je nach eingestelltem Sendeintervall 2-8 Jahre [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons) senden. Durch die Möglichkeit diese an das Stromnetz anzuschließen, lässt sich die Betriebsdauer beliebig erhöhen.
-Auf dem Markt sind bereits spezielle Beacons vorhanden die für das bestimmen von Standorten wie z.B. Messegeländen oder Flughafenterminals konzipiert worden sind. [Estimote, Inc.]() bietet eine spezielle Lösung zu Standortbestimmung innerhalb von Gebäuden an. Dabei lässt sich mit Hilfe eines Tools eine Karte eines Gebäudes erstellen, auf der durch geschicktes platzieren von speziellen [Estimote Beacons]() der Standort des Benutzers auf einer [Karte](https://github.com/Estimote/Android-Indoor-SDK) angezeigt werden kann. Allerdings ist diese Funktion nur exklusiv bei [Estimote, Inc.]() verfügbar, weswegen sie im Rahmen unseres Projektes nicht anwendbar ist. Allerdings lässt sich ein Standort auch ohne interaktive Karte bestimmen, da dafür nur normale Beacons benötigt werden. Die Open Source Projekt [Android Beacon Library](http://altbeacon.github.io/android-beacon-library/index.html) von [Radius Networks](https://www.radiusnetworks.com/) biete eine Anbindung an viele verschiedene Beacon Modelle und Marken die dem [AltBeacon Standard](http://altbeacon.org/) entsprechen. Über z.B. eine Android Applikation lassen sich verschiedene Informationen von einem Beacon empfangen und auslesen.
+Bluetooth-Beacons sind das Indoor-Äquivalent zum klassischen GPS und ermöglichen innerhalb von Gebäuden eine exakte Standortbestimmung auf bis zu 1 Meter [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons). Dazu kann eine Entfernungsbestimmung vom Endgerät des Benutzers zum Beacon durch auslesen von Signaldaten aufgestellt werden, womit ein grober Standort bestimmt werden kann. Durch die Bluetooth Low Energy Technik (BLE) die seit Version 4.0 im Bluetooth Industriestandard spezifiziert wurde, sind diese Beacons äußerst stromsparend und können dabei im Batteriebetrieb je nach eingestelltem Sendeintervall 2-8 Jahre [Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons) senden. Durch die Möglichkeit diese an das Stromnetz anzuschließen, lässt sich die Betriebsdauer beliebig erhöhen.
+Auf dem Markt sind bereits spezielle Beacons vorhanden die für das Bestimmen von Standorten wie z.B. Messegeländen oder Flughafenterminals konzipiert worden sind. [Estimote, Inc.]() bietet eine spezielle Lösung zu Standortbestimmung innerhalb von Gebäuden an. Dabei lässt sich mit Hilfe eines Tools eine Karte eines Gebäudes erstellen, auf der durch geschicktes platzieren von speziellen [Estimote Beacons]() der Standort des Benutzers auf einer [Karte](https://github.com/Estimote/Android-Indoor-SDK) angezeigt werden kann. Allerdings ist diese Funktion nur exklusiv bei [Estimote, Inc.]() verfügbar, weswegen sie im Rahmen unseres Projektes nicht anwendbar ist. Allerdings lässt sich ein Standort auch ohne interaktive Karte bestimmen, da dafür nur normale Beacons benötigt werden. Die Open Source Projekt [Android Beacon Library](http://altbeacon.github.io/android-beacon-library/index.html) von [Radius Networks](https://www.radiusnetworks.com/) biete eine Anbindung an viele verschiedene Beacon Modelle und Marken die dem [AltBeacon Standard](http://altbeacon.org/) entsprechen. Über z.B. eine Android Applikation lassen sich verschiedene Informationen von einem Beacon empfangen und auslesen.
 
 * Vorteile
     - günstig
@@ -173,29 +186,8 @@ Mit diesen Berechnungsmethoden für freie Räume in der Nähe des Benutzers kann
 Die verkettete Liste mit einem Dijkstra-Algorithmus ergibt in unserem Projekt eine sinvolle Methode um die kürzeste Entfernung zwischen einem Start- und mehreren Endpunkten zu bestimmen.
 Das der Einsatz einer verketteten Liste in diesem Anwendungsumfeld funktioniert, zeigt die Durchführung des Proof of Concepts den wir im [Anhang](Risiken bei der Laufwegbestimmung) dokumentiert haben.
 
-<!--
-* der Server kann anhand des Standortes des Benutzers und seinen Wünschen einen Raum ausgeben der sich in seiner Nähe befindet.
-* Räume bekommen eine Gewichtung und können so für eine Wegfindung zwischen zwei Räumen eingesetzt werden.
-* Startort ist der Raum der sich am nächsten zum Benutzer befindet.
-* Zielort ist der der vom Benutzer gewünschte Raum
-* der Weg setzt sich aus der Strecke mit der kleinsten Kantenzahl zusammen (Dijkstra-Algorithmus)
-* Start und Endpunkt einer Kante sind zwei verschiedene Räume
-* als Startpunkt wird der Raum gewählt der am nächsten am Benutzer liegt
-* Kantenwerte
-    - zwei nebeneinanderliegenede Räume haben die Kantenwertung 1
-    - zwei gegenüberliegende Räume haben die Kantenwertung 1
-    - ein Treppenhaus (ein Etagenwechsel) hat die Kantenwertung 3
-    - Kante zwischen Treppenhaus und Raum hat die Kantenwertung 1
-    - Kante zwischen Gebäudeein/ausgang und Raum/Treppenhaus hat die Wertung 1
-* Kantenwertung muss je nach Gebäudeaufbau eventuell unterschiedlich sein
-* eventuell lässt sich die Kantenwertung auch über Meterzahl regeln
-    - dann muss jede Lehreinrichtung individuell berechnet werden
-* es kann keine Metergenaue Angabe gemacht werden, immer nur ungefähre Angaben
-* Zeitersparnis ist auch variabel, je nach Laufgeschwindigkeit/Schrittgröße
-* System bezieht nur die position des Benutzers beim abschicken des Requests ein!
--->
 
-## Problem - Flexible Räume (Verteilte Anwendungslogik)
+## Flexible Räume (Verteilte Anwendungslogik)
 
 ### Einleitung
 Das innerhalb von Räumen befindliche Equipment ist bis auf wenige Ausnahmen in der Regel nicht fest installiert. So hat der Benutzer die Möglichkeit Gegenstände von Raum zu Raum zu tragen um Räume flexibel nutzen zu können. Im System müssen diese Verschiebungen von Equipment durch irgendeine Methode vermerkt werden um zu gewährleisten das immer bekannt ist was sich in einem Raum gerade an Ausrüstungen befindet. Im Folgenden sollen Möglichkeiten diskutiert werden, die zur flexiblen Raumgestaltung eingesetzt werden können.
@@ -208,59 +200,40 @@ Die Möglichkeit den Benutzer für diese Aufgabe einzubeziehen halten wir allerd
 
 ### Passives aktualisieren von Rauminhalten
 Nach einer Recherche zum Thema Gegenstanderkennung bzw. Zuordnung sind wir auf die RFID-Technologie (Radio Frequency Identification) gestoßen. Durch das Markieren von Gegenständen und dem Anbringen eines Lesegeräts lassen sich Gegenstände über die RFID-Technik erkennen. Dabei kommunizieren die beiden Komponenten über elektromagnetische Wellen miteinander, die in der Regel vom Lesegerät ausgesandt, und über kleine Antennen empfangen werden. Gleichzeitig wird bei manchen RFID-Transpondern der benötigte Strom zum Senden von Informationen über diese elektromagnetischen Wellen vom Lesegerät mit übertragen. Das bringt den Vorteil das die RFID Transponder keine eigene Stromquelle benötigen und somit passiv kommunizieren können. Beim Betreten des Empfangsbereiches des Lesegerätes wird sowohl der benötigte Strom übertragen, als auch Daten an das Lesegerät gesendet. Für unseren Kontext sind die passiven RFID-Transponder ideal, da eine Vielzahl an Gegenständen mit diesen Transpondern ausgestattet werden müssen.
-Um dieses Prinzip umzusetzen muss jeder Gegenstand der relevant für das System ist, einen Transponder besitzen und eine eindeutige ID besitzen die ihn im System identifiziert. Es gibt verschiedene Transponder die für unterschiedliche Einsatzzwecke geeignet sind. In unserem Fall wären flache, selbstklebende Transponder ein Vorteil da diese schnell und einfach am entsprechenden Gegenstand angebracht werden können. Diese [Labels](http://www.identytag.de/rfid-labels-tags/smart-label/?gclid=CjwKCAiA693RBRAwEiwALCc3u1b_V_f_mLZsRZhpNhQOmtAnyH0GOJu_uTyqLHvTeSdN0y6WsmXX0BoCRgkQAvD_BwE) kommen auch oft in der Versand und Logistikabteilung zur Anwendung um Postsendungen oder Paletten zu kennzeichnen. Das Prinzip lässt sich auch auf unser Projekt übertragen. Um mutwilliger oder unabsichtlicher Zerstörung diese Labels zu verhindern, sollten diese an Positionen angebracht werden die möglichst nicht ersichtlich sind. Die Gefahr das ein Label beschädigt und dadurch nicht mehr erkannt wird besteht allerdings weiterhin.
+Um dieses Prinzip umzusetzen muss jeder Gegenstand der relevant für das System ist, einen Transponder und eine eindeutige ID besitzen die ihn im System identifiziert. Es gibt verschiedene Transponder die für unterschiedliche Einsatzzwecke geeignet sind. In unserem Fall wären flache, selbstklebende Transponder ein Vorteil da diese schnell und einfach am entsprechenden Gegenstand angebracht werden können. Diese [Labels](http://www.identytag.de/rfid-labels-tags/smart-label/?gclid=CjwKCAiA693RBRAwEiwALCc3u1b_V_f_mLZsRZhpNhQOmtAnyH0GOJu_uTyqLHvTeSdN0y6WsmXX0BoCRgkQAvD_BwE) kommen auch oft in der Versand und Logistikabteilung zur Anwendung um Postsendungen oder Paletten zu kennzeichnen. Das Prinzip lässt sich auch auf unser Projekt übertragen. Um mutwilliger oder unabsichtlicher Zerstörung diese Labels zu verhindern, sollten diese an Positionen angebracht werden die möglichst nicht ersichtlich sind. Die Gefahr das ein Label beschädigt und dadurch nicht mehr erkannt wird besteht allerdings weiterhin.
 Die Auswahl des entsprechenden Transponders und Lesegerätes hängt stark vom Anwendungsgebiet und dem Umfeld ab. Unterschiedliche Frequenzbereiche können unterschiedlich große Reichweiten gewährleisten. Diese reichen von einem Zentimeter bis hin zu mehreren Metern. Da in unserem Fall das Lesegerät bzw. die Antenne im Türbereich angebracht werden soll, wird eine Empfangsreichweite von ca. einem Meter benötigt. Diese Entfernung würde man in einem *Ultra hohen Frequenzbereich* (UHF) erreichen. Diese sendet zwischen 860 und 960 MHz [quelle]() und erkennt selbst passive Transponder über mehrere Meter. Die UHF RFID Tags sind dabei papierdünn, günstig und können nahezu überall angebracht werden.
-Um unabsichtliches Einlesen von RFID-Transpondern im Türbereich zu vermeiden, sollte die Antenne so ausgerichtet werden, dass sie nur von einem Türrahmen zum gegenüberliegenden Türrahmen empfangen kann. Das anbringen des Lesegerätes bzw. der Antenne am Türrahmen selber wäre allerdings keine gute Idee, da es möglich ist das Personen beim Passieren der Tür die Antenne berühren oder sogar beschädigen. Unserer Meinung nach sollte diese Antenne direkt neben dem Türrahmen wie in [Bild ?]() gezeigt positioniert werden. Um den Empfangsbereich der Antenne weiter einzugrenzen und versehentliches einlesen zu vermeiden, wäre das Anbringen eines kleinen Reflektors um die Antenne herrum von Vorteil.
+Um unabsichtliches Einlesen von RFID-Transpondern im Türbereich zu vermeiden, sollte die Antenne so ausgerichtet werden, dass sie nur von einem Türrahmen zum gegenüberliegenden Türrahmen empfangen kann. Das anbringen des Lesegerätes bzw. der Antenne am Türrahmen selber wäre allerdings keine gute Idee, da es möglich ist das Personen beim Passieren der Tür die Antenne berühren oder sogar beschädigen. Unserer Meinung nach sollte diese Antenne direkt neben dem Türrahmen wie in [Bild ?](RFID_Lesegerät Darstellung.png) gezeigt positioniert werden. Um den Empfangsbereich der Antenne weiter einzugrenzen und versehentliches einlesen zu vermeiden, wäre das Anbringen eines kleinen Reflektors um die Antenne herrum von Vorteil.
 
-Um die erkannten Gegenstände bzw. RFID-Transponder im System zu erkennen und Aktualisierungen zu speichern, wird als zusätzliche Komponente eine Verarbeitungseinheit, z.B. ein Raspberry Pi 3, benötigt. Das Lesegerät empfängt dabei die erkannten Gegenstände im Empfangsbereich und sendet diese über ein Verbindungskabel an den Raspberry Pi. Dieser hat in einer Liste alle Rauminformationen inklusive aktuellem Equipment gespeichert und kann so automatisch auf Änderungen reagieren. Wird vom Lesegerät ein Gegenstand erkannt, wird die ID des Gegenstandes ausgelesen und an den Raspberry Pi gesendet. Dieser gleicht die ID mit seiner vorhandenen Liste an Equipment ab. 
+Um die erkannten Gegenstände bzw. RFID-Transponder im System zu erkennen und Aktualisierungen zu speichern, wird als zusätzliche Komponente eine Verarbeitungseinheit, z.B. ein Raspberry Pi 3, benötigt. Das Lesegerät empfängt dabei die erkannten Gegenstände im Empfangsbereich und sendet diese über ein Datenkabel an den Raspberry Pi. Dieser hat in einer Liste alle Rauminformationen inklusive aktuellem Equipment gespeichert und kann so automatisch auf Änderungen reagieren. Wird vom Lesegerät ein Gegenstand erkannt, wird die ID des Gegenstandes ausgelesen und an den Raspberry Pi gesendet. Dieser gleicht die ID mit seiner vorhandenen Liste an Equipment ab. 
+Ist die ID in der Liste vorhanden, also der Gegenstand ein Teil des Inventars, trägt die Anwendung auf dem Minicomputer diesen Gegenstand aus der Inventarliste aus. Zeitgleich wird mit der PUT-Methode ein HTTP Request an den Server gesendet um ihn über die Aktualisierung zu informieren. Der Server liest den Body des Requests aus in dem die Änderung (Gegenstand ausgetragen/eingetragen) und die ID des entsprechenden Gegenstandes vermerkt sind. Der entsprechende Gegenstand wird im Datensatz wo alle Gegenstände und ihre aktuelle Position vermerkt sind ausgetragen. Um zu vermeiden das ein Gegenstand nach dem Austragen im System nicht mehr vorhanden ist, wird die ID des Gegenstandes mit dem Zeitpunkt des Austragens in eine spezielle Liste geschrieben. Auf dieser bleibt er solange vorhanden, bis er in einem anderen Raum erkannt wird. Somit ist gewährleistet das ein Gegenstand immer im System bekannt ist. Das dient uns als zusätzliche Überprüfung über den Verbleib des Gegenstandes. Der Administrator des Systems kann so regelmäßig prüfen ob Gegenstände unterwegs abhandengekommen sind und Nachforschungen über den Verbleib anstellen.
 
-Ist die ID in der Liste vorhanden, also der Gegenstand ein Teil des Inventars, trägt die Anwendung auf dem Minicomputer diesen Gegenstand aus der Inventarliste aus. Zeitgleich wird ein HTTP-Request an den Server gesendet um ihn über die Aktualisierung zu informieren. Der Server liest den Body des Requests aus in dem die Änderung (Gegenstand ausgetragen/eingetragen) und die ID des entsprechenden Gegenstandes vermerkt sind. Der entsprechende Gegenstand wird im Datensatz wo alle Gegenstände und ihre aktuelle Position vermerkt sind ausgetragen. Um zu vermeiden das ein Gegenstand nach dem Austragen im System nicht mehr vorhanden ist, wird die ID des Gegenstandes mit dem Zeitpunkt des Austragens in eine spezielle Liste geschrieben. Auf dieser bleibt er solange vorhanden, bis er in einem anderen Raum erkannt wird. Somit ist gewährleistet das ein Gegenstand immer im System bekannt ist. Er kann dabei den Status "Im Raum vorhanden" oder "Auf dem Weg zu einem Raum" besitzen. Das dient uns als zusätzliche Überprüfung über den Verbleib des Gegenstandes. Der Administrator des Systems kann so regelmäßig prüfen ob Gegenstände unterwegs abhandengekommen sind und Nachforschungen über den Verbleib anstellen.
-
-Erkennt das Lesegerät eines Raumes einen Gegenstand der nicht Teil des aktuellen Rauminventars ist, weiß der Minicomputer das dieser Gegenstand den Raum gerade betreten hat. Bevor er den Gegenstand aber in seiner Inventarliste vermerkt, fragt er den Status des Gegenstandes im System ab. In Fehlerfällen kann es möglich sein das ein Gegenstand versehentlich Teil eines Rauminventars geworden ist, obwohl das nicht beabsichtigt war. Wird ein Gegenstand zu nahe an das Lesegerät eines Raumes getragen kann er versehentlich dort in das Inventar eingetragen werden. Das kann passieren, wenn der Gegenstand nur bis in den Empfangsbereich, aber nicht durch diesen hindurch getragen wird. Er wird also nur einmal vom Lesegerät erkannt und dann in das Inventar des Raumes eingetragen. Verlässt der Gegenstand den Empfangsbereich in Richtung Ausgang, kann er vom System nicht als Gegenstand erkannt werden der den Raum verlässt. Wird der Gegenstand dann in den eigentlichen Raum getragen den der Benutzer beabsichtigt, würde er vom Lesegerät erkannt und ebenfalls im Rauminventar des zweiten Raumes eingetragen. Damit verhindert wird das ein Gegenstand im System in 2 Räumen gleichzeitig vorhanden ist, muss eine Überprüfung erfolgen. Wenn der Gegenstand bereits Teil eines anderen Rauminventars ist, muss er aus diesem ausgetragen und in das Inventar des zweiten, neuen Raumes eingetragen werden. Dazu sendet der Server dem ersten Minicomputer über einen HTTP-Request den Befehl zum Austragen aus seinem Inventar und nach Bestätigung im Response dem 2. Minicomputer die Erlaubnis den erkannten Gegenstand in sein Inventar einzutragen.
+Erkennt das Lesegerät eines Raumes einen Gegenstand der nicht Teil des aktuellen Rauminventars ist, weiß der Minicomputer das dieser Gegenstand den Raum gerade betreten hat. Bevor er den Gegenstand aber in seiner Inventarliste vermerkt, fragt er den Status des Gegenstandes im System ab. In Fehlerfällen kann es möglich sein das ein Gegenstand versehentlich Teil eines Rauminventars geworden ist, obwohl das nicht beabsichtigt war. Wird ein Gegenstand zu nahe an das Lesegerät eines Raumes getragen kann er versehentlich dort in das Inventar eingetragen werden. Das kann passieren, wenn der Gegenstand nur bis in den Empfangsbereich, aber nicht durch diesen hindurch getragen wird. Er wird also nur einmal vom Lesegerät erkannt und dann in das Inventar des Raumes eingetragen. Verlässt der Gegenstand den Empfangsbereich in Richtung Ausgang, kann er vom System nicht als Gegenstand erkannt werden der den Raum verlässt. Wird der Gegenstand dann in den eigentlichen Raum getragen den der Benutzer beabsichtigt, würde er vom Lesegerät erkannt und ebenfalls im Rauminventar des zweiten Raumes eingetragen. Damit verhindert wird das ein Gegenstand im System in 2 Räumen gleichzeitig vorhanden ist, muss eine Überprüfung erfolgen. Wenn der Gegenstand bereits Teil eines anderen Rauminventars ist, muss er aus diesem ausgetragen und in das Inventar des zweiten, neuen Raumes eingetragen werden. Dazu sendet der Server dem ersten Minicomputer über einen PUT-HTTP-Request den Befehl zum Austragen aus seinem Inventar und nach Bestätigung im Response dem 2. Minicomputer die Erlaubnis den erkannten Gegenstand in sein Inventar einzutragen.
 Den Minicomputer als Verarbeitungseinheit haben wir im [Architekturmodell]() und [Kommunikationsmodell]() ergänzt.
 
 
 
-### Fazit - Problem - Flexible Räume (Verteilte Anwendungslogik)
+### Fazit - Flexible Räume (Verteilte Anwendungslogik)
 Die Überprüfung ob der Einsatz von RFID Technik für die Equipmentmarkierung in unserem Anwendungsfeld funktioniert simulieren wir durch erstellte Datensätze. Dabei können wir aufgrund von mangelnder Technologie aktuell nicht auf echte RFID Transponder und Lesegeräte zurückgreifen. Um diese Technik dennoch zu prüfen haben wir eine Simulation erstellt die überprüft ob der vorgesehene Ablauf funktioniert. Die Dokumentation des Proof of Concepts befindet sich im [Anhang](Risiken bei der Markierung von Gegenständen).
 
-<!--
-* da Räume Equipment beinhalten kann, das von einem zu einem anderen Raum transportiert wird, wird eine erkennung benötigt.
-* Erkennung über passive RFID Aufkleber
-* aktive Aufkleber benötigen Batterie, Auswechseln dieser wäre bei der Menge nicht vertretbar
-* Jeder entfernbare, und für das System relevante, Gegenstand bekommt einen eindeutigen RFID Aufkleber
-* IM Eingangsbereich des Raumes befindet sich ein Sensor der registriert ob ein Gegenstand die Tür passiert.
-* Wird ein GEgenstand erkannt, wird diese Information im System gespeichert.
-* Der Gegenstand wird im System in eine temporäre Tabelle gespeichert
-* Es wird darauf gewartet das der Gegenstand im Eingangsbereich eines anderen Raumes registriert wird.
-* Trifft das zu, wird der Gegenstand für diesen neuen Raum als Inventar eingetragen.
-* Trifft das nicht zu kann man herrausfinden das ein Gegenstand entwendet wurde
-* Sollte sich ein Gegenstand eigentlich in einem Raum befinden, wird dann aber in einem anderen Raum registriert, kann so dynamisch das Inventar angepasst werden.
-* keine erkennung ob ein Gegenstand einen Raum verlässt oder betritt
-* wird dynamisch erkannt durch einscannen an verschiedenen Orten
-* __Bedingung:__ Alle relevanten Gegenstände müssen katalogisiert werden.
--->
 
-## Problem - Verschiedene Eigenschaften der Räume (ARBEITSTITEL)
+## Verschiedene Eigenschaften der Räume (ARBEITSTITEL)
 ### Einleitung
 Um im Ablauf des Systems zu gewährleisten das ein Raum auch tatsächlich frei ist wenn der Benutzer ihn erreicht, wird eine Methode benötigt die dieses Problem lösen kann. Im Folgenden beschäftigen wir uns mit der Zugangsberechtigung zu einem Raum und wie der Benutzer Zugang zu diesem bekommt. Außerdem bschäftigen wir uns mit unterschiedlichen Raumtypen. 
 
 ### Zugang zum Raum
-Um gewährleisten zu können das ein Raum frei ist wenn der Benutzer ihn erreicht, muss eine Zugangsberechtigung eingerichtet werden. Bei offenen Räumen besteht die Gefahr das Personen diesen einfach belegen ohne das System zu nutzen. Der Raum wird im System als frei angezeigt obwohl das nicht der Fall ist. Um das Problem zu lösen wäre das generelle Abschließen aller Räume eine Möglichkeit. Um Zugang zum Raum zu bekommen muss das System diesen gewähren indem geprüft wird ob ein Benutzer eine aktive Reservierung für diesen Raum besitzt. Unserer Idee nach kann das öffnen über einen vom System generierten Code erfolgen der bei der Reservierung an das Endgerät des Benutzers gesendet wird. Um die Tür zu öffnen muss z.B. dem Minicomputer den wir in [Verweis]() als neue Komponente des Systems identifiziert haben, dieser Code mitgeteilt werden. Stimmt der Code mit dem im System hinterlegten Raum überein, kann die Tür geöffnet werden. Um das zu realisieren muss das System sowohl dem Benutzer als auch dem Minicomputer innerhalb des Raumes diesen Code über HTTP-Requests mitteilen. Damit Benutzer und Minicomputer im Raum miteinander Kommunizieren können haben wir Bluetooth und NFC als Möglichkeiten in betracht gezogen. Bluetooth, wie schon bei der Standortbestimmung des Benutzers verwendet, ist eine weit verbreitete Datenübertragungstechnik die über kurze Distanz gut funktioniert. Der im Endgerät des Benutzers gespeicherte Code wird dem Minicomputer im Raum über kurze Distanz mitgeteilt. Der Benutzer muss sich dabei unmitelbar vor der Tür befinden damit der Minicomputer den Code empfangen kann. Um auszuschließen das der Code von fremden Personen abgehört und missbraucht wird, sollte der Code im System dynamisch und zufällig generiert werden. Für zusätzliche Sicherheit sollte erst durch eine Bestätigung des Benutzers dieser Code per Bluetooth an den Minicomputer übertragen werden. Damit der Minicomputer das Bluetooth Signal empfangen kann muss das Endgerät des Benutzers als sendender Beacon umfunktioniert werden. Durch Bluetooth 4.0 und die Einführung der Low Energy Technik muss keine direkte Verbindung mehr hergestellt werden was uns hier zugute kommt [Quelle]().
+Um gewährleisten zu können das ein Raum frei ist wenn der Benutzer ihn erreicht, muss eine Zugangsberechtigung eingerichtet werden. Bei offenen Räumen besteht die Gefahr das Personen diesen einfach belegen ohne das System zu nutzen. Der Raum wird im System als frei angezeigt obwohl das nicht der Fall ist. Um das Problem zu lösen wäre das generelle Abschließen aller Räume eine Möglichkeit. Um Zugang zum Raum zu bekommen muss das System diesen gewähren indem geprüft wird ob ein Benutzer eine aktive Reservierung für diesen Raum besitzt. Unserer Idee nach kann das öffnen über einen vom System generierten Code erfolgen der bei der Reservierung an das Endgerät des Benutzers gesendet wird. Um die Tür zu öffnen muss z.B. dem Minicomputer den wir in [Verweis]() als neue Komponente des Systems identifiziert haben, dieser Code mitgeteilt werden. Stimmt der Code mit dem im System hinterlegten Raum überein, kann die Tür geöffnet werden. Um das zu realisieren muss das System sowohl dem Benutzer als auch dem Minicomputer innerhalb des Raumes diesen Code über HTTP-Requests mitteilen. Damit Benutzer und Minicomputer im Raum miteinander Kommunizieren können haben wir Bluetooth und NFC als Möglichkeiten in betracht gezogen. Bluetooth, wie schon bei der Standortbestimmung des Benutzers verwendet, ist eine weit verbreitete Datenübertragungstechnik die über kurze Distanz gut funktioniert. Der im Endgerät des Benutzers gespeicherte Code wird dem Minicomputer im Raum über kurze Distanz mitgeteilt. Der Benutzer muss sich dabei unmitelbar vor der Tür befinden damit der Minicomputer den Code empfangen kann. Um auszuschließen das der Code von fremden Personen abgehört und missbraucht wird, sollte der Code im System dynamisch und zufällig generiert werden. Für zusätzliche Sicherheit sollte erst durch eine Bestätigung des Benutzers dieser Code per Bluetooth an den Minicomputer übertragen werden. Damit der Minicomputer das Bluetooth Signal empfangen kann muss das Endgerät des Benutzers als sendender Beacon umfunktioniert werden. Durch Bluetooth 4.0 und die Einführung der Low Energy Technik muss keine direkte Verbindung mehr hergestellt werden was uns hier zugute kommt [Quelle](https://californiaconsultants.org/wp-content/uploads/2014/05/CNSV-1205-Decuir.pdf).
 Eine der größeren Änderungen bei dem automatischen Entsperren der Räume ist die Notwendigkeit das ein Computer das öffnen übernimmt. Dementsprechend muss der Schließmechanismus so umgerüstet werden das dies automatisch erfolgen kann. Das kann mit elektronischen Schließzylindern ermöglicht werden die in vielen Varianten angeboten werden. In unserem Fall wäre eine drahtlose Kommunikation zwischen Minicomputer und Schließsystem von Vorteil. Diese lässt sich ebenfalls über Bluetooth regeln. 
-NFC als Alternative zu Bluetooth funktioniert aus der Perspektives Benutzers genauso. Allerdings muss der Benutzer sein Endgerät auf ein NFC-Sensorfeld legen da die Kommunikation nur über wenige Zentimeter funktioniert.
-
-
-Die nicht-automatisierte Alternative wäre das Risiko zu akzeptieren das bei unverschloßenen Räumen Personen den Raum einfach besetzen ohne das System zu nutzen. Wie die Lehreinrichtung mit diesem Problem intern umgeht ist ihr selber überlassen.
+NFC als Alternative zu Bluetooth funktioniert aus der Perspektive Benutzers genauso. Allerdings muss der Benutzer sein Endgerät auf ein NFC-Sensorfeld legen da die Kommunikation nur über wenige Zentimeter funktioniert.
+Die nicht-automatisierte Alternative wäre zu akzeptieren das bei unverschloßenen Räumen Personen den Raum einfach besetzen ohne das System zu nutzen. Wie die Lehreinrichtung mit diesem Problem intern umgeht ist ihr selber überlassen.
 
 ### Raumtyp "Stiller Arbeitsraum"
 Da wir in unserem System einen besonderen Raum haben in denen mehrere verschiedene Benutzer gleichzeitig und alleine arbeiten können, kann für diesen Raumtyp die bisherige Lösung zur Raumbuchung so nicht angewand werden. Die besondere Eigenschaft an diesem Raumtyp bezieht sich darauf das die Benutzer in der Regel zu unterschiedlichen Zeiten anfangen zu arbeiten und somit eine einzige Buchungszeit kontraproduktiv wäre. Um das Problem zu lösen sind wir zu dem Entschluss gekommen das dieser Raum ein besonderes Datenschema benötigt. Ein Raum der zum stillen arbeiten genutzt wird, hat eine bestimmte Slotzahl an Arbeitsplätzen zur Verfügung in die Benutzer eingetragen werden können. Bucht ein Benutzer einen Raum zum stillen arbeiten, wird er mit dem Zeitstempel seiner Buchung im System vermerkt. Der Raum wird wieder komplett freigegeben wenn der letzte Benutzer den Raum nicht weiter benutzt. So kann zusätzlich eine sinnvolle Raumbelegung erreicht werden, da dynamisch Räume zum stillen arbeiten erzeugt und wieder entfernt werden.
 
 ### Fazit - Verschiedene Eigenschaften der Räume (ARBEITSTITEL)
+Die beiden identifizierten 
 
 
-
-## Problem - Personenerkennung im Raum
+## Personenerkennung im Raum
 
 ### Einleitung
 Zur Findung einer Methode für effektive Personenzählung haben wir ein
@@ -270,137 +243,71 @@ Druckplatten und Bewegungsmelder.
 Im Folgenden werden die einzelnen Methoden kurz erläutert und einige Vor- und
 Nachteile aufgezählt.
 
-### Druckplatten
+### Druckplatten im Boden
 Bei der Zählung von Personen durch eine druckempfindliche Matte im Eingangs-
-bereich kann durch algorithmen sowohl die Anzahl der Personen als auch die
-Laufrichtung der einzelnen durch analyse der drucksensoren bestimmt werden.
-Diese Matten können im Eingangsbereich zu den Räumen unter Fußmatten versteckt
-werden und sind robust genug so dass keine Schäden durch Equipment welches
-über diese gerollt wird entstehen sollte. Allerdings ist auf der Webseite des
-[Anbieters](http://www.instacounting.com/intro.html) auf den wir uns bei dieser
-Methode beziehen keiner Information dazu zu finden ob ein Gegenstand, zum
-Beispiel ein Whiteboard mit rollen, beim Schieben über die Matte als Person
-erkannt wird oder nicht. Hierfür müsste sofern möglich ein eigenes System
-entwickelt oder das bestehende um algorithmen zur Erkennung von bestimmten
-Merkmalen, wie z.B. des Reifenabstandes, und der Zuordnung dieser  erweitert
-werden. Weiterhin kann es durch das Verrutschen der Matte dazu kommen das Türen
-nicht mehr richtig schließen. Dies kann durch das Befestigen der Matte auf dem
-Boden behoben werden. Außerdem muss die Matte eine zu ermittelnde Mindestgröße
-besitzen, damit Menschen Mit größerer Schrittweite auch von dieser erkannt
-werden.
+bereich kann durch Algorithmen sowohl die Anzahl der Personen als auch die
+Laufrichtung dieser durch analyse der Drucksensoren bestimmt werden.
+* Vorteile
+    - unauffällige Personenzählung
+    - Laufrichtung erkennbar
+    - robust
+* Nachteile
+    - 
 
 ### Lichtschranken und Bewegungsmelder
-Einige Methoden können zu einer Gruppe zusammengeschlossen werden, da diese
-in etwa ähnlich funktionieren oder ähnliche Vor- und Nachteile besitzen. So
-bilden die Bewegunsmelder und Lichtschranken zum Beispiel eine solche Gruppe.
-Die Vorteile dieser Methoden sind zum Einen die Datenschutz unbedenkliche
-Verwendung, da durch diese Methoden weder Bild- noch Tonmaterial aufgenommen
-wird und somit auch keine Personenbezogenen Daten erhoben werden können.
-Der Große Nachteil dieser Methoden ist, dass durch die Verwendung eines
-einzelnen Gerätes weder die Laufrichtung noch die genaue Anzahl der Personen
-bestimmen kann. So kann es zum Beispiel dazu führen, dass mehrere Personen
-parallel oder leicht versetzt einen Raum betreten, vom System aber nur als
-eine Person erkannt werden, da die Sensoren nur einen durchgängigen Impuls
-senden. Desweiteren ist der große Abdeckungsbereich des Bewegungsmelders
-eher hinderlich, da es dadurch auch zu Fehldeutungen kommen kann, wenn
-ein Benutzer sich der Tür nur nähert, ohne hindurchgehen zu wollen.
-Dieses Problem könnte für den Bewegungsmelder gelöst werden, indem künstlich
-sein Wirkungsbereich eingedämmt wird. Außerdem könnte durch die Verwendung
-mehrerer Geräte sowohl eine genauere bestimmung der Anzahl sowie der
-Laufrichtung von Personen bestimmt werden. Dies trifft nicht zu, wenn
-mehrere Personen gleichzeitig mit Unterschiedlichen Laufrichtungen hindurch
-laufen. Ein weiteres Problem tritt auf, wenn Gegenstände durch den
-Wirkungsbereich geschoben werden, da der Sensor nicht zwischen Mensch und
-Gegenstand unterscheiden kann. Um das Problem zu beseitigen könnte als
-die Dauer des Impulses gemessen werden und anhand dessen entscheidet
-das System ob es sich um einen Gegenstand oder eine Person handelt.
-
-### Zählermechanik (ARBEITSTITEL)
-Die Methode eines Zählers oder einer Mechanik im Eingangsbereich oder der
-Tür haben wir als einzelne Methode ausgeschlossen, da zwar eine effektive
-Erkennung einer Interaktion mit einem Raum erkannt werden kann, jedoch
-nicht festgestellt werden kann, ob der Raum betreten oder verlassen wird,
-oder ob nur die Tür geöffnet wird. Es könnte durch die Kombination mit
-einer anderen eine effektivere Methode generiert werden. Weiterhin könnte
-durch verwendung von Algorithmen bestimmt werden, ob eine Tür zum Beispiel
-mehrfach aufgehalten wird und anhand der Zeit die eine Tür offen ist, wie
-viele Personen möglicherweise hindurchgegangen sind. Dies führt allerdings
-zu keiner genauen Anzahl an Personen im Raum.
+Lichtschranken oder Bewegungsmelder im Eingangsbereich können dafür genutzt werden um eine Personenanzahl im Raum zu ermitteln.
+* Vorteile
+    - keine Individuenerkennung
+    - Laufrichtung erkennbar
+* Nachteile
+    - ungenau bei mehreren Personen gleichzeitig im Empfangsbereich
+    - keine Unterscheidung zwischen Mensch und Gegenstand
+    
 
 ### Wärmebildkameras
 Eine effektive Methode welche auch die persöhnlichen Daten der Benutzer
 schützen würde wäre die Verwendung einer Wärmebildkamera mit zugehörigem
-Algorithmus zur Personenzählung. Diese erreicht abhängig vom Algorithmus
-eine sehr hohe Genauigkeit und ermöglicht wie zuvor gesagt die anonyme
-Zählung der Personen in einem Raum. Wir haben diese Methode allerdings in
-diesem Projekt ausgeschlossen, da durch die hohen Anschaffungskosten
-eine Verwendung im Nutzungskontext einer Lehreinrichtung mit mehreren
-hundert Räumen zum momentanen Zeitpunkt nicht denkbar ist.
-Durch die Weiterentwicklung dieser Technologie sollte die Verwendung,
-falls die Anschaffungskosten wesentlich geringer ausfallen, nocheinmal
-im Rahmen dieses Projektes evaluiert werden.
+Algorithmus zur Personenzählung. 
+* Vorteile 
+    - keine Individuenerkennung
+    - hohe Genauigkeit
+* Nachteile
+    - sehr teuer in der Anschaffung
+    - Personen können durch Objekte verdeckt werden
 
 ### Video-/Bildanalyse
 Eine ähnliche und kostengünstigere Alternative bietet eine Analyse von
-Videomaterial. Der wichtigste Unterschied zur Wärmebildkamere ist hierbei
-allerdings die fehlende Anonymität der Benutzer, da ein Video aus dem
-inneren des Raumes aufgenommen wird. Es kann ebenfalls durch Verwendung
-der richtigen Algorithmen eine hohe Genauigkeit erziehlt, und so
-eine effektive Personenzählung durchgeführt werden. Da die Analyse
-solcher Videos sehr viel Rechenleistung benötigt und bei größeren Räumen
-die Videos ebenfalls hochauflösender sein müssen könnte in diesem Projekt
-eine Analyse von einzelnen Bildern, welche in festgelegten Intervallen
-aufgenommen werden, durchgeführt werden. Dadurch könnte eine gute
-Schätzung der Personen die sich in einem Raum befinden erreicht werden.
-Die Frage des Datenschutzes müsste bei der Umsetzung des Projektes mit
-dem Datenschutzbeauftragten der jeweiligen Lehreinrichtung besprochen
-werden. Allerdings sollte darauf geachtet werden dass die Bilder nur
-Lokal analysiert werden, danach gelöscht und nur das Ergebnis also
-zum Beispiel "2 Personen" weiterverwendet wird.
+Video/- bzw. Bildmaterial mit der durch algorithmische Personenerkennung die Anzahl der Personen ermittelt werden kann.
+* Vorteile
+    - hohe Genauigkeit
+    - einfach in der Implementation
+* Nachteile
+    - Personen können identifiziert werden, kein Datenschutz gewährleistet
+    - Personen können durch Objekte verdeckt werden
+    - für Videoanalyse wird ein starker Server benötigt
+    - hochauflösende Videos können nur langsam verarbeitet werden
 
 ### NFC
-Eine weitere Möglichkeit der Benutzererkennung innerhalb von Räumen wären der Einsatz von NFC. 
-Fast jedes neue Smartphone besitzt die Möglichkeit NFC einzusetzen. Bekannt ist diese Methode z.B. durch das kontaktlose Bezahlen mit einem Smartphone. Die Reichweite von NFC liegt aktuell nur bei [wenigen Zentimetern](https://developer.android.com/guide/topics/connectivity/nfc/index.html), weswegen ein passives Erkennen von Benutzern nur schwer möglich ist. Der benutzer müsste, um über NFC erkannt zu werden, sein Smartphone sehr nahe an das Lesegerät halten, was eine aktive Interaktion des Benutzers vorraussetzt. In unserem Projektkontext halten wir diese Methode für kontraproduktiv, da der Benutzer sich aktiv am Scanner verifizieren muss was eine zusätzliche Aktivität bedeutet.
+Eine weitere Möglichkeit der Benutzererkennung innerhalb von Räumen wären der Einsatz von NFC (Near Field Communication). 
+Fast jedes neue Smartphone besitzt die Möglichkeit NFC einzusetzen. Bekannt ist diese Methode z.B. durch das kontaktlose Bezahlen mit einem Smartphone.
+* Vorteile 
+    - kontaktlose Identifikation
+* Nachteile
+    - Reichweite stark begrenzt
+    - erfordert in der Regel Benutzerinteraktion
 
 
 ### BLE Beacons
-Der Einsatz von Beacons wurde bereits bei der Standortbestimmung von Benutzern angesprochen. Ebenfalls anwendbar wäre diese Methode bei der bestimmung von Benutzern innerhalb von Räumen. Es wird also nach dem Standort innerhalb eines bestimmten Bereiches gesucht. Dabei müsste das Endgerät des Benutzers als sendender Beacon umfunktioniert werden und ein Empfängerät scannt innerhalb eines Raumes nach Bluetooth Signalen. Sofern sich innerhalb des Raumes bzw. in einem bestimmten Umkreis des Empfängers Bluetooth Signale empfangen lassen, kann das System davon ausgehen das sich eine oder mehrere Personen im Raum befinden. Sobald das Signal des Benutzers eine bestimmte Entfernung überschreitet, weis das System das dieser Benutzer den Raum vermutlich verlassen hat. Falls das Signal des Benutzers wegen Störungen im Frequenzbereich vorrübergehend nicht erreicht werden kann, sollte das System den Benutzer nicht sofort als nicht mehr vorhanden , bzw. den Raum als leer kennzeichnen, sondern eine gewisse Zeitspanne einräumen in der weiter nach Benutzersignalen innerhalb eines Raumes gescannt wird. Ist nach Ablauf dieser Zeit kein Benutzer erkannt worden, wird der Raum wieder im System für andere Benutzer freigegeben. Der offensichtliche Nachteil dieser Technologie für die Benutzererkennung ist, dass nicht jeder Benutzer zwingend ein empfangsfähiges Endgerät dabei haben muss. Da immer nur ein Benutzer einen Raum für z.B. eine Gruppe von Personen bucht, besteht die Gefahr das die Anzahl der Personen im Raum nicht erkannt werden kann. Verlässt der Benutzer der den Raum gebucht hat den Raum wird er vom System nicht mehr erkannt und der Raum wird wieder freigegeben obwohl sich noch arbeitende Personen im Raum aufhalten. Ein zusätzliches Problem besteht im gelegentlichen verlassen des Raumes, z.B. für den Toilettenbesuch. Wird die im System hinterlegte Zeit überschritten, wird der Raum wieder freigegeben obwohl das vom Benutzer eigentlich nicht gewollt ist.
-
+Der Einsatz von Beacons wurde bereits bei der Standortbestimmung von Benutzern angesprochen. Ebenfalls anwendbar wäre diese Methode bei der Bestimmung von Benutzern innerhalb von Räumen.
+Es wird also nach dem Standort innerhalb eines bestimmten Bereiches gesucht. 
+* Vorteile
+    - basierend auf weit verbreitetem Protokol
+* Nachteile
+    - setzt Empfangsgerät beim Benutzer vorraus
 
 ### Fazit - Personenerkennung im Raum
 
 
-<!--
-* Druckplatten im Eingangsbereich
-    - +
-    - -
-* Bewegungsmelder im Eingangsbereich
-    - + günstig
-    - - keine Anzahl erkennbar
-* Lichtschranken im Eingangsbereich
-    - + anzahl an Personen theoretisch möglich wenn 2 Lichtschranken hintereinander platziert werden
-    - - 
-* Magnetfeldsensor für Menschen
-    - + Personen haben eigenes Magnetfeld
-    - - keine brauchbare Lösung gefunden
-* Lautstärke (keine anzahl erkennbar)
-    - + günstig, nur Mikro benötigt
-    - - Anzahl erkennung ist schwierig (Musik/Video im hintergrund)
-* Wärmebildsensor
-    - + erkennung von mehreren Objekten
-    - - sehr teuer
-    - - warme Gegenstände werden auch erkannt (PC, Kaffee)
-* Wifi Counter
-    - + 
-    - - nicht realistisch, Personen können Handy und Laptop dabei haben = 2 Personen erkannt
-* Großer Bewegungsmelder an der Decke in Mitte des Raumes
-    - + eventuell schon vorhanden
-    - - Still sitzende Personen werden nicht erkannt
-* Kamera mit Bildanalyse (Foto, Live)
-    - + Personenerkennung relativ genau
-    - - guter PC benötigt (hohe Auslastung durch Bildanalyse)
-    - Objekte können das Bild verdecken
--->
 
 <!--
 ## Raum finden - Benutzerperspektive (ARBEITSTITEL)

@@ -12,6 +12,14 @@
     - Der Raumvorschlag für den Benutzer des Systems der anhand bestimmter Kriterien ausgewählt wurde.
 * Equipment/Rauminhalte
     - Die für das System relevanten Rauminhalte. Benutzer haben die Möglichkeit diese Rauminhalte nach Bedarf in ihre Raumsuche mit einzubeziehen.
+<!--
+* Lehreinrichtung
+    - Einrichtung die dafür zuständig ist Unterrichtsstoff in Form von z.B. Klassenunterricht, Seminare, Vorlesungen, oder anderen Veranstaltungen zu vermitteln.
+* Lehrender
+    - Lehrkraft innerhalb der Lehreinrichtung, bspw. Lehrer, Professoren, Dozenten.
+* Lerner
+    - Wissensinteressierte Person die innerhalb einer Lehreinrichtung Veranstaltungen besucht.
+-->
 
 <!-- Wörter innerhalb des Kontextes definieren! -->
 

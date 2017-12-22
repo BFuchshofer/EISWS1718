@@ -1,0 +1,97 @@
+% !TEX root = projektdokumentation.tex
+
+\begin{itemize}
+	\item \textbf{FreeRoomSearcher}
+	\begin{itemize}
+		\item häufige Verwendung
+		\item einfache Nutzung
+		\item wenige interaktionsschritte
+		\begin{itemize}
+			\item \textbf{SilentWorkingRoomSearcher}
+			\begin{itemize}
+				\item sucht für sofort einen freien Raum
+            	\item sucht stille Arbeitsmöglichkeit
+			\end{itemize}
+			\item \textbf{CasualSingleRoomSearcher}
+			\begin{itemize}
+				\item sucht für sofort einen freien Raum
+            	\item sucht Arbeitsmöglichkeiten für mehrere Personen
+			\end{itemize}
+			\item \textbf{CasualMultiRoomSearcher}
+			\begin{itemize}
+				\item sucht für sofort mehrere freie Räume
+            	\item sucht Arbeitsmöglichkeiten für mehrere Personen
+			\end{itemize}
+			\item \textbf{CasualRoomWithEquipmentSearcher}
+			\begin{itemize}
+				\item sucht für sofort einen freien Raum mit gewünschten Rauminhalten
+            	\item sucht Arbeitsmöglichkeiten
+			\end{itemize}
+			\item \textbf{RoomWithProfessionalEquipmentSearcher}
+			\begin{itemize}
+				\item sucht für sofort einen freien Raum mit gewünschten speziellen Rauminhalten
+			\end{itemize}
+			\item \textbf{SpecificRoomBooker}
+			\begin{itemize}
+				\item direktes buchen eines Raumes
+			\end{itemize}
+			\item \textbf{RoomScheduler}
+			\begin{itemize}
+				\item sucht für einen bestimmten Zeitraum in der Zukunft einen freien Raum
+				\item verantwortungsbewusste Raumreservierung
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{Administrator}
+	\begin{itemize}
+		\item einfache Nutzung
+		\item effiziente Ausführung der Arbeitsaufgabe
+		\item Fehleranalyse
+		\item hohe Toleranz bezüglich häufig verwendeter Formate
+		\begin{itemize}
+			\item \textbf{DBAdministrator}
+			\begin{itemize}
+				\item Verwaltung und Aktuallisierung von Informationen innerhalb eines persistenten Datenspeichers
+			\end{itemize}
+			\item \textbf{ServerAdministrator}
+			\begin{itemize}
+				\item Verwaltung und Wartung des/der Server(s) des Systems
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{RoomStatusChecker}
+	\begin{itemize}
+		\item einfache Nutzung
+		\item häufige Verwendung
+		\item wenige Interaktionsschritte
+		\item den Status eines bestimmten Raumes abfragen
+		\begin{itemize}
+			\item \textbf{SpecificRoomBooker}
+			\begin{itemize}
+				\item direktes buchen eines Raumes
+			\end{itemize}
+			\item \textbf{RoomScheduler}
+			\begin{itemize}
+				\item sucht für einen bestimmten Zeitraum in der Zukunft einen freien Raum
+				\item verantwortungsbewusste Raumreservierung
+			\end{itemize}
+			\item \textbf{SpecificRoomBlocker}
+			\begin{itemize}
+				\item temporäres blockieren von Räumen zwecks Wartungs-/Reinigungsarbeiten
+				\item \textbf{CleaningStaff}
+				\item \textbf{MaintainStaff}
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Focal Roles}
+\label{anhang:Focal_Roles}
+\textit{Focal roles are those few user roles judged to be the most common or typical or that are deemed particularly important fromsomeother perspective.}
+\cite[Seite 79]{softwareForUse}
+
+\begin{itemize}
+	\item CasualSingleRoomSearcher
+\end{itemize}

@@ -1,0 +1,140 @@
+% !TEX root = projektdokumentation.tex
+
+\begin{itemize}[noitemsep]
+	\item \textbf{userSpace}
+	\begin{itemize}
+		\item \textbf{Start Dialogue}
+		\begin{itemize}
+			\item \textit{toolSelection}\\Eine Auswahl an verfügbaren Funktionen und Tools.
+		\end{itemize}
+		\item \textbf{Filter Dialogue}
+		\begin{itemize}
+			\item \textit{roomEquipment}\\Eine Auswahl an möglichem Equipment.
+			\item \textit{roomProperties}\\Eine Auswahl an möglichen Raumeigenschaften.
+			\item \textit{roomSize}\\Auswahl der Größe des Raumes.
+		\end{itemize}
+		\item \textbf{Reservation Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumber}\\Anzeige der Identifikation des reservierten Raumes.
+			\item \textit{reservationDuration}\\Anzeige der restlichen Dauer der Reservierung.
+		\end{itemize}
+		\item \textbf{Multi Reservation Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumberList}\\Anzeige der Identifikationen der reservierten Räume.
+			\item \textit{reservationDuration}\\Anzeige der restlichen Dauer der Reservierungen.
+		\end{itemize}
+		\item \textbf{Booking Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumber}\\Anzeige der Identifikation des gebuchten Raumes.
+			\item \textit{bookingDuration}\\Anzeige der restlichen Dauer der Buchung.
+		\end{itemize}
+		\item \textbf{Multi Booking Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumberList}\\Anzeige der Identifikationen der gebuchten Räume.
+			\item \textit{bookingDuration}\\Anzeige der restlichen Dauer der Reservierungen.
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{instituteSpace}
+	\begin{itemize}
+		\item \textbf{Start Dialogue}
+		\begin{itemize}
+			\item \textit{toolSelection}\\Eine Auswahl an verfügbaren Funktionen und Tools.
+		\end{itemize}
+		\item \textbf{Search Dialogue}
+		\item \textbf{Block Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumber}\\Anzeige der Identifikation des geblockten Raumes.
+			\item \textit{blockingDuration}\\Anzeige der restlichen Dauer der Blockung.
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{adminSpace}
+	\begin{itemize}
+		\item \textbf{Start Dialogue}
+		\begin{itemize}
+			\item \textit{toolSelection}\\Eine Auswahl der nur für den Administrator verfügbaren Funktionen und Tools.
+		\end{itemize}
+		\item \textbf{Search Dialogue}
+		\item \textbf{Add Room Dialogue}
+		\begin{itemize}
+			\item \textit{roomInformationForm}\\Eine Formular mit notwendigen und optionalen Raumeigenschaften und Rauminformationen.
+		\end{itemize}
+		\item \textbf{Edit Room Dialogue}
+		\begin{itemize}
+			\item \textit{roomInformationForm}\\Ein Formular mit allen im System verfügbaren Rauminformationen.
+		\end{itemize}
+		\item \textbf{Delete Room Dialogue}
+		\begin{itemize}
+			\item \textit{roomNumber}\\Anzeige der Identifikation des zu löschenden Raumes
+		\end{itemize}
+		\item \textbf{Add Equipment Dialogue}
+		\begin{itemize}
+			\item \textit{equipInformationForm}\\Ein Formular mit notwendigen und optionalen Equipmenteigenschaften und Equipmentinformationen.
+		\end{itemize}
+		\item \textbf{Edit Equipment Dialogue}
+		\begin{itemize}
+			\item \textit{equipInformationForm}\\Ein Formular mit allen im System verfügbaren Equipmentinformationen.
+		\end{itemize}
+		\item \textbf{Delete Equipment Dialogue}
+		\begin{itemize}
+			\item \textit{equipID}\\Anzeige der Identifikation des zu löschenden Equipments.
+		\end{itemize}
+		\item \textbf{Add Eventplan Dialogue}
+		\begin{itemize}
+			\item \textit{eventplanInformationForm}\\Ein Formular mit notwendigen und optionalen Eventplaninformationen.
+		\end{itemize}
+		\item \textbf{Edit Eventplan Dialogue}
+		\begin{itemize}
+			\item \textit{eventplanInformationForm}\\Ein Formular mit allen im System verfügbaren Eventplaninformationen.
+		\end{itemize}
+		\item \textbf{Delete Eventplan Dialogue}
+		\begin{itemize}
+			\item \textit{eventplanInformation}\\Anzeige der Identifikation des zu löschenden Eventplans.
+		\end{itemize}
+		\item \textbf{Add Knoten Dialogue}
+		\begin{itemize}
+			\item \textit{knotenInformationForm}\\Ein Formular mit notwendigen und optionalen Knoteninformationen.
+		\end{itemize}
+		\item \textbf{Edit Knoten Dialogue}
+		\begin{itemize}
+			\item \textit{knotenInformationForm}\\Ein Formular mit allen im System verfügbaren Knoteninformationen.
+		\end{itemize}
+		\item \textbf{Delete Knoten Dialogue}
+		\begin{itemize}
+			\item \textit{nodeID}\\Anzeige der Identifikation des zu löschenden Knoten.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Erklärung der Dialoge}
+    \paragraph*{Start Dialogue}
+        Dieser Dialog soll für alle interaction spaces den Kontext beschreiben den der
+        Benutzer aufruft wenn er auf das System zugreift.
+        Von ihm aus kann auf die wichtigen Funktionen des Systems zugegriffen werden.
+        Für den instituteSpace und userSpace wurde dieser Dialog zusammen gelegt,
+        da diese einen ähnlichen Anwendungsbereich beinhalten.
+
+   \paragraph*{Search Dialogue}
+        Der Search Dialogue des instituteSpaces stellt den Kontext der Suche nach einem
+        bestimmtem Raum dar, d.h. die Suche mit Hilfe einer bekannten Raumnummer oder
+        Raumeigenschaften.
+        Der Search Dialogue des adminSpaces stellt den gleichen Kontext dar, erweitert
+        um die Veranstaltungen, das Equipment und die Knotenpunkte mit der Bedingung
+        dass die Identifikation dieser bekannt ist.
+
+    \paragraph*{Reservation Dialogue / Multi Reservation Dialogue}
+        Diese Dialoge stellen den Kontext dar in dem sich ein Benutzer befindet, wenn
+        er einen Raum reserviert hat, also dessen Raumnummer erhalten hat und sich auf
+        dem Weg zu diesem befindet. Die Variante mit Multi ist lediglich der Kontext
+        in dem sich ein Benutzer befindet wenn er mehrere Räume gleichzeitig reserviert
+        hat, sofern er die benötigte Berechtigung besitzt.
+
+    \paragraph*{Booking Dialogue / Multi Booking Dialogue}
+        Ähnlich wie die o.g. Reservierungs Dialoge beziehen sich diese auf den Kontext
+        nach dem ein Nutzer einen Raum gebucht bzw. belegt hat. Die Variante mit Multi
+        ist lediglich erneut der Kontext mit mehreren gebuchten bzw. belegten Räumen.
+
+    \paragraph*{Add * / Edit * / Delete *}
+        Diese Dialoge umfassen die Kontexte die durch den Admin hervorgerufen werden
+        um eine Ressource aus dem Systemzu verändern , hinzuzufügen oder zu entfernen.

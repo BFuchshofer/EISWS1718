@@ -1,4 +1,29 @@
 % !TEX root = ../projektdokumentation.tex
+
+\section*{Vorwort}
+\label{sec:Vorwort}
+
+Die folgende Projektdokumentation wurde im Rahmen des Moduls
+"Entwicklungsprojekt interaktive Systeme" erstellt und befasst sich mit dem
+Thema der effektiven
+Raumfindung innerhalb einer Lehreinrichtung und der Planung eines Systems,
+welches diese Aufgabe unterstützt und für den Benutzer in angemessener Zeit
+erfüllt.
+Da das Konzept, welches diesem Projekt vorausgegangen ist, einige Mängel
+aufgewiesen hat und sich in Teilen nicht für die Umsetzung in einem Projekt
+durchführen lies, haben wir uns im voraus dazu entschlossen dieses zu
+überarbeiten.
+Das Nutzungsproblem aus unserem Konzept wurde durch die Berücksichtigung eines
+Zeitfaktors erweitert. Daraus resultierend wurde auch die Anwendungsdomäne und
+ein Großteil des Nutzungskontextes überarbeitet.
+Aus der von uns für das Konzept entworfenen Gestaltungslösung und dem
+zugehörigen Prototypen wurde der Großteil stark überarbeitet und durch eine neu
+spezifizierte Gestaltungslösung erweitert.
+Ziel der Überarbeitung war es aus dem einfachen Buchungssystem des
+Konzeptentwurfs ein komplexeres Raumbelegungssystem zu entwickeln, welches die
+automatische Erfassung und Auswertung von Daten ermöglicht.
+
+
 \section{Einleitung}
 \label{sec:Einleitung}
 
@@ -7,7 +32,7 @@ die Einhaltung von Fristen für Abgaben von Dokumentationen, Präsentationen ode
 entwickelten Produkten, die genaue Dokumentation von geleisteten Arbeitsstunden
 oder der Wegstrecke die zurückgelegt werden muss, um von Punkt A nach Punkt B
 zu gelangen. In vielen Bereichen ist es wichtig Zeit einzusparen, da Zeit
-bekanntermaßen Geld ist. In nicht gewerbstätigen Bereichen ist der Faktor Zeit
+bekanntermaßen Geld ist. In nicht erwerbstätigen Bereichen ist der Faktor Zeit
 dahingehend wichtig, da mit mehr Zeit auch mehr Aktivitäten ausgeführt werden
 können. Es liegt also nahe, auch in diesen Bereichen die verfügbare Zeit zu
 optimieren. Ein Punkt an dem dieses Projekt anknüpfen soll, ist das schnelle
@@ -15,7 +40,7 @@ und unkomplizierte finden von Räumen die den Erfordernissen und Erwartungen
 einer Person oder Personengruppe entsprechen.
 
 
-\section{Nutzungsproblem}
+\subsection{Nutzungsproblem}
 \label{sec:Nutzungsproblem}
 
 Um die Belegungen von Räumen zu verwalten, benutzen die meisten Unternehmen und
@@ -49,8 +74,8 @@ In diesem Projekt soll es um die Einsparung von Zeit in Form von verkürzten
 Laufwegen bzw. einer verkürzten Suchzeit für einen Raum gehen.
 
 
-\section{Technologie unabhängiger Lösungsvorschlag}
-\label{sec:Technologie unabhängiger Lösungsvorschlag}
+\subsection{Technologie unabhängiger Lösungsvorschlag}
+\label{sec:Technologie_unabhängiger_Lösungsvorschlag}
 
 Um dem Problem der spontanen und unstrukturierten Raumbelegung entgegen zu
 wirken ist ein System nötig, welches sowohl die verfügbaren Räume, als auch
@@ -73,40 +98,39 @@ dem System vom Benutzer mitgeteilt werden.
 \section{Ziele}
 \label{sec:Ziele}
 
-\subsection{Einleitung}
+\subsubsection{Einleitung}
 \label{sec:Ziele_Einleitung}
 
 Anhand des identifizierten Nutzungsproblems und des ermittelten
 Alleinstellungsmerkmals, lassen sich konkrete Ziele aufstellen die so ein
 System  erfüllen muss um einen qualitativen Lösungsansatz zu erzielen.   
 Die folgenden Ziele sind unterteilt in strategische, taktische und operative
-Ziele, die zu Teilen wärend des Entwicklungsprozesses gebildet wurden.
+Ziele, die zu Teilen während des Entwicklungsprozesses gebildet wurden.
 
-\subsection{Strategische Ziele}
-\label{sec:Strategische Ziele}
+\subsubsection{Strategische Ziele}
+\label{sec:Strategische_Ziele}
 
 \begin{itemize}
 	\item Das fertige System in unserem Projekt \textbf{muss} es dem Benutzer
 	ermöglichen innerhalb von 30 Sekunden einen freien Raum zu erhalten der
 	den Erfordernissen des Benutzers entspricht.
 	\item Dabei \textbf{muss} das System alle zugänglichen Räume innerhalb
-	der Lehreinrichtung in Echtzeit adressieren und verwalten können.\\
-	\textit{04.12.2017}\\
+	der Lehreinrichtung in Echtzeit adressieren und verwalten können.
 	\item Außerdem \textbf{muss} das System Gegenstände die sich in einem Raum
 	befinden und diesen charakterisieren erkennen, adressieren und verwalten
 	können.
 \end{itemize}
 
-\subsection{Taktische Ziele}
-\label{sec:Taktische Ziele}
+\subsubsection{Taktische Ziele}
+\label{sec:Taktische_Ziele}
 
 \begin{itemize}
 	\item Um eine effektive Raumsuche gewährleisten zu können \textbf{muss} der
 	Standort des Benutzers in die Raumauswahl mit einbezogen werden.
 \end{itemize}
 
-\subsection{Operative Ziele}
-\label{sec:Operative Ziele}
+\subsubsection{Operative Ziele}
+\label{sec:Operative_Ziele}
 
 \begin{itemize}
 	\item Der Benutzer \textbf{muss} eine Auswahl an benötigten Gegenständen
@@ -122,10 +146,10 @@ Ziele, die zu Teilen wärend des Entwicklungsprozesses gebildet wurden.
 \end{itemize}
 
 
-\section{Domänenspezifische Recherche}
-\label{sec:Domänenspezifische Recherche}
+\subsection{Domänenspezifische Recherche}
+\label{sec:Domänenspezifische_Recherche}
 
-\subsection{Einleitung}
+\subsubsection{Einleitung}
 \label{sec:Domänen_Einleitung}
 
 Das beschriebene Problem der dynamischen Raumsuche kann so gut wie in jeder
@@ -137,7 +161,7 @@ Person Zeit mit langen Laufwegen verschwendet, da ihr nicht bekannt ist wo sich
 der nächste frei nutzbare Raum befindet. Das Problem nimmt größere Ausmaße an,
 je mehr Personen einen freien Raum suchen.
 
-\subsection{Unternehmen}
+\subsubsection{Unternehmen}
 \label{sec:Unternehmen}
 
 Dadurch das große Unternehmen in der Regel auch viele Mitarbeiter beschäftigen,
@@ -153,15 +177,15 @@ Projekten in der Regel ein konkreter Ablauf von Tätigkeiten vorliegt. Außerdem
 werden Arbeitsmöglichkeiten für Mitarbeiter meist dadurch gewährleistet, dass
 sie einen festen Schreibtisch oder Büro besitzen.
 
-\subsection{Fazit - Unternehmen}
-\label{sec:Fazit - Unternehmen}
+\subsubsection{Fazit - Unternehmen}
+\label{sec:Fazit_Unternehmen}
 
 In großen Unternehmen mit vielen Mitarbeitern besteht in der Theorie ein Bedarf
 an einem System, dass ein besseres Raummanagement und Zeitersparnis liefert,
 allerdings werden diese Faktoren durch die kontrollierte Arbeitsumgebung von
 Unternehmen oft selbst gelöst.
 
-\subsection{Lehreinrichtungen}
+\subsubsection{Lehreinrichtungen}
 \label{sec:Lehreinrichtungen}
 
 Lehreinrichtungen mit vielen Schülern, Studenten oder Auszubildenden Personen
@@ -182,16 +206,16 @@ durchführen herrausfinden, wann sie für ihre Arbeiten den Raum belegen und
 nutzen können. Die Laufwege und dadurch das Zeitmanagement von Mitarbeitern
 kann somit ebenfalls optimiert werden.
 
-\subsection{Fazit - Lehreinrichtungen}
-\label{sec:Fazit - Lehreinrichtungen}
+\subsubsection{Fazit - Lehreinrichtungen}
+\label{sec:Fazit_Lehreinrichtungen}
 
 Die Anwendungsdomäne der Lehreinrichtungenn mit Fokus auf einer großen
 Personen und Raumanzahl bietet durch die Vielzahl an Bedürfnissen der
 einzelnen Benutzer und der benötigten hohen Produktivität der Arbeiten
 eine gute und sinnvolle Möglichkeit.
 
-\subsection{Fazit zur Domänen spezifischen Recherche}
-\label{sec:Fazit zur Domänen spezifischen Recherche}
+\subsubsection{Fazit zur Domänen spezifischen Recherche}
+\label{sec:Fazit_zur_Domänen_spezifischen_Recherche}
 
 Im direkten Vergleich von Unternehmen und Lehreinrichtungen bietet die
 Anwendungsdomäne der Lehreinrichtung mit vielen beteiligten Personen und vielen
@@ -201,10 +225,10 @@ wenigen Räumen und/oder Benutzern, ist dieses System weniger relevant, da eine
 wirkliche Zeitersparnis in den meisten Fällen nicht gewährleistet werden kann.
 
 
-\section{Marktrecherche}
+\subsection{Marktrecherche}
 \label{sec:Marktrecherche}
 
-\subsection{Einleitung}
+\subsubsection{Einleitung}
 \label{sec:Markt_recherheEinleitung}
 
 Schaut man sich im Internet nach Angeboten zu Raumplanungssystemen um, finden
@@ -213,10 +237,10 @@ wurden verschiedene Anbieter von Raumplanungs-Managementsystemen auf ihre
 angebotenen Funktionalitäten überprüft, Vor- und Nachteile ermittelt und auf
 den benötigten Projektkontext hin verglichen.
 
-\subsection{Locaboo}
+\subsubsection{Locaboo}
 \label{sec:Locaboo}
 
-Locaboo (\citep{Locaboo}) wirbt mit einem Belegungsplan für Sport-,
+Locaboo \citep{locaboo} wirbt mit einem Belegungsplan für Sport-,
 Bildungs- und Freizeitstätten. Dabei soll die Softwarelösung aus dem 
 Hause LOY GmbH die Verwaltung von verschiedenen Räumen und Bereichen
 übersichtlich und zeitsparend möglich machen. Genannt werden Funktionen die
@@ -243,19 +267,19 @@ Preisquellen ermöglichen.
 		\end{itemize}
 \end{itemize}
 
-\subsubsection{Fazit - Locaboo}
-\label{sec:Fazit - Locaboo}
+\paragraph{Fazit - Locaboo}
+\label{sec:Fazit_Locaboo}
 
 Diese Softwarelösung ist als ein digitaler Kalender zu sehen der im Prinzip die
 digitalisierte und standortunabhängige Version des Belegungsplanes vor jedem
 Raum darstellt. Es gibt zwar die Möglichkeit schnell und einfach Belegungen
-hinzuzufügen oder zu entfernen, jedoch liegt der Fokus mehr auf der verwaltung
+hinzuzufügen oder zu entfernen, jedoch liegt der Fokus mehr auf der Verwaltung
 von Räumen aus Veranstaltersicht, und nicht aus der Sicht der einzelnen Raumnutzer.  
 
-\subsection{INTIME}
+\subsubsection{INTIME}
 \label{sec:INTIME}
 
-INTIME (\citep{INTIME}) von \textit{COMTEC} bietet ebenfalls die Möglichkeit
+INTIME \citep{intime} von \textit{COMTEC} bietet ebenfalls die Möglichkeit
 Räume und Gebäude besser verwalten zu können. Dabei bietet es auch neben
 zahlreichen Zusatzfunktionen die für Lehreinrichtungen weniger relevant sind,
 für den einzelnen Benutzer die Möglichkeit schnell einen Raum zu finden der
@@ -276,23 +300,23 @@ seinen Erwartungen und Erfordernissen entspricht.
 		\end{itemize}
 \end{itemize}
 
-\subsubsection{Fazit - INTIME}
-\label{sec:Fazit - INTIME}
+\paragraph{Fazit - INTIME}
+\label{sec:Fazit_INTIME}
 
-Die Softwarelösung *INTIME* beschränkt sich auf das Verwalten und Managen von
+Die Softwarelösung \textit{INTIME} beschränkt sich auf das Verwalten und Managen von
 Ressourcen. Die Benutzer des Systems sind Personen die auch aktiv einen Raum
 suchen. Ob sich der Raum allerdings in der Nähe des Benutzers oder am anderen
 Ende des Gebäudekomplexes befindet ist nicht ersichtlich. Hier wird der Faktor
 Zeit also nicht vollständig berücksichtigt, der Fokus liegt vielmehr auf der
 Verfügbarkeitsüberprüfung.
 
-\subsection{Online-Raumverwaltung}
+\subsubsection{Online-Raumverwaltung}
 \label{sec:Online-Raumverwaltung}
 
-Die Softwarelösung zur Raumverwaltung der Firma \textit{OMOC interactive} liefert eine
+Die Softwarelösung zur Raumverwaltung der Firma \textit{OMOC interactive}) liefert eine
 cloudbasierte Möglichkeit um es dem Benutzer zu ermöglichen, Raumreservierungen
 vorzunehmen. Die Software ist von verschiedenen Endgeräten aus bedienbar und
-bietet alle gebuchten Funktionalitäten komfortabel an. *OMOC interactive* wirbt
+bietet alle gebuchten Funktionalitäten komfortabel an. \textit{OMOC interactive} wirbt
 mit einer leichten Integration auf Websites, Outlook und auf Wunsch auch die
 Übernahme von bereits bestehenden Daten in das neue System. Die Software bietet
 eine Verwaltung von Veranstaltungen und Ressourcen ohne Installation und
@@ -314,21 +338,21 @@ Wartungskosten für den Kunden.
 		\end{itemize}
 \end{itemize}
 
-\subsubsection{Fazit - Online-Raumverwaltung}
-\label{sec:Online-Raumverwaltung}
+\paragraph{Fazit - Online-Raumverwaltung}
+\label{sec:Fazit_Online-Raumverwaltung}
 
-Die Funktionen der Online-Raumverwaltung (\citep{OnRaum}) der
+Die Funktionen der Online-Raumverwaltung \citep{omoc} der
 \textit{OMOC interactive} bietet zwar eine praktische und cloudbasierte
 Möglichkeit um Räume für Veranstaltungen zu organisieren und verwalten, hier
 liegt der Fokus aber mehr auf der Vermietung solcher Räume. Der Endbenutzer,
 mit seinem Interesse im kompletten Prozess der Raumsuche Zeit zu sparen, ist
 hier nicht adressiert.   
 
-\subsection{Raumplaner der TH Köln}
-\label{sec:Raumplaner der TH Köln}
+\subsubsection{Raumplaner der TH Köln}
+\label{sec:Raumplaner_der_TH_Köln}
 
 Innerhalb der Anwendungsdomäne der Lehreinrichtungen stellt die 
-Technische Hochschule Köln (Campus Gummersbach) ein Online-Tool(\cite{THK-OnlineTool})
+Technische Hochschule Köln (Campus Gummersbach) ein Online-Tool \citep{thkoeln}
 zur Verfügung, mit dem Einsicht in Raumbelegungen innerhalb des Campus
 vorgenommen werden können. Es besteht die Möglichkeit Informationen zu
 bestimmten Räumen einzuholen die unter anderem Belegungen, Zeitrahmen der
@@ -349,8 +373,8 @@ Belegung und Ausstattung des Raumes beinhalten.
 		\end{itemize}
 \end{itemize}
 
-\subsubsection{Fazit - Online-Tool der TH Köln}
-\label{sec:Fazit - Online-Tool der TH Köln}
+\paragraph{Fazit - Online-Tool der TH Köln}
+\label{sec:Fazit_Online-Tool der TH Köln}
 
 Das Online-Tool der TH Köln bietet zwar eine Übersicht über alle vorhandenen
 Räume innerhalb der Lehreinrichtung und liefert in vielen Fällen auch Angaben
@@ -359,8 +383,8 @@ Zeiteinsparungen im kompletten Raumsuchungsprozess möglich. Die dynamische
 Erfassung von Raumbelegungen ist auch hier nicht gewährleistet.
 
 
-\subsection{Fazit zur Marktrecherche}
-\label{sec:Fazit zur Marktrecherche}
+\subsubsection{Fazit zur Marktrecherche}
+\label{sec:Fazit_zur Marktrecherche}
 
 Es gibt viele Softwarelösungen für ein besseres Raummanagement, jedoch ist
 keine davon darauf ausgelegt, dem einfachen Benutzer einen freien Raum in
@@ -378,7 +402,7 @@ kompletten Prozess der Raumsuche, beginnend bei dem Verfügbarkeitscheck eines
 Raumes, über den Laufweg zu diesem Raum, bis zur tatsächlichen Belegung.
 
 
-\section{Alleinstellungsmerkmale}
+\subsection{Alleinstellungsmerkmale}
 \label{sec:Alleinstellungsmerkmale}
 
 Betrachtet man die identifizierten Konkurenzprodukte, erkennt man das der
@@ -396,10 +420,10 @@ für unser System im Vergleich zur gefundenen Konkurenz ergibt:
 \end{itemize}
 
 
-\section{Risiken}
+\subsection{Risiken}
 \label{sec:Risiken}
 
-\subsection{Einleitung}
+\subsubsection{Einleitung}
 \label{sec:Risiken_Einleitung}
 
 Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen
@@ -410,7 +434,7 @@ feststehen die verwendet werden sollen, sind die Risiken aktuell nur auf das
 Projekt als ganzes bezogen. Sobald Technologien feststehen, und sich darauf
 neue Risiken ergeben, wird die Liste im Anhang vervollständigt.
 
-\subsection{Projektrisiken}
+\subsubsection{Projektrisiken}
 \label{sec:Projektrisiken}
 
 \begin{itemize}

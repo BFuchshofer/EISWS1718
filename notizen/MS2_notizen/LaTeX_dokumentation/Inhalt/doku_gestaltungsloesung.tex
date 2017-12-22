@@ -2,7 +2,7 @@
 \label{sec:Gestaltungslösung}
 
 \subsection{Einleitung}
-\label{sec:Gestaltungslösung Einleitung}
+\label{sec:Gestaltungslösung_Einleitung}
 
 Da die Grundbausteine für die Entwicklung einer optimalen Gestaltungslösung
 durch die Benutzer und Aufgabenmodellierung sowie die Aufführung der Content
@@ -26,23 +26,23 @@ Komponenten des Systems und ihre Abhängigkeiten und Kommunikationsweg
 untereinander.
 
 \subsection{Kommunikation des Systems}
-\label{sec:Kommunikation des Systems}
+\label{sec:Kommunikation_des_Systems}
 
 \subsubsection{Deskriptives Kommunikationsmodell}
-\label{sec:Deskriptives Kommunikationsmodell}
+\label{sec:Deskriptives_Kommunikationsmodell}
 
 Da im aktuellen Kontext kein technisches System existiert haben wir anhand der
 \ref{[Deskriptiven Aufgabenmodellierung](Textverweis)} ein Modell entwickelt,
 dass die Kommunikation im aktuellen Kontext darstellen soll.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{deskriptiv_kommunikation.png}
 	\caption{ Deskriptives Kommunikationsmodell}
 \end{figure}
 
 \subsubsection{Präskriptives Kommunikationsmodell}
-\label{sec:Präskriptives Kommunikationsmodell}
+\label{sec:Präskriptives_Kommunikationsmodell}
 
 Im zu entwickelnden System haben wir uns dazu entschlossen eine REST-Konforme
 Architektur zu verwenden.
@@ -86,30 +86,30 @@ Ressourcen sind nicht endgültig und können sich im Entwicklungsprozess der
 Gestaltungslösung oder der Implementation des vertikalen Prototyps noch ändern.
 Die Auflistung der Ressourcen und ihre Adressierungen befinden sich im \ref{[Anhang](tabelle_Ressourcen.md)}.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{praeskriptiv_kommunikation_v1.png}
+	\includegraphics[scale=1.0]{praeskriptiv_kommunikation_v1.png}
 	\caption{Präskriptives Kommunikationsmodell}
 \end{figure}
 
 
 \subsection{Architektur des Systems}
-\label{sec:Architektur des Systems}
+\label{sec:Architektur_des_Systems}
 
 \subsubsection{Einleitung}
-\label{sec:Architektur des Systems Einleitung}
+\label{sec:Architektur_des_Systems_Einleitung}
 Um die Kommunikation und die Architektur der Komponenten des Systems deutlich
 darzustellen, haben wir Schaubilder erstellt die es ermöglichen einen Eindruck
 über unseren Aufbau des Systems zu erhalten.
 
 \subsubsection{Deskriptives Architekturmodell}
-\label{sec:Deskriptives Architekturmodell}
+\label{sec:Deskriptives_Architekturmodell}
 
 Da es aktuell kein technisches System gibt auf dem wir uns in unserem Projekt
 beziehen können, lässt sich auch kein deskriptives Architekturmodell ermitteln.
 
 \subsubsection{Präskriptives Architekturmodell}
-\label{sec:Präskriptives Architekturmodell}
+\label{sec:Präskriptives_Architekturmodell}
 
 Um ein präskriptives Architekturmodell aufzustellen, haben wir zuerst
 Komponenten identifiziert die in unserem System relevant sind.
@@ -203,7 +203,7 @@ werden.
 \end{figure}
 
 \subsection{Fazit - Architektur des Systems}
-\label{Fazit - Architektur des Systems}
+\label{Fazit_Architektur_des_Systems}
 
 Die von uns erarbeiteten Komponenten des Systems bilden einen guten Start in
 die Entwicklung. Dabei sind durch den Einsatz von Technologiebasierten Lösungen
@@ -222,10 +222,10 @@ eigene Datenhaltung in das System integrieren möchte.
 \end{figure}
 
 \subsection{Datenstruktur und relevante Informationen}
-\label{sec:Datenstruktur und relevante Informationen}
+\label{sec:Datenstruktur_und_relevante_Informationen}
 
 \subsubsection{Einleitung}
-\label{sec:Datenstruktur und relevante Informationen Einleitung}
+\label{sec:Datenstruktur_und_relevante_Informationen_Einleitung}
 
 Um im System Informationen verarbeiten zu können, müssen diese erst einmal
 definiert werden. Im Folgenden möchten wir kurz auflisten, welche Informationen
@@ -313,7 +313,7 @@ diesem Raum, Start- und Endzeitpunkt der Belegung sowie die
 Benutzeridentifizierung des Benutzers, der den Raum gebucht hat, gibt.
 
 \subsubsection{Sonstige Eigenschaften}
-\label{sec:Sonstige Eigenschaften}
+\label{sec:Sonstige_Eigenschaften}
 
 Grundlegende Informationen wie alle zur Verfügung stehenden Räume innerhalb der
 Lehreinrichtung, die Anzahl der Gebäude, Stockwerke und Gänge, Positionen von
@@ -324,7 +324,7 @@ können im System später Raumvorschläge z.B. für Benutzer die einen
 barrierefreien Zugang benötigen erstellt werden.
 
 \subsubsection{Fazit - Datenstruktur und relevante Informationen}
-\label{sec:Fazit - Datenstruktur und relevante Informationen}
+\label{sec:Fazit_Datenstruktur_und_relevante_Informationen}
 
 Die benötigten Informationen im System sollten innerhalb eines persistenten
 Datenspeichers, \bspw einem Datenbankserver hinterlegt sein. Als Datenformat
@@ -336,10 +336,10 @@ Beschreibung im \ref{[Anhang](tabelle_datenstruktur.md)}.
 
 
 \subsection{Standortbestimmung des Benutzers}
-\label{sec:Standortbestimmung des Benutzers}
+\label{sec:Standortbestimmung_des_Benutzers}
 
 \subsubsection{Einleitung}
-\label{sec:Standortbestimmung des Benutzers Einleitung}
+\label{sec:Standortbestimmung_des_Benutzers_Einleitung}
 
 Damit durch unser System ein Raum ermittelt werden kann, der sowohl den
 Erfordernissen des Benutzers entspricht, als auch einen möglichst kurzen
@@ -349,7 +349,7 @@ Als Methoden zur Feststellung des Standortes haben wir verschiedene
 Möglichkeiten betrachtet.
 
 \subsubsection{Standortbestimmung durch Benutzereingaben}
-\label{sec:Standortbestimmung durch Benutzereingaben}
+\label{sec:Standortbestimmung_durch_Benutzereingaben}
 
 Die Standortbestimmung über Benutzereingaben würde dabei so funktionieren, dass
 der Benutzer einen Bezugspunkt innerhalb eines Gebäudes, z.B. eine Raumnummer
@@ -374,7 +374,7 @@ scheitert.
 \end{itemize}
 
 \subsubsection{Standortbestimmung durch GPS}
-\label{sec:Standortbestimmung durch GPS}
+\label{sec:Standortbestimmung_durch_GPS}
 
 Durch die Verwendung von GPS (Global Positioning System) könnte ebenfalls der
 Standort des Benutzers bestimmt werden. Dabei würde mittels des Endgerätes des
@@ -397,33 +397,33 @@ ungenaue Messung zu falschen Ergebnissen innerhalb des Systems führen kann.
 \end{itemize}
 
 \subsubsection{Standortbestimmung durch Bluetooth-Beacons}
-\label{sec:Standortbestimmung durch Bluetooth-Beacons}
+\label{sec:Standortbestimmung_durch_Bluetooth-Beacons}
 
 Bluetooth-Beacons sind das Indoor-Äquivalent zum klassischen GPS und
 ermöglichen innerhalb von Gebäuden eine exakte Standortbestimmung auf bis zu
-1 Meter \citep{[Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons)}.
+1 Meter \citep{insoft}.
 Dazu kann eine Entfernungsbestimmung vom Endgerät des Benutzers zum Beacon
 durch auslesen von Signaldaten aufgestellt werden, womit ein grober Standort
 bestimmt werden kann. Durch die Bluetooth Low Energy Technik (BLE) die seit
 Version 4.0 im Bluetooth Industriestandard spezifiziert wurde, sind diese
 Beacons äußerst stromsparend und können dabei im Batteriebetrieb je nach
-eingestelltem Sendeintervall 2-8 Jahre \citep{[Quelle](https://www.infsoft.de/technologie/sensorik/bluetooth-low-energy-beacons)}
+eingestelltem Sendeintervall 2-8 Jahre \citep{insoft}
 senden. Durch die Möglichkeit diese an das Stromnetz anzuschließen, lässt sich
 die Betriebsdauer beliebig erhöhen.
 Auf dem Markt sind bereits spezielle Beacons vorhanden die für das Bestimmen
 von Standorten wie \zB Messegeländen oder Flughafenterminals konzipiert worden
-sind. \citep{[Estimote, Inc.](https://estimote.com/?gclid=CjwKCAiAsejRBRB3EiwAZft7sJe4aSGlbgBgQP5SLAjT3GcxvFdEi754ZzeD8e9jIWHiyNdUdigPEBoC_5cQAvD_BwE)} 
+sind. Estimote, Inc. \citep{estimote)} 
 bietet eine spezielle Lösung zu Standortbestimmung innerhalb von Gebäuden an.
 Dabei lässt sich mit Hilfe eines Tools eine Karte eines Gebäudes erstellen,
-auf der durch geschicktes platzieren von speziellen \citep{[Estimote Beacons](https://estimote.com/products/)} 
-der Standort des Benutzers auf einer \citep{[Karte](https://github.com/Estimote/Android-Indoor-SDK)}
-angezeigt werden kann. Allerdings ist diese Funktion nur exklusiv bei \citep{[Estimote, Inc.](https://estimote.com/?gclid=CjwKCAiAsejRBRB3EiwAZft7sJe4aSGlbgBgQP5SLAjT3GcxvFdEi754ZzeD8e9jIWHiyNdUdigPEBoC_5cQAvD_BwE)}
+auf der durch geschicktes platzieren von speziellen Estimote Beacons \citep{estimote} 
+der Standort des Benutzers auf einer Karte \citep{estimote}
+angezeigt werden kann. Allerdings ist diese Funktion nur exklusiv bei Estimote, Inc. \citep{estimote}
 verfügbar, weswegen sie im Rahmen unseres Projektes nicht anwendbar ist.
 Allerdings lässt sich ein Standort auch ohne interaktive Karte bestimmen, da
-dafür nur normale Beacons benötigt werden. Die Open Source Projekt \citep{[Android Beacon Library](http://altbeacon.github.io/android-beacon-library/index.html)}
-von \citep{[Radius Networks](https://www.radiusnetworks.com/)} biete eine
-Anbindung an viele verschiedene Beacon Modelle und Marken die dem \citep{[AltBeacon Standard](http://altbeacon.org/)}
-entsprechen. Über z.B. eine Android Applikation lassen sich verschiedene
+dafür nur normale Beacons benötigt werden. Die Open Source Projekt Android Beacon Library \citep{http://altbeacon.github.io/android-beacon-library/index.html}
+von Radius Networks \citep{https://www.radiusnetworks.com/} biete eine
+Anbindung an viele verschiedene Beacon Modelle und Marken die dem AltBeacon standard\citep{http://altbeacon.org/}
+entsprechen. Über \zB eine Android Applikation lassen sich verschiedene
 Informationen von einem Beacon empfangen und auslesen.
 
 \begin{itemize}
@@ -442,7 +442,7 @@ Informationen von einem Beacon empfangen und auslesen.
 \end{itemize}
 
 \subsubsection{Fazit - Standortbestimmung des Benutzers}
-\label{sec:Fazit - Standortbestimmung}
+\label{sec:Fazit_Standortbestimmung}
 
 Nach unserer Recherche, wäre das Verwenden von Beacons zur Standortbestimmung
 ideal für unser Projekt geeignet. Durch die günstigen Anschaffungskosten und
@@ -502,7 +502,7 @@ Beacon ID mit zu übermitteln.
 \label{sec:Laufwegoptimierung}
 
 \subsubsection{Einleitung}
-\label{sec:Laufwegoptimierung Einleitung}
+\label{sec:Laufwegoptimierung_Einleitung}
 
 Das deskriptive Aufgabenmodell der Raumsuche im Kontext der Lehreinrichtungen,
 setzt das manuelle suchen von Räumen innerhalb des Gebäudes voraus. An diesem
@@ -516,7 +516,7 @@ Benutzers entspricht berechnet werden muss. Im Folgenden wollen wir dieses
 Problem, das unserem Alleinstellungsmerkmal entspricht, versuchen zu lösen.
 
 \subsubsection{Verkettete Liste / Djikstra-Algorithmus}
-\label{sec:Verkettete Liste / Djikstra-Algorithmus}
+\label{sec:Verkettete_Liste_Djikstra-Algorithmus}
 
 Damit ein Weg berechnet werden kann, werden in unserem Fall mindestens 2 Punkte
 benötigt. Zum einen der aktuelle Standort des Benutzers den wir über Bluetooth
@@ -629,7 +629,7 @@ einem anderen Stockwerk befinden, wird als Zwischenziel ein Fahrstuhl oder
 andere barrierefreie Möglichkeit zum Stockwerkwechsel gesucht.
 
 \subsubsection{Fazit - Laufwegoptimierung}
-\label{sec:Fazit - Laufwegoptimierung}
+\label{sec:Fazit_Laufwegoptimierung}
 
 Die verkettete Liste mit einem Dijkstra-Algorithmus ergibt in unserem Projekt
 eine sinnvolle Methode um die kürzeste Entfernung zwischen einem Start- und
@@ -645,10 +645,10 @@ berücksichtigt werden kann.
 
 
 \subsection{Flexible Räume (Verteilte Anwendungslogik)}
-\label{sec:Flexible Räume (Verteilte Anwendungslogik)}
+\label{sec:Flexible_Räume_(Verteilte_Anwendungslogik)}
 
 \subsubsection{Einleitung}
-\label{sec:Flexible Räume (Verteilte Anwendungslogik) Einleitung}
+\label{sec:Flexible_Räume_(Verteilte_Anwendungslogik)_Einleitung}
 
 Das innerhalb von Räumen befindliche Equipment ist bis auf wenige Ausnahmen in
 der Regel nicht fest installiert. So hat der Benutzer die Möglichkeit
@@ -659,7 +659,7 @@ Raum gerade an Ausrüstungen befindet. Im Folgenden sollen Möglichkeiten
 diskutiert werden, die zur flexiblen Raumgestaltung eingesetzt werden können.
 
 \subsubsection{Aktives aktualisieren von Rauminhalten}
-\label{sec:Aktives aktualisieren von Rauminhalten}
+\label{sec:Aktives_aktualisieren_von_Rauminhalten}
 
 Zur Lösung dieses Problems muss innerhalb des Systems eine Erkennung erfolgen
 die die dynamische Equipment Verschiebung erkennen und im System vermerken
@@ -685,7 +685,7 @@ unternehmen muss um dieses Ziel zu erreichen. Eine automatisierte Möglichkeit
 ohne den Benutzer zusätzlich zu belasten wäre zu bevorzugen.
 
 \subsubsection{Passives aktualisieren von Rauminhalten}
-\label{sec:Passives aktualisieren von Rauminhalten}
+\label{sec:Passives_aktualisieren_von_Rauminhalten}
 
 Nach einer Recherche zum Thema Gegenstanderkennung \bzw Zuordnung sind wir auf
 die RFID-Technologie (Radio Frequency Identification) gestoßen. Durch das
@@ -706,7 +706,7 @@ ist, einen Transponder und eine eindeutige ID besitzen die ihn im System
 identifiziert. Es gibt verschiedene Transponder die für unterschiedliche
 Einsatzzwecke geeignet sind. In unserem Fall wären flache, selbstklebende
 Transponder ein Vorteil da diese schnell und einfach am entsprechenden
-Gegenstand angebracht werden können. Diese \citep{[Labels](http://www.identytag.de/rfid-labels-tags/smart-label/?gclid=CjwKCAiA693RBRAwEiwALCc3u1b_V_f_mLZsRZhpNhQOmtAnyH0GOJu_uTyqLHvTeSdN0y6WsmXX0BoCRgkQAvD_BwE)} 
+Gegenstand angebracht werden können. Diese Labels \citep{labels} 
 kommen auch oft in der Versand und Logistikabteilung zur Anwendung um
 Postsendungen oder Paletten zu kennzeichnen. Das Prinzip lässt sich auch auf
 unser Projekt übertragen. Um mutwilliger oder unabsichtlicher Zerstörung diese
@@ -786,7 +786,7 @@ und \ref{[Kommunikationsmodell](präskriptiv_kommunikation_v2.png)} ergänzt.
 
 
 \subsubsection{Fazit - Flexible Räume (Verteilte Anwendungslogik)}
-\label{sec:Fazit - Flexible Räume (Verteilte Anwendungslogik}
+\label{sec:Fazit_Flexible_Räume_(Verteilte_Anwendungslogik)}
 
 Die Überprüfung ob der Einsatz von RFID Technik für die Equipmentmarkierung in
 unserem Anwendungsfeld funktioniert simulieren wir durch erstellte Datensätze.
@@ -804,11 +804,11 @@ Informationen verarbeitet und in der Datenbank in aktualisierter Form speichert.
 
 
 \subsection{Verschiedene Eigenschaften der Räume}
-\label{sec:Verschiedene Eigenschaften der Räume}
+\label{sec:Verschiedene_Eigenschaften_der-Räume}
 
 
 \subsubsection{Einleitung}
-\label{sec:Verschiedene Eigenschaften der Räume Einleitung}
+\label{sec:Verschiedene_Eigenschaften_der_Räume_Einleitung}
 
 Um im Ablauf des Systems zu gewährleisten das ein Raum auch tatsächlich frei
 ist wenn der Benutzer ihn erreicht, wird eine Methode benötigt die dieses
@@ -817,7 +817,7 @@ Zugangsberechtigung zu einem Raum und wie der Benutzer Zugang zu diesem
 bekommt. Außerdem beschäftigen wir uns mit unterschiedlichen Raumtypen. 
 
 \subsubsection{Zugang zum Raum}
-\label{sec:Zugang zum Raum}
+\label{sec:Zugang_zum_Raum}
 
 Um gewährleisten zu können das ein Raum frei ist wenn der Benutzer ihn
 erreicht, muss eine Zugangsberechtigung eingerichtet werden. Bei offenen
@@ -872,7 +872,7 @@ nutzen. Wie die Lehreinrichtung mit diesem Problem intern umgeht ist ihr selber
 überlassen.
 
 \subsubsection{Raumtyp 'Stiller Arbeitsraum'}
-\label{sec:Raumtyp 'Stiller Arbeitsraum'}
+\label{sec:Raumtyp_Stiller_Arbeitsraum}
 
 Da wir in unserem System einen besonderen Raum haben in denen mehrere
 verschiedene Benutzer gleichzeitig und alleine arbeiten können, kann für diesen
@@ -890,7 +890,7 @@ zusätzlich eine sinnvolle Raumbelegung erreicht werden, da dynamisch Räume zum
 stillen arbeiten erzeugt und wieder entfernt werden.
 
 \subsubsection{Fazit - Verschiedene Eigenschaften der Räume}
-\label{sec:Fazit - Verschiedene Eigenschaften der Räume}
+\label{sec:Fazit_Verschiedene_Eigenschaften_der_Räume}
 
 Das Identifizieren und verarbeiten der Probleme "Zugang zum Raum" und dem
 "Stillen Arbeitsraum" als besonderer Raumtyp haben uns dabei geholfen mehr
@@ -898,10 +898,10 @@ Lehreinrichtungen mit diesem Projekt adressieren zu können.
 
 
 \subsection{Personenerkennung im Raum}
-\label{sec:Personenerkennung im Raum}
+\label{sec:Personenerkennung_im_Raum}
 
 \subsubsection{Einleitung}
-\label{sec:Personenerkennung im Raum Einleitung}
+\label{sec:Personenerkennung_im_Raum_Einleitung}
 
 Zur Findung einer Methode für effektive Personenzählung haben wir ein
 Brainstorming durchgeführt verschiedene Methoden betrachtet. Dazu gehören 
@@ -913,7 +913,7 @@ einzelnen Vor- und Nachteile eingegangen. Eine ausführliche Analyse der
 identifizierten Technologien befindet sich im \ref{[Anhang](tabelle_Technologien.md)}.
 
 \subsubsection{Druckplatten im Boden}
-\label{sec:Druckplatten im Boden}
+\label{sec:Druckplatten_im_Boden}
 
 Bei der Zählung von Personen durch eine druckempfindliche Matte im
 Eingangsbereich kann durch Algorithmen sowohl die Anzahl der Personen als auch
@@ -934,7 +934,7 @@ die Laufrichtung dieser durch Analyse der Drucksensoren bestimmt werden.
 
 
 \subsubsection{Lichtschranken und Bewegungsmelder}
-\label{sec:Lichtschranken und Bewegungsmelder}
+\label{sec:Lichtschranken_und_Bewegungsmelder}
 
 Lichtschranken oder Bewegungsmelder im Eingangsbereich können dafür genutzt
 werden um eine Personenanzahl im Raum zu ermitteln.
@@ -974,7 +974,7 @@ Algorithmus zur Personenzählung.
 \end{itemize}
 
 \subsubsection{ Video-/Bildanalyse}
-\label{sec:Video-/Bildanalyse}
+\label{sec:Video_Bildanalyse}
 
 Eine ähnliche und kostengünstigere Alternative bietet eine Analyse von
 Video/- \bzw Bildmaterial mit der durch algorithmische Personenerkennung die
@@ -1018,7 +1018,7 @@ diese Methode \zB durch das kontaktlose Bezahlen mit einem Smartphone.
 
 
 \subsubsection{BLE Beacons}
-\label{sec:BLE Beacons}
+\label{sec:BLE_Beacons}
 
 
 Der Einsatz von Beacons wurde bereits bei der Standortbestimmung von Benutzern
@@ -1039,7 +1039,7 @@ Es wird also nach dem Standort innerhalb eines bestimmten Bereiches gesucht.
 
 
 \subsubsection{Fazit - Personenerkennung im Raum}
-\label{sec:Fazit - Personenerkennung im Raum}
+\label{sec:Fazit_Personenerkennung_im_Raum}
 
 Nach Abwägung der Vor- und Nachteile der einzelnen Technologien sind wir zu dem
 Entschluss gekommen das für dieses Projekt die Personenerkennung durch
@@ -1088,3 +1088,4 @@ Möglichkeiten die aber teilweise im aktuellen Projektkontext nicht anwendbar
 waren. Sollten sich die ermittelten Probleme in näherer Zukunft beheben, wären
 auch Technologien wie Druckplatten im Boden als Personenerkennung eine
 brauchbare Methode.
+\citet{ISO9126}

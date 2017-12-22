@@ -3,7 +3,7 @@
 Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Realisierung des Systems wurden erste [Risiken](Liste im Anhang?) identifiziert. Im Verlauf des Projektes wird diese Liste an Risiken bezüglich auf verwendete Technologien und neuen Erkentnissen stetig aktualisiert. Da noch keine Technologien feststehen die verwendet werden sollen, sind die Risiken aktuell nur auf das Projekt als ganzes bezogen. Sobald Technologien feststehen, und sich daraus neue Risiken ergeben, wird die Liste im Anhang vervollständigt.
 
 ### Erste Risiken (ARBEITSTITEL)
-<!--
+
 - Benutzer eines Raumes blockieren den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
 - __Personenerkennung im Raum ermöglicht dynamische Überprüfung des Status:__
     - Exit:
@@ -13,7 +13,6 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
     - Fallback:
         - Funktionen kürzen um Antwortszeiten des Systems zu verringern.
         - Besserer Netzausbau für stabilere und verkürzte Kommunikation.
--->
 
 - Das finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
 - __Die benötigte Zeit zum finden eines freien Raumes ist kürzer wenn das System benutzt wird:__
@@ -23,6 +22,11 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
         - Zeit für die Raumsuche beträgt mehr als 10 Sekunden.
     - Fallback:
         - Funktionen im System kürzen um Antwortszeiten des Systems zu verringern.
+        
+Unser größtes Problem besteht darin, die Antwortzeiten des Systems so kurz zu halten, das der Benutzer mit dem System nicht länger braucht einen freien Raum zu finden als wenn er einfach durch ausprobieren die Räume in seiner Umgebung überprüft. Dazu muss natürlich erwähnt werden das die Zeit, die ein Benutzer benötigt um ohne unser System einen Raum zu finden, immer von den örtlichen Gegebenheiten abhängt, wie z.B. Länge der Flure, Laufwege zwischen zwei Räumen oder, wenn vorhanden, der Gang zu einer Anlaufstelle innerhalb der Lehreinrichtung die Informationen über freie Räume bietet.
+* Exit Kriterium ist eingetreten
+    - Die Zeit die man benötigt einen freien Raum zu finden liegt nach unseren Messungen deutlich unter der Maximalzeit (10 Sekunden). Dabei sind wir von einer optimalen Umgebung des Systems ausgegangen (gutes Internet, keine störenden Prozesse auf dem Endgerät). Dabei startet der Nutzer die Anwendung auf seinem Endgerät und bekommt nach einer Anfrage am System eine Raumnummer päsentiert. Er hat dann die Möglichkeit den Raum zu reservieren, was dem finden und sichern eines Raumes entspricht.
+    - Risikominimierung durch möglichst wenig Interaktionsschritte für den Benutzer. 
   
   
 - Es lässt sich nicht gewährleisten, dass ein Raum auch tatsächlich frei ist wenn dem Benutzer dieser ausgegeben wird.        
@@ -33,6 +37,8 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
         - Nach einer Überprüfung des Raumes wird festgestellt das der Raum nicht verfügbar ist.
     - Fallback:
         - Es wird nach weiteren freien Räumen gesucht.
+* Exit Kriterium ist eingetreten
+    - Dadurch das immer eine Liste verarbeitet wird in der sich nur freie Räume befinden, und bei einer Änderung der Raumbelegungen diese sofort aktualisiert wird, ist nach unserem Ergebnis gewährleistet das nur ein Raum ausgegeben wird der auch tatsächlich frei ist. Um mehrere gleichzeitige Anfragen zu bearbeiten werden Semaphoren genutzt die einen Wechselseitigen Ausschluss beim Bearbeiten der Liste garantieren.
 
 
 ### Risiken bei der Aufgabenbestimmung (ARBEITSTITEL)
@@ -45,17 +51,9 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
         - Es existiert für den Benutzer keine Auswahlmöglichkeiten um die Raumsuche einzugrenzen.
     - Fallback:
         - Das System gibt anhand von Benutzerrollen einen Raum mit vordefinierten Eigenschaften aus.
+* Exit Kriterium ist eingetreten
+    - Die Auswahl von Filtern durch den Benutzer lässt sich unkompliziert über das Endgerät des Benutzers regeln. Er greift dabei auf eine Auswahl von Filtermöglichkeiten zuzück die beim absenden im Body des HTTP-Requests mitgesendet werden. 
         
-        
-- Die automatische Aufhebung des Vorschlags/Reservierung/Buchung eines Raumes kann nicht automatisch erfolgen.
-- __Nach Ablauf einer bestimmten Zeit wird der Status des Raumes automatisch von "Nicht verfügbar" auf "Verfügbar" gesetzt:__
-     - Exit: 
-        - Automatische Aufhebung lässt sich realisieren.
-    - Fail:
-        - Funktion zur automatischen Aufhebung pausiert das System da immer auf Aktualität geprüft werden muss.
-        - Das System kann nicht automatisiert prüfen ob eine Aufhebung vorgenommen werden muss.
-    - Fallback:
-        - Bei Bedarf wird ein Countdown gestartet der im Hintergrund abläuft und bei Beendigung die Aufhebung einleitet.
 
 ### Risiken bei der Standortbestimmung (ARBEITSTITEL)
 
@@ -69,7 +67,8 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
     - Fallback:
         - Standortbestimmung durch manuelle Eingabe des Benutzers ermöglichen.
         - Pseudostandort festlegen der als aktueller Standort genutzt wird. Beispielsweise der Haupteingang eines Gebäudes.
-        
+* Exit Kriterium ist eingetreten
+    - Durch die Verwendung der Android Beacon Library konnten wir ein Android Smartphone mit BLE Unterstützung zu einem sendenden Beacon umfunktionieren. Ein anderes Android Gerät konnte den künstlich erstellten Beacon erkennen und mitgelieferte Daten wie Entfernung auslesen.
         
 - Inteferenzen stören die Standortbestimmung durch die Bluetooth Beacons.
 - __Die Standortbestimmung über Bluetooth Beacons erfolgt ohne Inteferenzen:__
@@ -81,36 +80,47 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
     - Fallback:
         - Signalreichweite der einzelnen Beacons reduzieren so das eine maximale Anzahl an Signalen in einem Bereich gewährleistet wird.
         - Bluetooth Beacons gut sichtbar und in ausreichender Entfernung zu Hindernissen anbringen. Beispielsweise über den Köpfen von Personen oder an der Decke.
+* Exit Kriterium ist eingetreten
+    - In einem Test haben wir mehrere Signalgeräte wie Geräte mit aktivem WLAN, Funknetzwerke, WLAN-Repeater und Bluetooth Komponenten in einem Raum positioniert und versucht den aktiven Beacon zu empfangen. Bei diesem Test funktionierte dies Problemlos, allerdings können wir keinen Test unter realistischen Bedingungen durchführen da uns dafür die benötigten Mittel in ausreichender Zahl wie z.B. voll funktionsfähige Beacons fehlen.
         
         
-- Abstand zwischen 2 Räumen/Markern ist zu groß um eine effektive Standortbestimmung des Benutzers durchführen zu können.
-- __Jeder Bereich im Gebäude ist durch mindestens ein Bluetooth Beacon Signal abgedeckt:__
+- Durch einen zu großen Abstand zu einem Beacon nimmt die Genauigkeit bei der Erkennung ab und ist nicht mehr zuverlässig anwendbar.
+- __Die Erkennung von Beacons funktioniert in bis zu 10 Meter zuverlässig:__
      - Exit: 
-        - Der Standort des Benutzers ist überall im Gebäude auslesbar.
+        - Der Beacon ist in bis zu 10 Meter zuverlässig erkennbar.
     - Fail:
-        - Es gibt Positionen im Gebäude die nicht durch Bluetooth Signale abgedeckt sind.
+        - Der Beacon ist innerhalb von 10 Meter nicht erkennbar.
     - Fallback:
         - Signalreichweite der einzelnen Beacons erhöhen um einen größeren Bereich abzudecken.
         - Beacons in festen Abständen im Gebäude verteilen.
+* Exit Kriterium ist eingetreten
+    - Der simulierte Beacon mit dem Smartphone lies sich in mehreren Testdurchläufen bis zur einer durchschnittlichen Reichweite von 14 Metern erkennen. Befinden sich Hindernisse im Weg wie etwa Wände, war immer noch eine Erkennung in ca. 9 Metern Entfernung möglich. Da aber geplant ist diese Beacons in regelmäßigen Abständen anzubringen um eine ausreichende Signalabdeckung zu gewährleisten, gilt dieser Test als bestanden.
 
 ### Risiken bei der Laufwegbestimmung (ARBEITSTITEL)
 
-- Dijkstra-Algorithmus/Verkettete Liste lässt sich nicht implementieren
-- __Mit einer verketteten Liste wird der Dijkstra-Algorithmus simuliert und ein Raum für den Benutzer bestimmt:__
+- In der verketteten Liste lassen sich nicht mehrere Richtungen angeben in die ein Benutzer gehen kann.
+- __Der Einsatz einer verketteten Liste ermöglicht eine Wegbestimmung innerhalb eines Gebäudes:__
      - Exit: 
-        - Die Verkettete Liste deckt alle relevanten Räume ab und liefert anhand eines Algorithmus einen Raum der sich in der Nähe des Benutzers befindet.
+        - Die Verkettete Liste deckt alle relevanten Räume ab und liefert anhand eines Algorithmus einen Raum der sich in der Nähe des Benutzers befindet. Dabei werden verschiedene Verbindungswege wie Treppenhäuser oder Fahrstühle berücksichtigt.
     - Fail:
-        - Durch die Kantengewichtung entsteht ein unrealistisches Ergebnis.
-        - Die verkettete Liste lässt sich nicht realisieren.
+        - Innerhalb der verketteten Liste lässt sich nicht in mehrere Richtungen gehen die äquivalent zu möglichen Wegen zwischen verschiedenen Punkten sind.
     - Fallback:
-        - Vorabberechnung aller Entfernungen zwischen allen Räumen und markanten Punkten.
+        - Manuelle Entfernungsbestimmung zwischen allen Räumen und markanten Punkten und das eintragen in einer Tabelle.
+* Exit Kriterium ist eingetreten
+    - Innerhalb einer verketteten Liste lassen sich nach unserer Überprüfung mehrere Wege angeben. Dabei lässt sich modellieren das von einem Raum mehrere Knoten abzweigen können. Ein Raumknoten kann also sowohl zu anderen Räumen als auch zusätzlich zu einem Treppenhaus führen um das Stockwerk zu wechseln.
         
         
 ### Risiken bei der Markierung von Gegenständen (ARBEITSTITEL)
-- RFID eines Gegenstandes wird beim verlassen des Raumes nicht erkannt.
-    - wenn das Item dann aber in einem anderen Raum registriert wird muss er trotzdem aktuallisiert werden (aus alten Raum austragen, in neuen Raum eintragen).
-- RFID eines Gegenstandes wird fälschlicherweise aus einem Raum ausgetragen obwohl er sich noch darin befindet (Gegenstand kommt in die Nähe des RFID Sensors).
-- Equipment im Raum wird aus diesem entfernt, was nicht im System registriert wird.
+- RFID eines Gegenstandes kann nicht erkannt und einem Raum zugeordnet werden.
+- __Jeder Gegenstand kann eindeutig einem Raum bzw. einem Standort zugeordnet werden:__
+     - Exit: 
+        - Das Erkennen von Gegenständen über RFID funktioniert sowohl beim betreten als auch beim verlassen des Raumes.
+    - Fail:
+        - Das Erkennen von Gegenständen über RFID kann nicht unterscheiden zwischen betreten und verlassen des Raumes.
+    - Fallback:
+        - Über eine Überprüfung der aktuellen Rauminhalte kann erkannt werden ob ein Gegenstand den Raum betritt oder verlässt. Ist der erkannte Gegenstand Teil des Rauminventars, kann das System davon ausgehen das der Gegenstand den Raum verlässt. Ist er nicht in der Liste vorhanden weis das System das der Gegenstand den Raum gerade betritt.
+* Fail Kriterium ist eingetreten
+    - Eine automatische Erkennung über ein Lesegerät ist nicht möglich da nicht erkannt werden kann ob ein Gegenstand den Raum gerade betritt oder verlässt. Um das Problem zu lösen tritt der beschriebene Fallback ein, womit eine Raumzugehörigkeit gewährleistet werden kann. Um zu verhindern das ein Gegenstand aus dem System verschwindet, wird eine Liste auf dem Server erstellt die Auskunft über den Status eines Gegenstandes gibt. Daraus ist ersichtlich ob ein Gegenstand gerade aus einem Raum aus- oder eingetragen wurde. Wurde er ausgetragen, verbleibt die Gegenstands ID solange auf dieser Liste bis der Gegenstand in einem anderen Raum registriert wird. Sollte ein Gegenstand versehentlich in zwei aufeinanderfolgenden Räumen eingetragen werden, wird immer der letzte Raum in dem der Gegenstand erkannt wurde als aktueller Raum gewählt und in das Rauminventar eingetragen. Der Server erkennt die Dopplung von Gegenständen und weist den vorletzten Raum an diesen Gegenstand aus seinem Rauminventar zu entfernen.
 
 
 ### Risiken bei der Personenerkennung (ARBEITSTITEL)
@@ -123,42 +133,10 @@ Anhand der vorrangegangenen Recherche an Informationen zu einer möglichen Reali
         - Die Anzahl an Personen im Raum ist nicht ersichtlich.
     - Fallback:
         - Personenerkennung durch manuelles ein- bzw. austragen durch den Benutzer.
-
-### Risiken bei der Kommunikation (ARBEITSTITEL)
-- Bluetooth Signale behindern sich gegenseitig im Ablauf
-- Es kann auf Clientseite keine Verbindung mit dem Minicomputer im Raum aufgebaut werden.
+* Exit Kriterium ist eingetreten
+    - Durch die Echtzeit Objekterkennung (You only look once) war es uns möglich in einem Testfall mehrere Personen in einem Raum zu identifizieren. Dazu wurde ein Bild ausgewertet das mit einer Webcam gemacht wurde. Dadurch konnte die Anzahl der Personen im Raum ermittelt werden.
 
 
-### Risiken bei den Technologien (ARBEITSTITEL)
-- Endgerät des Benutzers unterstützt kein Bluetooth.
-
-<!-- auflistung von Risiken -->
-     
-        
-### Fazit - Risiken
-
-<!--
-- Benutzer eines Raumes blockieren den Raum körperlich über die im System hinterlegte Zeitspanne hinaus.
-- Das System liefert einen freien Raum nicht in absehbarer Zeit.
-- Das Finden eines freien Raumes dauert mit Hilfe der Anwendung länger als ohne.
-- Es lässt sich nicht gewährleisten, dass ein Raum auch tatsächlich frei ist wenn dem Benutzer dieser ausgegeben wird. (andere Benutzer blockieren den Raum z.b. weil er nicht abgeschlossen ist)
-- Eine Filterung nach bestimmten Rauminhalten durch den Benutzer lässt sich nicht umsetzen.
-- Die automatische Aufhebung des Vorschlags/Reservierung/Buchung eines Raumes kann nicht automatisch erfolgen.
-- Automatische Standortbestimmung des Benutzers innerhalb des Anwendungsfeldes ist nicht möglich.
-    - technisch nicht möglich
-    - Datenschutztechnisch nicht möglich
-- Inteferenzen stören die Standortbestimmung durch die Beacons
-- Abstand zwischen 2 Räumen/Markern ist zu groß um eine effektive Standortbestimmung des Benutzers durchführen zu können.
-- Dijkstra-Algorithmus/Verkettete Liste lässt sich nicht implementieren
-- Personenerkennung im Raum durch YOLO ist nicht effektiv realisierbar.
-- Bluetooth Signale behindern sich gegenseitig im Ablauf
-- Es kann auf Clientseite keine Verbindung mit dem Minicomputer im Raum aufgebaut werden.
-- RFID eines Gegenstandes wird beim verlassen des Raumes nicht erkannt.
-    - wenn das Item dann aber in einem anderen Raum registriert wird muss er trotzdem aktuallisiert werden (aus alten Raum austragen, in neuen Raum eintragen).
-- RFID eines Gegenstandes wird fälschlicherweise aus einem Raum ausgetragen obwohl er sich noch darin befindet (Gegenstand kommt in die Nähe des RFID Sensors).
-- Equipment im Raum wird aus diesem entfernt, was nicht im System registriert wird.
-- Endgerät des Benutzers unterstützt kein Bluetooth.
--->
 
 
 

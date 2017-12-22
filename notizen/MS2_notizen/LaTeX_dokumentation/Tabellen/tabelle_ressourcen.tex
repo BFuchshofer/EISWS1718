@@ -1,0 +1,22 @@
+% !TEX root = projektdokumentation.tex
+
+\begin{table}[h]
+	\caption{\textbf{Benutzer}}
+ 	\begin{tabularx}{\textwidth}{|c|c|X|c|c|}
+		\rowcolor{heading}\textbf{Ressource} & \textbf{Methode} & \textbf{Semantik} & \textbf{content-type (req)} & \textbf{content-type (res)}\\ \hline
+		/freeRoom & GET & gibt einen Raum zurück der in Abhängigkeit der Informationen im Body ausgewählt wurde. & application/json & application/json\\
+		\rowcolor{odd}	/room/\{roomID\} & GET & gibt den aktuellen Status eines Raumes aus & - & application/json\\
+		/room/\{roomID\}/status & PUT & ändert den Status des angegebenen Raumes in den angegebenen Status & application/json & application/json\\
+ 	\end{tabularx}
+ \end{table}
+ 
+ \begin{table}[h]
+	\caption{\textbf{Administrator}}
+ 	\begin{tabularx}{\textwidth}{|c|c|X|c|c|}
+		\rowcolor{heading}\textbf{Ressource} & \textbf{Methode} & \textbf{Semantik} & \textbf{content-type (req)} & \textbf{content-type (res)}\\
+						/room & PUT & gibt einen Raum zurück der in Abhängigkeit der Informationen im Body ausgewählt wurde. & application/json & application/json\\
+		\rowcolor{odd}	/room/\{roomID\} & PUT & gibt den aktuellen Status eines Raumes aus & - & application/json\\
+						/room/\{roomID\} & DELETE & entfernt einen Raum aus dem System & - & -\\
+		\rowcolor{odd}	/room/\{roomID\} & GET & enthält alle Informationen die zu einem Raum gespeichert wurden & - & application/json\\
+ 	\end{tabularx}
+ \end{table}

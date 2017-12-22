@@ -1,0 +1,584 @@
+\section{MCI Inhalte:}
+\label{sec:MCI Inhalte}
+
+\subsection{Einleitung}
+\label{sec:Einleitung}
+
+Im Folgenden beschäftigen wir uns mit den Mensch-Computer Interaktion-Elementen
+des interaktiven Softwareprojektes.
+
+\subsection{Stakeholderanalyse}
+\label{sec:Stakeholderanalyse}
+
+Um einen ersten Überblick über die möglichen Stakeholder des Systems zu bekommen
+haben wir im Rahmen einer Stakeholderanalyse potenzielle Benutzer und 
+Interessenten des Systems analysiert. 
+\begin{itemize}
+	\item Lehrkräfte
+	\item Lerner
+	\item Wissenschaftliche Mitarbeiter
+	\item Lehreinrichtungsverwaltung
+	\item Administratoren
+	\item Angestellte
+	\item Lehreinrichtung
+\end{itemize}
+
+Eine ausführliche Auflistung aller identifizierten Stakeholder mit ihren
+Eigenschaften und Bezügen zum System befindet sich im ( siehe \ref{tabelle_Stakeholderanalyse}).
+
+\section{Vorgehensmodelle}
+\label{sec:Vorgehensmodelle}
+
+\subsection{Einleitung}
+\label{sec:Vorgehensmodelle_Einleitung}
+
+Das anzuwendende Vorgehensmodell in diesem Projekt behandelt im Idealfall
+die Charakteristiken des Projektfeldes. Dazu zählen \zB die Projektziele,
+Aufgaben und organisationale Anforderungen die gegeben sein müssen, um das
+Projekt effektiv bearbeiten zu können. Im Folgenden soll deduktiv auf ein
+passendes Vorgehensmodell für dieses Projekt geschlossen werden, welches im
+Entwicklungsprozess angewendet wird.
+
+\subsection{Auswahl eines Vorgehensmodell}
+\label{sec:Auswahl_eines_Vorgehensmodell}
+Da das zu entwickelnde System dem Benutzer eine Möglichkeit bieten muss ein
+ganz bestimmtes Ziel zu erreichen, dass innerhalb der Anwendungsdomäne immer
+das selbe ist, liegt es nahe, das in der Entwicklung ein besonderer Fokus auf
+die Modellierung der Aufgaben eines Benutzers gelegt werden muss. Die Aufgaben
+deren Erfüllung das System gewährleisten muss, beschränken sich auf ein
+übergeordnetes Ziel, dem Suchen eines Raumes. Die Benutzer und ihre
+Eigenschaften haben zwar eine gewisse Relevanz, müssen aber nicht wie \zB im
+\textit{[User-Centred Design](Buch) von Norman und Draper} im Fokus des gesamten
+Entwicklungsprozzesses liegen. Die Aufführung aller potenziellen Benutzer des
+Systems schränkt sich, wenn man das Anwendungsumfeld betrachtet, stark ein.
+Das führt uns zu dem Schluss, dass eine ausführliche Benutzermodellierung in
+diesem Kontext nicht zwingend notwendig ist. Aus diesem Grund sind auch
+Vorgehensmodelle die eine starke Einbindung von Benutzern oder Vertretern
+dieser beinhalten nicht relevant für diesen Projektkontext.
+Dazu zählen \zB das \textit{[Scenario Based Usability Engineering](Buch) Vorgehen von Mary Beth Rosson und John M. Carrol},
+das mittels einfach zu verstehender Szenarien Benutzern die Möglichkeit bietet
+effektiv am Entwicklungsprozess teilhaben zu können. Daher sollte der Fokus
+unseres Projektes eher auf die möglichst effektive Nutzung unseres Systems
+gelegt werden. Dadurch soll sichergestellt werden, dass der Benutzer oder die
+Benutzergruppe durch die Verwendung unseres Systems hinsichtlich seines
+Hauptziels nicht behindert sonder viel mehr unterstützt wird.
+
+\subsection{Fazit - Vorgehensmodell}
+\label{sec:Fazit_Vorgehensmodell}
+
+Da in unserem Projekt weder die Einbindung von Benutzern in den
+Entwicklungsprozess noch die ausführliche Benutzermodellierung in einem
+benutzerzentriertem Vorgehen ein besonders großen Wert hat, haben wir uns für
+das \textit{[Usage-Centred Design](Buch) von Constantine und Lockwood}
+entschieden. Dieses Vorgehensmodell legt einen besonderen Wert auf die
+Anwendung des Systems, also die Fokussierung auf den Aufgabenbereich einer
+Anwendung. Desweiteren ist es durch seine Skalierbarkeit ein ideales
+Vorgehensmodell für ein Projekt dieser Größe.
+
+\section{Benutzermodellierung}
+\label{sec:Benutzermodellierung}
+
+\subsection{Einleitung}
+\label{sec:Benutzermodellierung_Einleitung}
+
+Obwohl im \textit{Usage-Centred Design von \citet{softwareForUse}}
+die Benutzermodellierung keinen sehr hohen Detaillierungsgrad hat, ist dennoch
+eine Übersicht über Benutzergruppen wichtig um ein effektiv funktionierendes
+System zu entwickeln. Aus den Benutzergruppen lassen sich benötigte Aufgaben
+ableiten, die das System abdecken muss. Da wir konkrete Benutzer nur an
+bestimmten Stellen in den Entwicklungsprozess einbeziehen werden, wenden wir
+die Benutzermodellierung der User Roles \textit{\citep[Kapitel~4]{softwareForUse}} an die es uns erlaubt,
+Benutzergruppen mit ihren Erwartungen an das System zu modellieren. Dabei wird
+darauf Rücksicht genommen was diese Benutzer-Rollen im Bezug auf ihre
+Aufgaben innerhalb des Systems darstellen.
+
+\subsection{User Roles}
+\label{sec:User_Roles}
+
+Anhand der durchgeführten Stakeholderanalyse lassen sich bereits potenzielle,
+aktive Benutzer ableiten. Um diese konkret in Rollen unterteilen zu können,
+haben wir die Erkenntnisse aus der Stakeholderanalyse dafür genutzt in einem
+Brainstorming Rollennamen zu identifizieren die ihre Aufgabe und ihren Bezug
+zum System widerspiegeln.
+Um die Rollen kurz charakteristisch zu beschreiben, haben wir zusätzlich eine
+Kurzbeschreibung der einzelnen Rollen angefertigt, die die Unterschiede
+deutlich machen soll. Wir halten das für notwendig, da die einzelnen Rollen
+sich teilweise nur marginal voneinander unterscheiden.
+Dabei sind wir auf folgende Ergebnisse gekommen:
+
+\begin{itemize}
+	\item SilentWorkingRoomSearcher
+	\begin{itemize}
+		\item sucht einen stillen Arbeitsplatz.
+	\end{itemize}
+	\item CasualSingleRoomSearcher
+	\begin{itemize}
+		\item sucht einen Arbeitsraum in dem in einer Gruppe gearbeitet werden kann.
+	\end{itemize}
+	\item CasualMultiRoomSearcher
+	\begin{itemize}
+		\item sucht mehrere Arbeitsräume in denen in Gruppen gearbeitet werden kann.
+	\end{itemize}
+	\item CasualRoomWithEquipmentSearcher
+	\begin{itemize}
+		\item sucht einen Arbeitsraum der spezielles Equipment beinhaltet, das die Benutzer zum arbeiten benötigt.
+	\end{itemize}
+	\item RoomWithProfessionalEquipmentSearcher
+	\begin{itemize}
+		\item sucht einen Arbeitsraum der spezielles Equipment beinhaltet, das die Benutzer zum arbeiten benötigen.
+	\end{itemize}
+	\item SpecificRoomBooker
+	\begin{itemize}
+		\item Benutzer möchte einen bestimmten Raum, ohne vorherige Reservierung buchen.
+	\end{itemize}
+	\item RoomScheduler
+	\begin{itemize}
+		\item möchte den Status eines Raumes abfragen.
+		\item möchte einen oder mehrere Räume für einen Zeitraum in der Zukunft reservieren/buchen.
+	\end{itemize}
+	\item ServerAdministrator
+	\begin{itemize}
+		\item möchte den Server des Systems verwalten und aktualisieren.
+	\end{itemize}
+	\item DBAdministrator
+	\begin{itemize}
+		\item möchte die Datenhaltung des Systems verwalten und aktualisieren.
+	\end{itemize}
+	
+\end{itemize}
+
+Während der Ermittlung der Rollennamen sind uns Dopplungen in den Bedürfnissen
+der Rollen aufgefallen, die wir im nächsten Schritt eliminieren wollen.
+Dazu haben wir die Rollen neu sortiert und versucht Gruppen zu bilden die
+ähnliche Interessen besitzen.
+Dabei ließen sich drei Gruppen mit jeweils unterschiedlichen Spezialisierungen finden.
+
+\begin{itemize}
+	\item FreeRoomSearcher als Gruppe von Benutzern die daran interessiert sind einen Raum zu suchen in dem Arbeiten verrichtet werden können.
+	\begin{itemize}
+		\item SilentWorkingRoomSearcher
+    	\item CasualSingleRoomSearcher
+   		\item CasualMultiRoomSearcher
+    	\item CasualRoomWithEquipmentSearcher
+    	\item RoomWithProfessionalEquipmentSearcher
+    	\item SpecificRoomBooker
+    	\item RoomScheduler
+	\end{itemize}
+	\item Administrator als Gruppe von Benutzern, die sich um die Verwaltung des Systems kümmert.
+	\begin{itemize}
+	    \item ServerAdministrator
+    	\item DBAdministrator
+	\end{itemize}
+	\item RoomStatusChecker als Gruppe von Benutzern, die Informationen über den aktuellen oder zukünftigen Status eines Raumes benötigen.
+	\begin{itemize}
+		\item SpecificRoomBooker
+		\item RoomScheduler
+		\item SpecificRoomBlocker
+	\end{itemize}
+\end{itemize}
+
+Eine genaue Auflistung der \textit{Role Models} mit ihren Interessen und Bedürfnissen
+wie im Buch \textit{Software for use} beschrieben, findet sich im \ref{[Anhang](tabelle_User_Roles.md)}.
+
+Auch in dieser Auflistung befinden sich noch einige Rollen doppelt, was damit
+zusammenhängt, dass bestimmte Rollen Eigenschaften besitzen, die die
+Bedürfnisse von mehreren Rollen widerspiegeln. Sie sind dabei aber nicht als
+zwei unterschiedliche Rollen zu verstehen, sondern als Spezialisierungen oder
+Erweiterungen einer bestehenden Rolle. Um diese Abhängigkeiten deutlicher zu
+machen, haben wir im nächsten Schritt zusätzlich zu den \textit{User Roles} ein
+Schaubild erstellt. Diese User Role Map \textit{\citep[Kapitel~4]{softwareForUse}} dient uns dazu,
+einen Zusammenhang der Rollen untereinander und zum System zu gewähren, damit
+ein genereller Überblick geschaffen wird der uns hilft im Entwicklungsprozess
+die Verknüpfungen unterschiedlicher Aspekte nicht aus den Augen zu verlieren.
+Die \textit{User Role Map} befindet sich zur besseren Lesbarkeit im \ref{[Anhang](user_role_map.png)}.
+
+       
+\subsection{Focal Roles}
+\label{sec:Focal_Roles}
+
+Die wichtigsten \textit{User Roles} in unserem System sind unserer Meinung nach die
+Rollen \textbf{CasualSingleRoomSearcher}, der nur einen normalen Raum zum
+Arbeiten benötigt, und der \textbf{CasualRoomWithEquipmentSearcher} der einen
+Raum sucht, der ein bestimmtes Equipment beinhaltet. Da diese Rollen die
+allgemeinsten, aber wohl auch die häufigsten Rollen in unserem System sein
+werden, haben wir diese als \textit{Focal Roles} identifiziert.
+Die Focal Roles \citep[Kapitel~4]{softwareForUse} sind laut \textit{\citep{softwareForUse}} die
+Rollen, die innerhalb eines Systems die typischsten und wichtigsten
+Benutzergruppen darstellen. Innerhalb unseres Nutzungskontextes sind diese
+beiden Rollen am häufigsten vertreten und außerdem ausschlaggebend für die
+Zielerreichung des eigentlichen Nutzungsproblems. Im Entwicklungsprozess haben
+die Bedürfnisse der \textit{Focal Roles} einen wichtigen Anteil an der Gestaltung des
+User Interfaces, weswegen sie im Verlauf der Gestaltung immer wieder fokussiert
+betrachtet werden.
+
+\begin{quote}
+	Focal roles are those few user roles judged to be the most common or typical or that 
+	are deemed particularly important fromsomeother perspective.\\
+	\citep[Seite 83]{softwareForUse}
+\end{quote}
+
+\subsection{Fazit - Benutzermodellierung}
+\label{sec:Fazit_Benutzermodellierung}
+
+Die identifizierten \textit{User Roles} aus unserer Analysearbeit werden im Verlauf
+des Entwicklungsprojektes dazu genutzt werden die Aufgaben der Benutzer zu
+spezifizieren und die Anforderungen an das System zu erheben.
+Außerdem werden die \textit{Focal Roles} dazu genutzt werden den Entwicklungsprozess
+des User Interface mit einer fokussierten Betrachtungsweise zu unterstützen.
+\citep{softwareForUse} schlagen als weitere Ergänzung der
+Benutzermodellierung das Entwerfen von Structured Role Models \citep[Kapitel~4]{softwareForUse} vor.
+Wir sind der Meinung das dieser Modellierungsentwurf für dieses Projekt nicht
+benötigt wird, da eine ausführliche Unterscheidung der Benutzer in den
+\textit{User Roles} bereits vorgenommen wurde. Die Unterschiede der
+identifizierten \textit{User Roles} sind minimal, und unterscheiden sich nur in
+einigen wenigen Punkten, weswegen es unserer Meinung nach nicht notwendig ist
+diese weiter zu verfeinern. \citep{softwareForUse} geben weiterhin an,
+dass der Modellierungsschritt der \citep[Kapitel 4]{softwareForUse} für kleine
+Projekte oder Projekten mit kurzer Zeitspanne vernachlässigt werden kann
+\citep[Seite 89, 2. Absatz, 3. Zeile]{softwareForUse}, was uns in unserer Meinung zusätzlich bestätigt.
+
+
+
+\section{Benutzungsmodellierung}
+\label{sec:Benutzungsmodellierung}
+
+\subsection{Einleitung}
+\label{sec:Benutzungsmodellierung_Einleitung}
+
+Da im Vorgehen des \textit{Usage-Centred Design} der Fokus auf dem
+Identifizieren und Verstehen von Aufgaben der Benutzer liegt, haben wir mehrere
+Modellierungsstufen angewandt um die Aufgaben der Benutzer zu erarbeiten.
+Dabei sind wir durch immer weiteres und feineres Vorgehen auf die schlussendlich
+benötigten Aufgaben gestoßen, dessen Erfüllung das System gewährleisten muss.
+
+\subsection{Deskriptive Aufgabenmodellierung}
+\label{sec:Deskriptive_Aufgabenmodellierung}
+Um einen Überblick über die Aufgaben der Benutzer zu erhalten, haben wir
+zuallererst eine Auflistung der Aufgaben vorgenommen die im aktuellen
+Nutzungskontext für das Erreichen des Nutzungsziels benötigt werden. 
+Da kein aktives System vorliegt, das diese Aufgaben bearbeitet, sind die 
+meisten der Aufgaben physischer Natur ohne ein technisches System. 
+Die Aufgaben lauten wie folgt:
+
+\begin{itemize}
+	\item Freiern Raum suchen
+	\begin{itemize}
+		\item Gebäudeplan studieren
+		\item Gebäude/Stockwerk/Gang herausfinden in dem sich mögliche Arbeitsräume befinden
+		\item (optional) Hausmeister/Info/Sekretariat nach freien Räumen fragen
+		\item (optional) mögliche bereits bekannte freie Räume aus dem Gedächtnis abrufen
+		\item (optional) Raumbelegungspläne, sofern vorhanden, Online prüfen
+		\item zum freien Raum bewegen
+		\item (optional) Raumbelegungsplan vor der Tür auf Belegung überprüfen
+		\item Tür öffnen (sofern möglich) um zu Prüfen ob der Raum frei ist
+			\begin{itemize}
+				\item im Raum nach benötigtem Equipment schauen
+			\end{itemize}
+		\item falls der Raum belegt ist, iterieren und \ggfs Gebäude/Stockwerk/Gang wechseln
+		\item falls Equipment nicht vorhanden ist, iterieren und \ggfs Gebäude/Stockwerk/Gang wechseln
+	\end{itemize}
+	\item Freien Raum belegen
+	\begin{itemize}
+		\item in den Raum begeben und anfangen seine geplante Arbeit zu verrichten
+		\item \ggfs Raum für wichtige Veranstaltungen wieder freigeben
+		\begin{itemize}
+			\item erneut nach einem Raum suchen
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+Der Prozess der effektiven Raumsuche gestaltet sich im aktuellen Kontext
+relativ schwierig, da nur mit Glück das schnelle Finden eines passenden Raumes
+ermöglicht wird. Im schlimmsten Fall wird bei der Raumsuche viel Zeit
+verschwendet die anderweitig besser genutzt werden kann. Außerdem gibt es
+weder eine Garantie das ein Raum frei ist wenn man ihn aufsucht, noch das man
+überhaupt einen freien Raum in absehbarer Zeit finden kann.
+
+\subsection{Präskriptive Aufgabenmodellierung}
+\label{sec:Präskriptive_Aufgabenmodellierung}
+
+Um im nächsten Schritt die präskriptiven Aufgaben der verschiedenen
+Benutzergruppen zu erschließen, haben wir unter Zuhilfenahme der
+identifizierten \textit{user roles} ein Brainstorming durchgeführt, um einen
+ersten Überblick über mögliche benötigte Aufgaben \bzw Bedürfnisse der Benutzer
+zu erhalten.
+Dabei haben wir uns folgende Fragen gestellt:
+
+\begin{itemize}
+	\item What are users in this role trying to accomplish?
+	\item To fulfill this role, what do users need to be able to do?
+	\item What capabilities are required to support whatever users in this role need to accomplish?\\
+	\citep[Seite 116,Zeile 7-9]{softwareForUse}
+\end{itemize}
+
+
+Auszugsweise im folgenden ein paar exemplarische identifizierte Aufgaben die
+sich aus dem Brainstorming ergeben haben. Die vollständige Liste der Aufgaben
+aus dem Brainstorming finden sich im \ref{[Anhang](tabelle_Use_Cases.md)}.
+
+\begin{itemize}
+	\item Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.
+	\item Der Benutzer sucht einen freien Raum mit bestimmtem Equipment den er nutzen kann.
+	\item Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.
+\end{itemize}
+
+Beim Brainstorming haben wir festgestellt, dass einige der Aufgaben  starke
+Ähnlichkeiten besitzen was den Aufbau betrifft. So sind der Hauptteil der
+Aufgaben dafür zuständig einen Raum zu suchen. Lediglich die Art des Raumes die
+der Benutzer zum Arbeiten benötigt unterscheidet die Aufgaben. So lassen sich
+grobe Unterscheidungen bei den Aufgaben treffen die wir im späteren Verlauf
+genauer beschreiben und darstellen werden.
+
+Da diese Aufgaben teilweise ungenau formuliert, \bzw noch Mehrdeutigkeiten
+zuließen, haben wir die identifizierten Aufgaben in \textit{Essential Use Cases}
+formuliert, die die wichtigsten Bedürfnisse der Benutzer und die Reaktion des
+Systems auf diese Bedürfnisse widerspiegeln \ref{[tabelle_Use_Cases](tabelle_Use_Cases.md)}.
+Unserer Meinung nach sind Use Cases ein valides und sinnvolles Mittel um eine
+Aufgaben-zentrierte Softwarelösung zu entwickeln.
+Die erarbeiteten \textit{Essential Use Cases} sind laut Definition \citep[Kapitel~5]{softwareForUse}
+technologieunabhängig und rein auf die Benutzerabsicht und die Reaktion des
+Systems bezogen, was es uns im späteren Entwicklungsprozess einfacher macht
+technologiebezogene Gestaltungslösungen zu entwerfen.
+
+Um die erarbeiteten und benötigten Aufgaben evaluieren zu können, haben wir
+uns dazu entschlossen diese noch in der Form des \textit{Narrative Concrete Use Cases}
+zu formulieren \ref{[tabelle_Use_Cases](tabelle_Use_Cases.md)} \citep[Kapitel 5]{softwareForUse}.
+Diese Use Cases wurden von uns in einer narrativen und verständlichen, in der
+Anwendungsdomäne befindlichen Sprache verfasst, um sie in einem
+Evaluationsprozess potenziellen Benutzern vorzustellen.
+Da narrative Texte für den Benutzer einfacher zu verstehen sind, bietet sich uns
+damit die Möglichkeit ein paar Benutzer mit den von uns ermittelten Aufgaben zu
+konfrontieren und ihre Meinung und eventuelle Ergänzungen einzuholen.
+Da die \textit{Conrecte Use Cases} die Nutzung des Systems ausführlicher beschreiben
+als die \textit{Essential Use Cases}, wird es für den Benutzer einfacher die
+Handlungen nachzuvollziehen.
+Das Feedback der Benutzer wird dazu genutzt die Aufgaben zu überarbeiten und
+zu verbessern. 
+
+
+\subsection{Focal Use Cases}
+\label{sec:Focal_Use_Cases}
+Wie schon in den \textit{Focal Roles} in der Benutzermodellierung, gibt es
+\textit{Focal Use Cases} die in unserem Fall die wichtigsten \bzw am häufigsten
+vorkommenden Anwendungsfälle darstellen. Dabei haben wir auf die \textit{Focal Roles}
+zurückgegriffen und uns überlegt welche Aufgaben diese \textit{Focal Roles}
+innerhalb des Systems erfüllen müssen.
+Unserer Meinung nach sind das die Aufgaben \textbf{searchingRoomWithSpecificEquipment}
+und \textbf{searchingRoomForSeveralPersons}. Diese Anwendungsfälle haben in unserem
+System die größte Relevanz da die Funktionalitäten hinter diesen Aufgaben den
+Grundstein aus Benutzersicht für dieses Projekt legen. 
+
+
+\subsection{Iterative Evaluation der Aufgaben}
+\label{Iterative_Evaluation_der_Aufgaben}
+
+Um die ermittelten Aufgaben zu überprüfen, haben wir ein Gespräch mit
+2 Studenten geführt die sich im Umfeld der Anwendungsdomäne befinden und somit
+potenzielle Benutzer des Systems darstellen. Wir haben ihnen die von uns
+aufgestellten Aufgaben in der Form der \textit{Narrativ Conrete Use Cases} vorgestellt
+und sind mit ihnen folgende Fragen für jeden Use Case durchgegangen:
+
+\begin{itemize}
+	\item Können Sie sich vorstellen diese Aufgaben innerhalb des Problemkontextes durchzuführen?
+	\item Welche Vorteile sehen Sie an diesem Anwendungsfall?
+	\item Welche Nachteile sehen Sie an diesem Anwendungsfall?
+\end{itemize}
+
+Nachdem alle Use Cases besprochen wurden und Feedback dokumentiert wurde, haben
+wir dem Benutzer noch folgende zusätzliche Frage gestellt:
+
+\begin{itemize}
+	\item Können Sie sich weitere Anwendungsfälle vorstellen die bisher nicht erwähnt worden sind?
+\end{itemize}
+
+Wir haben dabei in Kooperation mit den Befragten Benutzern festgestellt das es
+gewisse Risiken für die Umsetzung des Systems gibt. Zum Beispiel ist nicht
+gewährleistet das ein Raum auch tatsächlich frei ist wenn der Benutzer ihn vom
+System vorgeschlagen bekommt und anschließend aufgesucht hat. Es wird also eine
+Art Reservierungsfunktion benötigt die einen Raum für andere Benutzer temporär
+als nicht verfügbar kennzeichnet, bis der tatsächliche Benutzer diesen
+Raum körperlich erreicht hat. Zusätzlich  wird die Möglichkeit der vorzeitigen
+Stornierung eines Raumes benötigt, falls sich der Benutzer spontan entschließt
+den Raum nicht mehr zu benutzen.
+Eine Verlängerung der Buchung eines Raumes ist ebenfalls von Vorteil, da es
+durchaus realistisch ist das ein Benutzer oder eine Benutzergruppe länger
+benötigt, als die eigentliche Buchung im System hinterlegt ist.
+Die identifizierten Risiken \bzw Änderungen sind zwar wichtig für einen
+funktionierenden Ablauf des Systems, allerdings haben wir sie nicht als
+zusätzliche \textit{Focal Use Cases} definiert. Um diese Abhängigkeiten
+trotzdem  deutlich zu machen haben wir, wie bei den \textit{User Roles} auch, ein
+Schaubild erstellt. Diese \textit{\citep[Kapitel~5]{softwareForUse}} befindet sich zur
+besseren Lesbarkeit im \ref{[Anhang](use_case_map.png)}.
+
+Wir haben dieses Feedback dafür genutzt die Anwendungsfälle zu überarbeiten
+und neue Anwendungsfälle in Form der bereits bekannten \textit{Essential Use Cases}
+zu erstellen. Die Aktualisierungen der Anwendungsfälle haben wir im
+\ref{[Anhang](tabelle_Use_Cases_v2.md)} dokumentiert.
+Zusätzlich befindet sich im \ref{[Anhang](gesprächsprotokoll.txt)} die Dokumentation
+der wesentlichen Ergebnisse der Befragung.
+
+
+\subsection{Fazit - Benutzungsmodellierung}
+\label{sec:Fazit_Benutzungsmodellierung}
+
+Das Ergebnis der Aufgabenmodellierung für das System haben wir in
+Zusammenarbeit mit einigen potenziellen Benutzern ermittelt.
+Die befragten Personen haben uns Feedback über die Relevanz der ermittelten
+Aufgaben gegeben, welche wir für den weiteren Entwicklungsprozess benötigen.
+Die identifizierten und in Use Cases formulierten Aufgaben stellen für den
+Benutzer die Möglichkeiten da, mit dem System zu interagieren. Dabei werden
+vermutlich im fertigen System auch mehrere Aufgaben kombinierbar sein.
+Die genaue Implementation der Aufgaben innerhalb der Gestaltungslösung wird in
+einem späteren Abschnitt behandelt. Anhand der Aufgaben lassen sich Risiken
+ableiten die das Projekt gefährden können. Diese Risiken haben wir im [Anhang](Risiken bei der Aufgabenbestimmung)
+dokumentiert und zusätzlich angegeben wie wir mit ihnen umgehen.
+
+
+\section{Anforderungen}
+\label{sec:Anforderungen}
+
+\subsection{Einleitung}
+\label{sec:Anforderungen_Einleitung}
+Anhand der \textit{Role Models} aus der Benutzermodellierung und den Use Cases
+aus der Benutzungsmodellierung lassen sich die Erfordernisse und Erwartungen
+der Benutzer gegenüber dem System beschreiben. Diese identifizierten
+Erfordernisse werden von uns im nächsten Schritt dazu verwendet Anforderungen
+für das System zu formulieren.
+
+\subsection{Anforderungen an das System}
+\label{sec:Anforderungen an das System}
+Im ersten Konzept des Projektes wurden bereits erste Anforderungen formuliert.
+Diese sind unterteilt in Funktionale und Non-Funktionale Anforderungen.
+Da im Verlauf der Konzeption und Entwicklung einiges abgeändert werden musste,
+wurden auch diese Anforderungen noch einmal überarbeitet. Zusätzlich haben wir
+sie um einige wichtige, auf das neu zu entwickelnde System bezogenen Punkten
+erweitert. Die vollständige Liste der identifizierten Anforderungen des Systems
+und des Projektes befindet sich im \ref{[Anhang](tabelle_anforderungen.md)}.
+
+
+\section{Content Modelling}
+\label{sec:Content_Modelling}
+
+\subsection{Einleitung}
+\label{sec:Content_Modelling_Einleitung}
+
+Mit Hilfe der Benutzer- und Benutzungsmodellierung kann durch verschiedene
+Methoden der "Interface Contents and Navigation" Thematik ein übersichtlicher
+abstrakter Prototyp erstellt werden. Ergebnis dieser Vorgehensweise ist
+eine "Content List" und eine "Content Navigation Map" mit deren Hilfe die
+wichtigen Merkmale und Funktionen sowie die Übergänge zwischen den einzelnen
+Aktionen und Dialogen innerhalb der Benutzerschnittstelle dargestellt werden
+können.  
+Wichtig hierbei ist, das es sich nur um einen abstrakten Prototypen handelt, also
+das die Ergebnisse so wenig Designmerkmale und Lösungsvorschläge beinhalten wie
+möglich. Weiterhin ist zu beachten, das genannte Eigenschaften wie ein
+Drop-down Menü" nur ein Beispiel sind und für die fertige Gestaltungslösung noch
+abgeändert werden können.
+
+\subsection{Interface Content Modelling}
+\label{sec:Interface_Content_Modelling}
+
+Sinn der Content List ist es eine übersichtliche Auflistung der verschiedenen
+"interaction spaces" mit ihren zugehörigen Inhalten zu erstellen.
+Ein "interaction space" wird dabei in die verschiedenen Dialoge aufgeteilt.
+Im Falle dieses Projektes werden die Interaction spaces \textit{userSpace},
+\textit{instituteSpace} and \textit{adminSpace} mit ihren Dialogen
+untergliedert ([siehe Content List]()).  
+Der \textit{userSpace} besteht zum Beispiel aus den folgenden Dialogen:
+
+\begin{itemize}
+	\item Start Dialogue
+	\item Filter Dialogue
+	\item Reservation Dialogue
+	\item Multi Reservation Dialogue
+	\item Booking Dialogue
+	\item Multi Booking Dialogue
+\end{itemize}
+
+Der erste Teil der Dialogbezeichnung wurde so gewählt das durch diesen
+verdeutlicht wird, welche Aktion diesem Dialog vorausgegangen ist. Der Dialog
+\textbf{Reservation Dialogue} beschreibt zum Beispiel den Kontext den der Benutzer
+sieht, nachdem er erfolgreich einen Raum reserviert hat.
+Die Dialoge werden weiterhin durch benötigte Inhalte erweitert und untergliedert.
+Dabei wurde in diesem Projekt darauf geachtet, dass so wenig endgültige
+Designeigenschaften der Elemente vorgegeben werden.
+
+\subsection{Context Navigation Map}
+\label{sec:Context_Navigation_Map}
+
+Als Erweiterung zur Content List wurde eine \ref{[Context Navigation Map erstellt](context_navigation_map.png)}.
+Diese verdeutlicht die Übergänge zwischen den einzelnen Dialogen. In diese
+Context Navigation Map wurden Vorschläge für verschiedene
+Interaktionsmöglichkeiten eingetragen. So kann die Beschriftung \textbf{[Buchen]} an
+einem Übergang im späteren Projekt durch einen Button mit der Beschriftung
+"Buchen" umgesetzt werden. Bei diesen Beschriftungen handelt es sich allerdings
+nur um einen Vorschlag und keinen fertigen Entwurf, d.h. die Interaktion \bzw
+der Übergang kann nach dem Interfacedesign auch durch eine andere Aktion
+aktiviert werden.
+
+
+\subsection{Fazit - Content Modelling}
+\label{sec:Fazit_Content_Modelling}
+
+Die aus dem Content Modelling entstandenen Artefakte können für das
+Interfacedesign verwendet werden, da durch diese die wichtigen Informationen
+und Übergänge zwischen verschiedenen Dialogen aufgezeigt werden. Die Artefakte
+wurden allerdings so wenig vom Endgültigen Design vorgegeben wurde.
+
+
+\subsection{User Interface Gestaltung}
+\label{sec:User_Interface_Gestaltung}
+
+Für das Design des User Interfaces, kurz UI, haben wir uns in diesem Projekt an
+den fünf Regeln und sechs Prinzipien der Nutzbarkeit \citep{softwareForUse}
+orientiert. Daraus ist als erste UI-Lösung ein Interface entstanden welches
+verschiedene Aufgaben und Funktionalitäten gebündelt in Oberkategorien zur
+Verfügung stellt. Damit ein Benutzer \zB einen Raum buchen kann muss er den
+folgenden Interaktionspfad durchlaufen.
+
+    Hauptmenü > Raum suchen > Raum / Räume suchen > Filter > Reservierung > Buchung
+
+Um den Benutzer innerhalb dieses Interaktionspfades zu leiten haben wir uns
+für den Stil eines Natural Language Interfaces entschieden, welcher einen
+Benutzer mit Hilfe von ganzen Sätzen durch eine Aufgabe führt.
+So entsteht \zB für einen Benutzer der erfolgreich einen Raum für sich
+reserviert hat das folgende Interface:
+
+\begin{figure}
+	\centering
+	%\includegraphics[scale=0.5]{reservierung.png}
+	\caption{UI Dialog - Reservierung}
+\end{figure}
+
+Dieser Aufbau ermöglicht es erfahrenen Benutzer die wichtigen Informationen auf
+einen Blick zu erfassen, hilft aber unerfahrenen Benutzern dennoch bei der
+Durchführung ihrer Aufgabe.
+
+Abschließend haben wir das entstandene UI selbstkritisch anhand der Regen und
+Prinzipien bewertet und die Mängel aufgeschrieben.
+Eines dieser Mängel war die nicht gegebene Selbstbeschreibungsfähigkeit also
+das ein Benutzer ohne Erfahrungen mit unserem System nicht weiß was er zu
+drücken hat um z.B. mehrere Räume zu reservieren und anschließend zu buchen.
+Das UI wurde hinsichtlich der von uns festgestellten Mängel verbessert.
+In dem aus dieser Iteration entstandenen UI findet der Benutzer alle Verfügbaren
+Funktionen unseres Systems direkt auf der Startseite, sodass er die Lösung zu
+seiner Aufgabe sofort finden kann. Dadurch hat sich der Interaktionspfad für
+die Buchung eines Raumes folgendermaßen verändert.
+
+    Hauptmenü > Einzelnen Raum suchen > Filter > Reservierung > Buchung
+
+Außerdem wurden Aufgaben wie Einzelne und Mehrere Räume suchen von einander
+getrennt was die Suche nach diesen Funktionen vereinfacht.
+
+Das aus der Überarbeitung der Mängel entstandene UI wurde dann von Benutzern
+ebenfalls im Hinblick auf die fünf Regeln und sechs Prinzipien ([s.o.]())
+evaluiert. Die aus dieser Evaluation entstandenen Funktionswünsche und
+Anmerkungen haben wir dann als Basis genommen um das existierende UI zu
+erweitern. Das daraus entstandene UI verbessert die Übersicht einzelner
+Interaktionsschritte in Bezug auf das Reservieren und Buchen von Mehreren
+Räumen. So besitzt ein Benutzer der Mehrere Räume sucht nun die Möglichkeit
+die Filter für jeden Raum einzustellen und kann anschließend die Reservierung
+der Räume einzeln und getrennt von einander durchführen. Ebenso kann ein
+Benutzer welcher bereits Mehrere Räume gebucht hat diese unabhängig voneinander
+Stornieren und somit wieder im System freigeben.
+

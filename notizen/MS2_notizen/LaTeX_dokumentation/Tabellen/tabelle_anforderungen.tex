@@ -1,0 +1,99 @@
+% !TEX root = projektdokumentation.tex
+
+\section{Anforderungen}
+
+\subsection{Funktionale Anforderungen}
+\label{sec:Funktionale_Anfoderungen}
+
+\subsubsection{Selbstständige Systemaktivität}
+\label{sec:Selbstständige_Systemaktivität}
+
+\begin{itemize}
+	\item Das System sollte dem Benutzer eine vordefinierte Auswahl an Raumspezifikationen zur Filterung zur Verfügung stellen.
+	\item Das System muss Benutzereingaben verarbeiten können.
+	\item Das System muss Benutzereingaben auswerten können.
+	\item Das System muss anhand von ihm zur Verfügung stehenden Daten eine Raumauswahl treffen können.
+	\item Das System muss gewährleisten das Lerner nur einen Raum gleichzeitig reservieren können.
+	\item Das System muss gewährleisten das Lerner nur einen Raum gleichzeitig belegen können.
+	\item Das System sollte die Möglichkeit bieten das Lehrkräfte mehrere Räume reservieren können.
+	\item Das System sollte die Möglichkeit bieten das Lehrkräfte mehrere Räume belegen können.
+	\item Das System sollte die Möglichkeit bieten das die Institut-Verwaltung mehrere Räume gleichzeitig reservieren kann.
+	\item Das System sollte die Möglichkeit bieten das die Institut-Verwaltung mehrere Räume gleichzeitig belegen kann.
+	\item Das System sollte die Möglichkeit bieten Benutzergruppen anhand von bestimmten Merkmalen zu unterscheiden.
+	\item Das System sollte die Möglichkeit bieten Eingaben von unterschiedlichen Benutzergruppen zu verarbeiten. 
+	\item Das System sollte die Möglichkeit bieten Benutzern eine Verlängerung der Raumbuchung nach Ablauf eines vordefinierten Zeitraums zu ermöglichen.
+	\item Das System muss die Möglichkeit besitzen den aktuellen Standort des Benutzers zu bestimmen.
+	\item Das System muss eine Überprüfung von aktuell vorhandenem Raumequipment innerhalb eines Raumes ermöglichen.
+\end{itemize}
+
+\subsubsection{Benutzerinteraktion}
+\label{sec:Benutzerinteraktion}
+
+\begin{itemize}
+	\item Das System muss dem Benutzer die Möglichkeit bieten anhand von benutzerdefinierten Eingaben einen Raumvorschlag auszugeben.
+	\item Das System muss dem Benutzer die Möglichkeit bieten sich als Mitglied einer Benutzergruppe zu verifizieren.
+	\item Das System muss dem Benutzer die Möglichkeit bieten seine persönlichen Informationen zu verändern.
+	\item Das System muss dem Benutzer die Möglichkeit bieten einen Raum zu buchen.
+	\item Das System muss dem Benutzer die Möglichkeit bieten einen vorgegebenen Raum zu reservieren.
+	\item Das System muss dem Benutzer die Möglichkeit bieten einen vorgegebenen Raum zu buchen.
+	\item Das System muss dem Benutzer die Möglichkeit bieten die Reservierung eines Raumes aufheben.
+	\item Das System muss dem Benutzer die Möglichkeit bieten die Buchung eines Raumes aufheben.
+	\item Das System muss dem Benutzer die Möglichkeit bieten die Buchung eines Raumes zu verlängern.
+	\item Das System sollte einem Administrator die Möglichkeit bieten neue Räume im System hinzuzufügen.
+	\item Das System sollte einem Administrator die Möglichkeit bieten bestehende Rauminformationen zu aktuallisieren.
+\end{itemize}
+
+\subsubsection{Schnittstellenanforderungen}
+\label{sec:Schnittstellenanforderungen}
+
+\begin{itemize}
+	\item Das System muss fähig sein, Informationen aus einem persistenten Speicher zu beziehen.
+	\item Das System muss fähig sein, Informationen in einen persistenten Speicher zu schreiben.
+	\item Das System muss fähig sein, Informationen vom Client zu beziehen.
+	\item Das System muss fähig sein, Informationen an den Client zu senden.
+	\item Das System muss fähig sein, eine Verbindung zu einem Netzwerk herzustellen.
+	\item Das System muss fähig sein über ein Netzwerk mit anderen Systemkomponenten zu kommunizieren.
+	\item Das System muss fähig sein Informationen auf Clientseite zu verarbeiten. 
+	\item Das System muss Informationen in einem persistenten Datenspeicher eindeutig zuordnen können.
+\end{itemize}
+
+
+\subsection{Non-Funktionale Anforderungen}
+\label{sec:Non-Funktionale_Anforderungen}
+
+\subsubsection{Qualitäts Anforderungen}
+\label{sec:Qualitäts_Anforderungen}
+
+\begin{itemize}
+	\item Das System muss dem Benutzer jederzeit die Korrektheit der präsentierten Informationen gewährleisten.
+	\item Das System sollte dem Benutzer den Zugriff in Echtzeit auf die verfügbaren Informationen ermöglichen.
+	\item Das System muss administrativ verwaltbar sein.
+	\item Das System muss dem Benutzer eine einfache Konfiguration auf seinem Endgerät ermöglichen (weniger als 5 Arbeitsschritte).
+	\item Das System muss dem Benutzer die Gültigkeit einer von ihm getätigten Interaktion garantieren.
+	\item Das System sollte auf dem Endgerät des Benutzers maximal 100MB Speicherplatz benötigen.
+	\item Die Schnittstelle des Systems muss für den Benutzer in einer portablen Form vorliegen.
+	\item Das System muss für den Benutzer einfach zu erlernen sein.
+	\item Das System sollte Fehlermeldungen eindeutig beschreiben.
+	\item Das System sollte dem Benutzer alle benötigten Funktionen zur Aufgabenerledigung zur verfügung stellen.
+
+	\item Das System sollte eine Benutzeroberfläche für administrative Arbeiten bereitstellen.   
+	\item Das System muss Informationen über eine grafische Oberfläche ausgeben können.
+	\item Das System muss Informationen über eine grafische Oberfläche einlesen können.
+	\item Das System muss die Anfragen des Benutzers innerhalb von 10 Sekunden ausführen.
+	\item Das System muss für den Benutzer innerhalb einer Applikation für ein mobiles Endgerät zur Verfügung stehen.
+	\item Das System sollte Informationen im JSON-Format speichern können.
+	\item Das System sollte das JSON-Format auslesen können.
+
+	\item Das System muss eine verteilte Anwendungslogik besitzen.
+	\item Das System muss 2 oder mehr Komponenten besitzen die auf unterschiedlichen Systemen laufen.
+	\item Das System muss auf lokal betriebenen Rechnern ausgeführt werden können.
+	\item Das System muss in den Sprachen Java oder JavaScript geschrieben werden.
+	\item Das System muss von den Entwicklern des Projekts geschrieben werden. 
+\end{itemize}
+
+\subsubsection{Organisatorische Anforderungen}
+\label{sec:Organisatorische_Anforderungen}
+
+\begin{itemize}
+	\item Das System muss bis zum 28.01.2018, 23:59 Uhr fertiggestellt sein.
+\end{itemize}

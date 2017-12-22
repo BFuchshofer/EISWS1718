@@ -1,0 +1,269 @@
+% !TEX root = projektdokumentation.tex
+
+\subsection{Anwendungsfälle (Task Modelling) Version 1}
+\label{anhang:Anwendungsfälle_Task_Modelling_v1}
+
+\begin{itemize}
+	\item Benutzeraufgaben
+	\begin{itemize}[noitemsep]
+		\item Der Benutzer identifiziert sich im System.
+		\begin{itemize}
+			\item Identifikation des Benutzers durch ein Merkmal.
+		\end{itemize}
+		\item Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann.
+		\begin{itemize}
+			\item Ein zufälliger Raum soll ausgegeben werden da keine besonderen Präferenzen vorliegen.
+		\end{itemize}
+		\item Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann.
+		\begin{itemize}
+			\item Ein Raum zur stillen Einzelarbeit ist gesucht. Mehrere Einzelpersonen in einem Raum möglich.
+		\end{itemize}
+		\item Der Benutzer sucht einen Raum für mehrere Personen den er nutzen kann.
+		\begin{itemize}
+			\item Gruppenarbeitsraum für mehrere Personen zum arbeiten wird gesucht.
+		\end{itemize}
+		\item Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann.
+		\begin{itemize}
+			\item Anwendbar wenn \zB ein Dozent für seine Studenten Räume zum arbeiten sucht.
+		\end{itemize}
+		\item Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann.
+		\begin{itemize}
+			\item Verschiedene Arbeitsmittel sind gesucht die der Benutzer für seine arbeiten benötigt.
+		\end{itemize}
+		\item Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann.
+		\begin{itemize}
+			\item Raum für eine bestimmte Personenanzahl gesucht, \bspw bei Präsentationen.
+		\end{itemize}
+	\end{itemize}
+	\item Administratoraufgaben
+	\begin{itemize}[noitemsep]
+		\item Der Administrator möchte einen Raum im System hinzufügen.
+		\begin{itemize}
+			\item Neue Anbauten oder bisher nicht relevante Räume sollen dem System hinzugefügt werden.
+		\end{itemize}
+		\item Der Administrator möchte einen Raum aus dem System entfernen.
+		\begin{itemize}
+			\item Ein Raum soll nicht mehr genutzt werden oder wurde umfunktioniert.
+		\end{itemize}
+		\item Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern.
+		\begin{itemize}
+			\item \Bspw ein Raum bekommt einen Beamer installiert.
+		\end{itemize}
+		\item Der Administrator möchte Informationen über einen bestehenden Raum im System abändern.
+		\begin{itemize}
+			\item Ein Beamer in einem Raum ist defekt und muss aus der Inventarliste komplett entfernt werden.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\clearpage
+
+\subsection{Essential Use Cases Version 1}
+\label{anhang:Essential_Use_Cases_v1}
+
+\subsubsection{Administratoraufgaben}
+\begin{table}[h]
+	\caption{Essential Use Cases - Administratoraufgaben}
+	Der Administrator möchte einen Raum im System hinzufügen - \textit{addRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Dem System mitteilen welcher Raum im System hinzugefügt werden soll & \\
+	 & gibt Statusmeldung über den Erfolg an den Benutzer zurück \\ \hline
+	\end{tabularx}
+	
+	
+	Der Administrator möchte einen Raum aus dem System entfernen - \textit{deleteRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen welcher Raum aus dem System entfernt werden soll & \\
+	 & gibt Statusmeldung über den Erfolg an den Benutzer zurück \\ \hline
+	\end{tabularx}
+	
+	
+	Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern - \textit{addRoomInformations}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen welcher Raum im System welche neuen Informationen erhalten soll & \\
+	 & gibt Statusmeldung über den Erfolg an den Benutzer zurück \\ \hline
+	\end{tabularx}
+
+
+	Der Administrator möchte Informationen über einen bestehenden Raum im System abändern - \textit{updateRoomInformations}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen welche Informationen eines bestimmten Raumes im System geändert werden soll & \\
+	 & gibt Statusmeldung über den Erfolg an den Benutzer zurück \\ \hline
+	\end{tabularx}
+	
+\end{table}
+
+
+\subsubsection{Benutzeraufgaben}
+\begin{table}[h]
+	\caption{Essential Use Cases - Benutzeraufgaben}
+	
+	Der Benutzer identifiziert sich im System - \textit{identify}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen in welcher Beziehung er zu ihm steht & \\
+	 & überprüft Berechtigungen des Benutzers \\ \hline
+	\end{tabularx}
+
+	Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann - \textit{searchingStandardRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er einen beliebigen freien Raum sucht & \\
+	 & Raumidentifikation an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+
+	Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann - \textit{searchingSilentRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er einen ruhigen freien Raum sucht & \\
+	 & Raumidentifikation an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen Raum für mehrere Personen den er nutzen kann - \textit{searchingRoomForSeveralPersons}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er einen Raum für mehrere Personen sucht & \\
+	 & Raumidentifikation an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann - \textit{searchingSeveralRoomsForSeveralPersons}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er mehrere Räume für mehrere Personen sucht & \\
+	 & Raumidentifikationen an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann - \textit{searchingRoomWithSpecificEquipment}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er einen Raum mit vom Benutzer definierten Equipment sucht & \\
+	 & Raumidentifikation an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann - \textit{searchingRoomWithSpecificSize}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	dem System mitteilen das er einen Raum mit vom Benutzer definierter Größe sucht & \\
+	 & Raumidentifikation an den Benutzer zurückgeben \\ \hline
+	\end{tabularx}
+\end{table}
+\clearpage
+
+\subsection{Narrative Concrete Use Cases Version 1}
+\label{anhang:Narrative_Concrete_Use_Cases_v1}
+
+\subsubsection{Administratoraufgaben}
+\begin{table}[h]
+	\caption{Narrative Concrete Use Cases - Administratoraufgaben}
+	Der Administrator möchte einen Raum im System hinzufügen - \textit{addRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen neuen Raum im System hinzufügen möchte. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\ \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen für diese Aktion, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und speichert die verarbeiteten Information innerhalb des persistenten Datenspeichers des Systems.\\ \hline
+	 &  Im Anschluss präsentiert das System dem Benutzer eine Statusmeldung über den Erfolg oder Misserfolg der Aktion.\\ \hline
+	\end{tabularx}
+	
+	Der Administrator möchte einen Raum aus dem System entfernen - \textit{deleteRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen im persistenten Datenspeicher vorhandenen Raum aus dem System entfernen möchte. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Trifft das zu, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und speichert die verarbeiteten Information innerhalb des persistenten Datenspeichers des Systems.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer eine Statusmeldung über den Erfolg oder Misserfolg der Aktion.\\ \hline
+	\end{tabularx}
+\end{table}
+\begin{table}[h]
+	Der Administrator möchte einen bestehenden Raum im System mit neuen Informationen anreichern - \textit{addRoomInformations}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen im persistenten Datenspeicher vorhandenen Raum mit neuen Informationen anreichern möchte. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Trifft das zu, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und speichert die verarbeiteten Information innerhalb des persistenten Datenspeichers des Systems.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer eine Statusmeldung über den Erfolg oder Misserfolg der Aktion.\\ \hline
+	\end{tabularx}
+	
+	Der Administrator möchte Informationen über einen bestehenden Raum im System abändern - \textit{updateRoomInformations}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er Informationen zu einem Raum innerhalb des persistenten Datenspeichers des Systems ändern möchte . Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Trifft das zu, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und speichert die verarbeiteten Information innerhalb des persistenten Datenspeichers des Systems.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer eine Statusmeldung über den Erfolg oder Misserfolg der Aktion.\\ \hline
+	\end{tabularx}
+\end{table}
+\clearpage
+
+\subsubsection{Benutzeraufgaben}
+\begin{table}[h]
+	\caption{Narrative Concrete Use Cases - Benutzeraufgaben}
+	Der Benutzer identifiziert sich im System - \textit{identify}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teil ihm mit in welcher Beziehung er zu dem System steht. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & Das System identifiziert den Benutzer anhand bestimmter Merkmale und prüft somit welche Berechtigungen der Benutzer innerhalb des Systems besitzt. \\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen beliebigen freien Raum den er nutzen kann - \textit{searchingStandardRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen beliebigen freien Raum benötigt in dem er arbeiten kann. Dazu übermittelt der Benutzer automatisch dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer.\\ \hline
+	\end{tabularx}
+\end{table}
+
+
+\begin{table}[h]
+	Der Benutzer sucht einen ruhigen Raum in dem er Arbeiten kann - \textit{searchingSilentRoom}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen ruhigen Raum benötigt in dem er arbeiten kann. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer.\\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen Raum für mehrere Personen - \textit{searchingRoomForSeveralPersons}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen Raum benötigt in dem er mit mehreren Personen arbeiten kann. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer.\\ \hline
+	\end{tabularx}
+\end{table}
+
+
+\begin{table}[h]
+	Der Benutzer sucht für mehrere Personen, mehrere freie Räume, die er nutzen kann - \textit{searchingSeveralRoomsForSeveralPersons}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er mehrere Räume benötigt in denen er mit mehreren Personen arbeiten kann. Dazu übermittelt er dem System die dafür benötigten Informationen & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummern von Räumen die den Wunsch des Benutzers entsprechen.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierten Raumnummern.\\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen freien Raum mit bestimmten Equipment den er nutzen kann - \textit{searchingRoomWithSpecificEquipment}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen Raum benötigt in dem bestimmtes Equipment vorhanden ist das er zum arbeiten benötigt. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer.\\ \hline
+	\end{tabularx}
+	
+	Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe entspricht und den er nutzen kann - \textit{searchingRoomWithSpecificSize}\\
+	\begin{tabularx}{\textwidth}{|X|X|}
+	\rowcolor{heading} \textbf{User Intention} & \textbf{System Responsibility}\\ \hline
+	Der Benutzer interagiert mit dem System und teilt ihm mit das er einen Raum benötigt der eine bestimmte Größe besitzt um darin arbeiten zu können. Dazu übermittelt er dem System die dafür benötigten Informationen. & \\  \hline
+	 & \textbf{>identify} \\ \hline
+	 & Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht.\\ \hline
+	 & Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer.\\ \hline
+	\end{tabularx}
+\end{table}

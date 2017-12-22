@@ -218,7 +218,8 @@
 {
   "beacons": {
             "beaconID": "",
-            "timestamp": ""
+            "timestamp": "",
+            "distance":""
             }
 }
 

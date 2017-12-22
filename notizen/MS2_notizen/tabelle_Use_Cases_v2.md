@@ -153,8 +153,6 @@ __Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe 
 |   | Raumidentifikation an den Benutzer zurückgeben |
 
 
-<span style="color:red;">Ergänzung der Benutzeraufgaben anhand Benutzerevaluation</span>
-
 __Der Benutzer möchte wissen ob ein bestimmter Raum gerade reserviert, gebucht oder gesperrt ist.__   
 *checkRoomStatus*
 
@@ -362,8 +360,6 @@ __Der Benutzer sucht einen freien Raum der die vom Benutzer gewünschte Größe 
 |   | Besitzt der Benutzer die benötigten Berechtigungen, wertet das System die vom Benutzer spezifizierten Informationen aus, verarbeitet diese und ermittelt die Raumnummer eines Raumes der den Wunsch des Benutzers entspricht. |
 |   | Im Anschluss präsentiert das System dem Benutzer die identifizierte Raumnummer. |
 
-
-<span style="color:red;">Ergänzung der Benutzeraufgaben anhand Benutzerevaluation</span>
 
 __Der Benutzer möchte wissen ob ein bestimmter Raum reserviert, gebucht oder gesperrt ist.__   
 *checkRoomStatus*

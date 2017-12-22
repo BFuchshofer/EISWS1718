@@ -9,7 +9,7 @@ Laufrichtung dieser durch analyse der Drucksensoren bestimmt werden.
 Diese Matten können im Eingangsbereich zu den Räumen unter Fußmatten versteckt
 werden und sind robust genug so dass keine Schäden durch Equipment welches
 über diese gerollt wird entstehen sollte. Allerdings ist auf der Webseite des
-[Anbieters](http://www.instacounting.com/intro.html) auf den wir uns bei dieser
+[Anbieters](http://www.instantcounting.com/technology.html) auf den wir uns bei dieser
 Methode beziehen keiner Information dazu zu finden ob ein Gegenstand, zum
 Beispiel ein Whiteboard mit rollen, beim Schieben über die Matte als Person
 erkannt wird oder nicht. Hierfür müsste sofern möglich ein eigenes System

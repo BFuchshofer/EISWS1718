@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/infoText1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0.20"
+        android:text="Bitte gehen Sie in den angegebenen Raum und klicken Sie dann auf den Button 'Buchen'."
+        android:textAlignment="center"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/infoText2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0.17"
+        android:text="Verbleibende Zeit bis die Reservierung verfällt"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/remainingTimeToBook"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0.08"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/book_roomID"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0.26"
+        android:text="3.202"
+        android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bookRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:text="Buchen (QR-Code scannen)" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/common_google_signin_btn_text_dark_focused" />
+
+    <Button
+        android:id="@+id/cancelReservation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reservierung abbrechen" />
+
+</LinearLayout>

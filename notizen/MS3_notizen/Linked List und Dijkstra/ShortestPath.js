@@ -221,12 +221,12 @@ function shortestPath( startNode, arrayWanted )
         var currentNode                     = queue.pop();
         for( var i = 0; i < arrayWanted.length; i++ )
         {
-
             if( arrayWanted[ i ].id == currentNode.node.id )
             {
                 return currentNode;
             }
         }
+        console.log( currentNode.node.id + ": " + currentNode.cost );
         visited.push( currentNode.node.id );
 
         if( currentNode.node.node.north != null ){
@@ -249,7 +249,6 @@ function shortestPath( startNode, arrayWanted )
                 );
             }
         }
-        //console.log( currentNode.node.node.south.data );
         if( currentNode.node.node.south != null ){
             if( !wasVisited( currentNode.node.node.south.data.id, visited ) ) {
                 queue.push(
@@ -268,6 +267,26 @@ function shortestPath( startNode, arrayWanted )
                         "cost": ( parseInt( currentNode.cost, 10 ) + parseInt( currentNode.node.node.w_weight, 10 ))
                     }
                 );
+            }
+        }
+        if( currentNode.node.node.up != null ){
+            if( !wasVisited( currentNode.node.node.up.data.id, visited ) ) {
+                queue.push(
+                    {
+                        "node": currentNode.node.node.up.data,
+                        "cost": ( parseInt( currentNode.cost, 10 ) + parseInt( currentNode.node.node.u_weight, 10 ))
+                    }
+                )
+            }
+        }
+        if( currentNode.node.node.down != null ){
+            if( !wasVisited( currentNode.node.node.down.data.id, visited ) ) {
+                queue.push(
+                    {
+                        "node": currentNode.node.node.down.data,
+                        "cost": ( parseInt( currentNode.cost, 10 ) + parseInt( currentNode.node.node.d_weight, 10 ))
+                    }
+                )
             }
         }
         queue                                   = sortQueue( queue );

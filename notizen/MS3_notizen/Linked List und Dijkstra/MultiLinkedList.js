@@ -48,6 +48,7 @@ var MultiLinkedStack                            = ( function()
             addItem:        function( data, direction, weight )
             {
                 var tmpNode                     = new Item( data );
+
                 switch( direction )
                 {
                     case "north":
@@ -74,6 +75,20 @@ var MultiLinkedStack                            = ( function()
                         tmpNode.east            = this;
                         tmpNode.e_weight        = weight;
                         break;
+                    case "up":
+                        this.up                 = tmpNode;
+                        this.u_weight           = weight;
+                        tmpNode.down            = this;
+                        tmpNode.d_weight        = weight;
+                        break;
+                    case "down":
+                        this.down               = tmpNode;
+                        this.d_weight           = weight;
+                        tmpNode.up              = this;
+                        tmpNode.u_weight        = weight;
+                        break;
+
+
                 }
             },
 

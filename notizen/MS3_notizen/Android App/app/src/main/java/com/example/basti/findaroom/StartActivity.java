@@ -97,6 +97,7 @@ public class StartActivity extends AppCompatActivity {
         beaconScannerService = new BeaconScanner(getCtx());
         scanService = new Intent(getCtx(), beaconScannerService.getClass());
 
+        // überprüft ob der beaconscanner bereits läuft um ihn nicht "doppelt zu starten"
         if (!serviceRunning(beaconScannerService.getClass())) {
             startService(scanService);
         }

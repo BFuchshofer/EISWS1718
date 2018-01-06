@@ -38,9 +38,10 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:id="@+id/field_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -63,9 +64,10 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:id="@+id/field_roomSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -105,6 +107,7 @@
                 android:textSize="15sp" />
 
             <RadioButton
+                android:id="@+id/radio_yes"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,6 +116,7 @@
                 android:text="Ja" />
 
             <RadioButton
+                android:id="@+id/radio_no"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -137,9 +141,10 @@
             android:textSize="15sp" />
 
             <EditText
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:id="@+id/field_tafel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -161,9 +166,10 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:id="@+id/field_whiteboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -185,9 +191,10 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:id="@+id/field_beamer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -204,18 +211,20 @@
         android:paddingLeft="50px">
 
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Abbr."
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:text="Abbr." />
 
         <Button
+            android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Annehmen"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:text="Annehmen" />
 
 </RelativeLayout>
 </LinearLayout>

@@ -611,7 +611,6 @@ treppe[ 5 ].node                            = raum[ 16 ].node.south;
  */
 // T301
 treppe[ 1 ].node.addItem( treppe[ 8 ], "up", 5 );
-console.log( treppe[ 8 ].node );
 treppe[ 8 ].node                            = treppe[ 1 ].node.up;
 // 3.100
 treppe[ 8 ].node.addItem( raum[ 24 ], "south", 3 );
@@ -739,7 +738,7 @@ treppe[ 12 ].node.connectAt( "down", 5, treppe[ 5 ].node );
 var arrayWanted = [];
 arrayWanted.push( raum[42] );
 
-
+console.log( MULTILINKEDLIST );
 var result                                  = shortestPath.shortestPath( raum[0], arrayWanted );
 
 console.log( result );

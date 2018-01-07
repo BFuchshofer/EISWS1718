@@ -196,12 +196,6 @@ function wasVisited( id, array )
     return false;
 }
 
-function arrayTest( array )
-{
-    console.log( array );
-    array.pop();
-    console.log( array );
-}
 
 function shortestPath( startNode, arrayWanted )
 {
@@ -226,7 +220,6 @@ function shortestPath( startNode, arrayWanted )
                 return currentNode;
             }
         }
-        console.log( currentNode.node.id + ": " + currentNode.cost );
         visited.push( currentNode.node.id );
 
         if( currentNode.node.node.north != null ){

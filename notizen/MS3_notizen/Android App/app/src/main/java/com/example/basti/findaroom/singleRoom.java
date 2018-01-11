@@ -3,6 +3,7 @@ package com.example.basti.findaroom;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+
 /**
  * Created by Basti on 30.12.2017.
  */
@@ -40,20 +42,27 @@ public class singleRoom extends AppCompatActivity {
     Button btn_ok;
     Button btn_cancel;
 
-    public String url = "";
+    public String url = "http://192.168.2.101:5669";
 
     private static final int READ_BLOCK_SIZE = 100;
     public String beaconFileName = "beaconData.json";
     public JSONArray fileData = new JSONArray();
 
     public String nearestBeacon;
+    public String token;
+    public boolean beaconChanged = false;
 
     protected static final String REQUEST = "REQUEST";
     protected static final String status = "STATUS in Request";
 
+    public CountDownTimer timer;
+    public long timeToUpdate = 10000; // 10 Sekunden
 
-    private RequestQueue mRequestQueueGET;
-    private JsonObjectRequest getJsonRequest;
+    private RequestQueue mRequestQueuePOST;
+    private JsonObjectRequest postJsonRequest;
+
+    JSONObject jsonBody = new JSONObject();
+    static JSONObject resData = new JSONObject();
 
     public void homeScreen() {
         Intent homeScreen = new Intent(this, StartActivity.class); // back to homescreen
@@ -79,7 +88,6 @@ public class singleRoom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fileData = readFile(beaconFileName);
-                JSONObject jsonBody = new JSONObject();
                 try {
                     jsonBody.put("beacon", fileData.getJSONObject(0).getString("uuid"));
                     jsonBody.put("person", field_person.getText());
@@ -117,17 +125,37 @@ public class singleRoom extends AppCompatActivity {
 
     }
 
+    public static JSONObject getData() {
+        return resData;
+    }
+
+    public void singleRoomResultActivity() {
+        Intent singleRoomResultActivity = new Intent(this, singleRoomResult.class);;
+        startActivity(singleRoomResultActivity);
+    }
+
     public void sendRequest(JSONObject object) {
 
         Log.i(status, "" + object);
-        mRequestQueueGET = Volley.newRequestQueue(this);
-        getJsonRequest = new JsonObjectRequest(Request.Method.GET, url, object, new Response.Listener<JSONObject>() {
+        mRequestQueuePOST = Volley.newRequestQueue(this);
+        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url+"/room", object, new Response.Listener<JSONObject>() {
 
 
             @Override
             public void onResponse(JSONObject response) {
 
+                /*
+                 * Response liefert Raumvorschlag und ein Token mit das diesen Request im Server identifiziert.
+                 * Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
+                 */
                 Log.i(status, "Response: " + response.toString());
+                try {
+                    resData = response.getJSONObject("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                singleRoomResultActivity();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -136,8 +164,9 @@ public class singleRoom extends AppCompatActivity {
                 Log.i(REQUEST, "Error in Request");
             }
         });
-        mRequestQueueGET.add(getJsonRequest);
+        mRequestQueuePOST.add(postJsonRequest);
     }
+
 
 
     // Gibt alle Daten aus dem TextFile aus

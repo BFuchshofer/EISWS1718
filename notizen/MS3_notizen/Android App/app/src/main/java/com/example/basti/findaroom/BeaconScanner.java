@@ -51,7 +51,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
     private CountDownTimer timer;
     private long timeForSave = 5000;
 
-    private long deleteTime = 300000; // 5 Minuten
+    private long deleteTime = 60000; // 5 Minuten = 300000
 
     public BeaconScanner(Context applicationContext) {
         super();
@@ -163,6 +163,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
             public void onFinish() {
                 fileData = readFile(beaconFileName);
                 Log.i(checkData, "Started: " + fileData);
+                fileData = cleanup(fileData);
                 checkBeacon();
                 Log.i(checkData, "Finished: " + fileData);
                 timer.start();
@@ -221,9 +222,13 @@ public class BeaconScanner extends Service implements BeaconConsumer {
                     }
                 }
                 if (alreadyContains == false) {
+                    fileData = cleanup(fileData);
                     writeFile(beaconFileName, tmpData);
                     alreadyContains = false;
                 }
+            } else {
+                fileData = cleanup(fileData);
+                writeFile(beaconFileName, null);
             }
             alreadyContains = false;
         } catch (Exception e) {
@@ -238,8 +243,9 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         try {
             FileOutputStream output = getApplicationContext().openFileOutput(fName, MODE_PRIVATE);
             OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            fileData = cleanup(fileData);
-            fileData.put(jsonData);
+            if (jsonData != null) {
+                fileData.put(jsonData);
+            }
             fileData = sortList(fileData);
             writeOnOutput.write(fileData.toString());
             writeOnOutput.close();
@@ -255,27 +261,29 @@ public class BeaconScanner extends Service implements BeaconConsumer {
     public JSONArray sortList(JSONArray fileData) {
 
         final List<JSONObject> list = new ArrayList<>();
-        for (int i = 0; i < fileData.length(); i++)
+        for (int i = 0; i < fileData.length(); i++) {
             try {
                 list.add(fileData.getJSONObject(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        Collections.sort(list, new Comparator<JSONObject>() {
-            @Override
-            public int compare(JSONObject o1, JSONObject o2) {
-                try {
-                    return Double.compare(o1.getDouble("distance"), o2.getDouble("distance"));
-                } catch (JSONException e) {
-                    Log.i(status, "List not sorted!");
-                    e.printStackTrace();
+        }
+            Collections.sort(list, new Comparator<JSONObject>() {
+                @Override
+                public int compare(JSONObject o1, JSONObject o2) {
+                    try {
+                        return Double.compare(o1.getDouble("distance"), o2.getDouble("distance"));
+                    } catch (JSONException e) {
+                        Log.i(status, "List not sorted!");
+                        e.printStackTrace();
+                    }
+                    return 0;
                 }
-                return 0;
-            }
-        });
+            });
+
         JSONArray sortedList = new JSONArray(list);
         try {
-            Log.i(status, "List sorted! New top beacon: " + list.get(0).getString("uuid") + "with distance: " + list.get(0).getDouble("distance"));
+            Log.i(status, "List sorted! New top beacon: " + list.get(0).getString("uuid") + " with distance: " + list.get(0).getDouble("distance"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -289,11 +297,11 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         try {
             if (data.length() != 0 && data.getJSONObject(0).has("uuid")) {
                 cleanArray = data;
-                for (int i = 0; i < data.length(); i++) {
+                for (int i = 0; i < cleanArray.length(); i++) {
 
-                    if (data.getJSONObject(i).getLong("timestamp") < System.currentTimeMillis() - deleteTime) {
-                        cleanArray.remove(i);
+                    if (cleanArray.getJSONObject(i).getLong("timestamp") < System.currentTimeMillis() - deleteTime) {
                         Log.i(status, "Removed: " + cleanArray.getJSONObject(i));
+                        cleanArray.remove(i);
                     }
 
                 }

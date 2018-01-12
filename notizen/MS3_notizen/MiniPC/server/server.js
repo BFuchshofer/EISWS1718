@@ -6,6 +6,8 @@ global.bodyParser           = require( 'body-parser' );
 
 global.querystring          = require( 'querystring' );
 
+var Bleacon = require('bleacon');
+
 // VARIABLES
 global.VARIABLES            = require( './variables.json' );
 
@@ -36,6 +38,14 @@ app.listen( app.get( 'port' ), function(){
 app.use( function( err, req, res, next ){
     res.status( err.status || 500 );
 });
+
+var uuid = '2f234454-cf6d-4a0f-adf2-f4911ba9ffb2';
+var major = 0; // 0 - 65535
+var minor = 0; // 0 - 65535
+var measuredPower = -59; // -128 - 127 (measured RSSI at 1 meter)
+
+Bleacon.startAdvertising(uuid, major, minor, measuredPower);
+console.log('start advertising');
 
 // EOF
 router                      = require( './router' )( app );

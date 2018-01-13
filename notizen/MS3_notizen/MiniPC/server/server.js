@@ -10,6 +10,7 @@ var Bleacon = require('bleacon');
 
 // VARIABLES
 global.VARIABLES            = require( './variables.json' );
+global.FUNCTIONS       = require( './functions/main.js' );
 
 var app                     = express();
 global.jsonParser           = bodyParser.json();
@@ -23,7 +24,7 @@ console.log( '' );
     console.log( '****************************************************' );
 console.log( '                      MINI PC' );
 // SERVER STARTUP
-app.set( 'port', VARIABLES.port );
+app.set( 'port', VARIABLES.minipc.port );
 
 app.listen( app.get( 'port' ), function(){
     console.log( '[INFO] Webserver starting...' );
@@ -46,6 +47,9 @@ var measuredPower = -59; // -128 - 127 (measured RSSI at 1 meter)
 
 Bleacon.startAdvertising(uuid, major, minor, measuredPower);
 console.log('start advertising');
+
+var tmp = {'id':1, 'test':1};
+FUNCTIONS.writeFile(tmp);
 
 // EOF
 router                      = require( './router' )( app );

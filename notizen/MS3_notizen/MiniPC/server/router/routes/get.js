@@ -4,10 +4,14 @@ router.get( '/', function( req, res ){
 
 });
 
-router.get( '/vorschlag', function( req, res ){
-    var raum = LinkedListMain.getRoom( 'rm_3103', null );
-    console.log( raum );
-    res.status(200).send( "RAUM: " + raum.node.id );
+router.get( '/roomList', function( req, res ){
+console.log('GET');
+    var list = FUNCTIONS.getList();
+list = JSON.stringify(list);
+list = JSON.parse(list);
+    console.log( 'Liste: ' + list );
+    res.status(200).send(list);
+res.end();
 });
 
 module.exports              = router;

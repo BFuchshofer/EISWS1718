@@ -1,0 +1,22 @@
+{"data":[
+{"id":0, "name":"Tafel", 	"timestamp":"time"},
+{"id":1, "name":"Tafel", 	"timestamp":"time"},
+{"id":2, "name":"Beamer", 	"timestamp":"time"},
+{"id":3, "name":"Beamer", 	"timestamp":"time"},
+{"id":4, "name":"Whiteboard", 	"timestamp":"time"},
+{"id":5, "name":"Tisch", 	"timestamp":"time"},
+{"id":6, "name":"Tisch", 	"timestamp":"time"},
+{"id":7, "name":"Tisch", 	"timestamp":"time"},
+{"id":8, "name":"Stuhl", 	"timestamp":"time"},
+{"id":9,"name":"Stuhl", 	"timestamp":"time"},
+{"id":10,"name":"Stuhl", 	"timestamp":"time"},
+{"id":11,"name":"TischStuhl", 	"timestamp":"time"},
+{"id":12,"name":"TischStuhl", 	"timestamp":"time"},
+{"id":13,"name":"TischStuhl", 	"timestamp":"time"},
+{"id":14,"name":"Smartboard", 	"timestamp":"time"},
+{"id":15,"name":"Smartboard", 	"timestamp":"time"},
+{"id":16,"name":"Computer", 	"timestamp":"time"},
+{"id":17,"name":"Computer", 	"timestamp":"time"},
+{"id":18,"name":"Computer", 	"timestamp":"time"},
+{"id":19,"name":"Kamera", 	"timestamp":"time"}
+]}

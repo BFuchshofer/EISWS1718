@@ -153,13 +153,13 @@
             android:orientation="horizontal">
 
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:text="Tafeln:"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="15sp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:text="Tafeln:"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/field_tafel"

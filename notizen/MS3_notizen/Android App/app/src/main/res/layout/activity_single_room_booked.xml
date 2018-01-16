@@ -63,22 +63,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="für Sie reserviert."
+        android:text="für Sie gebucht."
         android:padding="5px"
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="18sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="100px"
-        android:paddingRight="100px"
-        android:paddingTop="50px"
-        android:text="Bitte begeben Sie sich zum Raum um diesen zu buchen oder brechen Sie die Reservierung ab."
-        android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="18sp" />
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -96,12 +87,13 @@
             android:text="Abbr." />
 
         <Button
-            android:id="@+id/btn_book"
+            android:id="@+id/btn_extend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="Buchen" />
+            android:text="Verlängern" />
+
 
 
 

@@ -24,12 +24,11 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-
 /**
- * Created by Basti on 30.12.2017.
+ * Created by Basti on 16.01.2018.
  */
 
-public class singleRoom extends AppCompatActivity {
+public class multiRoom extends AppCompatActivity{
 
     EditText field_person;
     EditText field_roomSize;
@@ -49,7 +48,6 @@ public class singleRoom extends AppCompatActivity {
     public String beaconFileName = "beaconData.json";
     public JSONArray fileData = new JSONArray();
 
-
     protected static final String REQUEST = "REQUEST";
     protected static final String status = "STATUS in Request";
 
@@ -65,20 +63,10 @@ public class singleRoom extends AppCompatActivity {
         startActivity(homeScreen);
     }
 
-    public void singleRoomResultActivity() {
-        Intent singleRoomResultActivity = new Intent(this, singleRoomResult.class);;
-        startActivity(singleRoomResultActivity);
-    }
-
-    public static JSONObject getData() {
-        return resData;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_room);
+        setContentView(R.layout.activity_multi_room);
         field_person = (EditText) findViewById(R.id.field_person);
         field_roomSize = (EditText) findViewById(R.id.field_roomSize);
         yes_btn = (RadioButton) findViewById(R.id.radio_yes);
@@ -126,20 +114,17 @@ public class singleRoom extends AppCompatActivity {
             public void onClick(View view) {
                 fileData = readFile(beaconFileName);
                 try {
-                    // TODO
-                    // eventuell zu einem Array machen und über .getJSONObject("data").getString("...") aufrufen?
                     if (fileData.length() == 0) {
                         jsonBody.put("beacon", "location error");
                     } else {
                         jsonBody.put("beacon", fileData.getJSONObject(0).getString("uuid"));
                     }
-                        jsonBody.put("person", field_person.getText());
-                        jsonBody.put("roomSize", field_roomSize.getText());
-                        jsonBody.put("chair&table", checkButton);
-                        jsonBody.put("blackboard", field_blackboard.getText());
-                        jsonBody.put("whiteboard", field_whiteboard.getText());
-                        jsonBody.put("beamer", field_beamer.getText());
-                        jsonBody.put("token", "GET");
+                    jsonBody.put("person", field_person.getText());
+                    jsonBody.put("roomSize", field_roomSize.getText());
+                    jsonBody.put("chair&table", checkButton);
+                    jsonBody.put("blackboard", field_blackboard.getText());
+                    jsonBody.put("whiteboard", field_whiteboard.getText());
+                    jsonBody.put("beamer", field_beamer.getText());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -173,6 +158,15 @@ public class singleRoom extends AppCompatActivity {
     }
 
 
+    public static JSONObject getData() {
+        return resData;
+    }
+
+    public void singleRoomResultActivity() {
+        Intent singleRoomResultActivity = new Intent(this, singleRoomResult.class);;
+        startActivity(singleRoomResultActivity);
+    }
+
     public void sendRequest(JSONObject object) {
 
         Log.i(status, "jsonBody: " + object);
@@ -188,10 +182,11 @@ public class singleRoom extends AppCompatActivity {
                  * Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
                  */
                 Log.i(status, "Response: " + response.toString());
-
-                    //resData = response.getJSONObject("data");
-                    resData = response;
-
+                try {
+                    resData = response.getJSONObject("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 singleRoomResultActivity();
 
             }

@@ -63,17 +63,21 @@
             android:id="@+id/cancelVerification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Abbr."
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentStart="true"
+            android:background="@drawable/button"
+            android:text="Abbr."
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
         <Button
             android:id="@+id/sendVerification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Annehmen"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:text="Annehmen" />
 
     </RelativeLayout>
 

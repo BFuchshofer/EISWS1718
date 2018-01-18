@@ -11,6 +11,8 @@
         android:layout_marginVertical="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:text="Einzelnen Raum suchen" />
 
     <Button
@@ -19,6 +21,8 @@
         android:layout_marginVertical="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:text="Stillen Raum suchen" />
 
     <Button
@@ -27,6 +31,8 @@
         android:layout_marginVertical="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:text="Mehrere Räume suchen" />
 
     <Button
@@ -35,6 +41,8 @@
         android:layout_marginVertical="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:text="Bestimmten Raum suchen" />
 
     <Button
@@ -43,5 +51,7 @@
         android:layout_marginVertical="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:text="Einstellungen" />
 </LinearLayout>

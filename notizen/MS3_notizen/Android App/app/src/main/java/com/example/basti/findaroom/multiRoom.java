@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
  * Created by Basti on 16.01.2018.
  */
 
-public class multiRoom extends AppCompatActivity{
+public class MultiRoom extends AppCompatActivity{
 
     EditText field_person;
     EditText field_roomSize;
@@ -43,10 +43,12 @@ public class multiRoom extends AppCompatActivity{
     public boolean checkButton = true;
 
     public String url = "http://192.168.2.101:5669";
+    public String path = "/multiRoom";
 
     private static final int READ_BLOCK_SIZE = 100;
     public String beaconFileName = "beaconData.json";
     public JSONArray fileData = new JSONArray();
+
 
     protected static final String REQUEST = "REQUEST";
     protected static final String status = "STATUS in Request";
@@ -62,6 +64,16 @@ public class multiRoom extends AppCompatActivity{
         Intent homeScreen = new Intent(this, StartActivity.class); // back to homescreen
         startActivity(homeScreen);
     }
+
+    public void multiRoomResultActivity() {
+        Intent multiRoomResultActivity = new Intent(this, MultiRoomResult.class);;
+        startActivity(multiRoomResultActivity);
+    }
+
+    public static JSONObject getData() {
+        return resData;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +126,8 @@ public class multiRoom extends AppCompatActivity{
             public void onClick(View view) {
                 fileData = readFile(beaconFileName);
                 try {
+                    // TODO
+                    // eventuell zu einem Array machen und über .getJSONObject("data").getString("...") aufrufen?
                     if (fileData.length() == 0) {
                         jsonBody.put("beacon", "location error");
                     } else {
@@ -125,6 +139,7 @@ public class multiRoom extends AppCompatActivity{
                     jsonBody.put("blackboard", field_blackboard.getText());
                     jsonBody.put("whiteboard", field_whiteboard.getText());
                     jsonBody.put("beamer", field_beamer.getText());
+                    jsonBody.put("token", "GET");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -158,20 +173,11 @@ public class multiRoom extends AppCompatActivity{
     }
 
 
-    public static JSONObject getData() {
-        return resData;
-    }
-
-    public void singleRoomResultActivity() {
-        Intent singleRoomResultActivity = new Intent(this, singleRoomResult.class);;
-        startActivity(singleRoomResultActivity);
-    }
-
     public void sendRequest(JSONObject object) {
 
         Log.i(status, "jsonBody: " + object);
         mRequestQueuePOST = Volley.newRequestQueue(this);
-        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url+"/room", object, new Response.Listener<JSONObject>() {
+        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url+path, object, new Response.Listener<JSONObject>() {
 
 
             @Override
@@ -182,12 +188,11 @@ public class multiRoom extends AppCompatActivity{
                  * Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
                  */
                 Log.i(status, "Response: " + response.toString());
-                try {
-                    resData = response.getJSONObject("data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                singleRoomResultActivity();
+
+                //resData = response.getJSONObject("data");
+                resData = response;
+
+                multiRoomResultActivity();
 
             }
         }, new Response.ErrorListener() {

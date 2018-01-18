@@ -3,24 +3,12 @@ package com.example.basti.findaroom;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.barcode.Barcode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,16 +49,6 @@ public class StartActivity extends AppCompatActivity {
 
     protected static final String service = "BackgroundService";
 
-
-    public void settings() {
-        Intent backToSettings = new Intent(this, VerficationActivity.class);
-        startActivity(backToSettings);
-    }
-
-    public void singleRoomActivity() {
-        Intent singleRoomActivity = new Intent(this, singleRoom.class);;
-        startActivity(singleRoomActivity);
-    }
 
     public void beaconScan() {
         Intent beaconScanActivity = new Intent(this, BeaconScanner.class);;
@@ -116,28 +94,32 @@ public class StartActivity extends AppCompatActivity {
         singleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                singleRoomActivity();
+                Intent singleRoomActivity = new Intent(getApplicationContext(), SingleRoom.class);;
+                startActivity(singleRoomActivity);
             }
         });
         silentBtn = (Button) findViewById(R.id.silentRoom);
         silentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent silentRoomActivity = new Intent(getApplicationContext(), SilentRoomResult.class);
+                startActivity(silentRoomActivity);
             }
         });
         multiBtn = (Button) findViewById(R.id.multiRooms);
         multiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent multiRoomActivity = new Intent(getApplicationContext(), MultiRoom.class);
+                startActivity(multiRoomActivity);
             }
         });
         specificBtn = (Button) findViewById(R.id.specificRoom);
         specificBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent specificRoomActivity = new Intent(getApplicationContext(), SpecificRoom.class);
+                startActivity(specificRoomActivity);
             }
         });
         settingBtn = (Button) findViewById(R.id.settings);
@@ -145,7 +127,8 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 VerficationActivity.checkForConfigButtonInteraction();
-                settings();
+                Intent backToSettings = new Intent(getApplicationContext(), VerficationActivity.class);
+                startActivity(backToSettings);
             }
         });
 

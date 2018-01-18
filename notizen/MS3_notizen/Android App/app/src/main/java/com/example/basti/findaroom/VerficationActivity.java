@@ -44,7 +44,7 @@ public class VerficationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+Log.i("TEST", "TEST");
         try {
             input = openFileInput(fileName);
             fileFound = true; // Wenn bereits ein File existiert
@@ -52,11 +52,11 @@ public class VerficationActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             fileFound = false; // Falls noch kein File existiert (erster Start)
-            readFile(fileName);
+            readFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        readFile(fileName);
+        readFile();
 
         // Überprüfe beim start ob es ein erster start ist oder ob auf die Einstellungen zugegriffen werden soll
         if (fileFound == false || (fileFound == true && interactFromConfigBtn == true)) {
@@ -68,6 +68,7 @@ public class VerficationActivity extends AppCompatActivity {
             // Lade die bestehenden Daten aus dem File in die Textzeilen.
             if (fileFound == true) {
                 try {
+                    readFile();
                     email.setText(fileDataJSON.getString("email"));
                     url.setText(fileDataJSON.getString("url"));
                 } catch (JSONException e) {
@@ -79,7 +80,7 @@ public class VerficationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     interactFromConfigBtn = false;
-                    readFile(fileName);
+                   // readFile(fileName);
                     writeFile();
                 }
             });
@@ -88,6 +89,12 @@ public class VerficationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //TODO
+                    if (interactFromConfigBtn == true) {
+                        verification();
+                    } else {
+                        finish();
+                        System.exit(0);
+                    }
                 }
             });
 
@@ -101,12 +108,34 @@ public class VerficationActivity extends AppCompatActivity {
     //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
     public void writeFile() {
 
-        try {
-            output = openFileOutput(fileName, MODE_PRIVATE);
-            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            // Wenn ein File gefunden wurde lade die Daten aus diesem in die Textfelder
+            try {
+                JSONObject userConfig = new JSONObject();
+                if ((email.getText().toString().matches("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w]{2,4}$")) == true) { //https://www.computerbase.de/forum/showthread.php?t=677550
+                    output = openFileOutput(fileName, MODE_PRIVATE);
+                    OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
+                    userConfig.put("email", email.getText().toString());
+                    userConfig.put("url", url.getText().toString());
+                    writeOnOutput.write(userConfig.toString());
+                    writeOnOutput.close();
+                    verification();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Keine gültige Email erkannt. Bitte korigieren Sie ihre Eingabe", Toast.LENGTH_LONG).show();
+                }
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+            // Wenn ein File gefunden wurde lade die Daten aus diesem in die Textfelde
+            /*
             if (fileFound == true) {
-                JSONObject userConfig = new JSONObject(fileData);
+                JSONObject userConfig = new JSONObject();
                 if ((email.getText().toString().matches("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w]{2,4}$")) == true) { //https://www.computerbase.de/forum/showthread.php?t=677550
                     userConfig.put("email", email.getText().toString());
                     userConfig.put("url", url.getText().toString());
@@ -114,6 +143,7 @@ public class VerficationActivity extends AppCompatActivity {
                     verification();
                 }
             } else {
+
                 JSONObject userConfig = new JSONObject();
                 try {
                     //Überprüft die Email auf korrektes Format und speichert sie ein
@@ -133,19 +163,14 @@ public class VerficationActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            writeOnOutput.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
-                    Toast.LENGTH_LONG).show();
-        }
+            */
     }
 
 
     // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName) {
+    public void readFile() {
 
-        String fileName = fName;
+
         try {
             FileInputStream fileIn = openFileInput(fileName);
             InputStreamReader InputRead = new InputStreamReader(fileIn);
@@ -157,7 +182,9 @@ public class VerficationActivity extends AppCompatActivity {
                 stringData += readstring;
             }
             InputRead.close();
+            Log.i("STRINGDATA: ", stringData);
             JSONObject data = new JSONObject(stringData);
+            Log.i("FILEDATA: ", data.toString());
             fileDataJSON = data;
             fileData = stringData;
         } catch (Exception e) {

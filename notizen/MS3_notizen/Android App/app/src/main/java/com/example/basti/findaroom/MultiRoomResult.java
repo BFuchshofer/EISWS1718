@@ -24,11 +24,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by Basti on 11.01.2018.
+ * Created by Basti on 17.01.2018.
  */
 
-public class SingleRoomResult extends AppCompatActivity {
-
+public class MultiRoomResult extends AppCompatActivity {
 
     TextView field_Room;
     TextView field_Time;
@@ -38,13 +37,11 @@ public class SingleRoomResult extends AppCompatActivity {
     public CountDownTimer timer;
     public long timeToUpdate = 10000; // 10 Sekunden
 
-    public CountDownTimer remainingTimeCountDown;
-
     private static final int READ_BLOCK_SIZE = 100;
 
     JSONArray fileData;
     public String beaconFileName = "beaconData.json";
-    public static JSONObject jsonBody = SingleRoom.getData();
+    public static JSONObject jsonBody = MultiRoom.getData();
     public static JSONObject bookedRes;
 
     private RequestQueue mRequestQueuePOST;
@@ -54,7 +51,7 @@ public class SingleRoomResult extends AppCompatActivity {
     protected static final String checkData = "STATUS in Update";
 
     public String url = "http://192.168.2.101:5669";
-    public String path = "/room";
+    public String path = "/multiRoom";
 
 
     public void homeScreen() {
@@ -62,9 +59,9 @@ public class SingleRoomResult extends AppCompatActivity {
         startActivity(homeScreen);
     }
 
-    public void singleRoomBookedActivity() {
-        Intent singleRoomBookedActivity = new Intent(this, SingleRoomBooked.class);;
-        startActivity(singleRoomBookedActivity);
+    public void multiRoomBookedActivity() {
+        Intent multiRoomBookedActivity = new Intent(this, MultiRoomBooked.class);;
+        startActivity(multiRoomBookedActivity);
     }
 
     public static JSONObject getBookedRes() {
@@ -81,9 +78,8 @@ public class SingleRoomResult extends AppCompatActivity {
 
 
         try {
-            field_Room.setText(jsonBody.getString("room_id"));
-            setDynamicEndTime(jsonBody.getLong("remainingTime"));
-            //field_Time.setText(jsonBody.getString("remainingTime"));
+            field_Room.setText(jsonBody.getString("beacon"));
+            field_Time.setText(jsonBody.getString("token"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -102,7 +98,6 @@ public class SingleRoomResult extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timer.cancel();
-                remainingTimeCountDown.cancel();
                 jsonBody.remove("token");
                 try {
                     jsonBody.put("token", "BOOK");
@@ -150,23 +145,6 @@ public class SingleRoomResult extends AppCompatActivity {
         timer.start();
     }
 
-    // Um die verbleibende Zeit bis zum Ablauf der Reservierung anzuzeigen
-    private void setDynamicEndTime(long time) {
-        long endTime = time;
-        remainingTimeCountDown = new CountDownTimer(endTime, 1000) {
-            @Override
-            public void onTick(long l) {
-                field_Time.setText("" + l / 1000 + " Sekunden");
-            }
-
-            @Override
-            public void onFinish() {
-                field_Time.setText("Reservierung abgelaufen!");
-            }
-        };
-        remainingTimeCountDown.start();
-    }
-
     public void updateRequest(JSONObject object) {
 
         Log.i("UPDATE REQUEST", "" + object);
@@ -178,20 +156,15 @@ public class SingleRoomResult extends AppCompatActivity {
             public void onResponse(JSONObject response) {
 
 
-                  //Response liefert Raumvorschlag und ein Token mit das diesen Request im Server identifiziert.
-                  //Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
+                //Response liefert Raumvorschlag und ein Token mit das diesen Request im Server identifiziert.
+                //Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
 
                 Log.i(checkData, "Response: " + response.toString());
                 try {
                     // TODO
                     // Text anpassen
-                    field_Room.setText("" + response.getString("room_id"));
-                    if (!field_Room.getText().equals(response.getString("room_id"))) {
-                        //field_Time.setText(response.getString("remainingTime"));
-                        remainingTimeCountDown.cancel();
-                        setDynamicEndTime(jsonBody.getLong("remainingTime"));
-                    }
-
+                    field_Room.setText("" + response.getString("beacon"));
+                    field_Time.setText(response.getString("token"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -214,7 +187,7 @@ public class SingleRoomResult extends AppCompatActivity {
         // TODO
         // andere url? Dynamisch über query?
 
-        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url+path, object, new Response.Listener<JSONObject>() {
+        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url+"/room", object, new Response.Listener<JSONObject>() {
 
 
             @Override
@@ -224,9 +197,9 @@ public class SingleRoomResult extends AppCompatActivity {
                 //Response liefert Raumvorschlag und ein Token mit das diesen Request im Server identifiziert.
                 //Bei Raumupdate wird der Token mit dem neuen Beacon an den Server geschickt und als Response falls verfügbar ein neuer Raum ausgegeben.
 
-
+                Log.i(checkData, "Response booking: " + response.toString());
                 bookedRes = response;
-                singleRoomBookedActivity();
+                multiRoomBookedActivity();
 
             }
         }, new Response.ErrorListener() {
@@ -272,5 +245,4 @@ public class SingleRoomResult extends AppCompatActivity {
         }
 
     }
-
 }

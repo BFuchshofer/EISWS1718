@@ -45,12 +45,13 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
-                android:typeface="normal" />
+                android:typeface="normal"
+                />
 
         </LinearLayout>
 
@@ -75,7 +76,7 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
@@ -168,7 +169,7 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
@@ -197,7 +198,7 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
@@ -226,7 +227,7 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
@@ -249,6 +250,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
+            android:background="@drawable/button"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:text="Abbr." />
 
         <Button
@@ -258,6 +261,8 @@
             android:layout_alignBaseline="@+id/btn_cancel"
             android:layout_alignBottom="@+id/btn_cancel"
             android:layout_alignParentEnd="true"
+            android:background="@drawable/button"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:text="Annehmen" />
 
     </RelativeLayout>

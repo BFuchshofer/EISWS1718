@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginVertical="30px"
     android:layout_marginHorizontal="30px"
     android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="30px"
-        android:text="Der Raum"
+        android:text="Im Raum"
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="18sp" />
@@ -37,7 +38,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ist noch"
+        android:text="wird bereits still gearbeitet."
+        android:padding="5px"
+        android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="18sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Ein Platz in diesem Raum ist noch"
         android:padding="5px"
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"

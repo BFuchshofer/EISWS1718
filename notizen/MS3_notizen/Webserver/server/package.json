@@ -1,7 +1,7 @@
 {
-  "name": "webserver",
+  "name": "server",
   "version": "1.0.0",
-  "description": "Webserver for FuchshoferFonsecaLuisEISWS1718 Project",
+  "description": "Webserver for EISWS1718FuchshoferFonsecaLuis Project",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,11 +10,10 @@
   "author": "eXeLuis",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "http": "0.0.0",
     "ip": "^1.1.5",
-    "path": "^0.12.7",
-    "querystring": "^0.2.0"
+    "redis": "^2.8.0"
   }
 }

@@ -1,6 +1,6 @@
-module.exports              = function( app ){
+module.exports                              = function( server )
+{
+  server.use( '/', require( './routes/post' ));
 
-    app.use( '/', require( './routes/get' ));
-    app.use( '/', require( './routes/post' ));
-    console.log( '[LOAD] index.js' );
-};
+  console.log( '[LOAD] Loaded index.js' );
+}

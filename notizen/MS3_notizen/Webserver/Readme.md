@@ -7,23 +7,20 @@
 ### Anwendungslogik
 * automatisches erstellen einer Liste mit freien Räumen die stetig aktualisiert wird
 
-### TODO (stand 05.01.2018)
-* Erweiterung der LinkedList bezüglich einiger Variablen Namen
-* Speicherung der LinkedList bzw. Neugenerierung bei Serverstart
+### TODO (stand 18.01.2018)
 * Code Optimierungen
-* Webserver erweitern
 * Datenbankserver erstellen
-* Datenbanken aufsetzen
 * Liste mit freien Räumen erstellen
 * HTTP-Requests/Respons erstellen
 
 ### Verwendete Module/Biblotheken
-* Express
+* express
 * path
 * http
 * body-parser
-* querystring
 * ip
+* bluebird
+* redis
 
 ### Verwendete Software
 * Node.js

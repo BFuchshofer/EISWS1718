@@ -251,8 +251,13 @@ var MultiLinkedStack                            = ( function()
             pushAt:         function( index, direction, nextHead, data, weight )                                        // Pushes a Node to DIRECTION of Node at INDEX
             {
                 //TODO: Push a Node to DIRECTION of Node At INDEX
-            }
+            },
 
+            createItem:     function( data, callback )
+            {
+              var tmp     = new Item( data );
+              callback( tmp );
+            }
         };
     return MultiLinkedStack;
 })();

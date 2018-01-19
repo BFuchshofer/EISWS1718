@@ -63,6 +63,15 @@ router.post( '/room', function( req, res ){
 
             console.log("Book Room");
             res.status(200).send( data );
+        } else if (data.token == "CANCEL") {
+            
+            // TODO
+            
+            // Raum_id aus dem Request im System wieder freigeben
+            // Unterscheidung zwischen abbrechen der Reservierung und Buchung eines Raumes auf Serverseite?
+            console.log("Cancel Room");
+            
+            res.status(200).send(); // Keine Daten im response notwendig
         } else {
             console.log("Error");
             res.status(400).send( data );

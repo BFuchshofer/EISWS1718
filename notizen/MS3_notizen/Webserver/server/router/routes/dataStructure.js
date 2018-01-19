@@ -24,7 +24,7 @@ var timeBooking = 3600000       // 60 Minuten in Milisekunden
     "whiteboard":data.whiteboard,           // Int
     "beamer":data.beamer,                   // Int
     "chairTable":data.chairTable,           // boolean
-    "token":data.token,                     // String ("GET" -> neuen Raum anfordern, "UPDATE" -> neuer Beacon erkannt/aktualisierung anfordern, "BOOK" -> Raum buchen)
+    "token":data.token,                     // String ("GET" -> neuen Raum anfordern, "UPDATE" -> neuer Beacon erkannt/aktualisierung anfordern, "BOOK" -> Raum buchen, "CANCEL" -> Raum wieder freigeben)
     "remainingTime":time,                   // Long (timeReservation, timeBooking) -> je nach Token
     "room_id":id                            // String (o.ä.? je nachdem wie die RNummer aussieht)
 }

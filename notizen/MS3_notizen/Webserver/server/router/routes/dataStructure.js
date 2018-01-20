@@ -72,5 +72,3 @@ var timeBooking = 3600000       // 60 Minuten in Milisekunden
 }
 
 // Bei "UPDATE-Token: nach neuen passenden Räumen suchen, wenn einer gefunden wurde die neue RaumID zurücksenden. Wenn kein neuer Raum vorliegt die alte RaumID zurücksenden
-
-

@@ -1,6 +1,7 @@
 var router                                  = express.Router();
 
 // VARIABLES
+var givenRooms;
 
 // FUNCTIONS
 
@@ -22,19 +23,35 @@ router.post( '/room', function( req, res ){
             };
 
         if (data.token == "GET") {
-
             // TODO
             // neue Raumabfrage
 
             if( data.beacon != null && data.filter != null ){
               console.log( '[INFO] Room Suggestion' );
 
-              FUNCTIONS.suggestion( data.beacon, [] )
-              // Raum für UserX reservieren
-              // Raum zurück senden
-              .then( function( result ){
-                res.status( 200 ).send( result );
-              });
+              givenRooms = [];
+              for( var i = 0; i < parseInt( data.roomCount, 10 ); i++ ){
+                console.log( "i" );
+                FUNCTIONS.suggestion( data.beacon, [] )
+                .then( function( result ){
+                  console.log( ">>>>>>>1" );
+                  // Raum für UserX reservieren
+                  FUNCTIONS.userAction( data.token, data.person, "rm_" + result.room.id )
+                  // Raum zurück senden
+                  .then( function( status ){
+                    console.log( ">>>>>>>2" );
+                    result.status = status;
+                    givenRooms.push( result );
+                    return true;
+                  })
+                  .then( function( result ){
+                    console.log( ">>>>>>>3" );
+                    if( i == givenRooms.length ){
+                      res.status(200).send( givenRooms );
+                    }
+                  });
+                });
+              }
             } else {
               res.status( 403 ).send( 'Missing Information' );
             }
@@ -63,15 +80,6 @@ router.post( '/room', function( req, res ){
 
             console.log("Book Room");
             res.status(200).send( data );
-        } else if (data.token == "CANCEL") {
-            
-            // TODO
-            
-            // Raum_id aus dem Request im System wieder freigeben
-            // Unterscheidung zwischen abbrechen der Reservierung und Buchung eines Raumes auf Serverseite?
-            console.log("Cancel Room");
-            
-            res.status(200).send(); // Keine Daten im response notwendig
         } else {
             console.log("Error");
             res.status(400).send( data );

@@ -229,6 +229,8 @@ function saveTestData(){
     "floor":"2"
   });
 
+  database.set( 'timeReservation', '600000' );
+  database.set( 'timeBooking', '3600000');
   for( var i = 0; i < test_data.length; i++ ){
     database.hmset( test_data[ i ].id,
     {
@@ -266,6 +268,7 @@ function saveTestData(){
           "type":test_data[ i ].type,
           "building":test_data[ i ].building,
           "floor":test_data[ i ].floor,
+          "status":JSON.stringify( { "type":"Frei", "user":null, "duration":0 }),
           "room":JSON.stringify( test_data[ i ].room ),
           "content":JSON.stringify( test_data[ i ].content )
         });
@@ -364,16 +367,40 @@ function getNode( index ){
 }
 
 function set( key, data ){
-
+  return new Promise( function( resolve, reject ){
+    database.setAsync( key, data )
+    .then( function( res ){
+      resolve( res );
+    });
+  });
 }
 function get( key ){
-
+  return new Promise( function( resolve, reject ){
+    database.getAsync( key )
+    .then( function( res ){
+      resolve( res );
+    });
+  });
 }
 function setHash( key, data ){
-
+  return new Promise( function( resolve, reject ){
+    database.hmsetAsync( key, JSON.stringify( data ))
+    .then( function( res ){
+      resolve( res );
+    });
+  });
 }
 function setHashField( key, field, data ){
-
+  console.log( "HIER?" );
+  return new Promise( function( resolve, reject ){
+    console.log( "key: " + key );
+    console.log( "field:" + field );
+    console.log( "data: " + data );
+    database.hsetAsync( key, field, JSON.stringify( data ))
+    .then( function( res ){
+      resolve( res );
+    });
+  });
 }
 function getHash( key ){
   return new Promise( function( resolve, reject ){
@@ -392,6 +419,14 @@ function getHashField( key, field ){
 }
 function addToList( key, data ){
 
+}
+function removeFromList( key, data ){
+  return new Promise( function( resolve, reject ){
+    database.lremAsync( key, -1, data )
+    .then( function( res ){
+      resolve( res );
+    });
+  });
 }
 function getList( key ){
   return new Promise( function( resolve, reject ){
@@ -439,22 +474,60 @@ module.exports                              = {
     });
   },
   set:          function( key, data ){
-    set( key, data );
+    return new Promise( function( resolve, reject ){
+      set( key, data )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   get:          function( key ){
-    return get( key );
+    return new Promise( function( resolve, reject ){
+      get( key )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   setHash:      function( key, data ){
-    setHash( key, data );
+    return new Promise( function( resolve, reject ){
+      setHash( key, data )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   setHashField: function( key, field, data ){
-    setHashField( key, field, data );
+    return new Promise( function( resolve, reject ){
+      setHashField( key, field, data )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   getHash:      function( key ){
-    return getHash( key );
+    return new Promise( function( resolve, reject ){
+      getHash( key )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   getHashField: function( key, field ){
-    return getHashField( key, field );
+    return new Promise( function( resolve, reject ){
+      getHashField( key, field )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  removeFromList: function( key, data ){
+    return new Promise( function( resolve, reject ){
+      removeFromList( key, data )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   },
   getList:      function( key ){
     return new Promise( function( resolve, reject ){

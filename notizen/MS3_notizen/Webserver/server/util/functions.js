@@ -1,4 +1,5 @@
 // NODE MODULES
+var sem                                     = require( 'semaphore' )(0);
 
 // VARIABLES
 
@@ -134,16 +135,16 @@ function shortestPath( startNode, arrayWanted ){
 }
 
 // FUNCTIONS
-function filter( filterArray, emptyRooms){
-  if( filterArray.length != 0 ){
-
+function useFilter( array, rooms ){
+  if( array != null ){
     //TODO FOR LOOP GETTING ALL ROOM INFORMATION AND CHECKING FOR THE SET FILTER
 
   } else {
-    return emptyRooms;
+    return rooms;
   }
 }
 
+// TODO: Weniger Freie Räume als angefragt verfügbar.
 function suggestion( beacon_id, filter ){
   return new Promise( function( resolve, reject ){
     DATABASE.getHash( 'bn_' + beacon_id )
@@ -154,9 +155,28 @@ function suggestion( beacon_id, filter ){
         return result;
       })
       .then( function( res ){
-        DATABASE.getList( 'empty_rooms' )
-        .then( function( arrayWanted ){
-          resolve( shortestPath( res, arrayWanted ));
+        console.log( "SEM ENTER" );
+        sem.take( function(){
+          DATABASE.getList( 'empty_rooms' )
+          .then( function( arrayWanted ){
+            console.log( arrayWanted );
+            var result = shortestPath( res, useFilter( null, arrayWanted ));
+            console.log( result );
+            DATABASE.removeFromList( 'empty_rooms', result );
+            sem.leave();
+            console.log( "SEM LEFT" );
+            return result
+          })
+          .then( function( result ){
+            DATABASE.getHash( result )
+            .then( function( room ){
+              console.log( room );
+              room.room = JSON.parse( room.room );
+              room.content = JSON.parse( room.content );
+              room.status = JSON.parse( room.status );
+              resolve( room );
+            })
+          });
         });
       });
     })
@@ -166,6 +186,51 @@ function suggestion( beacon_id, filter ){
   });
 }
 
+function userAction( action, user_id, room_id ){
+  return new Promise( function( resolve, reject ){
+    console.log( "ACTION: " + action );
+    console.log( "USER: " + user_id );
+    console.log( "ROOM: " + room_id );
+    /*
+      userActions:
+        - Reservierung
+        - neue Reservierung
+        - Buchung
+        - Abbruch
+    */
+    console.log( "WARUM ?" );
+    switch( action ){
+      case "GET":
+        // save RoomY <=> UserX
+        console.log( "WARUM ??" );
+        DATABASE.set( 'ru_' + room_id, user_id );
+        DATABASE.get( 'timeReservation' )
+        .then(function( result ){
+          var tmp = {
+            "type":"Reserviert",
+            "user":user_id,
+            "duration": result
+          };
+          DATABASE.setHashField( room_id, "status", tmp )
+          .then( function( res ){
+            console.log( "RES: " + res );
+            resolve( tmp );
+          });
+        });
+        // save RoomY.status
+        break;
+      case "UPDATE":
+
+        break;
+      case "BOOK":
+
+        break;
+      case "CANCEL":
+
+        break;
+      }
+    });
+}
 // ERROR HANDLING
 
 // EOF
@@ -175,7 +240,16 @@ module.exports                              = {
       suggestion( beacon_id, filter )
       .then( function( res ){
         resolve( res );
-      })
-    })
+      });
+    });
+  },
+  userAction:  function( action, user_id, room_id ){
+    console.log( "FUCK YOU" );
+    return new Promise( function( resolve, reject ){
+      userAction( action, user_id, room_id )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
   }
 }

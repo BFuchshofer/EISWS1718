@@ -382,6 +382,14 @@ function get( key ){
     });
   });
 }
+function del( key ){
+  return new Promise( function( resolve, reject ){
+    database.delAsync( key )
+    .then( function( res ){
+      resolve( res );
+    });
+  });
+}
 function setHash( key, data ){
   return new Promise( function( resolve, reject ){
     database.hmsetAsync( key, JSON.stringify( data ))
@@ -418,7 +426,12 @@ function getHashField( key, field ){
 
 }
 function addToList( key, data ){
-
+  return new Promise( function( resolve, reject ){
+    database.lpushAsync( key, data )
+    .then( function( result ){
+      resolve( result );
+    });
+  });
 }
 function removeFromList( key, data ){
   return new Promise( function( resolve, reject ){
@@ -489,6 +502,14 @@ module.exports                              = {
       });
     });
   },
+  del:          function( key ){
+    return new Promise( function( resolve, reject ){
+      del( key )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
   setHash:      function( key, data ){
     return new Promise( function( resolve, reject ){
       setHash( key, data )
@@ -516,6 +537,14 @@ module.exports                              = {
   getHashField: function( key, field ){
     return new Promise( function( resolve, reject ){
       getHashField( key, field )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  addToList:    function( key, data ){
+    return new Promise( function( resolve, reject ){
+      addToList( key, data )
       .then( function( res ){
         resolve( res );
       });

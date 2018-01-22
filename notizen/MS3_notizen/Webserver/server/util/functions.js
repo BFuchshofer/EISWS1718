@@ -138,7 +138,7 @@ function shortestPath( startNode, arrayWanted ){
 function useFilter( array, rooms ){
   if( array != null ){
     //TODO FOR LOOP GETTING ALL ROOM INFORMATION AND CHECKING FOR THE SET FILTER
-
+    return( rooms );
   } else {
     return rooms;
   }
@@ -160,8 +160,8 @@ function suggestion( beacon_id, filter ){
           DATABASE.getList( 'empty_rooms' )
           .then( function( arrayWanted ){
             console.log( arrayWanted );
-            var result = shortestPath( res, useFilter( null, arrayWanted ));
-            console.log( result );
+            var result = shortestPath( res, useFilter( filter, arrayWanted ));
+            console.log( "FOUNDROOM: " + result );
             DATABASE.removeFromList( 'empty_rooms', result );
             sem.leave();
             console.log( "SEM LEFT" );
@@ -170,10 +170,12 @@ function suggestion( beacon_id, filter ){
           .then( function( result ){
             DATABASE.getHash( result )
             .then( function( room ){
+              console.log( "HI" );
               console.log( room );
               room.room = JSON.parse( room.room );
               room.content = JSON.parse( room.content );
               room.status = JSON.parse( room.status );
+              console.log( room );
               resolve( room );
             })
           });
@@ -186,11 +188,78 @@ function suggestion( beacon_id, filter ){
   });
 }
 
+function setUserRoom( room_id, user_id, token ){
+  return new Promise( function( resolve, reject ){
+    console.log( "HEY" );
+    DATABASE.set( 'ru_' + user_id, room_id );
+    console.log( token );
+    var timeID;
+    var tmp = {
+      "type":"",
+      "user":user_id,
+      "duration": 0
+    };
+    switch( token ){
+      case "RESERVE":
+        timeID                              = "timeReservation";
+        tmp.type                            = "Reserviert";
+        break;
+      case "BOOK":
+        timeID                              = "timeBooking";
+        tmp.type                            = "Gebucht";
+        break;
+    }
+    console.log( timeID );
+    DATABASE.get( timeID )
+    .then(function( result ){
+      var date = new Date().getTime();
+      tmp.duration                          = (parseInt( result, 10 ) + date);
+      console.log( tmp );
+      DATABASE.setHashField( room_id, "status", tmp )
+      .then( function( res ){
+        DATABASE.removeFromList( 'empty_rooms', room_id );
+        resolve( tmp );
+      });
+    });
+  });
+}
+
+function unsetUserRoom( room_id, user_id ){
+  return new Promise( function( resolve, reject ){
+    DATABASE.del( 'ru_' + user_id )
+    .then(function( result ){
+      console.log( "FUCK THIS" );
+      var tmp = {
+        "type":"Frei",
+        "user":null,
+        "duration": 0
+      };
+      DATABASE.setHashField( room_id, "status", tmp )
+      .then( function( res ){
+        DATABASE.addToList( 'empty_rooms', room_id );
+        resolve( tmp );
+      });
+    });
+  });
+}
+
+function checkUserRoom( room_id, user_id ){
+  return new Promise( function( resolve, reject ){
+      DATABASE.get( 'ru_' + user_id )
+      .then( function( result ){
+        console.log( "RESULT_CHECK: " + result );
+        console.log( "R_ID: " + room_id );
+        if( result == room_id ){
+          resolve( true );
+        } else {
+          resolve( false );
+        }
+      });
+  });
+}
+
 function userAction( action, user_id, room_id ){
   return new Promise( function( resolve, reject ){
-    console.log( "ACTION: " + action );
-    console.log( "USER: " + user_id );
-    console.log( "ROOM: " + room_id );
     /*
       userActions:
         - Reservierung
@@ -198,29 +267,29 @@ function userAction( action, user_id, room_id ){
         - Buchung
         - Abbruch
     */
-    console.log( "WARUM ?" );
     switch( action ){
       case "GET":
         // save RoomY <=> UserX
-        console.log( "WARUM ??" );
-        DATABASE.set( 'ru_' + room_id, user_id );
-        DATABASE.get( 'timeReservation' )
-        .then(function( result ){
-          var tmp = {
-            "type":"Reserviert",
-            "user":user_id,
-            "duration": result
-          };
-          DATABASE.setHashField( room_id, "status", tmp )
+        checkUserRoom( room_id, user_id )
+        .then( function( result ){
+          setUserRoom( room_id, user_id )
           .then( function( res ){
-            console.log( "RES: " + res );
-            resolve( tmp );
+            resolve( res );
           });
-        });
+        })
+        .catch( function(){
+          reject( 'USER ALREADY BOOKED A ROOM')
+        })
         // save RoomY.status
         break;
       case "UPDATE":
+        checkUserRoom( room_id, user_id )
+        .then( function( res ){
 
+        })
+        .catch( function(){
+          reject();
+        });
         break;
       case "BOOK":
 
@@ -238,6 +307,30 @@ module.exports                              = {
   suggestion: function( beacon_id, filter ){
     return new Promise( function( resolve, reject ){
       suggestion( beacon_id, filter )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  checkUserRoom: function( room_id, user_id ){
+    return new Promise( function( resolve, reject ){
+      checkUserRoom( room_id, user_id )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  setUserRoom: function( room_id, user_id, token ){
+    return new Promise( function( resolve, reject ){
+      setUserRoom( room_id, user_id, token )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  unsetUserRoom: function( room_id, user_id ){
+    return new Promise( function( resolve, reject ){
+      unsetUserRoom( room_id, user_id )
       .then( function( res ){
         resolve( res );
       });

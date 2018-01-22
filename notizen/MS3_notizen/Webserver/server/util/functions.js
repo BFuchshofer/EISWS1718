@@ -151,7 +151,6 @@ function suggestion( beacon_id, filter ){
     .then( function( res ){
       DATABASE.getNode( parseInt( res.arrayPos, 10 ) )
       .then( function( result ){
-        console.log("RESULT: " + result );
         return result;
       })
       .then( function( res ){
@@ -159,23 +158,17 @@ function suggestion( beacon_id, filter ){
         sem.take( function(){
           DATABASE.getList( 'empty_rooms' )
           .then( function( arrayWanted ){
-            console.log( arrayWanted );
             var result = shortestPath( res, useFilter( filter, arrayWanted ));
-            console.log( "FOUNDROOM: " + result );
             DATABASE.removeFromList( 'empty_rooms', result );
             sem.leave();
-            console.log( "SEM LEFT" );
             return result
           })
           .then( function( result ){
             DATABASE.getHash( result )
             .then( function( room ){
-              console.log( "HI" );
-              console.log( room );
               room.room = JSON.parse( room.room );
               room.content = JSON.parse( room.content );
               room.status = JSON.parse( room.status );
-              console.log( room );
               resolve( room );
             })
           });
@@ -190,9 +183,7 @@ function suggestion( beacon_id, filter ){
 
 function setUserRoom( room_id, user_id, token ){
   return new Promise( function( resolve, reject ){
-    console.log( "HEY" );
     DATABASE.set( 'ru_' + user_id, room_id );
-    console.log( token );
     var timeID;
     var tmp = {
       "type":"",
@@ -209,12 +200,10 @@ function setUserRoom( room_id, user_id, token ){
         tmp.type                            = "Gebucht";
         break;
     }
-    console.log( timeID );
     DATABASE.get( timeID )
     .then(function( result ){
       var date = new Date().getTime();
       tmp.duration                          = (parseInt( result, 10 ) + date);
-      console.log( tmp );
       DATABASE.setHashField( room_id, "status", tmp )
       .then( function( res ){
         DATABASE.removeFromList( 'empty_rooms', room_id );
@@ -228,7 +217,6 @@ function unsetUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
     DATABASE.del( 'ru_' + user_id )
     .then(function( result ){
-      console.log( "FUCK THIS" );
       var tmp = {
         "type":"Frei",
         "user":null,
@@ -247,8 +235,6 @@ function checkUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
       DATABASE.get( 'ru_' + user_id )
       .then( function( result ){
-        console.log( "RESULT_CHECK: " + result );
-        console.log( "R_ID: " + room_id );
         if( result == room_id ){
           resolve( true );
         } else {

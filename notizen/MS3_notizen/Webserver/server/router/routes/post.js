@@ -8,7 +8,6 @@ var router                                  = express.Router();
 router.post( '/room', function( req, res ){
   req.on( 'data', function( chunk ){
     var data                                = JSON.parse( chunk );
-    console.log( data );
     switch( data.token ){
       case "GET":
         data                                    = {
@@ -26,10 +25,8 @@ router.post( '/room', function( req, res ){
         }
         FUNCTIONS.suggestion( data.beacon, data.filter )
         .then( function( result ){
-          console.log( "RESULT: " + result );
           FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
           .then( function( alreadyUsed ){
-            console.log( !alreadyUsed );
             if( !alreadyUsed ){
               console.log( "WAS FALSE" );
               FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
@@ -73,20 +70,15 @@ router.post( '/room', function( req, res ){
         FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
         .then( function( result ){
           if( !result ){
-            console.log( "TOTO AFRICA")
             res.status( 401 ).send( 'NOT YOUR ROOM' );
           } else {
             FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
             .then( function( result ){
-              console.log( result );
               FUNCTIONS.suggestion( data.beacon, data.filter )
               .then( function( result ){
-                console.log( "RESULT: " + result );
                 FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
                 .then( function( alreadyUsed ){
-                  console.log( !alreadyUsed );
                   if( !alreadyUsed ){
-                    console.log( "WAS FALSE" );
                     FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
                     .then( function( status ){
                       result.status = status;
@@ -125,7 +117,6 @@ router.post( '/room', function( req, res ){
         if( result ){
           FUNCTIONS.setUserRoom( 'rm_' + data.room_id, data.user, "BOOK")
           .then( function( status ){
-            console.log( status );
             var responseData                = {
               "token":data.token,
               "room_id": data.room_id,

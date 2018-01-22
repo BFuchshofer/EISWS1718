@@ -1,270 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginVertical="@dimen/activity_vertical_margin"
-    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+    <TextView
+        android:id="@+id/Header0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Filter:"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Header0">
 
         <TextView
+            android:id="@+id/Header1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Raum Eigenschaften"/>
+            android:layout_marginStart="1dp"
+            android:text="Raum Eigenschaften"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
+            android:id="@+id/HeaderLine1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout1_1"
+            app:layout_constraintStart_toStartOf="@+id/Header1"
+            app:layout_constraintTop_toBottomOf="@+id/Header1" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout1_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HeaderLine1">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView1_1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="Anzahl der Personen:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <EditText
                 android:id="@+id/field_person"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="Anzahl eingeben"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="number"
-                android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
                 android:typeface="normal"
-                />
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout1_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout1_1">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView1_2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="Größe des Raumes:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/field_roomSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="Anzahl eingeben"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="number"
-                android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
-                android:typeface="normal" />
+                android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
-    </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <TextView
+            android:id="@+id/Header2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Equipment" />
+            android:layout_marginStart="1dp"
+            android:text="Equipment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
+            android:id="@+id/HeaderLine2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout2_1"
+            app:layout_constraintStart_toStartOf="@+id/Header2"
+            app:layout_constraintTop_toBottomOf="@+id/Header2" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HeaderLine2">
 
             <TextView
+                android:id="@+id/textView2_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="Tische und Stühle:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="15sp" />
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <RadioGroup
-                    android:id="@+id/radioButtonGroup"
+
+            <RadioGroup
+                android:id="@+id/radioButtonGroup"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radio_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:inputType="textPersonName"
+                    android:onClick="clickedRadioButton"
+                    android:text="Ja" />
 
-                    <RadioButton
-                        android:id="@+id/radio_yes"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:text="Ja" />
+                <RadioButton
+                    android:id="@+id/radio_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:onClick="clickedRadioButton"
+                    android:text="Nein" />
+            </RadioGroup>
 
-                    <RadioButton
-                        android:id="@+id/radio_no"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:text="Nein" />
-                </RadioGroup>
-            </RelativeLayout>
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
-
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2_1">
 
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:text="Tafeln:"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="15sp" />
+                android:id="@+id/textView2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="Tafeln:"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/field_tafel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="Anzahl eingeben"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="number"
-                android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
-                android:typeface="normal" />
-        </LinearLayout>
+                android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2_2">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView2_3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="Whiteboard:"
+                android:text="Whiteboards:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/field_whiteboard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="Anzahl eingeben"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="number"
-                android:text="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
-                android:typeface="normal" />
-        </LinearLayout>
+                android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2_4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2_3">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView2_4"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="Beamer:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/field_beamer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="number"
-                android:text="Anzahl eingeben"
+                android:hint="Anzahl eingeben"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
-                android:typeface="normal" />
-        </LinearLayout>
+                android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingRight="50px"
-        android:paddingLeft="50px">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btn_cancel"
+            android:paddingHorizontal="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginStart="1dp"
             android:background="@drawable/button"
+            android:text="Abbr."
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:text="Abbr." />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_search"
+            android:paddingHorizontal="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btn_cancel"
-            android:layout_alignBottom="@+id/btn_cancel"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/button"
+            android:text="Suchen"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:text="Annehmen" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
-</LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
+
+
+</android.support.constraint.ConstraintLayout>

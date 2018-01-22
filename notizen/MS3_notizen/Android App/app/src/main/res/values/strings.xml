@@ -11,7 +11,26 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
+    <string name="extend">Verlängern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="search">Suchen</string>
+    <string name="book">Buchen</string>
+    <string name="serverURL">"http://192.168.2.101:5669"</string>
+    <string name="room">/room</string>
+
+    <string name="beaconFile">beaconData.json</string>
+    <string name="userFile">userData.json</string>
+    <string name="requestFile">requestData.json</string>
+
+    <string name="monitoring">MONITORING STARTED</string>
+    <string name="monitoringfailed">MONITORING FAILED</string>
+
+    <string name="ranging">RANGING STARTED</string>
+    <string name="rangingfailed">RANGING FAILED</string>
+
+    <string name="status">LOGSTATUS: </string>
+
+    <string name="extendToast">Bei Bedarf können Sie die Buchung um eine Stunde verlängern.</string>
 </resources>

@@ -29,7 +29,6 @@
         android:layout_toEndOf="@+id/btn_cancel"
         android:background="@drawable/border"
         android:padding="50px"
-        android:text=""
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="20sp"
@@ -53,7 +52,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/field_time"
+        android:id="@+id/field_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -63,7 +62,6 @@
         android:layout_toEndOf="@+id/btn_cancel"
         android:background="@drawable/border"
         android:padding="50px"
-        android:text=""
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="20sp"

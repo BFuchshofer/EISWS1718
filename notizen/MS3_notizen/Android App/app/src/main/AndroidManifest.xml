@@ -4,10 +4,13 @@
 
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <!--
@@ -23,30 +26,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerficationActivity">
+        <activity android:name=".VerificationActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity" />
+        <activity android:name=".StartActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".SingleRoom" />
-        <activity android:name=".SingleRoomResult" />
-        <activity android:name=".SingleRoomBooked" />
-
-        <activity android:name=".MultiRoom" />
-        <activity android:name=".MultiRoomResult" />
-        <activity android:name=".MultiRoomBooked" />
-
-        <activity android:name=".SilentRoomResult" />
-
-        <activity android:name=".SpecificRoom" />
-        <activity android:name=".SpecificRoomResult" />
-        <activity android:name=".SpecificRoomBooked" />
-
-
+        <activity android:name=".SingleRoom"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SingleRoomResult"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SingleRoomBooked"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MultiRoom"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MultiRoomResult"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MultiRoomBooked"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SilentRoomResult"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SilentRoomBooked"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".BeaconScanner"

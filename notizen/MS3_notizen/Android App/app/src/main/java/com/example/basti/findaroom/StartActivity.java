@@ -3,62 +3,40 @@ package com.example.basti.findaroom;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 
 public class StartActivity extends AppCompatActivity {
 
     private static final int READ_BLOCK_SIZE = 100;
-
-    // Check fo active room
-    public static long time_endReservation = 0;
-    public static long time_endBooking = 0;
-    public long time_endSuggestion = 0;
-    public boolean boolean_endSuggestion = false;
-    public boolean boolean_endReservation = false;
-    public boolean boolean_endBooking = false;
-
-
-    // File
-    public String fileName = "internalData.json";
-    public String fileData;
-    public String email;
+    private Toast toast;
+    private Intent scanService;
+    private Context ctx;
+    private String requestFileName, beaconFileName, userFileName, status;
+    private JSONObject userData, reqData;
+    private JSONArray beaconData;
     private FileOutputStream output;
-    public static JSONObject fileDataJSON;
-
-
-    // Buttons
-    private Button singleBtn;
-    private Button silentBtn;
-    private Button multiBtn;
-    private Button specificBtn;
-    private Button settingBtn;
-
-    protected static final String service = "BackgroundService";
-
+    private Button singleBtn, silentBtn, multiBtn, specificBtn, settingBtn;
+    private BeaconScanner beaconScannerService;
 
     public void beaconScan() {
-        Intent beaconScanActivity = new Intent(this, BeaconScanner.class);;
+        Intent beaconScanActivity = new Intent(this, BeaconScanner.class);
         startActivity(beaconScanActivity);
     }
 
-
-    Intent scanService;
-    private BeaconScanner beaconScannerService;
-    Context ctx;
     public Context getCtx() {
         return ctx;
     }
@@ -66,11 +44,24 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        readFile(fileName, 0, "");
+
+        // TODO
+        // überprüfen ob bereits eine Reservierung/Buchung vorliegt -> Daten aus "requestData.json" lesen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        userFileName = getString(R.string.userFile);
+        requestFileName = getString(R.string.requestFile);
+        beaconFileName = getString(R.string.beaconFile);
+        status = getString(R.string.status);
+
+        readFile(userFileName);
+        readFile(requestFileName);
+        readFile(beaconFileName);
+
+
+        toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_LONG);
         ctx = this;
         beaconScannerService = new BeaconScanner(getCtx());
         scanService = new Intent(getCtx(), beaconScannerService.getClass());
@@ -80,80 +71,105 @@ public class StartActivity extends AppCompatActivity {
             startService(scanService);
         }
 
-/*
+        Log.i(status, "User: " + userData);
+        Log.i(status, "Request: " + reqData);
+        Log.i(status, "Beacon: " + beaconData);
+
+        // Überprüfung ob bereits eine Reservierung oder Buchung eines oder mehrerer Räume vorliegt. Wenn ja wird direkt auf die entsprechende Activity weitergeleitet
         try {
-            Intent mServiceIntent = new Intent(this, BeaconScanner.class);
-            mServiceIntent.setData(Uri.EMPTY);
-            this.startService(mServiceIntent);
-            Log.i(service, "Background Service started");
-        } catch (Exception i) {
-            Log.i(service, "Background Service failed");
-        }
-*/
+            if (reqData.getString("token").contains("GET")) {
+                if (reqData.has("type")) {
+                    try {
+                        if (reqData.getString("type").contains("singleRoom")) {
+                            Intent singleRoomActivity = new Intent(getApplicationContext(), SingleRoomResult.class);
+                            startActivity(singleRoomActivity);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (reqData.getString("token").contains("BOOK")) {
+                if (reqData.has("type")) {
+                    try {
+                        if (reqData.getString("type").contains("singleRoom")) {
+                            Intent singleRoomActivity = new Intent(getApplicationContext(), SingleRoomBooked.class);
+                            startActivity(singleRoomActivity);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } // Überprüfung muss erweitert werden um mehr Anwendungsfälle abdecken zu können
+        } catch (NullPointerException e) {}
+        catch (JSONException e) {}
+
+
         singleBtn = (Button) findViewById(R.id.singleRoom);
+        multiBtn = (Button) findViewById(R.id.multiRooms);
+        silentBtn = (Button) findViewById(R.id.silentRoom);
+        specificBtn = (Button) findViewById(R.id.specificRoom);
+        settingBtn = (Button) findViewById(R.id.settings);
+
         singleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent singleRoomActivity = new Intent(getApplicationContext(), SingleRoom.class);;
+                Intent singleRoomActivity = new Intent(getApplicationContext(), SingleRoom.class);
                 startActivity(singleRoomActivity);
             }
         });
-        silentBtn = (Button) findViewById(R.id.silentRoom);
         silentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent silentRoomActivity = new Intent(getApplicationContext(), SilentRoomResult.class);
-                startActivity(silentRoomActivity);
+                Intent nextActivity = new Intent(getApplicationContext(), SilentRoomResult.class);
+                startActivity(nextActivity);
             }
         });
-        multiBtn = (Button) findViewById(R.id.multiRooms);
+
         multiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent multiRoomActivity = new Intent(getApplicationContext(), MultiRoom.class);
-                startActivity(multiRoomActivity);
+                Intent nextActivity = new Intent(getApplicationContext(), MultiRoom.class);
+                startActivity(nextActivity);
             }
         });
-        specificBtn = (Button) findViewById(R.id.specificRoom);
+
         specificBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent specificRoomActivity = new Intent(getApplicationContext(), SpecificRoom.class);
-                startActivity(specificRoomActivity);
+                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
             }
         });
-        settingBtn = (Button) findViewById(R.id.settings);
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VerficationActivity.checkForConfigButtonInteraction();
-                Intent backToSettings = new Intent(getApplicationContext(), VerficationActivity.class);
-                startActivity(backToSettings);
+                VerificationActivity.checkForConfigButtonInteraction();
+                Intent backToSettingsActivity = new Intent(getApplicationContext(), VerificationActivity.class);
+                startActivity(backToSettingsActivity);
             }
         });
 
     }
+
 
     private boolean serviceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i("Service running: ", "" + true);
+                Log.i(status, "Beacon Scanner started: TRUE");
                 return true;
             }
         }
-        Log.i("Service running: ", "" + false);
+        Log.i(status, "Beacon Scanner started: FALSE");
         return false;
     }
 
 
-
     // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName, long type1, String type2) {
+    public void readFile(String fName) {
 
-        String fileName = fName;
         try {
-            FileInputStream fileIn = openFileInput(fileName);
+            FileInputStream fileIn = openFileInput(fName);
             InputStreamReader InputRead = new InputStreamReader(fileIn);
             char[] inputBuffer = new char[READ_BLOCK_SIZE];
             String stringData = "";
@@ -163,103 +179,46 @@ public class StartActivity extends AppCompatActivity {
                 stringData += readstring;
             }
             InputRead.close();
-            JSONObject data = new JSONObject(stringData);
-            fileDataJSON = data;
-            fileData = stringData;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //checkForActiveRooms(); // Prüft ob aktuelle Reservierungen/Buchungen vorliegen
-    }
 
-
-    // Überprüft aktive timestamps für Räume (für den fall das die App geschloßen wird)
-    private void checkForActiveRooms() {
-        try {
-            if ((fileDataJSON.has("endSuggestionTime")) && (fileDataJSON.getLong("endSuggestionTime") <= System.currentTimeMillis() + 1000)) {
-                fileDataJSON.remove("endSuggestionTime");
-                boolean_endSuggestion = false;
-            }
-            if (((fileDataJSON.has("endSuggestionTime")) && (fileDataJSON.getLong("endSuggestionTime") > System.currentTimeMillis() + 1000))) {
-                time_endSuggestion = fileDataJSON.getLong("endSuggestionTime");
-                boolean_endSuggestion = true;
-            }
-            if ((fileDataJSON.has("endReservationTime")) && fileDataJSON.getLong("endReservationTime") <= System.currentTimeMillis() + 1000) {
-                fileDataJSON.remove("endReservationTime");
-                boolean_endReservation = false;
-            }
-            if (((fileDataJSON.has("endReservationTime")) && (fileDataJSON.getLong("endReservationTime") > System.currentTimeMillis() + 1000))) {
-                time_endReservation = fileDataJSON.getLong("endReservationTime");
-                boolean_endReservation = true;
-            }
-            if ((fileDataJSON.has("endBookingTime")) && fileDataJSON.getLong("endBookingTime") <= System.currentTimeMillis() + 1000) {
-                fileDataJSON.remove("endBookingTime");
-                boolean_endBooking = false;
-            }
-            if (((fileDataJSON.has("endBookingTime")) && (fileDataJSON.getLong("endBookingTime") > System.currentTimeMillis() + 1000))) {
-                time_endBooking = fileDataJSON.getLong("endBookingTime");
-                boolean_endBooking = true;
-            }
-            /*
-            if (boolean_endSuggestion == false && boolean_endReservation == false && boolean_endBooking == false) {
-                fileDataJSON.remove("room_id");
-                boolean_activeRoom = false;
-                checkForActiveRoom = false;
-            } else {
-                activeRoom = fileDataJSON.getString("room_id");
-                boolean_activeRoom = true;
-                checkForActiveRoom = true;
-            }
-            */
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        writeFile(fileName, 0, "", fileDataJSON, "");
-    }
-
-    //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
-    //Genutzt um alte Einträge zu löschen
-    public void writeFile(String fName, long endTime, String roomID, JSONObject newData, String type) {
-
-        String room_ID = roomID;
-        try {
-            output = openFileOutput(fName, MODE_PRIVATE);
-            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            JSONObject extraData = new JSONObject(fileData);
-            try {
-                // Schreibe übergebenes JSONObect in das FIle
-                if (newData != null) {
-                    writeOnOutput.write(newData.toString());
-                    // Ergänze das File um extra Werte
+            if (fName.contains(userFileName)) {
+                if (stringData.length() != 0) {
+                    JSONObject dataObject = new JSONObject(stringData);
+                    Log.i(status, "readfile: " + dataObject);
+                    userData = dataObject;
                 } else {
-
-                    if (endTime != 0 && type.toLowerCase().contains("vorschlag")) {
-                        extraData.put("endSuggestionTime", endTime);
-                    }
-
-                    if (room_ID.equals("_") == false) {
-                        extraData.put("room_id", roomID);
-                    }
-
+                    JSONObject dataObject = new JSONObject();
+                    Log.i(status, "readfile: " + dataObject);
+                    userData = dataObject;
                 }
-                if (newData != null && type.toLowerCase().contains("buchen")) {
-                    if (extraData.has("endSuggestionTime")) {
-                        extraData.remove("endSuggestionTime");
-                    }
-                    extraData.put("endBookingTime", endTime);
-                }
-                writeOnOutput.write(extraData.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-            writeOnOutput.close();
+            if (fName.contains(beaconFileName)) {
+                if (stringData.length() != 0) {
+                    JSONArray dataArray = new JSONArray(stringData);
+                    beaconData = dataArray;
+                } else {
+                    JSONArray dataArray = new JSONArray();
+                    beaconData = dataArray;
+                }
+            }
+            if (fName.contains(requestFileName)) {
+                if (stringData.length() != 0) {
+                    JSONObject dataObject = new JSONObject(stringData);
+                    Log.i(status, "readfile: " + dataObject);
+                    reqData = dataObject;
+                } else {
+                    JSONObject dataObject = new JSONObject();
+                    Log.i(status, "readfile: " + dataObject);
+                    reqData = dataObject;
+                }
+            }
         } catch (Exception e) {
+            JSONObject errorArray = new JSONObject();
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Daten konnten nicht gespeichert werden.",
-                    Toast.LENGTH_LONG).show();
+            Log.i(status, "readfile error: " + errorArray.toString());
         }
-        readFile(fName, 0, "");
+
     }
+
 
     @Override
     protected void onDestroy() {

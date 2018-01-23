@@ -139,7 +139,7 @@ router.post( '/room', function( req, res ){
                 "token":data.token,
                 "room_id":data.room_id,
                 "remainingTime": status.duration
-              },
+              }
               res.status(200).send( responseData );
             })
           } else {

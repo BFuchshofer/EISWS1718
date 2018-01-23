@@ -10,7 +10,6 @@ const timer;
 // Startet die Simulation der RFID Erkennung
 function startSim() {
 console.log("RFID simulation started");
-data = readFile();
 dataLength = data.data.length;
 console.log("DataLength: " + dataLength);
 //console.log("Data: " + JSON.stringify(data));
@@ -23,7 +22,6 @@ random = Math.floor((Math.random() * 10) +1)*1000; //Zufällige Zeit zwischen 10
 index = Math.floor((Math.random() * dataLength));
 console.log("index: " + index);
 FUNCTIONS.updateList(JSON.stringify(data.data[index]));
-//console.log(JSON.stringify(data.data[index]));
 timer = setTimeout(sendSim, random, "");
 }
 
@@ -45,7 +43,7 @@ return data;
 
 
 
-
+// Exportiert die Funktionen in andere .js Dateien
 module.exports                              = {
 startSim:    function(){
 return startSim();

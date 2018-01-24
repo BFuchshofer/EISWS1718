@@ -154,7 +154,6 @@ function suggestion( beacon_id, filter ){
         return result;
       })
       .then( function( res ){
-        console.log( "SEM ENTER" );
         sem.take( function(){
           DATABASE.getList( 'empty_rooms' )
           .then( function( arrayWanted ){
@@ -188,7 +187,8 @@ function setUserRoom( room_id, user_id, token ){
     var tmp = {
       "type":"",
       "user":user_id,
-      "duration": 0
+      "duration": 0,
+      "door_key":null
     };
     switch( token ){
       case "RESERVE":
@@ -198,6 +198,7 @@ function setUserRoom( room_id, user_id, token ){
       case "BOOK":
         timeID                              = "timeBooking";
         tmp.type                            = "Gebucht";
+        tmp.door_key                        = randomstring.generate(10);
         break;
     }
     DATABASE.get( timeID )
@@ -207,7 +208,7 @@ function setUserRoom( room_id, user_id, token ){
       DATABASE.setHashField( room_id, "status", tmp )
       .then( function( res ){
         DATABASE.removeFromList( 'empty_rooms', room_id );
-        resolve( tmp );
+        resolve( JSON.parse( res ) );
       });
     });
   });
@@ -220,7 +221,8 @@ function unsetUserRoom( room_id, user_id ){
       var tmp = {
         "type":"Frei",
         "user":null,
-        "duration": 0
+        "duration": 0,
+        "door_key":null
       };
       DATABASE.setHashField( room_id, "status", tmp )
       .then( function( res ){
@@ -323,7 +325,6 @@ module.exports                              = {
     });
   },
   userAction:  function( action, user_id, room_id ){
-    console.log( "FUCK YOU" );
     return new Promise( function( resolve, reject ){
       userAction( action, user_id, room_id )
       .then( function( res ){

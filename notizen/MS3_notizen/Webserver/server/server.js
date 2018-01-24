@@ -8,12 +8,16 @@ global.bodyParser                           = require( 'body-parser' );
 
 global.ip                                   = require( 'ip' );
 
+global.randomstring                         = require( 'randomstring' );
+
 // VARIABLES
 global.VAR_WEBSERVER                        = require( './cfg/webserver.json' );
 var List                                    = require( './util/multilinkedlist.js' );
 global.MULTILINKEDLIST;
 global.DATABASE                             = require( './util/database.js' );
 global.FUNCTIONS                            = require( './util/functions.js' );
+
+global.minipc_iparray                       = [];
 
 var server                                  = express();
 global.jsonParser                           = bodyParser.json();

@@ -28,7 +28,6 @@ router.post( '/room', function( req, res ){
           FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
           .then( function( alreadyUsed ){
             if( !alreadyUsed ){
-              console.log( "WAS FALSE" );
               FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
               .then( function( status ){
                 result.status = status;
@@ -69,9 +68,7 @@ router.post( '/room', function( req, res ){
         }
         FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
         .then( function( result ){
-          if( !result ){
-            res.status( 401 ).send( 'NOT YOUR ROOM' );
-          } else {
+          if( result ){
             FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
             .then( function( result ){
               FUNCTIONS.suggestion( data.beacon, data.filter )
@@ -102,44 +99,48 @@ router.post( '/room', function( req, res ){
                 res.status( 403 ).send( "ERROR" );
               });
             });
+          } else {
+            res.status( 401 ).send( 'NOT YOUR ROOM' );
           }
         })
         break;
       case "BOOK":
-      data                                    = {
-        "user": data.user,
-        "beacon": data.beacon,
-        "room_id": data.room_id,
-        "token": data.token
-      }
-      FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
-      .then( function( result ){
-        if( result ){
-          FUNCTIONS.setUserRoom( 'rm_' + data.room_id, data.user, "BOOK")
-          .then( function( status ){
-            var responseData                = {
-              "token":data.token,
-              "room_id": data.room_id,
-              "remainingTime": status.duration
-            }
-            res.status( 200 ).send( responseData );
-          });
-        } else {
-          res.status( 401 ).send( "NOT YOUR ROOM" );
+
+        data                                    = {
+          "user": data.user,
+          "beacon": data.beacon,
+          "room_id": data.room_id,
+          "token": data.token
         }
-      })
+        FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
+        .then( function( result ){
+          if( result ){
+            FUNCTIONS.setUserRoom( 'rm_' + data.room_id, data.user, "BOOK")
+            .then( function( status ){
+              var responseData                = {
+                "token":data.token,
+                "room_id": data.room_id,
+                "remainingTime": status.duration,
+                "door_key": status.door_key
+              }
+              res.status( 200 ).send( responseData );
+            });
+          } else {
+            res.status( 401 ).send( "NOT YOUR ROOM" );
+          }
+        })
         break;
       case "EXTEND":
         FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
         .then( function( result ){
           if( result ){
-            setUserRoom( "rm_" + data.room_id, data.user, "BOOK" )
+            FUNCTIONS.setUserRoom( "rm_" + data.room_id, data.user, "BOOK" )
             .then( function( status ){
               var responseData              = {
                 "token":data.token,
                 "room_id":data.room_id,
                 "remainingTime": status.duration
-              }
+              };
               res.status(200).send( responseData );
             })
           } else {
@@ -168,6 +169,20 @@ router.post( '/room', function( req, res ){
     }
   });
 })
+
+router.post( '/miniPcPing', function( req, res ){
+  req.on( 'data', function( chunk ){
+    var data = JSON.parse( chunk );
+
+    minipc_iparray.push({
+      "pc_id":data.id,
+      "pc_ip":data.ip,
+      "pc_addr":data.addr,
+      "pc_port":data.port
+    });
+    res.status( 200 ).send( minipc_iparray[ minipc_iparray.length -1 ] );
+  });
+});
 
 // ERROR HANDLING
 

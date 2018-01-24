@@ -368,88 +368,289 @@ function getNode( index ){
 
 function set( key, data ){
   return new Promise( function( resolve, reject ){
-    database.setAsync( key, data )
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key,
+      "data":data
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/set',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+              resolve( chunk );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function get( key ){
   return new Promise( function( resolve, reject ){
-    database.getAsync( key )
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/get',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+              resolve( JSON.parse( chunk ).data );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function del( key ){
   return new Promise( function( resolve, reject ){
-    database.delAsync( key )
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/del',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( true );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function setHash( key, data ){
   return new Promise( function( resolve, reject ){
-    database.hmsetAsync( key, JSON.stringify( data ))
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key,
+      "data":data
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/setHash',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( JSON.parse( chunk ) );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function setHashField( key, field, data ){
-  console.log( "HIER?" );
   return new Promise( function( resolve, reject ){
-    console.log( "key: " + key );
-    console.log( "field:" + field );
-    console.log( "data: " + data );
-    database.hsetAsync( key, field, JSON.stringify( data ))
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key,
+      "field":field,
+      "data":data
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/setHashField',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( chunk );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function getHash( key ){
   return new Promise( function( resolve, reject ){
-    database.hgetallAsync( key )
-    .then( function( res ){
-      if( res != null ){
-        resolve( res );
-      } else {
-        reject();
-      }
+    var post_data = {
+      "key":key
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/getHash',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( JSON.parse( chunk ) );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   })
 }
 function getHashField( key, field ){
+  return new Promise( function( resolve, reject ){
+    var post_data = {
+      "key":key,
+      "field":field
+    };
 
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/getHashField',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( JSON.parse( chunk ) );
+            });
+        }
+    });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
+
+  });
 }
 function addToList( key, data ){
   return new Promise( function( resolve, reject ){
-    database.lpushAsync( key, data )
-    .then( function( result ){
-      resolve( result );
+    var post_data = {
+      "key":key,
+      "data":data
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/addToList',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( true );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function removeFromList( key, data ){
   return new Promise( function( resolve, reject ){
-    database.lremAsync( key, -1, data )
-    .then( function( res ){
-      resolve( res );
+    var post_data = {
+      "key":key,
+      "data":data
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/removeFromList',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( chunk );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function getList( key ){
   return new Promise( function( resolve, reject ){
-    database.llenAsync( key )
-    .then( function( res ){
-      database.lrangeAsync( key, 0, res )
-      .then( function( res ){
-        resolve( res );
-      });
+    var post_data = {
+      "key":key
+    };
+
+    var options                 = {
+                    host: VAR_WEBSERVER.database.ip,
+                    port: VAR_WEBSERVER.database.port,
+                    path: '/getList',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+                    }
+                };
+
+    var externalRequest         = http.request( options, function( externalResponse ){
+        if( externalResponse.statusCode == 200 ){
+            externalResponse.on( 'data', function( chunk ){
+                resolve( JSON.parse( chunk ) );
+            });
+        }
     });
+    externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+    externalRequest.end();
   });
 }
 function popList( key, data ){

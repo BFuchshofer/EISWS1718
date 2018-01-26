@@ -4,3 +4,6 @@ tests/
 
 server/node_modules/
 server/package-lock.json
+
+database/node_modules/
+database/package-lock.json

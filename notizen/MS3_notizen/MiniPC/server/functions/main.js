@@ -15,8 +15,7 @@ return data;
 // Liest die Datei aus in der sich die dokumentierten aktuellen Rauminhalte befinden
 function readFile() {
 var data;
-fName = curentRoom;
-data = fs.readFileSync(fName, 'utf8');
+data = fs.readFileSync(curentRoom, 'utf8');
 if (data != "") {
 	return JSON.parse(data);
 } else {
@@ -26,20 +25,19 @@ return data;
 }
 
 
-// Schreibt änderungen der Rauminhalte in die Datei fest
+// Schreibt Änderungen der Rauminhalte in die Datei fest
 function writeFile(data) {
 var testdata = data
-fName = curentRoom;
-var curentData = readFile();
+var curentData = readFile(curentRoom);
 var tmp = {"data":[]};
 
 if (curentData.data.length > 0) {
 curentData.data.push(testdata);
-fs.writeFileSync(fName, JSON.stringify(curentData));
+fs.writeFileSync(curentRoom, JSON.stringify(curentData));
 console.log('Data saved: ' + JSON.stringify(curentData));
 } else {
 tmp.data.push(testdata);
-fs.writeFileSync(fName, JSON.stringify(tmp));
+fs.writeFileSync(curentRoom, JSON.stringify(tmp));
 console.log('Data saved: ' + JSON.stringify(tmp));
 }
 }
@@ -47,39 +45,42 @@ console.log('Data saved: ' + JSON.stringify(tmp));
 
 // Reagiert auf Meldungen durch den RFID Scanner (simuliert) und aktualisiert die Liste mit Rauminhalten
 function updateList(item) {
-var curentData = readFile();
 
+var curentData = readFile();
+item = JSON.parse(item);
 if (curentData.data.length == 0) {
 var time = Date.now();
-item = JSON.parse(item);
 item.timestamp = time
-curentData.data.push(JSON.stringify(item));
-fs.writeFileSync(fName, JSON.stringify(curentData));
+curentData.data.push(item);
+fs.writeFileSync(curentRoom, JSON.stringify(curentData));
 console.log("Added First: " + JSON.stringify(item));
+
 sendList();
 
-} else {
+} else if (curentData.data.length <= 19) {
 var check = false;
 for (var i = 0; i < curentData.data.length; i++) {
-
-if (new String(JSON.stringify(item)).valueOf() == new String(JSON.stringify(curentData.data[i])).valueOf()) {
+if (parseInt(item.id) == parseInt(JSON.stringify(curentData.data[i].id))) {
 check = true;
 curentData.data.splice(i,1);
-fs.writeFileSync(fName, JSON.stringify(curentData));
-console.log("Removed: " + item);
+fs.writeFileSync(curentRoom, JSON.stringify(curentData));
+console.log("Removed: " + JSON.stringify(item));
+
 sendList();
+
 } // if
 } // for
 if (check === false) {
 var time = Date.now();
-item = JSON.parse(item);
 item.timestamp = time
-curentData.data.push(JSON.stringify(item));
-fs.writeFileSync(fName, JSON.stringify(curentData));
+curentData.data.push(item);
+fs.writeFileSync(curentRoom, JSON.stringify(curentData));
 console.log("Added: " + JSON.stringify(item));
+check = true;
 sendList();
+
 }  // if
-} // else
+} // else if
 
 } // function
 
@@ -88,7 +89,7 @@ sendList();
 function sendList() {
 var data = readFile();
 data = JSON.stringify(data);
-console.log('POST /roomList');
+
 
     var options = {
         host: VARIABLES.webserver.address,
@@ -96,16 +97,16 @@ console.log('POST /roomList');
         path: '/roomList',
         method:'POST',
         headers:{
-            accept:'application/json'
+            accept:'application/json',
+	    'Content-Length': Buffer.byteLength(data)
         }
     }
 
     var exReq = http.request(options, function(exRes){
-        i
-            exRes.on(data, function(chunk){
-                var response = JSON.parse(chunk);
-
-                res.end();
+            exRes.on("data", function(chunk){
+		if (exRes.statusCode == 200) {
+			console.log('POST /roomList - OK');
+			}
             });
 
     });
@@ -119,7 +120,7 @@ function sendIP() {
 var options = {
         host: VARIABLES.webserver.address,
         port: VARIABLES.webserver.port,
-        path: '/ip',
+        path: '/miniPcPing',
         method:'POST',
         headers:{
             accept:'application/json'
@@ -127,27 +128,34 @@ var options = {
     }
 
 var data = {
-	host: VARIABLES.minipc.address,
+	room_id: VARIABLES.room.room_id,
+	host: IP.address(),
 	port: VARIABLES.minipc.port
 	}
 
 var statusCode;
-// Sendet solange die IP an den Server bis diese ankommt und gespeichert wurde
-while (statusCode != 200) {
+
 
 
     var exReq = http.request(options, function(exRes){
-        i
-            exRes.on(data, function(chunk){
-                statusCode = exRes.statusCode;
-            });
+       
+exRes.on("data", function(chunk){
 
+		if (exRes.statusCode != 200) {
+            		sendIP();
+			console.log("IP Not Send");
+			//exRes.end();
+		} else {
+			console.log("IP Send");
+			//exRes.end();
+		} 
+            });	
     });
+exReq.on("error", function(err) {
+		console.log("Error in Request" + err);
+	}); 
 	exReq.write(JSON.stringify(data));
     exReq.end();
-console.log("Send IP Error");
-}
-console.log("IP Send");
 }
 
 // Exportiert die Funktionen in andere .js Dateien

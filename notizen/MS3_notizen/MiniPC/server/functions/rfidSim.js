@@ -18,9 +18,9 @@ sendSim();
 
 // Sendet zufällig im Intervall 1-10 Sekunden einen zufälligen Eintrag aus der Test Liste an die Update Funktion
 function sendSim() {
+
 random = Math.floor((Math.random() * 10) +1)*1000; //Zufällige Zeit zwischen 1000-10000 Millisekunden
 index = Math.floor((Math.random() * dataLength));
-console.log("index: " + index);
 FUNCTIONS.updateList(JSON.stringify(data.data[index]));
 timer = setTimeout(sendSim, random, "");
 }

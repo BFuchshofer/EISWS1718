@@ -1,6 +1,7 @@
 {
-"webserver": {"port":5779,"ip":"localhost","address":"http://localhost"},
-"minipc":    {"port":5669,"ip":"localhost","address":"http://localhost"} 
+"webserver": {"port":5669,"ip":"localhost","address":"192.168.43.254"},
+"minipc": {"port":5779,"ip":"localhost","address":""},
+"room": {"room_id":2106}
 }
 
 

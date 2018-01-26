@@ -16,11 +16,14 @@ global.SIMULATION 		= require('./functions/rfidSim.js');
 
 var app                     = express();
 global.jsonParser           = bodyParser.json();
-var ip                      = require('ip');
+global.IP                      = require('ip');
 
 // Aktuelle Rauminhalte werden bei jedem Serverstart auf 0 gesetzt
-var newData = "{'data':[]}";
-newData = JSON.parse('{"data":[]}')
+var newData = {
+"data":[],
+"room_id":VARIABLES.room.room_id
+};
+
 fs.writeFileSync('./data/curentRoom.json', JSON.stringify(newData));
 
 app.set('view engine' , 'ejs');
@@ -34,20 +37,22 @@ app.set('port', VARIABLES.minipc.port);
 app.listen(app.get('port'), function(){
     console.log('[INFO] Webserver starting...');
     console.log('[INFO] All Files Loaded');
-    console.log('[INFO] Webserver ready on: http://' + ip.address() + ':' + app.get('port'));
-    console.log('****************************************************');
-    console.log('' );
+    console.log('[INFO] Webserver ready on: http://' + IP.address() + ':' + app.get('port'));
+    console.log('[INFO] Raumnummer: ' + VARIABLES.room.room_id);
+
 
 // Sendet die IP des Minipcs an den Server
-//FUNCTIONS.sendIP();
+FUNCTIONS.sendIP();
 
 // Simuliert einen Beacon der vom Client gefunden werden kann
 var uuid = '2f234454-cf6d-4a0f-adf2-f4911ba9ffb2';
-var major = 0; // 0 - 65535
-var minor = 0; // 0 - 65535
+var major = VARIABLES.room.room_id; // Steht für die Raumnummer des Raspberry Pi
+var minor = 0; 
 var measuredPower = -59; // -128 - 127 (measured RSSI at 1 meter)
 Bleacon.startAdvertising(uuid, major, minor, measuredPower);
-console.log('start advertising');
+    console.log('[INFO] Start beacon advertising with room_id: ' + major);
+    console.log('****************************************************');
+    console.log('' );
 
 // RFID Simulation starten (wird bei Serverstart ausgeführt).
 SIMULATION.startSim();

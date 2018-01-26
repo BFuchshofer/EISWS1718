@@ -1,5 +1,18 @@
 {
   "port":5668,
   "ip":"localhost",
-  "address":"http://localhost"
+  "address":"http://localhost",
+  "webserver":{
+    "addr":"http://192.168.2.105",
+    "port":"5669",
+    "ip":"192.168.2.105"
+  },
+  "db_room":{
+    "ip":"localhost",
+    "port":"5660"
+  },
+  "db_veranstaltung":{
+    "ip":"localhost",
+    "port":"5661"
+  }
 }

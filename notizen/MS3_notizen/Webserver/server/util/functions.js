@@ -2,6 +2,7 @@
 var sem                                     = require( 'semaphore' )(0);
 
 // VARIABLES
+var timeouts = [];
 
 // SHORTESTPATH FUNCTIONS
 function sortQueue( array ){
@@ -53,7 +54,7 @@ function shortestPath( startNode, arrayWanted ){
     queue.push(
         {
             "node":startNode,
-            "cost":0
+            "cost":0.0
         }
     );
 
@@ -61,6 +62,7 @@ function shortestPath( startNode, arrayWanted ){
     {
 
         var currentNode                     = queue.pop();
+
         for( var i = 0; i < arrayWanted.length; i++ )
         {
             if( arrayWanted[ i ] == currentNode.node.data )
@@ -132,51 +134,132 @@ function shortestPath( startNode, arrayWanted ){
         }
         queue                                   = sortQueue( queue );
     }
+    return -1
 }
 
 // FUNCTIONS
-function useFilter( array, rooms ){
-  if( array != null ){
-    //TODO FOR LOOP GETTING ALL ROOM INFORMATION AND CHECKING FOR THE SET FILTER
-    return( rooms );
-  } else {
-    return rooms;
-  }
+function filterForLoop( index, filter, rooms, resultArray, callback ){
+  DATABASE.getHash( rooms[ index ] )
+  .then( function( result ){
+    if( parseInt( filter.person, 10 ) <= parseInt( JSON.parse( result.room ).size, 10 ) &&
+        filter.roomType == JSON.parse( result.room ).type &&
+        parseInt( filter.blackboard, 10 ) <= parseInt( JSON.parse(result.content).Blackboard.amount, 10 ) &&
+        parseInt( filter.whiteboard, 10 ) <= parseInt( JSON.parse(result.content).Whiteboard.amount, 10 ) &&
+        parseInt( filter.beamer, 10 ) <= parseInt( JSON.parse(result.content).Beamer.amount, 10 ) ){
+
+
+      resultArray.push( rooms[ index ] );
+    }
+  })
+  .then( function(){
+    if( index < rooms.length-1 ){
+      filterForLoop( (index + 1), filter, rooms, resultArray, callback );
+    } else {
+      callback( resultArray );
+    }
+  });
 }
 
-// TODO: Weniger Freie Räume als angefragt verfügbar.
+function useFilter( filter, rooms ){
+  return new Promise( function( resolve, reject ){
+    var filteredRooms = [];
+    if( filter != null ){
+      filterForLoop( 0, filter, rooms, filteredRooms , function( filtered ){
+        resolve( filtered );
+      });
+    } else {
+      resolve( rooms );
+    }
+  });
+}
+
 function suggestion( beacon_id, filter ){
   return new Promise( function( resolve, reject ){
     DATABASE.getHash( 'bn_' + beacon_id )
     .then( function( res ){
-      DATABASE.getNode( parseInt( res.arrayPos, 10 ) )
-      .then( function( result ){
-        return result;
-      })
-      .then( function( res ){
-        sem.take( function(){
-          DATABASE.getList( 'empty_rooms' )
-          .then( function( arrayWanted ){
-            var result = shortestPath( res, useFilter( filter, arrayWanted ));
-            DATABASE.removeFromList( 'empty_rooms', result );
-            sem.leave();
-            return result
-          })
-          .then( function( result ){
-            DATABASE.getHash( result )
-            .then( function( room ){
-              room.room = JSON.parse( room.room );
-              room.content = JSON.parse( room.content );
-              room.status = JSON.parse( room.status );
-              resolve( room );
-            })
+      if( res != null ){
+        DATABASE.getNode( parseInt( res.arrayPos, 10 ) )
+        .then( function( node ){
+          return node;
+        })
+        .then( function( res ){
+          sem.take( function(){
+            DATABASE.getList( 'empty_rooms' )
+            .then( function( arrayWanted ){
+              useFilter( filter, arrayWanted )
+              .then( function( filteredRooms ){
+                var result = shortestPath( res, filteredRooms );
+                if( result != -1 ){
+                  DATABASE.removeFromList( 'empty_rooms', result );
+                }
+                sem.leave();
+                return result
+              })
+              .then( function( result ){
+                if( result != -1 ){
+                  DATABASE.getHash( result )
+                  .then( function( room ){
+                    room.room = JSON.parse( room.room );
+                    room.content = JSON.parse( room.content );
+                    room.status = JSON.parse( room.status );
+                    resolve( room );
+                  })
+                } else {
+                  resolve( -1 );
+                }
+              });
+            });
           });
         });
-      });
+      } else {
+        resolve( "null" );
+      }
     })
     .catch( function(){
       console.error( 'COULDNT FIND RESOURCE' );
+      reject();
     });
+  });
+}
+
+function sendMiniPC( room_id, door_key ){
+  DATABASE.getHashField( "rm_" + room_id, 'minipc_id' )
+  .then( function( result ){
+    DATABASE.getHash( result )
+    .then( function( data ){
+      var post_data = {
+        "door_key":door_key
+      };
+
+      var options                 = {
+        host: data.pc_ip,
+        port: data.pc_port,
+        path: '/',
+        method: 'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+        }
+      };
+      var externalRequest         = http.request( options );
+      externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+      externalRequest.end();
+    });
+
+
+  });
+}
+
+function setMiniPc( data ){
+  return new Promise( function( resolve, reject ){
+    DATABASE.setHash( 'mp_' + data.pc_id, {
+      "pc_ip":data.pc_ip,
+      "pc_addr":data.pc_addr,
+      "pc_port":data.pc_port
+    })
+    .then( function( result ){
+      resolve( result );
+    })
   });
 }
 
@@ -205,10 +288,36 @@ function setUserRoom( room_id, user_id, token ){
     .then(function( result ){
       var date = new Date().getTime();
       tmp.duration                          = (parseInt( result, 10 ) + date);
+
+      var exists = false;
+      for( var i = 0; i < timeouts.length; i++ ){
+        if( timeouts[ i ].id == room_id ){
+          exists = true;
+          clearTimeout( timeouts[ i ].timer );
+          console.log( "[INFO] Resetting Timeout for: " + room_id + " - " + user_id );
+          timeouts[ i ].timer = setTimeout( function(){
+            unsetUserRoom( room_id, user_id );
+          }, result);
+          break;
+        }
+      }
+      if( !exists ){
+        console.log( "[INFO] Setting Timeout for: " + room_id + " - " + user_id );
+        timeouts.push({
+          "timer":setTimeout( function(){
+            unsetUserRoom( room_id, user_id );
+          }, result ),
+          "id":room_id
+        });
+      }
+
       DATABASE.setHashField( room_id, "status", tmp )
       .then( function( res ){
-        DATABASE.removeFromList( 'empty_rooms', room_id );
-        resolve( JSON.parse( res ) );
+        sem.take( function(){
+          DATABASE.removeFromList( 'empty_rooms', room_id );
+          sem.leave();
+          resolve( res );
+        });
       });
     });
   });
@@ -218,6 +327,16 @@ function unsetUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
     DATABASE.del( 'ru_' + user_id )
     .then(function( result ){
+      var tmpTimeouts = []
+      for( var i = 0; i < timeouts.length; i++ ){
+        if( timeouts[ i ].id == room_id ){
+          console.log( "[INFO] Timeout Canceled for: " + room_id + " - " + user_id );
+          clearTimeout( timeouts[ i ].timer );
+        } else {
+          tmpTimeouts.push( timeouts[ i ] );
+        }
+      }
+      timeouts = tmpTimeouts;
       var tmp = {
         "type":"Frei",
         "user":null,
@@ -226,8 +345,11 @@ function unsetUserRoom( room_id, user_id ){
       };
       DATABASE.setHashField( room_id, "status", tmp )
       .then( function( res ){
-        DATABASE.addToList( 'empty_rooms', room_id );
-        resolve( tmp );
+        sem.take( function(){
+          DATABASE.addToList( 'empty_rooms', room_id );
+          sem.leave();
+          resolve( tmp );
+        });
       });
     });
   });
@@ -237,10 +359,12 @@ function checkUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
       DATABASE.get( 'ru_' + user_id )
       .then( function( result ){
-        if( result == room_id ){
-          resolve( true );
+        if( result == null ){
+          resolve( -1 );                // User besitzt keinen freien Raum
+        } else if( result == room_id ){
+          resolve( true );              // User besitzt den gesendeten Raum
         } else {
-          resolve( false );
+          resolve( false );             // User besitzt den gesendeten Raum NICHT
         }
       });
   });
@@ -327,6 +451,14 @@ module.exports                              = {
   userAction:  function( action, user_id, room_id ){
     return new Promise( function( resolve, reject ){
       userAction( action, user_id, room_id )
+      .then( function( res ){
+        resolve( res );
+      });
+    });
+  },
+  setMiniPc:    function( data ){
+    return new Promise( function( resolve, reject ){
+      setMiniPc( data )
       .then( function( res ){
         resolve( res );
       });

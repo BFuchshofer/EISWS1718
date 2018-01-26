@@ -1,0 +1,10 @@
+{
+  "port":5669,
+  "ip":"localhost",
+  "address":"http://localhost",
+  "database":{
+    "addr":"http://192.168.2.105",
+    "port":"5668",
+    "ip":"192.168.2.105"
+  }
+}

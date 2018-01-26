@@ -52,12 +52,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/email"
+                    android:id="@+id/user"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/border"
+                    android:hint="max.mustermann@web.de"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="true"
@@ -85,7 +86,7 @@
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
-                    android:text="Verifikation"
+                    android:text="Server-URL"
                     android:textColor="@color/common_google_signin_btn_text_dark_focused"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -97,6 +98,7 @@
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/border"
+                    android:hint="http:192.168.2.105:5667"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="true"

@@ -2,6 +2,7 @@ package com.example.basti.findaroom;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,6 +44,8 @@ public class SingleRoomBooked extends AppCompatActivity {
     private TextView field_Room, field_Time;
     private Button cancelBtn, extendBtn;
     private ProgressDialog progress;
+    private Toast backBtnToast;
+    private Toast extendToast;
 
     private RequestQueue mRequestQueuePOST;
     private JsonObjectRequest postJsonRequest;
@@ -49,6 +53,7 @@ public class SingleRoomBooked extends AppCompatActivity {
     private JSONObject reqData;
     private JSONArray beaconData;
     private JSONObject userData;
+    private CountDownTimer extendTimer;
 
     // Leitet auf den Homscreen zurück
     public void homeScreen() {
@@ -63,14 +68,23 @@ public class SingleRoomBooked extends AppCompatActivity {
 
         progress = new ProgressDialog(this);
 
-        url = getString(R.string.serverURL);
         path = getString(R.string.room);
         beaconFileName = getString(R.string.beaconFile);
         userFileName = getString(R.string.userFile);
         requestFileName = getString(R.string.requestFile);
         status = getString(R.string.status);
 
+        readFile(userFileName);
+        try {
+            url = userData.getString("url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         readFile(requestFileName);
+
+        backBtnToast = Toast.makeText(getApplicationContext(), getString(R.string.backBtnToast), Toast.LENGTH_SHORT);
+        extendToast = Toast.makeText(getApplicationContext(), getString(R.string.extendToast), Toast.LENGTH_SHORT);
 
         field_Room = (TextView) findViewById(R.id.field_room);
         field_Time = (TextView) findViewById(R.id.field_status);
@@ -79,8 +93,6 @@ public class SingleRoomBooked extends AppCompatActivity {
 
 
         try {
-            // TODO
-            // text anpassen
             field_Room.setText(reqData.getString("room_id"));
             setDynamicEndTime(reqData.getLong("remainingTime"));
         } catch (JSONException e) {
@@ -105,55 +117,152 @@ public class SingleRoomBooked extends AppCompatActivity {
         extendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
-                // Aus requestData.json lesen ( mit readFile(requestDataFileName) ) und an den Server schicken
+                //extendToast.show();
+                readFile(requestFileName);
+                reqData.remove("type");
+                reqData.remove("token");
+                try {
+                    reqData.put("token", "EXTEND");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressScreen("Verlängere Raumbuchung", "Standort wird überprüft...");
+                // Überprüfe den Standort des Benutzers indem er den zur Anfrage gehörenden Beacon mit der aktuellen Liste von gefundenen Beacons vergleicht
+                // Wird dieser Beacon gefunden, und liegt der Zeitpunkt des Entdeckens innerhalb eines Zeitrahmens von 10 Sekunden, wird die Buchung eingeleitet.
+                // Dies dient dazu zu überprüfen, ob der Benutzer sich in der Nähe des Raumes befindet.
+
+                extendTimer = new CountDownTimer(2000, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        try {
+                            readFile(beaconFileName);
+                            int index = 999999; // Index muss initialisiert werden um in der If Abfrage überprüft werden zu können
+                            for (int i = 0; i < beaconData.length(); i++) {
+                                if (beaconData.getJSONObject(i).getString("uuid").contains(reqData.getString("beacon"))) {
+                                    index = i;
+                                }
+                            }
+                            if (index != 999999) {
+                                // Überprüft ob der Beacon (der Raum) noch aktuell ist, und er sich innerhalb von 8 Metern befindet.
+                                if ((System.currentTimeMillis() + 10000 >= beaconData.getJSONObject(index).getLong("timestamp")) && (beaconData.getJSONObject(index).getDouble("distance") <= 8)) {
+                                    extendTimer.cancel();
+                                    remainingTimeCountDown.cancel();
+                                    progress.dismiss();
+
+                                    postRequest(reqData);
+                                    Log.i(status, "Gebuchter Raum erkannt! - Extend ok");
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Bitte begeben Sie sich zum verlängern der Buchung zum Raum um ihn zu buchen!", Toast.LENGTH_LONG).show();
+                                    Log.i(status, "Gebuchter Raum NICHT erkannt! - Extend failed");
+                                }
+                            }
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        progress.dismiss();
+
+                    }
+                };
+                extendTimer.start();
             }
         });
+    }
+
+    // Deaktiviert den Zurück-Button des Endgerätes um den Programmfluss nicht zu gefährden
+    @Override
+    public void onBackPressed() {
+        backBtnToast.show();
     }
 
     public void progressScreen(String title, String msg) {
         progress.setTitle(title);
         progress.setMessage(msg);
-        progress.setCancelable(true);
+        progress.setCancelable(false);
         progress.show();
     }
 
+    // Um die verbleibende Zeit bis zum Ablauf der Buchung anzuzeigen
+    private void setDynamicEndTime(long time) {
+        long endTime = time - System.currentTimeMillis();
+        remainingTimeCountDown = new CountDownTimer(endTime, 1000) {
+            @Override
+            public void onTick(long l) {
+                int beforeDecimal = (int) l / 1000 / 60;
+                int afterDecimal = (int) (l / 1000) - (beforeDecimal * 60);
+                field_Time.setText(beforeDecimal + ":" + afterDecimal + " Minuten");
+            }
+
+            @Override
+            public void onFinish() {
+                field_Time.setText("Buchung abgelaufen!");;
+                extendBtn.setEnabled(false);
+                extendBtn.setBackgroundColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+                writeFile(requestFileName, new JSONObject());
+            }
+        };
+        remainingTimeCountDown.start();
+    }
+
     public void postRequest(JSONObject object) {
-        Log.i(status, "POST REQUEST: " + object);
+        JSONObject tmp = new JSONObject();
         mRequestQueuePOST = Volley.newRequestQueue(this);
 
         try {
             if (reqData.getString("token").contains("CANCEL")) {
+                tmp.put("user", object.getString("user"));
+                tmp.put("room_id", object.getString("room_id"));
+                tmp.put("token", object.getString("token"));
                 progressScreen("Abbruch", "Raum wird wieder freigegeben...");
+                Log.i(status, "POST REQUEST CANCEL: " + tmp);
             } else if (reqData.getString("token").contains("EXTEND")) {
+                tmp.put("token", "BOOK");
+                tmp.put("room_id", object.getString("room_id"));
+                tmp.put("user", object.getString("user"));
                 progressScreen("Verlängern", "Raumbuchung wird verlängert...");
+                Log.i(status, "POST REQUEST EXTEND: " + tmp);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url + path, object, new Response.Listener<JSONObject>() {
+        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url + path, tmp, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 try {
 
                     if (reqData.getString("token").contains("EXTEND")) {
-                        reqData = response;
+
+                        reqData.remove("remainingTime");
+                        reqData.remove("room_id");
+                        reqData.put("room_id", response.getString("room_id"));
+                        reqData.put("remainingTime", response.getLong("remainingTime"));
+                        reqData.put("type", "singleRoom");
                         progress.dismiss();
-                        // TODO
-                        // Seite aktualisieren?
-                        response.put("type", "singleRoom");
                         writeFile(requestFileName, reqData);
+                        remainingTimeCountDown.cancel();
+                        field_Room.setText("" + response.getString("room_id"));
+                        setDynamicEndTime(response.getLong("remainingTime"));
+                        Toast.makeText(getApplicationContext(), "Raumbuchung verlängert!", Toast.LENGTH_LONG).show();
 
                     }
                     if (reqData.getString("token").contains("CANCEL")) {
 
-                        if (response.getLong("remainingTime") != 0) {
+                        if (response.getString("room_id").equals("0")) {
+                            Toast.makeText(getApplicationContext(), "Ihre Buchung ist abgelaufen! Bitte stellen Sie eine neue Buchungsanfrage!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Buchung storniert!", Toast.LENGTH_LONG).show();
+                        }
+                        if (response.getLong("remainingTime") == 0) {
                             remainingTimeCountDown.cancel();
                         }
-                        JSONObject clear = new JSONObject();
-                        writeFile(requestFileName, clear);
+                        writeFile(requestFileName, new JSONObject());
                         progress.dismiss();
                         homeScreen();
                     }
@@ -163,35 +272,40 @@ public class SingleRoomBooked extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                // Frage den Response Status ab um auf die HTTP-Codes zugreifen zu können
+                NetworkResponse res = error.networkResponse;
 
-                progress.dismiss();
-                Toast.makeText(getApplicationContext(), "Fehler: " + error, Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-                Log.i(status, "Error in Request");
+                if (res != null) { // Internetverbindung
+                    if (res.statusCode == 400) { // Beacon im Request nicht gefunden --> location error
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley400), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Beacon im Request nicht gefunden --> location error");
+
+                    } else if (res.statusCode == 401) { // Benutzer hat bereits einen Raum
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley401), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Benutzer hat bereits einen Raum");
+
+                    } else if (res.statusCode == 416) { // Beacon wurde im System nicht gefunden
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley416), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Beacon wurde im System nicht gefunden");
+                    } else if (res.statusCode == 404) { // Kein passender freier Raum gefunden
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley404), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Kein passender freier Raum gefunden");
+                    }
+                } else { // Keine Verbindung zum Server
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), getString(R.string.volleyNetwork), Toast.LENGTH_LONG).show();
+                    Log.i(status, "Network Error: Keine Internetverbindung (zum Server)");
+                }
             }
+
         });
 
         mRequestQueuePOST.add(postJsonRequest);
 
-    }
-
-    // Um die verbleibende Zeit bis zum Ablauf der Buchung anzuzeigen
-    private void setDynamicEndTime(long time) {
-        long endTime = time - System.currentTimeMillis();
-        remainingTimeCountDown = new CountDownTimer(endTime, 1000) {
-            @Override
-            public void onTick(long l) {
-                int beforeDecimal = (int) l/1000/60;
-                int afterDecimal = (int)(l/1000) - (beforeDecimal*60) ;
-                field_Time.setText(beforeDecimal + ":" + afterDecimal + " Minuten");
-            }
-
-            @Override
-            public void onFinish() {
-                field_Time.setText("Buchung abgelaufen!");
-            }
-        };
-        remainingTimeCountDown.start();
     }
 
     //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher

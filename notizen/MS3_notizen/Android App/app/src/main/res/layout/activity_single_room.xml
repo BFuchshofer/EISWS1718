@@ -79,18 +79,18 @@
 
             <EditText
                 android:id="@+id/field_person"
-                android:hint="Anzahl eingeben"
                 android:layout_width="wrap_content"
                 android:layout_height="46dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:hint="Anzahl eingeben"
                 android:inputType="number"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 android:textStyle="italic"
                 android:typeface="normal"
-                android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -115,29 +115,26 @@
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="Größe des Raumes:"
+                android:text="Raumtyp:"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/field_roomSize"
-                android:hint="Anzahl eingeben"
+            <Spinner
+                android:id="@+id/dropdown"
                 android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:inputType="number"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="@color/common_google_signin_btn_text_light_focused"
-                android:textStyle="italic"
-                android:typeface="normal"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border"
+                android:dropDownWidth="100dp"
+                android:entries="@array/roomType_arrays"
+                android:maxWidth="60dp"
+                android:prompt="@string/roomType_prompt"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"></Spinner>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>

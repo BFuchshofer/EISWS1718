@@ -3,7 +3,6 @@ package com.example.basti.findaroom;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
@@ -39,18 +38,13 @@ import java.util.List;
 
 public class BeaconScanner extends Service implements BeaconConsumer {
 
-    private String monitoring, monitoringfailed, ranging, rangingfailed, status;
-
     private static final int READ_BLOCK_SIZE = 100;
-
     public String beaconFileName;
-    private JSONArray beaconData;
     public BeaconManager beaconManager;
     boolean alreadyContains = false;
     JSONObject foundBeacon = new JSONObject();
-    //private CountDownTimer timer;
-    //private long timeForSave = 5000;
-
+    private String monitoring, monitoringfailed, ranging, rangingfailed, status;
+    private JSONArray beaconData;
     private long deleteTime = 300000; // 5 Minuten = 300000
 
     public BeaconScanner(Context applicationContext) {
@@ -63,6 +57,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        status = getString(R.string.status);
         Log.i(status, "Start Backgroundservice");
 
         super.onStartCommand(intent, flags, startId);
@@ -81,19 +76,21 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")); // iBeacon
         beaconManager.bind(this);
 
-        /*
+/*
         // Test Daten
         try {
-            data.put("timestamp", System.currentTimeMillis());
-            data.put("distance", 0.1111111111);
-            data.put("uuid", "2f234454-cf6d-4a0f-adf2-f4911ba9ffb3");
+            readFile(beaconFileName);
+            foundBeacon.put("timestamp", System.currentTimeMillis());
+            foundBeacon.put("distance", 0.1111111111);
+            foundBeacon.put("uuid", "2f234454-cf6d-4a0f-adf2-f4911ba9ffb3");
+            beaconData.put(foundBeacon);
+            writeFile(beaconFileName, beaconData);
+            Log.i(status, "Test Beacon saved!");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        */
+*/
 
-        //checkBeacon();
-        //startTimer();
 
         return START_STICKY;
     }
@@ -105,23 +102,19 @@ public class BeaconScanner extends Service implements BeaconConsumer {
     }
 
     @Override
-    public void onBeaconServiceConnect() {
+    public void onBeaconServiceConnect() { // http://altbeacon.github.io/android-beacon-library/samples.html
         beaconManager.addMonitorNotifier(new MonitorNotifier() {
-
 
             @Override
             public void didEnterRegion(Region region) {
-                Log.i(status, "New beacon detected!");
             }
 
             @Override
             public void didExitRegion(Region region) {
-                //Log.i(monitoring, "I no longer see an beacon");
             }
 
             @Override
             public void didDetermineStateForRegion(int state, Region region) {
-                Log.i(status, "I have just switched from seeing/not seeing beacons: " + state);
             }
 
         });
@@ -131,21 +124,22 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
                 if (beacons.size() > 0) {
                     // Gibt die 16-byte Proximity UUID des erkannten Beacons aus.
-                    //Log.i(ranging, "BeaconID: " + beacons.iterator().next().getId1());
-                    Identifier id = beacons.iterator().next().getId1();
+                    Identifier id1 = beacons.iterator().next().getId1();
+                    Identifier id2 = beacons.iterator().next().getId2();
 
                     // Gibt die ungefähre Entfernung des gefundenen Beacons aus.
-                    //Log.i(ranging, "Beacon range: " + beacons.iterator().next().getDistance());
                     double distance = beacons.iterator().next().getDistance();
 
-                    // Aktuelle Systemzeit um auf aktualität zu prüfen
+                    // Aktuelle Systemzeit um auf Aktualität zu prüfen
                     long currentTime = System.currentTimeMillis();
 
+                    // Gefundener Beacon wird zur weiterverarbeitung in JSONObject gespeichert
                     try {
                         foundBeacon.put("timestamp", currentTime);
                         foundBeacon.put("distance", distance);
-                        foundBeacon.put("uuid", id.toString());
-                        Log.i(status, "Found Beacon: " + foundBeacon);
+                        foundBeacon.put("uuid", id2.toString());
+                        //foundBeacon.put("uuid2", id2.toString());
+                        Log.i(status, "BEACON FOUND: " + foundBeacon);
                         checkBeacon();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -169,114 +163,37 @@ public class BeaconScanner extends Service implements BeaconConsumer {
             Log.i(status, rangingfailed);
         }
     }
-/*
-    public void startTimer() {
-
-        timer = new CountDownTimer(timeForSave, 1000) {
-            @Override
-            public void onTick(long l) {
-                Log.i(status, "Remaining time for Beacon save: " + l / 1000 + "seconds");
-            }
-
-            @Override
-            public void onFinish() {
-                readFile(beaconFileName);
-                cleanup(beaconData);
-                checkBeacon();
-                Log.i(status, "Finished: " + beaconData);
-                timer.start();
-            }
-        };
-        timer.start();
-    }
-    */
-
-
-    // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName) {
-
-        try {
-
-            FileInputStream fileIn = openFileInput(fName);
-            InputStreamReader InputRead = new InputStreamReader(fileIn);
-            char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            String stringData = "";
-            int charRead;
-            while ((charRead = InputRead.read(inputBuffer)) > 0) {
-                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
-                stringData += readstring;
-            }
-            InputRead.close();
-            fileIn.close();
-            if (fName.contains(beaconFileName)) {
-                if (stringData.contains("uuid")) {
-                    JSONArray dataArray = new JSONArray(stringData);
-                    beaconData = dataArray;
-                } else {
-                    JSONArray dataArray = new JSONArray();
-                    beaconData = dataArray;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + e);
-            writeFile(beaconFileName, new JSONArray());
-            readFile(beaconFileName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + e);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + e);
-        }
-
-    }
 
     // Zum überprüfen ob der erkannte Beacon bereits vorhanden ist
     public void checkBeacon() {
 
         try {
-           // if (foundBeacon.length() != 0) {
-                alreadyContains = false;
-                readFile(beaconFileName);
-                cleanup(beaconData);
-               // JSONObject tmpData;
-                //tmpData = foundBeacon;
-            // TODO
-            // temporärer index da nicht mit 0 initialisiert werden kann, da 0 auch als position im Array vorkommen kann.
-            // andere möglichkeit finden den index zu initialisieren damit update(index) aufgerufen werden kann?
-            int index = 999999;
-                for (int i = 0; i < beaconData.length(); i++) {
-                    if (beaconData.getJSONObject(i).get("uuid").equals(foundBeacon.getString("uuid"))) {
-                        alreadyContains = true;
-                        Log.i(status, "Beacon already exists!");
-                        index = i;
-                        break;
-                    } else {
-                    }
-                }
-                if (alreadyContains == false) {
-                    Log.i(status, "Added new Beacon!");
-                    beaconData.put(foundBeacon);
-                    sortList(beaconData);
-                    writeFile(beaconFileName, beaconData);
-                    alreadyContains = false;
-                } else {
-                    if (index != 999999) { // TODO
-                        update(index);
-                    }
+            alreadyContains = false;
+            readFile(beaconFileName);
+            cleanup(beaconData);
 
+            // temporärer index, da nicht mit 0 initialisiert werden kann, da 0 auch als position im Array vorkommen kann.
+            int index = 999999;
+            for (int i = 0; i < beaconData.length(); i++) {
+                if (beaconData.getJSONObject(i).get("uuid").equals(foundBeacon.getString("uuid"))) {
+                    alreadyContains = true;
+                    Log.i(status, "Beacon already exists!");
+                    index = i;
+                    break;
+                } else {
                 }
-            //}
-            /*
-            else {
-                // TODO
-                // cleanup/sort nötig bei leerem file?
-                cleanup(beaconData);
-                sortList(beaconData);
-                writeFile(beaconFileName, null);
             }
-            */
+            if (!alreadyContains) {
+                Log.i(status, "Added new Beacon!");
+                beaconData.put(foundBeacon);
+                sortList(beaconData);
+                writeFile(beaconFileName, beaconData);
+                alreadyContains = false;
+            } else {
+                if (index != 999999) {
+                    update(index); // Gefundener Beacon an index i im File wird neu beschrieben
+                }
+            }
             alreadyContains = false;
         } catch (Exception e) {
             e.printStackTrace();
@@ -284,20 +201,8 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
     }
 
-    //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
-    public void writeFile(String fName, JSONArray data) {
-
-        try {
-            FileOutputStream output = openFileOutput(fName, MODE_PRIVATE);
-            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            writeOnOutput.write(data.toString());
-            writeOnOutput.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     // Sortiert die Liste mit gefundenen Beacons in absteigender Reihenfolge bezüglich ihrer gemessenen Entfernung
+    // Somit steht an index 0 immer der Beacon mit der geringsten gemessenen Entfernung
     public void sortList(JSONArray fileData) {
 
         final List<JSONObject> list = new ArrayList<>();
@@ -332,12 +237,10 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
     // Löscht veralterte Beacondaten nach einer bestimmten Zeit aus der Datei "beaconData.json"
     public void cleanup(JSONArray data) {
-        //JSONArray cleanArray = new JSONArray();
+
         try {
             if (data.length() != 0 && data.getJSONObject(0).has("uuid")) {
-                //cleanArray = data;
                 for (int i = 0; i < beaconData.length(); i++) {
-
                     if (beaconData.getJSONObject(i).getLong("timestamp") < System.currentTimeMillis() - deleteTime) {
                         Log.i(status, "Removed old Beacon: " + beaconData.getJSONObject(i).getString("uuid"));
                         beaconData.remove(i);
@@ -350,15 +253,69 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         }
     }
 
-    // Updated gemessene Entfernung und Zeit eines gefundenen Beacons in der Datei "beaconData.json"
+    // Updated gemessene Entfernung und Zeit eines gefundenen Beacons in der Datei "beaconData.json" an der Indexstelle i
     public void update(int i) {
 
         try {
             beaconData.getJSONObject(i).put("timestamp", foundBeacon.getString("timestamp"));
             beaconData.getJSONObject(i).put("distance", foundBeacon.getString("distance"));
+            sortList(beaconData);
             writeFile(beaconFileName, beaconData);
             Log.i(status, "Updated Beacon: " + beaconData.getJSONObject(i));
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Gibt alle Daten aus dem TextFile aus
+    public void readFile(String fName) {
+
+        try {
+            FileInputStream fileIn = openFileInput(fName);
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            String stringData = "";
+            int charRead;
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                stringData += readstring;
+            }
+            InputRead.close();
+            fileIn.close();
+            if (fName.contains(beaconFileName)) {
+                if (stringData.contains("uuid")) {
+                    JSONArray dataArray = new JSONArray(stringData);
+                    beaconData = dataArray;
+                } else {
+                    JSONArray dataArray = new JSONArray();
+                    beaconData = dataArray;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.i(status, "Readfile Err FNF in BeaconScanner: " + e);
+            writeFile(beaconFileName, new JSONArray());
+            readFile(beaconFileName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.i(status, "Readfile Err JSON in BeaconScanner: " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i(status, "Readfile Err IO in BeaconScanner: " + e);
+        }
+
+    }
+
+
+    //Schreibe übermittelte Beacon Daten persistent in beaconData.json
+    public void writeFile(String fName, JSONArray data) {
+
+        try {
+            FileOutputStream output = openFileOutput(fName, MODE_PRIVATE);
+            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
+            writeOnOutput.write(data.toString());
+            writeOnOutput.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

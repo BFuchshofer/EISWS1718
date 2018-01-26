@@ -1,9 +1,13 @@
 package com.example.basti.findaroom;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +26,8 @@ import java.io.InputStreamReader;
 public class StartActivity extends AppCompatActivity {
 
     private static final int READ_BLOCK_SIZE = 100;
-    private Toast toast;
+    private Toast comingSoonToast;
+    private Toast backBtnToast;
     private Intent scanService;
     private Context ctx;
     private String requestFileName, beaconFileName, userFileName, status;
@@ -31,11 +36,7 @@ public class StartActivity extends AppCompatActivity {
     private FileOutputStream output;
     private Button singleBtn, silentBtn, multiBtn, specificBtn, settingBtn;
     private BeaconScanner beaconScannerService;
-
-    public void beaconScan() {
-        Intent beaconScanActivity = new Intent(this, BeaconScanner.class);
-        startActivity(beaconScanActivity);
-    }
+private boolean p;
 
     public Context getCtx() {
         return ctx;
@@ -44,9 +45,6 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // TODO
-        // überprüfen ob bereits eine Reservierung/Buchung vorliegt -> Daten aus "requestData.json" lesen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
@@ -60,13 +58,22 @@ public class StartActivity extends AppCompatActivity {
         readFile(requestFileName);
         readFile(beaconFileName);
 
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.v(status,"Permission is granted");
+            //File write logic here
+            p = true;
+        }
+        if (!p) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
 
-        toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_LONG);
+        comingSoonToast = Toast.makeText(getApplicationContext(), getString(R.string.soonToast), Toast.LENGTH_LONG);
+        backBtnToast = Toast.makeText(getApplicationContext(), getString(R.string.backBtnToast), Toast.LENGTH_SHORT);
         ctx = this;
         beaconScannerService = new BeaconScanner(getCtx());
         scanService = new Intent(getCtx(), beaconScannerService.getClass());
 
-        // überprüft ob der beaconscanner bereits läuft um ihn nicht "doppelt zu starten"
+        // überprüft ob der beaconscanner bereits läuft um ihn nicht bei Aktivitätsaufruf doppelt zu starten
         if (!serviceRunning(beaconScannerService.getClass())) {
             startService(scanService);
         }
@@ -75,9 +82,9 @@ public class StartActivity extends AppCompatActivity {
         Log.i(status, "Request: " + reqData);
         Log.i(status, "Beacon: " + beaconData);
 
-        // Überprüfung ob bereits eine Reservierung oder Buchung eines oder mehrerer Räume vorliegt. Wenn ja wird direkt auf die entsprechende Activity weitergeleitet
+        // Überprüfung ob bereits eine Reservierung oder Buchung eines Raumes vorliegt. Wenn ja wird direkt auf die entsprechende Activity weitergeleitet
         try {
-            if (reqData.getString("token").contains("GET")) {
+            if (reqData.has("token") && reqData.getString("token").contains("GET")) {
                 if (reqData.has("type")) {
                     try {
                         if (reqData.getString("type").contains("singleRoom")) {
@@ -88,7 +95,7 @@ public class StartActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            } else if (reqData.getString("token").contains("BOOK")) {
+            } else if (reqData.has("token") && reqData.getString("token").contains("BOOK")) {
                 if (reqData.has("type")) {
                     try {
                         if (reqData.getString("type").contains("singleRoom")) {
@@ -101,8 +108,11 @@ public class StartActivity extends AppCompatActivity {
                 }
 
             } // Überprüfung muss erweitert werden um mehr Anwendungsfälle abdecken zu können
-        } catch (NullPointerException e) {}
-        catch (JSONException e) {}
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         singleBtn = (Button) findViewById(R.id.singleRoom);
@@ -121,23 +131,21 @@ public class StartActivity extends AppCompatActivity {
         silentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextActivity = new Intent(getApplicationContext(), SilentRoomResult.class);
-                startActivity(nextActivity);
+                comingSoonToast.show();
             }
         });
 
         multiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextActivity = new Intent(getApplicationContext(), MultiRoom.class);
-                startActivity(nextActivity);
+                comingSoonToast.show();
             }
         });
 
         specificBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Coming Soon!", Toast.LENGTH_LONG).show();
+                comingSoonToast.show();
             }
         });
         settingBtn.setOnClickListener(new View.OnClickListener() {
@@ -151,16 +159,21 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        backBtnToast.show();
+    }
 
+    // Überprüft ob
     private boolean serviceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i(status, "Beacon Scanner started: TRUE");
+                Log.i(status, "Beacon Scanner not started yet.");
                 return true;
             }
         }
-        Log.i(status, "Beacon Scanner started: FALSE");
+        Log.i(status, "Beacon Scanner already started.");
         return false;
     }
 

@@ -13,15 +13,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -33,6 +37,7 @@ public class SingleRoomResult extends AppCompatActivity {
 
     private static final int READ_BLOCK_SIZE = 100;
     private CountDownTimer timer;
+    private CountDownTimer bookTimer;
     private long timeToUpdate = 10000; // 10 Sekunden
     private CountDownTimer remainingTimeCountDown;
     private String beaconFileName;
@@ -49,6 +54,7 @@ public class SingleRoomResult extends AppCompatActivity {
     private JsonObjectRequest postJsonRequest;
     private String status;
     private ProgressDialog progress;
+    private Toast backBtnToast;
 
     public void homeScreen() {
         Intent homeScreen = new Intent(this, StartActivity.class); // back to homescreen
@@ -61,7 +67,7 @@ public class SingleRoomResult extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_room_result);
@@ -70,12 +76,21 @@ public class SingleRoomResult extends AppCompatActivity {
 
         progress = new ProgressDialog(this);
 
-        url = getString(R.string.serverURL);
+        backBtnToast = Toast.makeText(getApplicationContext(), getString(R.string.backBtnToast), Toast.LENGTH_SHORT);
+
         path = getString(R.string.room);
         beaconFileName = getString(R.string.beaconFile);
         userFileName = getString(R.string.userFile);
         requestFileName = getString(R.string.requestFile);
         status = getString(R.string.status);
+
+        readFile(userFileName);
+        try {
+            url = userData.getString("url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         readFile(requestFileName);
 
@@ -92,6 +107,7 @@ public class SingleRoomResult extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                readFile(requestFileName);
                 try {
                     reqData.remove("token");
                     reqData.put("token", "CANCEL");
@@ -106,46 +122,90 @@ public class SingleRoomResult extends AppCompatActivity {
         bookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timer.cancel();
-                remainingTimeCountDown.cancel();
+                readFile(requestFileName);
                 try {
                     reqData.remove("token");
                     reqData.put("token", "BOOK");
                     reqData.remove("type");
-                    postRequest(reqData);
+
+                    progressScreen("Buche Raum", "Standort wird überprüft...");
+                    // Überprüfe den Standort des Benutzers indem er den zur Anfrage gehörenden Beacon mit der aktuellen Liste von gefundenen Beacons vergleicht
+                    // Wird dieser Beacon gefunden, und liegt der Zeitpunkt des Entdeckens innerhalb eines Zeitrahmens von 10 Sekunden, wird die Buchung eingeleitet.
+                    // Dies dient dazu zu überprüfen, ob der Benutzer sich in der Nähe des Raumes befindet.
+
+                    bookTimer = new CountDownTimer(2000, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            try {
+                                readFile(beaconFileName);
+                                int index = 999999; // Index muss initialisiert werden um in der If Abfrage überprüft werden zu können
+                                for (int i = 0; i < beaconData.length(); i++) {
+                                    if (beaconData.getJSONObject(i).getString("uuid").contains(reqData.getString("beacon"))) {
+                                        index = i;
+                                    }
+                                }
+                                if (index != 999999) {
+                                    // Überprüft ob der Beacon (der Raum) noch aktuell ist, und er sich innerhalb von 8 Metern befindet.
+                                    if ((System.currentTimeMillis() + 10000 >= beaconData.getJSONObject(index).getLong("timestamp")) && (beaconData.getJSONObject(index).getDouble("distance") <= 8)) {
+                                        timer.cancel();
+                                        remainingTimeCountDown.cancel();
+                                        progress.dismiss();
+                                        postRequest(reqData);
+                                        Log.i(status, "Gebuchter Raum erkannt!");
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Bitte begeben Sie sich zum reservierten Raum um ihn zu buchen!", Toast.LENGTH_LONG).show();
+                                        Log.i(status, "Gebuchter Raum NICHT erkannt!");
+                                    }
+                                }
+                            } catch (JSONException e) {}
+                        }
+                        @Override
+                        public void onFinish() {
+                            progress.dismiss();
+                        }
+                    };
+                    bookTimer.start();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        startTimer();
+        startUpdateTimer();
     }
 
+    @Override
+    public void onBackPressed() {
+        backBtnToast.show();
+    }
 
-    public void startTimer() {
+    // Timer der nach einer bestimten Zeit prüft ob ein aktuellerer Beacon vorliegt und diesen in einen neuen Request verschickt
+    public void startUpdateTimer() {
 
         timer = new CountDownTimer(timeToUpdate, 1000) {
             @Override
             public void onTick(long l) {
-                Log.i(status, "Remaining time to Update: " + l / 1000 + "seconds");
             }
 
             @Override
             public void onFinish() {
                 try {
+                    readFile(requestFileName);
                     readFile(beaconFileName);
                     // Prüfe ob ein aktueller Beacon vorliegt
-                    if (beaconData.length() != 0)
-                    if (beaconData.getJSONObject(0).has("uuid")) {
-                        if (!beaconData.getJSONObject(0).getString("uuid").equals(reqData.getString("beacon"))) {
-                            reqData.remove("beacon");
-                            reqData.put("beacon", beaconData.getJSONObject(0).getString("uuid"));
-                            reqData.remove("token");
-                            reqData.put("token", "UPDATE");
-                            reqData.remove("type");
-                            postRequest(reqData);
+                    if (beaconData.length() != 0) {
+                        if (beaconData.getJSONObject(0).has("uuid")) {
+                            if (reqData.has("beacon") && (!beaconData.getJSONObject(0).getString("uuid").equals(reqData.getString("beacon")))) {
+                                Log.i(status, "Updated Beacon Request");
+                                reqData.remove("beacon");
+                                reqData.put("beacon", beaconData.getJSONObject(0).getString("uuid"));
+                                reqData.remove("token");
+                                reqData.put("token", "UPDATE");
+                                reqData.remove("type");
+                                postRequest(reqData);
+                            }
                         }
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -156,11 +216,7 @@ public class SingleRoomResult extends AppCompatActivity {
         timer.start();
     }
 
-
-
-    // TODO
-    // Ablaufzeitpunkt oder vorgegebenes Zeitintervall? Je nachdem muss die remainingTime anders in reqData.json gespeichert werden um die verbleibende Zeit nach App neustart aufzufen zu können
-    // Um die verbleibende Zeit bis zum Ablauf der Reservierung anzuzeigen
+    // Zeigt die verbleibende Zeit in der Activity an die für die Buchung noch möglich ist
     private void setDynamicEndTime(long time) {
         long endTime = time - System.currentTimeMillis();
 
@@ -169,8 +225,8 @@ public class SingleRoomResult extends AppCompatActivity {
             @Override
             public void onTick(long l) {
 
-                int beforeDecimal = (int) l/1000/60;
-                int afterDecimal = (int)(l/1000) - (beforeDecimal*60) ;
+                int beforeDecimal = (int) l / 1000 / 60;
+                int afterDecimal = (int) (l / 1000) - (beforeDecimal * 60);
                 field_Time.setText(beforeDecimal + ":" + afterDecimal + " Minuten");
             }
 
@@ -178,6 +234,7 @@ public class SingleRoomResult extends AppCompatActivity {
             public void onFinish() {
                 field_Time.setText("Reservierung abgelaufen!");
                 bookBtn.setEnabled(false);
+
             }
         };
         remainingTimeCountDown.start();
@@ -186,23 +243,44 @@ public class SingleRoomResult extends AppCompatActivity {
     public void progressScreen(String title, String msg) {
         progress.setTitle(title);
         progress.setMessage(msg);
-        progress.setCancelable(false);
+        progress.setCancelable(true);
         progress.show();
     }
 
+    // Vibration bei Aktualisierten Raum
+    private void vibrate() { // https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate
+        if (Build.VERSION.SDK_INT >= 26) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(2000);
+        }
+    }
+
     public void postRequest(JSONObject object) {
-        Log.i(status, "POST Request" + object);
+        JSONObject tmp = new JSONObject();
         mRequestQueuePOST = Volley.newRequestQueue(this);
         try {
             if (reqData.getString("token").contains("BOOK")) {
-                progressScreen("Buche Raum", "Raum wird für Sie gebucht...");
+                tmp.put("token", "BOOK");
+                tmp.put("room_id", object.getString("room_id"));
+                tmp.put("user", object.getString("user"));
+                bookTimer.cancel();
+                progressScreen("Buche Raum", "Standort bestätigt! \n Raum wird für Sie gebucht...");
+                Log.i(status, "POST REQUEST BOOK: " + tmp);
+            } else if (reqData.getString("token").contains("UPDATE")) {
+                tmp = object;
+                Log.i(status, "POST REQUEST UPDATE: " + tmp);
             } else if (reqData.getString("token").contains("CANCEL")) {
+                tmp.put("user", object.getString("user"));
+                tmp.put("room_id", object.getString("room_id"));
+                tmp.put("token", object.getString("token"));
                 progressScreen("Abbruch", "Reservierung wird abgebrochen...");
+                Log.i(status, "POST REQUEST CANCEL: " + tmp);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url + path, object, new Response.Listener<JSONObject>() {
+        postJsonRequest = new JsonObjectRequest(Request.Method.POST, url + path, tmp, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -215,11 +293,14 @@ public class SingleRoomResult extends AppCompatActivity {
                             remainingTimeCountDown.cancel();
                             setDynamicEndTime(response.getLong("remainingTime"));
                             vibrate(); // Vibriert wenn ein Update gefunden wurde
-                            // TODO
-                            // Möglichkeit bieten diesen Vorschlag abzulehnen?
                             Toast.makeText(getApplicationContext(), "Es wurde ein besserer Raum in Ihrer Nähe gefunden!", Toast.LENGTH_LONG).show();
-                            response.put("type", "singleRoom");
-                            writeFile(requestFileName, response);
+                            reqData.remove("room_id");
+                            reqData.remove("remainingTime");
+                            reqData.put("room_id", response.getString("room_id"));
+                            reqData.put("remainingTime", response.getLong("remainingTime"));
+                            reqData.put("type", "singleRoom");
+                            Log.i("status", "RESPONSE UPDATE" + response);
+                            writeFile(requestFileName, reqData);
                         }
                     }
                     if (response.getString("token").contains("BOOK")) {
@@ -227,20 +308,25 @@ public class SingleRoomResult extends AppCompatActivity {
                             remainingTimeCountDown.cancel();
                         }
                         timer.cancel();
-                        response.put("type", "singleRoom");
-                        writeFile(requestFileName, response);
+                        reqData.remove("remainingTime");
+                        reqData.remove("remainingTime");
+                        reqData.put("remainingTime", response.getLong("remainingTime"));
+                        reqData.put("type", "singleRoom");
+                        //response.put("type", "singleRoom");
+                        //response.put("beacon", reqData.getString("beacon"));
+                        writeFile(requestFileName, reqData);
                         progress.dismiss();
-                        // TODO
-                        // Key mit einbeziehen, eventuell neue Aktivität?
                         roomBookedActivity();
                     }
                     if (response.getString("token").contains("CANCEL")) {
-                        Log.i(status, "CANCEL");
-                        timer.cancel();
-                        if (response.getLong("remainingTime") != 0) {
+                        if (response.getString("room_id").equals("0")) {
+                            Toast.makeText(getApplicationContext(), "Ihre Reservierung ist abgelaufen! Bitte stellen Sie eine neue Raumanfrage!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Reservierung storniert!", Toast.LENGTH_LONG).show();
+                        }
+                        if (response.getLong("remainingTime") == 0) {
                             remainingTimeCountDown.cancel();
                         }
-                        response.put("type", "singleRoom"); // TODO nötig?
                         writeFile(requestFileName, new JSONObject());
                         progress.dismiss();
                         homeScreen();
@@ -252,25 +338,39 @@ public class SingleRoomResult extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progress.dismiss();
-                Toast.makeText(getApplicationContext(), "Fehler: " + error, Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-                Log.i(status, "Error in Request");
+                // Frage den Response Status ab um auf die HTTP-Codes zugreifen zu können
+                NetworkResponse res = error.networkResponse;
+
+                if (res != null) { // Internetverbindung
+                    if (res.statusCode == 400) { // Beacon im Request nicht gefunden --> location error
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley400), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Beacon im Request nicht gefunden --> location error");
+
+                    } else if (res.statusCode == 401) { // Benutzer hat bereits einen Raum
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley401), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Benutzer hat bereits einen Raum");
+
+                    } else if (res.statusCode == 416) { // Beacon wurde im System nicht gefunden
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley416), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Beacon wurde im System nicht gefunden");
+                    } else if (res.statusCode == 404) { // Kein passender freier Raum gefunden
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.volley404), Toast.LENGTH_LONG).show();
+                        Log.i(status, "Status Code: " + res.statusCode + "Kein passender freier Raum gefunden");
+                    }
+                } else { // Keine Verbindung zum Server
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), getString(R.string.volleyNetwork), Toast.LENGTH_LONG).show();
+                    Log.i(status, "Network Error: Keine Internetverbindung (zum Server)");
+                }
             }
         });
 
         mRequestQueuePOST.add(postJsonRequest);
 
-    }
-
-
-    // Vibration
-    private void vibrate() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(2000);
-        }
     }
 
     // Gibt alle Daten aus dem TextFile aus

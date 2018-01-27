@@ -28,8 +28,6 @@ public class VerificationActivity extends AppCompatActivity {
     private static boolean interactFromConfigBtn = false;
     Intent startActivity;
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private FileInputStream input;
-    private FileOutputStream output;
     private String userFileName;
     private String beaconFileName;
     private String requestFileName;
@@ -41,6 +39,8 @@ public class VerificationActivity extends AppCompatActivity {
     private Button cancelVerification;
     private Toast backBtnToast;
     private String status = "LOGSTATUS";
+    private FileInputStream fileIn;
+    private FileOutputStream fileOut;
 
     // Um zu überprüfen ob die VerificationActivity.java über einen Config Button aufgerufen wird.
     public static void checkForConfigButtonInteraction() {
@@ -60,7 +60,7 @@ public class VerificationActivity extends AppCompatActivity {
         requestFileName = getString(R.string.requestFile);
 
         try {
-            input = openFileInput(userFileName);
+            fileIn = openFileInput(userFileName);
             fileFound = true; // Wenn bereits ein File existiert
             openFileInput(userFileName).close();
         } catch (FileNotFoundException e) {
@@ -100,8 +100,10 @@ public class VerificationActivity extends AppCompatActivity {
             sendVerification.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    writeFile(beaconFileName); // Erstelle Beacon-File
-                    writeFile(requestFileName); // Erstelle Request-File
+                    if (!fileFound) { // Beim ersten App Start werden die benötigen Files angelegt
+                        writeFile(beaconFileName); // Erstelle Beacon-File
+                        writeFile(requestFileName); // Erstelle Request-File
+                    }
                     writeFile(userFileName); // Schreibe Textfelder Daten in das User-File und lade die Startseite
                     interactFromConfigBtn = false;
                 }
@@ -142,8 +144,8 @@ public class VerificationActivity extends AppCompatActivity {
                 JSONObject userConfig = new JSONObject();
                 // Püfen ob die eingegebene Email Adresse ein gültiges Format hat.
                 if ((user.getText().toString().matches("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w]{2,4}$"))) { //https://www.computerbase.de/forum/showthread.php?t=677550
-                    output = openFileOutput(fName, MODE_PRIVATE);
-                    OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
+                    fileOut = openFileOutput(fName, MODE_PRIVATE);
+                    OutputStreamWriter writeOnOutput = new OutputStreamWriter(fileOut);
                     userConfig.put("user", user.getText().toString());
                     userConfig.put("url", url.getText().toString());
                     writeOnOutput.write(userConfig.toString());

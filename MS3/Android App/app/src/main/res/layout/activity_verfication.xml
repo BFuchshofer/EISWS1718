@@ -98,7 +98,7 @@
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/border"
-                    android:hint="http:192.168.2.105:5667"
+                    android:hint="http://192.168.2.105:5667"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="true"

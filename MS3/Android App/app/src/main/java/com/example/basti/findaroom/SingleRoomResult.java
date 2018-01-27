@@ -136,6 +136,8 @@ public class SingleRoomResult extends AppCompatActivity {
                     bookTimer = new CountDownTimer(2000, 1000) {
                         @Override
                         public void onTick(long l) {
+                            // TODO
+                            // CHECK IF FUNCTION WORKS
                             try {
                                 readFile(beaconFileName);
                                 int index = 999999; // Index muss initialisiert werden um in der If Abfrage überprüft werden zu können
@@ -146,7 +148,7 @@ public class SingleRoomResult extends AppCompatActivity {
                                 }
                                 if (index != 999999) {
                                     // Überprüft ob der Beacon (der Raum) noch aktuell ist, und er sich innerhalb von 8 Metern befindet.
-                                    if ((System.currentTimeMillis() + 10000 >= beaconData.getJSONObject(index).getLong("timestamp")) && (beaconData.getJSONObject(index).getDouble("distance") <= 8)) {
+                                    if ((System.currentTimeMillis() + 10000 >= beaconData.getJSONObject(index).getLong("timestamp")) && (beaconData.getJSONObject(index).getDouble("distance") <= 5)) {
                                         timer.cancel();
                                         remainingTimeCountDown.cancel();
                                         progress.dismiss();

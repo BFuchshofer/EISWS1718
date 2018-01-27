@@ -33,15 +33,13 @@ public class StartActivity extends AppCompatActivity {
     private String requestFileName, beaconFileName, userFileName, status;
     private JSONObject userData, reqData;
     private JSONArray beaconData;
-    private FileOutputStream output;
     private Button singleBtn, silentBtn, multiBtn, specificBtn, settingBtn;
     private BeaconScanner beaconScannerService;
-private boolean p;
+    private boolean locationPermission;
 
     public Context getCtx() {
         return ctx;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +56,13 @@ private boolean p;
         readFile(requestFileName);
         readFile(beaconFileName);
 
+        // Überprüfung ob Berechtigung für Standortbestimmung gegeben ist
+        // Muss ab API 23+ in Laufzeit abgefragt werden
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.v(status,"Permission is granted");
-            //File write logic here
-            p = true;
+            Log.v(status,"Standort Berechtigung gesetzt");
+            locationPermission = true;
         }
-        if (!p) {
+        if (!locationPermission) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
@@ -73,7 +72,7 @@ private boolean p;
         beaconScannerService = new BeaconScanner(getCtx());
         scanService = new Intent(getCtx(), beaconScannerService.getClass());
 
-        // überprüft ob der beaconscanner bereits läuft um ihn nicht bei Aktivitätsaufruf doppelt zu starten
+        // BeaconScanner Statusabfrage
         if (!serviceRunning(beaconScannerService.getClass())) {
             startService(scanService);
         }
@@ -84,7 +83,7 @@ private boolean p;
 
         // Überprüfung ob bereits eine Reservierung oder Buchung eines Raumes vorliegt. Wenn ja wird direkt auf die entsprechende Activity weitergeleitet
         try {
-            if (reqData.has("token") && reqData.getString("token").contains("GET")) {
+            if (reqData.has("token") && reqData.getString("token").contains("GET")) { // Reservierung vorhanden?
                 if (reqData.has("type")) {
                     try {
                         if (reqData.getString("type").contains("singleRoom")) {
@@ -95,7 +94,7 @@ private boolean p;
                         e.printStackTrace();
                     }
                 }
-            } else if (reqData.has("token") && reqData.getString("token").contains("BOOK")) {
+            } else if (reqData.has("token") && reqData.getString("token").contains("BOOK")) { // Buchung vorhanden?
                 if (reqData.has("type")) {
                     try {
                         if (reqData.getString("type").contains("singleRoom")) {
@@ -107,7 +106,7 @@ private boolean p;
                     }
                 }
 
-            } // Überprüfung muss erweitert werden um mehr Anwendungsfälle abdecken zu können
+            } // Überprüfung muss erweitert werden um mehr Usecases abdecken zu können - Im Prototyp nur SingleRoom verfügbar
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -151,7 +150,7 @@ private boolean p;
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VerificationActivity.checkForConfigButtonInteraction();
+                VerificationActivity.checkForConfigButtonInteraction(); // Um ein Flag zu setzen das beim Aufruf von Verification.java der Screen nicht übersprungen wird
                 Intent backToSettingsActivity = new Intent(getApplicationContext(), VerificationActivity.class);
                 startActivity(backToSettingsActivity);
             }
@@ -164,21 +163,21 @@ private boolean p;
         backBtnToast.show();
     }
 
-    // Überprüft ob
+    // Überprüft ob der BeaconScanner bereits läuft
     private boolean serviceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i(status, "Beacon Scanner not started yet.");
+                Log.i(status, "Beacon Scanner wird gestartet.");
                 return true;
             }
         }
-        Log.i(status, "Beacon Scanner already started.");
+        Log.i(status, "Beacon Scanner läuft bereits.");
         return false;
     }
 
 
-    // Gibt alle Daten aus dem TextFile aus
+    // Gibt alle Daten aus dem TextFile fName aus
     public void readFile(String fName) {
 
         try {
@@ -193,6 +192,7 @@ private boolean p;
             }
             InputRead.close();
 
+            // Unterscheidung der einzelnen Dateien
             if (fName.contains(userFileName)) {
                 if (stringData.length() != 0) {
                     JSONObject dataObject = new JSONObject(stringData);

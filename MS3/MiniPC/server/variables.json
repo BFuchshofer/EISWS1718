@@ -1,7 +1,7 @@
 {
-"webserver": {"port":5669,"ip":"localhost","address":"192.168.43.254"},
-"minipc": {"port":5779,"ip":"localhost","address":""},
-"room": {"room_id":2106}
+"webserver": {"port":5669,"ip":"localhost","address":"192.168.43.254"}, // Adresse des Hauptservers, bei Bedarf ändern
+"minipc": {"port":5779,"ip":"localhost","address":""},                  // Port kann festgelegt werden, Adresse wird automatisch bezogen
+"room": {"room_id":2106}                                                // Für jeden Raum innerhalb des Systems kann hier die jeweilige Raumnummer festgelegt werden
 }
 
 

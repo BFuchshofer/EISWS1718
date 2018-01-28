@@ -5,6 +5,9 @@ var router                                  = express.Router();
 // FUNCTIONS
 
 // ROUTES
+/*
+ * /keys gibt das Ergebnis des RedisDB Befehls 'keys' zurück
+ */
 router.post( '/keys', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -15,6 +18,9 @@ router.post( '/keys', function( req, res ){
   });
 });
 
+/*
+ * /set setzt ein neues Key-Value-Paar.
+ */
 router.post( '/set', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -25,6 +31,9 @@ router.post( '/set', function( req, res ){
   });
 } );
 
+/*
+ * /get ruft ein Key-Value-Paar ab.
+ */
 router.post( '/get', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -38,6 +47,9 @@ router.post( '/get', function( req, res ){
   });
 } );
 
+/*
+ * /del löscht ein Key-Value-Paar
+ */
 router.post( '/del', function( req, res ){
   req.on( 'data', function( chunk ) {
     var data = JSON.parse( chunk );
@@ -49,6 +61,9 @@ router.post( '/del', function( req, res ){
   });
 } );
 
+/*
+ * /setHash setzt einen neuen Hash in der Datenbank
+ */
 router.post( '/setHash', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -60,6 +75,9 @@ router.post( '/setHash', function( req, res ){
   });
 });
 
+/*
+ * /setHashField setzt ein Hash Field in der Datenbank
+ */
 router.post( '/setHashField', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -70,6 +88,9 @@ router.post( '/setHashField', function( req, res ){
   });
 }),
 
+/*
+ * /getHash ruft ein Hash aus der Datenbank ab
+ */
 router.post( '/getHash', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -83,6 +104,9 @@ router.post( '/getHash', function( req, res ){
   });
 });
 
+/*
+ * /getHashField ruft ein Hash Field ab
+ */
 router.post( '/getHashField', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -96,6 +120,9 @@ router.post( '/getHashField', function( req, res ){
   });
 });
 
+/*
+ * /addToList fügt ein Element einer Liste hinzu
+ */
 router.post( '/addToList', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -107,6 +134,9 @@ router.post( '/addToList', function( req, res ){
   });
 });
 
+/*
+ * /removeFromList entfernt ein Element von einer Liste
+ */
 router.post( '/removeFromList', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -118,6 +148,9 @@ router.post( '/removeFromList', function( req, res ){
   });
 });
 
+/*
+ * /getList ruft eine komplette Liste ab
+ */
 router.post( '/getList', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
@@ -129,7 +162,9 @@ router.post( '/getList', function( req, res ){
   });
 });
 
-
+/*
+ * /getUsedRooms gibt eine Liste mit den momentan genutzten Räumen zurück
+ */
 router.post( '/getUsedRooms', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );

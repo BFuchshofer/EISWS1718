@@ -75,6 +75,7 @@ function shortestPath( startNode, arrayWanted ){
     var result                              = null;
     var visited                             = [];
     var queue                               = [];
+
     queue.push(
         {
             "node":startNode,
@@ -84,14 +85,13 @@ function shortestPath( startNode, arrayWanted ){
 
     while( queue.length != 0 )
     {
-
         var currentNode                     = queue.pop();
 
         for( var i = 0; i < arrayWanted.length; i++ )
         {
             if( arrayWanted[ i ] == currentNode.node.data )
             {
-                return currentNode.node.data;
+              return currentNode.node.data;
             }
         }
         visited.push( currentNode.node.data );
@@ -175,14 +175,25 @@ function shortestPath( startNode, arrayWanted ){
 function filterForLoop( index, filter, rooms, resultArray, callback ){
   DATABASE.getHash( rooms[ index ] )
   .then( function( result ){
-    if( parseInt( filter.person, 10 ) <= parseInt( JSON.parse( result.room ).size, 10 ) &&
-        filter.roomType == JSON.parse( result.room ).type &&
-        parseInt( filter.blackboard, 10 ) <= parseInt( JSON.parse(result.content).Blackboard.amount, 10 ) &&
-        parseInt( filter.whiteboard, 10 ) <= parseInt( JSON.parse(result.content).Whiteboard.amount, 10 ) &&
-        parseInt( filter.beamer, 10 ) <= parseInt( JSON.parse(result.content).Beamer.amount, 10 ) ){
+    if( filter.chairTable == "true" ){
+      if( parseInt( filter.person, 10 ) <= parseInt( JSON.parse( result.room ).size, 10 ) &&
+          filter.roomType == JSON.parse( result.room ).type &&
+          parseInt( filter.blackboard, 10 ) <= parseInt( JSON.parse(result.content).Blackboard.amount, 10 ) &&
+          parseInt( filter.whiteboard, 10 ) <= parseInt( JSON.parse(result.content).Whiteboard.amount, 10 ) &&
+          parseInt( filter.beamer, 10 ) <= parseInt( JSON.parse(result.content).Beamer.amount, 10 ) ){
 
 
-      resultArray.push( rooms[ index ] );
+        resultArray.push( rooms[ index ] );
+      }
+    } else {
+      if( filter.roomType == JSON.parse( result.room ).type &&
+          parseInt( filter.blackboard, 10 ) <= parseInt( JSON.parse(result.content).Blackboard.amount, 10 ) &&
+          parseInt( filter.whiteboard, 10 ) <= parseInt( JSON.parse(result.content).Whiteboard.amount, 10 ) &&
+          parseInt( filter.beamer, 10 ) <= parseInt( JSON.parse(result.content).Beamer.amount, 10 ) ){
+
+
+        resultArray.push( rooms[ index ] );
+      }
     }
   })
   .then( function(){
@@ -278,28 +289,35 @@ function suggestion( beacon_id, filter ){
  * Parameter: RaumID (room_id), Türschlüssel (door_key)
  * Return: ---
  */
-function sendMiniPC( room_id, door_key ){
+function sendMiniPC( room_id ){
   DATABASE.getHashField( "rm_" + room_id, 'minipc_id' )
   .then( function( result ){
     DATABASE.getHash( result )
     .then( function( data ){
-      var post_data = {
-        "door_key":door_key
-      };
+      if( data != null ){
+        var post_data = {
+          "token":"OPEN"
+        };
 
-      var options                 = {
-        host: data.pc_ip,
-        port: data.pc_port,
-        path: '/',
-        method: 'POST',
-        headers:{
-            'Content-Type':'application/json',
-            'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
-        }
-      };
-      var externalRequest         = http.request( options );
-      externalRequest.write( new Buffer( JSON.stringify( post_data )) );
-      externalRequest.end();
+        var options                 = {
+          host: data.pc_ip,
+          port: data.pc_port,
+          path: '/booking',
+          method: 'POST',
+          headers:{
+              'Content-Type':'application/json',
+              'Content-Length':Buffer.byteLength( new Buffer( JSON.stringify( post_data )) )
+          }
+        };
+        var externalRequest         = http.request( options );
+        externalRequest.on( 'error', function( res ){
+          console.log( "[ERR-] Could't reach MiniPC" );
+        });
+        externalRequest.write( new Buffer( JSON.stringify( post_data )) );
+        externalRequest.end();
+      } else {
+        console.log( '[INFO] MiniPC for room: ' + room_id + ' does not exist!' );
+      }
     });
 
 
@@ -315,7 +333,7 @@ function sendMiniPC( room_id, door_key ){
  */
 function setMiniPc( data ){
   return new Promise( function( resolve, reject ){
-    DATABASE.setHash( 'mp_' + data.pc_id, {
+    DATABASE.setHash( 'mini_' + data.pc_id, {
       "pc_ip":data.pc_ip,
       "pc_addr":data.pc_addr,
       "pc_port":data.pc_port
@@ -351,7 +369,6 @@ function setUserRoom( room_id, user_id, token ){
       case "BOOK":
         timeID                              = "timeBooking";
         tmp.type                            = "Gebucht";
-        tmp.door_key                        = randomstring.generate(10);
         break;
     }
     DATABASE.get( timeID )
@@ -498,5 +515,8 @@ module.exports                              = {
         resolve( res );
       });
     });
+  },
+  sendMiniPC:   function( room_id ){
+    sendMiniPC( room_id );
   }
 };

@@ -3,9 +3,9 @@
   "ip":"localhost",
   "address":"http://localhost",
   "webserver":{
-    "addr":"http://192.168.2.105",
+    "addr":"http://192.168.2.89",
     "port":"5669",
-    "ip":"192.168.2.105"
+    "ip":"192.168.2.89"
   },
   "db_room":{
     "ip":"localhost",

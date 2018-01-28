@@ -261,7 +261,7 @@
 
     "north":"null",
     "n_weight":0,
-    "east":"az_a32",
+    "east":"bn_a32",
     "e_weight":1,
     "south":"null",
     "s_weight":0,

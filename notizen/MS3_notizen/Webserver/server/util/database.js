@@ -21,20 +21,27 @@ function setup_LinkedList(){
   .then(function( bool ){
     connectItems();
   })
+  .then(function(){
+    console.log( '[INFO] Testdata Loaded' );
+  })
   .catch(function() {
     console.error( "SOMETHING WENT WRONG" );
   });
 }
 /*
  * Speichert die Testdaten
+ *
+ * timeReservation ist die Zeit für eine Reservierung
+ * timeBooking ist die Zeit für eine Buchung
  */
 function saveTestData(){
 
-  set( 'timeReservation', '30000' );
-  set( 'timeBooking', '60000');
+  set( 'timeReservation', '600000' );
+  set( 'timeBooking', '3600000');
   for( var i = 0; i < TEST_DATA.length; i++ ){
     setHash( TEST_DATA[ i ].id,
     {
+      'id': TEST_DATA[ i ].id,
       'data': TEST_DATA[ i ].data,
       'arrayPos': 0,
       "north": TEST_DATA[ i ].north,
@@ -114,11 +121,11 @@ function createItems(){
     keys( 'bn_*' )
     .then( function( res ){
       for( var i = 0; i < res.length; i++ ){
-        getHashField( res[ i ], 'data' )
+        getHash( res[ i ] )
         .then(function( response ){
-          MULTILINKEDLIST.createItem( response , (function( item ){
+          MULTILINKEDLIST.createItem( response.data , (function( item ){
             nodeArray.push( item );
-            setHashField( res[ nodeArray.length -1 ], 'arrayPos', (nodeArray.length-1));
+            setHashField( response.id, 'arrayPos', (nodeArray.length-1));
             if( nodeArray.length == res.length ){
               resolve( true );
             }

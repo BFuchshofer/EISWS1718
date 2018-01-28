@@ -16,7 +16,6 @@
 * ip
 * bluebird
 * redis
-* randomstring
 * semaphore
 
 ### Verwendete Software

@@ -1,17 +1,17 @@
 [
 {
-"key":"ver_test01",
-"id":"TestVeranstaltung",
-"room_id":"2106",
-"day":"Sonntag",
-"start":{
-  "hours":9,
-  "minutes":0
-},
-"end":{
-  "hours":16,
-  "minutes":30
-}
+  "key":"ver_test01",
+  "id":"TestVeranstaltung",
+  "room_id":"2106",
+  "day":"Sonntag",
+  "start":{
+    "hours":9,
+    "minutes":0
+  },
+  "end":{
+    "hours":16,
+    "minutes":30
+  }
 },
 {
 "key":"ver_test02",
@@ -446,5 +446,5 @@
       "hours":12,
       "minutes":45
     }
-},
+}
 ]

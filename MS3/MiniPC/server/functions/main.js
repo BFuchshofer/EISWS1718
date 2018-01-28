@@ -4,8 +4,6 @@ var jsonParser = bodyParser.json();
 var curentRoom = './data/curentRoom.json';
 
 
-var testString = "id"; // abändern in irgendeinen Key der im Array curentData (curentRoom) vorkommt
-
 // Liefert die Liste der aktuellen Rauminhalte für den Request
 function getList () {
     var data = readFile();
@@ -52,6 +50,7 @@ function updateList (item) {
             check = true; 
             curentData.data.splice(i,1);
             fs.writeFileSync(curentRoom, JSON.stringify(curentData));
+	    console.log('');
             console.log("Removed: " + JSON.stringify(item));
             sendList();
             break;
@@ -62,6 +61,7 @@ function updateList (item) {
         item.timestamp = time
         curentData.data.push(item);
         fs.writeFileSync(curentRoom, JSON.stringify(curentData));
+	console.log('');
         console.log("Added: " + JSON.stringify(item));
         sendList();
     }
@@ -131,6 +131,12 @@ function sendIP() {
     exReq.end();
 }
 
+// Bestätigt eine Buchung in der Konsole.
+// Außerhalb des Prototypen würde diese Funktion den Raum öffnen
+function book() {
+    console.log('Room Booked!');
+}
+
 // Exportiert die Funktionen in andere .js Dateien
 module.exports = {
     writeFile: function(data) {
@@ -147,5 +153,8 @@ module.exports = {
     },
     sendIP: function() {
         return sendIP();
+    },
+    book: function() {
+	return book();
     }
 }

@@ -1,10 +1,10 @@
 var router = express.Router();
 
-router.post('/room', function(req, res) {
+// Empfängt einen Buchungsauftrag vom Server für diesen Raum
+router.post('/booking', function(req, res) {
     req.on('data', function(chunk) {
         var data = JSON.parse(chunk);
-        // TODO 
-	    // Key auslesen und in Datei speichern?!
+	FUNCTIONS.book();
         res.status(200).send(); 
     });
 });

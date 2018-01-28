@@ -33,10 +33,7 @@ server.set( 'port', VAR_WEBSERVER.port );
 console.log( '[INFO] Webserver starting...' );
 server.listen( server.get( 'port' ), function()
 {
-  // LOAD DATABASE
-  // CREATE MULTLINKEDLIST
   MULTILINKEDLIST                           = new List();
-  //--// CREATE FIRST NODE/ITEM FROM DB ENTRY ( get all keys and run through them in FOR-LOOP
 
   console.log( '[INFO] All Files Loaded' );
   console.log( '[INFO] Webserver ready on: http://' + ip.address() + ':' + server.get( 'port' ));

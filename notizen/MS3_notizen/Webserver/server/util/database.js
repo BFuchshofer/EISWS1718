@@ -10,6 +10,9 @@ var nodeArray                               = [];
 var TEST_DATA                               = require( './test_data.json' );
 
 // FUNCTIONS
+/*
+ * Erstellt die verkettete Liste
+ */
 function setup_LinkedList(){
   // LOAD TESTDATA
   saveTestData();
@@ -22,6 +25,9 @@ function setup_LinkedList(){
     console.error( "SOMETHING WENT WRONG" );
   });
 }
+/*
+ * Speichert die Testdaten
+ */
 function saveTestData(){
 
   set( 'timeReservation', '30000' );
@@ -100,6 +106,9 @@ function saveTestData(){
     setEmptyRooms();
   }, 5*1000 );
 }
+/*
+ * Erstellt die Listen Items
+ */
 function createItems(){
   return new Promise( function( resolve, reject ){
     keys( 'bn_*' )
@@ -119,6 +128,9 @@ function createItems(){
     });
   });
 }
+/*
+ * Improvisierte For-Schleife
+ */
 function improvisedForLoop( array, index ){
   getHash( array[ index ] )
   .then( function( data ){
@@ -150,7 +162,7 @@ function improvisedForLoop( array, index ){
       getHashField( data.up, 'arrayPos' )
       .then(function( arrayPos ){
         nodeArray[ data.arrayPos ].connectAt( 'up', data.u_weight, nodeArray[ arrayPos ] );
-      })
+      });
     }
     if( data.down != "null" ){
       getHashField( data.down, 'arrayPos' )
@@ -165,16 +177,21 @@ function improvisedForLoop( array, index ){
     }
   });
 }
+/*
+ * Verbindet die Listen Items
+ */
 function connectItems(){
   return new Promise( function( resolve, reject ){
     keys( 'bn_*' )
     .then( function( res ){
       var index = 0;
-      improvisedForLoop( res, index )
+      improvisedForLoop( res, index );
     });
-  })
+  });
 }
-
+/*
+ * Improvisierte For-Schleife
+ */
 function forLoop( array, index, resultArray, callback ){
   getHashField( array[ index ], "room" )
   .then( function( result ){
@@ -190,8 +207,11 @@ function forLoop( array, index, resultArray, callback ){
     } else {
       callback( resultArray );
     }
-  })
+  });
 }
+/*
+ * Sendet die leeren Räume an den Datenbankserver
+ */
 function setEmptyRooms(){
   del( 'empty_rooms' );
   keys( 'rm_*' )
@@ -214,7 +234,7 @@ function setEmptyRooms(){
                 addToList( 'empty_rooms', resultArray[ i ] );
               }
             }
-          })
+          });
         });
       }
     }
@@ -230,6 +250,9 @@ function setEmptyRooms(){
   });
 }
 //------------------------------------------//
+/*
+ * Bezieht die momentan Belegten Räume vom Datenbankserver
+ */
 function getUsedRooms(){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -259,7 +282,9 @@ function getUsedRooms(){
 
   });
 }
-
+/*
+ * Sucht ein bestimmtes Item aus der verketteten Liste
+ */
 function getNode( index ){
   return new Promise( function( resolve, reject ){
     if( index < nodeArray.length ){
@@ -267,9 +292,11 @@ function getNode( index ){
     } else {
       reject();
     }
-  })
+  });
 }
-
+/*
+ * Sendet eine Anfrage für alle Keys die mit 'key' beginnen an den Datenbankserver
+ */
 function keys( key ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -298,8 +325,11 @@ function keys( key ){
     externalRequest.end();
 
 
-  })
+  });
 }
+/*
+ * Sendet einen key mit den dazugehörigen Daten (data) an den Datenbankserver
+ */
 function set( key, data ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -329,6 +359,9 @@ function set( key, data ){
     externalRequest.end();
   });
 }
+/*
+ * Ruft die Daten eines bestimmten Keys im Datenbankserver ab
+ */
 function get( key ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -357,6 +390,9 @@ function get( key ){
     externalRequest.end();
   });
 }
+/*
+ * Löscht einen Bestimmten Key
+ */
 function del( key ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -385,6 +421,9 @@ function del( key ){
     externalRequest.end();
   });
 }
+/*
+ * Sendet einen zu speichernden Hash an den Datenbankserver
+ */
 function setHash( key, data ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -414,6 +453,9 @@ function setHash( key, data ){
     externalRequest.end();
   });
 }
+/*
+ * Sendet ein zu speicherndes Feld eines Hashes an den Datenbankserver
+ */
 function setHashField( key, field, data ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -444,6 +486,9 @@ function setHashField( key, field, data ){
     externalRequest.end();
   });
 }
+/*
+ * Ruft ein Hash vom Datenbankserver ab
+ */
 function getHash( key ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -469,8 +514,11 @@ function getHash( key ){
     });
     externalRequest.write( new Buffer( JSON.stringify( post_data )) );
     externalRequest.end();
-  })
+  });
 }
+/*
+ * Ruft ein Hash Feld vom Datenbankserver ab
+ */
 function getHashField( key, field ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -501,6 +549,9 @@ function getHashField( key, field ){
 
   });
 }
+/*
+ * Sendet ein in einer Liste zu speicherndes Item an den Datenbankserver
+ */
 function addToList( key, data ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -530,6 +581,9 @@ function addToList( key, data ){
     externalRequest.end();
   });
 }
+/*
+ * Sendet ein zu löschendes Item and en Datenbankserver
+ */
 function removeFromList( key, data ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -559,6 +613,9 @@ function removeFromList( key, data ){
     externalRequest.end();
   });
 }
+/*
+ * Ruft eine Liste vom Datenbankserver ab
+ */
 function getList( key ){
   return new Promise( function( resolve, reject ){
     var post_data = {
@@ -587,17 +644,7 @@ function getList( key ){
     externalRequest.end();
   });
 }
-function popList( key, data ){
-
-}
 //------------------------------------------//
-
-
-// DATABASE SETUP
-
-// DATABASE STARTUP
-
-// ERROR HANDLING
 
 // EOF
 module.exports                              = {
@@ -613,7 +660,7 @@ module.exports                              = {
         } else {
           reject();
         }
-      })
+      });
     });
   },
   set:          function( key, data ){

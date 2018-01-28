@@ -78,7 +78,7 @@ router.post( '/getHash', function( req, res ){
     .then( function( result ){
       var responseData = {
         "data":result
-      }
+      };
       res.status( 200 ).send( responseData );
     });
   });
@@ -91,7 +91,7 @@ router.post( '/getHashField', function( req, res ){
     .then( function( result ){
       var responseData = {
         "data": result
-      }
+      };
       res.status( 200 ).send( responseData );
     });
   });

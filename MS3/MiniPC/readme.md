@@ -9,11 +9,6 @@
 ### Anwendungslogik
 * automatisches aktualisieren einer Liste mit Gegenständen die sich gerade im Raum befinden
         
-### TODO (stand 07.01.2018)
-* Node.js Server aufsetzen
-* HTTP-Requests festlegen
-* Liste in Datei schreiben
-* Liste aus Datei lesen
 
 ### Verwendete Module/Biblotheken
 * Express

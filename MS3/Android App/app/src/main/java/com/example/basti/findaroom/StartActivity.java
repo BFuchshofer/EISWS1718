@@ -7,35 +7,29 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-
 
 public class StartActivity extends AppCompatActivity {
 
-    private static final int READ_BLOCK_SIZE = 100;
+    public FunctionsBasic functionsBasic = new FunctionsBasic();
     private Toast comingSoonToast;
     private Toast backBtnToast;
     private Intent scanService;
     private Context ctx;
-    private String requestFileName, beaconFileName, userFileName, status;
+    private String requestFileName, beaconFileName, userFileName;
     private JSONObject userData, reqData;
     private JSONArray beaconData;
     private Button singleBtn, silentBtn, multiBtn, specificBtn, settingBtn;
     private BeaconScanner beaconScannerService;
     private boolean locationPermission;
+    private Context context = this;
 
     public Context getCtx() {
         return ctx;
@@ -50,16 +44,14 @@ public class StartActivity extends AppCompatActivity {
         userFileName = getString(R.string.userFile);
         requestFileName = getString(R.string.requestFile);
         beaconFileName = getString(R.string.beaconFile);
-        status = getString(R.string.status);
 
-        readFile(userFileName);
-        readFile(requestFileName);
-        readFile(beaconFileName);
+        userData = functionsBasic.readFileObject(context, userFileName);
+        reqData = functionsBasic.readFileObject(context, requestFileName);
+        beaconData = functionsBasic.readFileArray(context, beaconFileName);
 
         // Überprüfung ob Berechtigung für Standortbestimmung gegeben ist
         // Muss ab API 23+ in Laufzeit abgefragt werden
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.v(status,"Standort Berechtigung gesetzt");
             locationPermission = true;
         }
         if (!locationPermission) {
@@ -76,10 +68,6 @@ public class StartActivity extends AppCompatActivity {
         if (!serviceRunning(beaconScannerService.getClass())) {
             startService(scanService);
         }
-
-        Log.i(status, "User: " + userData);
-        Log.i(status, "Request: " + reqData);
-        Log.i(status, "Beacon: " + beaconData);
 
         // Überprüfung ob bereits eine Reservierung oder Buchung eines Raumes vorliegt. Wenn ja wird direkt auf die entsprechende Activity weitergeleitet
         try {
@@ -168,68 +156,10 @@ public class StartActivity extends AppCompatActivity {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i(status, "Beacon Scanner wird gestartet.");
                 return true;
             }
         }
-        Log.i(status, "Beacon Scanner läuft bereits.");
         return false;
-    }
-
-
-    // Gibt alle Daten aus dem TextFile fName aus
-    public void readFile(String fName) {
-
-        try {
-            FileInputStream fileIn = openFileInput(fName);
-            InputStreamReader InputRead = new InputStreamReader(fileIn);
-            char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            String stringData = "";
-            int charRead;
-            while ((charRead = InputRead.read(inputBuffer)) > 0) {
-                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
-                stringData += readstring;
-            }
-            InputRead.close();
-
-            // Unterscheidung der einzelnen Dateien
-            if (fName.contains(userFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    Log.i(status, "readfile: " + dataObject);
-                    userData = dataObject;
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    Log.i(status, "readfile: " + dataObject);
-                    userData = dataObject;
-                }
-            }
-            if (fName.contains(beaconFileName)) {
-                if (stringData.length() != 0) {
-                    JSONArray dataArray = new JSONArray(stringData);
-                    beaconData = dataArray;
-                } else {
-                    JSONArray dataArray = new JSONArray();
-                    beaconData = dataArray;
-                }
-            }
-            if (fName.contains(requestFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    Log.i(status, "readfile: " + dataObject);
-                    reqData = dataObject;
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    Log.i(status, "readfile: " + dataObject);
-                    reqData = dataObject;
-                }
-            }
-        } catch (Exception e) {
-            JSONObject errorArray = new JSONObject();
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + errorArray.toString());
-        }
-
     }
 
 

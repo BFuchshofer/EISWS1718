@@ -1,6 +1,7 @@
 package com.example.basti.findaroom;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,12 +9,10 @@ import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,21 +20,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 
 public class SingleRoomResult extends AppCompatActivity {
 
-
-    private static final int READ_BLOCK_SIZE = 100;
+    public FunctionsBasic functionsBasic = new FunctionsBasic();
     private CountDownTimer timer;
     private CountDownTimer bookTimer;
     private long timeToUpdate = 10000; // 10 Sekunden
@@ -52,9 +44,9 @@ public class SingleRoomResult extends AppCompatActivity {
     private Button cancelBtn, bookBtn;
     private RequestQueue mRequestQueuePOST;
     private JsonObjectRequest postJsonRequest;
-    private String status;
     private ProgressDialog progress;
     private Toast backBtnToast;
+    private Context context = this;
 
     public void homeScreen() {
         Intent homeScreen = new Intent(this, StartActivity.class); // back to homescreen
@@ -82,9 +74,8 @@ public class SingleRoomResult extends AppCompatActivity {
         beaconFileName = getString(R.string.beaconFile);
         userFileName = getString(R.string.userFile);
         requestFileName = getString(R.string.requestFile);
-        status = getString(R.string.status);
 
-        readFile(userFileName);
+        userData = functionsBasic.readFileObject(context, userFileName);
         try {
             url = userData.getString("url");
         } catch (JSONException e) {
@@ -92,7 +83,7 @@ public class SingleRoomResult extends AppCompatActivity {
         }
 
 
-        readFile(requestFileName);
+        reqData = functionsBasic.readFileObject(context, requestFileName);
 
         try {
             field_Room.setText(reqData.getString("room_id"));
@@ -107,7 +98,7 @@ public class SingleRoomResult extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                readFile(requestFileName);
+                reqData = functionsBasic.readFileObject(context, requestFileName);
                 try {
                     reqData.remove("token");
                     reqData.put("token", "CANCEL");
@@ -122,7 +113,7 @@ public class SingleRoomResult extends AppCompatActivity {
         bookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                readFile(requestFileName);
+                reqData = functionsBasic.readFileObject(context, requestFileName);
                 try {
                     reqData.remove("token");
                     reqData.put("token", "BOOK");
@@ -136,10 +127,8 @@ public class SingleRoomResult extends AppCompatActivity {
                     bookTimer = new CountDownTimer(2000, 1000) {
                         @Override
                         public void onTick(long l) {
-                            // TODO
-                            // CHECK IF FUNCTION WORKS
                             try {
-                                readFile(beaconFileName);
+                                beaconData = functionsBasic.readFileArray(context, beaconFileName);
                                 int index = 999999; // Index muss initialisiert werden um in der If Abfrage überprüft werden zu können
                                 for (int i = 0; i < beaconData.length(); i++) {
                                     if (beaconData.getJSONObject(i).getString("uuid").contains(reqData.getString("beacon"))) {
@@ -148,19 +137,20 @@ public class SingleRoomResult extends AppCompatActivity {
                                 }
                                 if (index != 999999) {
                                     // Überprüft ob der Beacon (der Raum) noch aktuell ist, und er sich innerhalb von 8 Metern befindet.
-                                    if ((System.currentTimeMillis() + 10000 >= beaconData.getJSONObject(index).getLong("timestamp")) && (beaconData.getJSONObject(index).getDouble("distance") <= 5)) {
+                                    if (((beaconData.getJSONObject(index).getLong("timestamp") + 10000) >= System.currentTimeMillis()) && (beaconData.getJSONObject(index).getDouble("distance") <= 5)) {
                                         timer.cancel();
                                         remainingTimeCountDown.cancel();
                                         progress.dismiss();
                                         postRequest(reqData);
-                                        Log.i(status, "Gebuchter Raum erkannt!");
                                     } else {
+                                        progress.dismiss();
                                         Toast.makeText(getApplicationContext(), "Bitte begeben Sie sich zum reservierten Raum um ihn zu buchen!", Toast.LENGTH_LONG).show();
-                                        Log.i(status, "Gebuchter Raum NICHT erkannt!");
                                     }
                                 }
-                            } catch (JSONException e) {}
+                            } catch (JSONException e) {
+                            }
                         }
+
                         @Override
                         public void onFinish() {
                             progress.dismiss();
@@ -191,13 +181,12 @@ public class SingleRoomResult extends AppCompatActivity {
             @Override
             public void onFinish() {
                 try {
-                    readFile(requestFileName);
-                    readFile(beaconFileName);
+                    reqData = functionsBasic.readFileObject(context, requestFileName);
+                    beaconData = functionsBasic.readFileArray(context, beaconFileName);
                     // Prüfe ob ein aktueller Beacon vorliegt
                     if (beaconData.length() != 0) {
                         if (beaconData.getJSONObject(0).has("uuid")) {
                             if (reqData.has("beacon") && (!beaconData.getJSONObject(0).getString("uuid").equals(reqData.getString("beacon")))) {
-                                Log.i(status, "Updated Beacon Request");
                                 reqData.remove("beacon");
                                 reqData.put("beacon", beaconData.getJSONObject(0).getString("uuid"));
                                 reqData.remove("token");
@@ -234,6 +223,7 @@ public class SingleRoomResult extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
                 field_Time.setText("Reservierung abgelaufen!");
                 bookBtn.setEnabled(false);
 
@@ -268,16 +258,13 @@ public class SingleRoomResult extends AppCompatActivity {
                 tmp.put("user", object.getString("user"));
                 bookTimer.cancel();
                 progressScreen("Buche Raum", "Standort bestätigt! \n Raum wird für Sie gebucht...");
-                Log.i(status, "POST REQUEST BOOK: " + tmp);
             } else if (reqData.getString("token").contains("UPDATE")) {
                 tmp = object;
-                Log.i(status, "POST REQUEST UPDATE: " + tmp);
             } else if (reqData.getString("token").contains("CANCEL")) {
                 tmp.put("user", object.getString("user"));
                 tmp.put("room_id", object.getString("room_id"));
                 tmp.put("token", object.getString("token"));
                 progressScreen("Abbruch", "Reservierung wird abgebrochen...");
-                Log.i(status, "POST REQUEST CANCEL: " + tmp);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -301,8 +288,7 @@ public class SingleRoomResult extends AppCompatActivity {
                             reqData.put("room_id", response.getString("room_id"));
                             reqData.put("remainingTime", response.getLong("remainingTime"));
                             reqData.put("type", "singleRoom");
-                            Log.i("status", "RESPONSE UPDATE" + response);
-                            writeFile(requestFileName, reqData);
+                            functionsBasic.writeFile(context, requestFileName, reqData, null);
                         }
                     }
                     if (response.getString("token").contains("BOOK")) {
@@ -314,9 +300,7 @@ public class SingleRoomResult extends AppCompatActivity {
                         reqData.remove("remainingTime");
                         reqData.put("remainingTime", response.getLong("remainingTime"));
                         reqData.put("type", "singleRoom");
-                        //response.put("type", "singleRoom");
-                        //response.put("beacon", reqData.getString("beacon"));
-                        writeFile(requestFileName, reqData);
+                        functionsBasic.writeFile(context, requestFileName, reqData, null);
                         progress.dismiss();
                         roomBookedActivity();
                     }
@@ -329,7 +313,7 @@ public class SingleRoomResult extends AppCompatActivity {
                         if (response.getLong("remainingTime") == 0) {
                             remainingTimeCountDown.cancel();
                         }
-                        writeFile(requestFileName, new JSONObject());
+                        functionsBasic.writeFile(context, requestFileName, new JSONObject(), null);
                         progress.dismiss();
                         homeScreen();
                     }
@@ -347,26 +331,21 @@ public class SingleRoomResult extends AppCompatActivity {
                     if (res.statusCode == 400) { // Beacon im Request nicht gefunden --> location error
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley400), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Beacon im Request nicht gefunden --> location error");
 
                     } else if (res.statusCode == 401) { // Benutzer hat bereits einen Raum
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley401), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Benutzer hat bereits einen Raum");
 
                     } else if (res.statusCode == 416) { // Beacon wurde im System nicht gefunden
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley416), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Beacon wurde im System nicht gefunden");
                     } else if (res.statusCode == 404) { // Kein passender freier Raum gefunden
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley404), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Kein passender freier Raum gefunden");
                     }
                 } else { // Keine Verbindung zum Server
                     progress.dismiss();
                     Toast.makeText(getApplicationContext(), getString(R.string.volleyNetwork), Toast.LENGTH_LONG).show();
-                    Log.i(status, "Network Error: Keine Internetverbindung (zum Server)");
                 }
             }
         });
@@ -374,72 +353,4 @@ public class SingleRoomResult extends AppCompatActivity {
         mRequestQueuePOST.add(postJsonRequest);
 
     }
-
-    // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName) {
-
-        try {
-            FileInputStream fileIn = openFileInput(fName);
-            InputStreamReader InputRead = new InputStreamReader(fileIn);
-            char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            String stringData = "";
-            int charRead;
-            while ((charRead = InputRead.read(inputBuffer)) > 0) {
-                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
-                stringData += readstring;
-            }
-            InputRead.close();
-
-            if (fName.contains(userFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    Log.i(status, "readfile: " + dataObject);
-                    userData = dataObject;
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    Log.i(status, "readfile: " + dataObject);
-                    userData = dataObject;
-                }
-            }
-            if (fName.contains(requestFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    Log.i(status, "readfile: " + dataObject);
-                    reqData = dataObject;
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    Log.i(status, "readfile: " + dataObject);
-                    reqData = dataObject;
-                }
-            }
-            if (fName.contains(beaconFileName)) {
-                if (stringData.length() != 0) {
-                    JSONArray dataArray = new JSONArray(stringData);
-                    beaconData = dataArray;
-                } else {
-                    JSONArray dataArray = new JSONArray();
-                    beaconData = dataArray;
-                }
-            }
-        } catch (Exception e) {
-            JSONObject errorArray = new JSONObject();
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + errorArray.toString());
-        }
-
-    }
-
-    //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
-    public void writeFile(String fName, JSONObject data) {
-
-        try {
-            FileOutputStream output = openFileOutput(fName, MODE_PRIVATE);
-            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            writeOnOutput.write(data.toString());
-            writeOnOutput.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

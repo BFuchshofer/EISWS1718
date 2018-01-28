@@ -11,15 +11,6 @@
     <string name="userFile">userData.json</string>
     <string name="requestFile">requestData.json</string>
 
-    <string name="monitoring">MONITORING STARTED</string>
-    <string name="monitoringfailed">MONITORING FAILED</string>
-
-    <string name="ranging">RANGING STARTED</string>
-    <string name="rangingfailed">RANGING FAILED</string>
-
-    <string name="status">LOGSTATUS: </string>
-
-    <string name="extendToast">Bei Bedarf können Sie die Buchung um eine Stunde verlängern.</string>
     <string name="soonToast">Coming Soon!</string>
     <string name="backBtnToast">Bitte nutzen Sie zur Navigation die Buttons innerhalb der App.</string>
 

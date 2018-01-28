@@ -1,10 +1,10 @@
 package com.example.basti.findaroom;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,24 +20,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SingleRoom extends AppCompatActivity {
 
-    private static final int READ_BLOCK_SIZE = 100;
-    private String url, path, beaconFileName, userFileName, requestFileName, status;
-    //private JSONObject jsonBody = new JSONObject();
+    public FunctionsBasic functionsBasic = new FunctionsBasic();
+    private String url, path, beaconFileName, userFileName, requestFileName;
     private JSONObject userData = new JSONObject();
     private JSONArray beaconData = new JSONArray();
     private EditText field_person, field_blackboard, field_beamer, field_whiteboard;
@@ -52,6 +44,7 @@ public class SingleRoom extends AppCompatActivity {
     private Toast backBtnToast;
     private Spinner dropdown;
     private String roomType;
+    private Context context = this;
 
     // Leitet auf den Homscreen zurück
     public void homeScreen() {
@@ -105,9 +98,8 @@ public class SingleRoom extends AppCompatActivity {
         beaconFileName = getString(R.string.beaconFile);
         userFileName = getString(R.string.userFile);
         requestFileName = getString(R.string.requestFile);
-        status = getString(R.string.status);
 
-        readFile(userFileName);
+        userData = functionsBasic.readFileObject(context, userFileName);
         try {
             url = userData.getString("url");
         } catch (JSONException e) {
@@ -121,15 +113,13 @@ public class SingleRoom extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                readFile(beaconFileName); // save in JSONArray beaconData
-                readFile(userFileName);   // save in JSONObject userData
-                readFile(requestFileName);
+                beaconData = functionsBasic.readFileArray(context, beaconFileName); // save in JSONArray beaconData
+                userData = functionsBasic.readFileObject(context, userFileName);   // save in JSONObject userData
+                reqData = functionsBasic.readFileObject(context, requestFileName);
                 try {
                     if (beaconData.length() == 0) {
-                        //jsonBody.put("beacon", "location error");
                         reqData.put("beacon", "location error");
                     } else {
-                        //jsonBody.put("beacon", beaconData.getJSONObject(0).getString("uuid"));
                         reqData.put("beacon", beaconData.getJSONObject(0).getString("uuid"));
                     }
                     reqData.put("user", userData.getString("user"));
@@ -186,7 +176,6 @@ public class SingleRoom extends AppCompatActivity {
     }
 
     public void sendRequest(JSONObject object) {
-        Log.i(status, "Post Object: " + object);
         mRequestQueuePOST = Volley.newRequestQueue(this);
         progressScreen("Suche Raum", "Ein passender Raum wird für Sie gesucht...");
         postJsonRequest = new JsonObjectRequest(Request.Method.POST, url + path, object, new Response.Listener<JSONObject>() {
@@ -195,7 +184,6 @@ public class SingleRoom extends AppCompatActivity {
             @Override
             // Status-Code 200
             public void onResponse(JSONObject response) {
-                Log.i(status, "Response: " + response.toString());
                 try {
                     reqData.put("type", "singleRoom");
                 } catch (JSONException e) {
@@ -207,7 +195,7 @@ public class SingleRoom extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                writeFile(requestFileName, reqData);
+                functionsBasic.writeFile(context, requestFileName, reqData, null);
                 progress.dismiss();
                 singleRoomResultActivity();
             }
@@ -221,26 +209,21 @@ public class SingleRoom extends AppCompatActivity {
                     if (res.statusCode == 400) { // Beacon im Request nicht gefunden --> location error
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley400), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Beacon im Request nicht gefunden --> location error");
 
                     } else if (res.statusCode == 401) { // Benutzer hat bereits einen Raum
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley401), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Benutzer hat bereits einen Raum");
 
                     } else if (res.statusCode == 416) { // Beacon wurde im System nicht gefunden
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley416), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Beacon wurde im System nicht gefunden");
                     } else if (res.statusCode == 404) { // Kein passender freier Raum gefunden
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), getString(R.string.volley404), Toast.LENGTH_LONG).show();
-                        Log.i(status, "Status Code: " + res.statusCode + "Kein passender freier Raum gefunden");
                     }
                 } else { // Keine Verbindung zum Server/Internet
                     progress.dismiss();
                     Toast.makeText(getApplicationContext(), getString(R.string.volleyNetwork), Toast.LENGTH_LONG).show();
-                    Log.i(status, "Network Error: Keine Internetverbindung (zum Server)");
                 }
 
             }
@@ -249,78 +232,5 @@ public class SingleRoom extends AppCompatActivity {
         });
         mRequestQueuePOST.add(postJsonRequest);
     }
-
-    //Schreibe Daten aus den Textfeldern als JSON in eine Datei im internen Speicher
-    public void writeFile(String fName, JSONObject data) {
-
-
-        try {
-            FileOutputStream output = openFileOutput(fName, MODE_PRIVATE);
-            OutputStreamWriter writeOnOutput = new OutputStreamWriter(output);
-            writeOnOutput.write(data.toString());
-            writeOnOutput.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Gibt alle Daten aus dem TextFile aus
-    public void readFile(String fName) {
-
-        try {
-            FileInputStream fileIn = getApplicationContext().openFileInput(fName);
-            InputStreamReader InputRead = new InputStreamReader(fileIn);
-            char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            String stringData = "";
-            int charRead;
-            while ((charRead = InputRead.read(inputBuffer)) > 0) {
-                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
-                stringData += readstring;
-            }
-            InputRead.close();
-
-            if (fName.contains(userFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    userData = dataObject;
-                    Log.i(status, "readfile user: " + userData);
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    userData = dataObject;
-                    Log.i(status, "readfile user: " + userData);
-                }
-            }
-            if (fName.contains(beaconFileName)) {
-                if (stringData.length() != 0) {
-                    JSONArray dataArray = new JSONArray(stringData);
-                    beaconData = dataArray;
-                    Log.i(status, "readfile beacon: " + beaconData);
-                } else {
-                    JSONArray dataArray = new JSONArray();
-                    beaconData = dataArray;
-                    Log.i(status, "readfile beacon: " + beaconData);
-                }
-            }
-            if (fName.contains(requestFileName)) {
-                if (stringData.length() != 0) {
-                    JSONObject dataObject = new JSONObject(stringData);
-                    reqData = dataObject;
-                    Log.i(status, "readfile request: " + reqData);
-                } else {
-                    JSONObject dataObject = new JSONObject();
-                    reqData = dataObject;
-                    Log.i(status, "readfile request: " + reqData);
-                }
-            }
-
-
-        } catch (Exception e) {
-            JSONObject errorArray = new JSONObject();
-            e.printStackTrace();
-            Log.i(status, "readfile error: " + errorArray.toString());
-        }
-
-    }
-
 
 }

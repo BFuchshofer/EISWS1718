@@ -5,6 +5,15 @@ var sem                                     = require( 'semaphore' )(0);
 var timeouts = [];
 
 // SHORTESTPATH FUNCTIONS
+
+/*
+ * sortQueue:
+ * Sortiert die Warteschlange sodass das Item mit den geringsten Kosten als erstes
+ * steht.
+ *
+ * Parameter: Das zu sortierende Array ( array )
+ * Return   : Das sortierte Array
+ */
 function sortQueue( array ){
     var tmpArray                            = [];
     var otherArray                          = array.length;
@@ -36,6 +45,13 @@ function sortQueue( array ){
     return array;
 }
 
+/*
+ * wasVisited:
+ * überprüft ob ein Item bereits in einem Array ist
+
+ * Parameter: Item (id), Array (array)
+ * Return: Item existiert (TRUE) Item existiert nicht (FALSE)
+ */
 function wasVisited( id, array ){
     for( var i = 0; i < array.length; i++ )
     {
@@ -47,6 +63,14 @@ function wasVisited( id, array ){
     return false;
 }
 
+/*
+ * shortestPath:
+ * gibt dem zum Startpunkt am kürzesten entfernten Zielpunkt in einem gerichteten
+ * Graphen.
+ *
+ * Parameter: Startpunkt (startNode), Zielpunkt/e (arrayWanted)
+ * Return: kein Zielpunkt gefunden (-1), Zielpunkt gefunden (Zielpunkt)
+ */
 function shortestPath( startNode, arrayWanted ){
     var result                              = null;
     var visited                             = [];
@@ -119,7 +143,7 @@ function shortestPath( startNode, arrayWanted ){
                         "node": currentNode.node.up,
                         "cost": ( parseInt( currentNode.cost, 10 ) + parseInt( currentNode.node.u_weight, 10 ))
                     }
-                )
+                );
             }
         }
         if( currentNode.node.down != null ){
@@ -129,15 +153,25 @@ function shortestPath( startNode, arrayWanted ){
                         "node": currentNode.node.down,
                         "cost": ( parseInt( currentNode.cost, 10 ) + parseInt( currentNode.node.d_weight, 10 ))
                     }
-                )
+                );
             }
         }
         queue                                   = sortQueue( queue );
     }
-    return -1
+    return -1;
 }
 
 // FUNCTIONS
+/*
+ * filterForLoop:
+ * Improvisierte For-Schleife um die in einem REQUEST mitgesendeten Filtern zu
+ * überprüfen. Diese Funktion ruft sich rekursiv auf
+ *
+ * Parameter: Aktueller Durchlauf (index), Filter (filter), Liste mit Räumen (rooms),
+ *      Ergebnis (resultArray), Callback (callback)
+ * Return: Array mit Räumen auf die die Filter zutreffen (resultarray);
+ *
+ */
 function filterForLoop( index, filter, rooms, resultArray, callback ){
   DATABASE.getHash( rooms[ index ] )
   .then( function( result ){
@@ -160,6 +194,13 @@ function filterForLoop( index, filter, rooms, resultArray, callback ){
   });
 }
 
+/*
+ * useFilter:
+ * Überprüft ein Array mit Räumen auf die im REQUEST mitgelieferten Filter
+ *
+ * Parameter: Filter (filter), Räume (rooms)
+ * Return: Gefilterte Räume (filtered), Alle Räume falls keine Filter (rooms)
+ */
 function useFilter( filter, rooms ){
   return new Promise( function( resolve, reject ){
     var filteredRooms = [];
@@ -173,6 +214,14 @@ function useFilter( filter, rooms ){
   });
 }
 
+/*
+ * suggestion:
+ * Gibt anhand einer BeaconID und der Filter einen Raum zurück.
+ *
+ * Parameter: BeaconID (beacon_id), Filter (filter)
+ * Return: keinen passenden Raum gefunden (-1), Raum gefunden (room),
+ *    BeaconID existiert nicht ("null")
+ */
 function suggestion( beacon_id, filter ){
   return new Promise( function( resolve, reject ){
     DATABASE.getHash( 'bn_' + beacon_id )
@@ -193,7 +242,7 @@ function suggestion( beacon_id, filter ){
                   DATABASE.removeFromList( 'empty_rooms', result );
                 }
                 sem.leave();
-                return result
+                return result;
               })
               .then( function( result ){
                 if( result != -1 ){
@@ -203,7 +252,7 @@ function suggestion( beacon_id, filter ){
                     room.content = JSON.parse( room.content );
                     room.status = JSON.parse( room.status );
                     resolve( room );
-                  })
+                  });
                 } else {
                   resolve( -1 );
                 }
@@ -222,6 +271,13 @@ function suggestion( beacon_id, filter ){
   });
 }
 
+/*
+ * sendMiniPC:
+ * sendet einen Request an einen MiniPC
+ *
+ * Parameter: RaumID (room_id), Türschlüssel (door_key)
+ * Return: ---
+ */
 function sendMiniPC( room_id, door_key ){
   DATABASE.getHashField( "rm_" + room_id, 'minipc_id' )
   .then( function( result ){
@@ -250,6 +306,13 @@ function sendMiniPC( room_id, door_key ){
   });
 }
 
+/*
+ * setMiniPc:
+ * Sendet einen MiniPC an den Datenbankserver
+ *
+ * Parameter: Daten (data)
+ * Return: ReturnValue des Datenbankservers (result)
+ */
 function setMiniPc( data ){
   return new Promise( function( resolve, reject ){
     DATABASE.setHash( 'mp_' + data.pc_id, {
@@ -259,10 +322,17 @@ function setMiniPc( data ){
     })
     .then( function( result ){
       resolve( result );
-    })
+    });
   });
 }
 
+/*
+ * setUserRoom:
+ * Sendet eine Reservierung oder Buchung an den Datenbankserver
+ *
+ * Parameter: RaumID (room_id), UserID (user_id), Token (token)
+ * Return: Staus des Raumes (res)
+ */
 function setUserRoom( room_id, user_id, token ){
   return new Promise( function( resolve, reject ){
     DATABASE.set( 'ru_' + user_id, room_id );
@@ -302,7 +372,7 @@ function setUserRoom( room_id, user_id, token ){
         }
       }
       if( !exists ){
-        console.log( "[INFO] Setting Timeout for: " + room_id + " - " + user_id );
+        console.log( "[INFO] Set Timeout for: " + room_id + " - " + user_id );
         timeouts.push({
           "timer":setTimeout( function(){
             unsetUserRoom( room_id, user_id );
@@ -323,11 +393,18 @@ function setUserRoom( room_id, user_id, token ){
   });
 }
 
+/*
+ * unsetUserRoom:
+ * Entfernt eine Reservierung oder Buchung vom Datenbankserver
+ *
+ * Parameter: RaumID (room_id), UserID (user_id)
+ * Return: Status des Raumes (tmp)
+ */
 function unsetUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
     DATABASE.del( 'ru_' + user_id )
     .then(function( result ){
-      var tmpTimeouts = []
+      var tmpTimeouts = [];
       for( var i = 0; i < timeouts.length; i++ ){
         if( timeouts[ i ].id == room_id ){
           console.log( "[INFO] Timeout Canceled for: " + room_id + " - " + user_id );
@@ -355,12 +432,20 @@ function unsetUserRoom( room_id, user_id ){
   });
 }
 
+/*
+ * checkUserRoom:
+ * Überprüft ob für einen User bereits eine Reservierung oder Buchung existiert
+ *
+ * Parameter: RoomID (room_id), UserID (user_id)
+ * Return: User besitzt keinen Raum (-1), User besitzt den gesendeten Raum (true),
+ *    User besitzt den gesendeten Raum nicht (false)
+ */
 function checkUserRoom( room_id, user_id ){
   return new Promise( function( resolve, reject ){
       DATABASE.get( 'ru_' + user_id )
       .then( function( result ){
         if( result == null ){
-          resolve( -1 );                // User besitzt keinen freien Raum
+          resolve( -1 );                // User besitzt keinen Raum
         } else if( result == room_id ){
           resolve( true );              // User besitzt den gesendeten Raum
         } else {
@@ -370,48 +455,6 @@ function checkUserRoom( room_id, user_id ){
   });
 }
 
-function userAction( action, user_id, room_id ){
-  return new Promise( function( resolve, reject ){
-    /*
-      userActions:
-        - Reservierung
-        - neue Reservierung
-        - Buchung
-        - Abbruch
-    */
-    switch( action ){
-      case "GET":
-        // save RoomY <=> UserX
-        checkUserRoom( room_id, user_id )
-        .then( function( result ){
-          setUserRoom( room_id, user_id )
-          .then( function( res ){
-            resolve( res );
-          });
-        })
-        .catch( function(){
-          reject( 'USER ALREADY BOOKED A ROOM')
-        })
-        // save RoomY.status
-        break;
-      case "UPDATE":
-        checkUserRoom( room_id, user_id )
-        .then( function( res ){
-
-        })
-        .catch( function(){
-          reject();
-        });
-        break;
-      case "BOOK":
-
-        break;
-      case "CANCEL":
-
-        break;
-      }
-    });
-}
 // ERROR HANDLING
 
 // EOF
@@ -448,14 +491,6 @@ module.exports                              = {
       });
     });
   },
-  userAction:  function( action, user_id, room_id ){
-    return new Promise( function( resolve, reject ){
-      userAction( action, user_id, room_id )
-      .then( function( res ){
-        resolve( res );
-      });
-    });
-  },
   setMiniPc:    function( data ){
     return new Promise( function( resolve, reject ){
       setMiniPc( data )
@@ -464,4 +499,4 @@ module.exports                              = {
       });
     });
   }
-}
+};

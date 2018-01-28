@@ -73,12 +73,11 @@ router.post( '/setHashField', function( req, res ){
 router.post( '/getHash', function( req, res ){
   req.on( 'data', function( chunk ){
     var data = JSON.parse( chunk );
-    console.log( data );
     database.hgetallAsync( data.key )
     .then( function( result ){
       var responseData = {
         "data":result
-      }
+      };
       res.status( 200 ).send( responseData );
     });
   });
@@ -91,7 +90,7 @@ router.post( '/getHashField', function( req, res ){
     .then( function( result ){
       var responseData = {
         "data": result
-      }
+      };
       res.status( 200 ).send( responseData );
     });
   });

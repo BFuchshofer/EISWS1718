@@ -1,7 +1,7 @@
 {
   "port":5669,
-  "ip":"localhost",
-  "address":"http://localhost",
+  "ip":"192.168.2.105",
+  "address":"http://192.168.2.105",
   "database":{
     "addr":"http://192.168.2.105",
     "port":"5668",

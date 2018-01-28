@@ -61,7 +61,6 @@ server.listen( server.get( 'port' ), function()
   FUNCTIONS.fillTestData();
   setTimeout( function(){
     FUNCTIONS.getUsedRooms();
-    console.log( "HIER WAR ICH " );
   }, 10000 );
 
   setTimeout( function(){

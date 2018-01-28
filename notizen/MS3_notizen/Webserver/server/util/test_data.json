@@ -28,20 +28,20 @@
     "floor":"2",
     "room":{
       "id":"2105",
-      "type":"SLZ",
-      "size":"0"
+      "type":"Arbeitsraum",
+      "size":"10"
     },
     "content":{
       "Tisch":{
-        "amount":"0",
+        "amount":"10",
         "fixed":false
       },
       "Stuehle":{
-        "amount":"0",
+        "amount":"10",
         "fixed":false
       },
       "Blackboard":{
-        "amount":"0",
+        "amount":"3",
         "fixed":true
       },
       "Whiteboard":{
@@ -157,7 +157,7 @@
           "fixed":false
         },
         "Blackboard":{
-          "amount":"0",
+          "amount":"2",
           "fixed":true
         },
         "Whiteboard":{
@@ -165,7 +165,7 @@
           "fixed":false
         },
         "Beamer":{
-          "amount":"0",
+          "amount":"1",
           "fixed":true
         }
     },
@@ -302,15 +302,15 @@
     "room":{
       "id":"2206",
       "type":"Arbeitsraum",
-      "size":"0"
+      "size":"30"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"30",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"30",
           "fixed":false
         },
         "Blackboard":{
@@ -322,7 +322,7 @@
           "fixed":false
         },
         "Beamer":{
-          "amount":"1",
+          "amount":"0",
           "fixed":true
         }
     },
@@ -369,20 +369,20 @@
     "floor":"2",
     "room":{
       "id":"2205",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Hörsaal",
+      "size":"30"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"30",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"30",
           "fixed":false
         },
         "Blackboard":{
-          "amount":"0",
+          "amount":"2",
           "fixed":true
         },
         "Whiteboard":{
@@ -390,7 +390,7 @@
           "fixed":false
         },
         "Beamer":{
-          "amount":"0",
+          "amount":"1",
           "fixed":true
         }
     },
@@ -465,11 +465,30 @@
     "floor":"2",
     "room":{
       "id":"2200",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Seminar",
+      "size":"25"
     },
     "content":{
-
+        "Tisch":{
+          "amount":"25",
+          "fixed":false
+        },
+        "Stuehle":{
+          "amount":"25",
+          "fixed":false
+        },
+        "Blackboard":{
+          "amount":"2",
+          "fixed":true
+        },
+        "Whiteboard":{
+          "amount":"0",
+          "fixed":false
+        },
+        "Beamer":{
+          "amount":"0",
+          "fixed":true
+        }
     },
 
     "north":"bn_2204",
@@ -494,11 +513,30 @@
     "floor":"2",
     "room":{
       "id":"2201",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Seminar",
+      "size":"30"
     },
     "content":{
-
+        "Tisch":{
+          "amount":"30",
+          "fixed":false
+        },
+        "Stuehle":{
+          "amount":"30",
+          "fixed":false
+        },
+        "Blackboard":{
+          "amount":"0",
+          "fixed":true
+        },
+        "Whiteboard":{
+          "amount":"2",
+          "fixed":false
+        },
+        "Beamer":{
+          "amount":"1",
+          "fixed":true
+        }
     },
 
     "north":"bn_2200",
@@ -571,24 +609,24 @@
     "floor":"2",
     "room":{
       "id":"2202",
-      "type":"Seminar",
-      "size":"10"
+      "type":"Hörsaal",
+      "size":"50"
     },
     "content":{
         "Tisch":{
-          "amount":"10",
+          "amount":"50",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"10",
+          "amount":"50",
           "fixed":false
         },
         "Blackboard":{
-          "amount":"1",
+          "amount":"3",
           "fixed":true
         },
         "Whiteboard":{
-          "amount":"0",
+          "amount":"1",
           "fixed":false
         },
         "Beamer":{
@@ -680,16 +718,16 @@
     "floor":"3",
     "room":{
       "id":"3103",
-      "type":"Seminar",
-      "size":"39"
+      "type":"Arbeitsraum",
+      "size":"20"
     },
     "content":{
         "Tisch":{
-          "amount":"39",
+          "amount":"20",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"39",
+          "amount":"20",
           "fixed":false
         },
         "Blackboard":{
@@ -697,11 +735,11 @@
           "fixed":true
         },
         "Whiteboard":{
-          "amount":"0",
+          "amount":"1",
           "fixed":false
         },
         "Beamer":{
-          "amount":"1",
+          "amount":"0",
           "fixed":true
         }
     },
@@ -776,16 +814,16 @@
     "floor":"3",
     "room":{
       "id":"3105",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Arbeitsraum",
+      "size":"5"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"5",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"5",
           "fixed":false
         },
         "Blackboard":{
@@ -824,28 +862,28 @@
     "floor":"3",
     "room":{
       "id":"3114",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Hörsaal",
+      "size":"80"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"80",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"80",
           "fixed":false
         },
         "Blackboard":{
-          "amount":"0",
+          "amount":"4",
           "fixed":true
         },
         "Whiteboard":{
-          "amount":"0",
+          "amount":"2",
           "fixed":false
         },
         "Beamer":{
-          "amount":"0",
+          "amount":"1",
           "fixed":true
         }
     },
@@ -934,28 +972,28 @@
     "floor":"3",
     "room":{
       "id":"3208",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Hörsaal",
+      "size":"40"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"40",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"40",
           "fixed":false
         },
         "Blackboard":{
-          "amount":"0",
+          "amount":"2",
           "fixed":true
         },
         "Whiteboard":{
-          "amount":"0",
+          "amount":"1",
           "fixed":false
         },
         "Beamer":{
-          "amount":"0",
+          "amount":"1",
           "fixed":true
         }
     },
@@ -1146,16 +1184,16 @@
     "floor":"3",
     "room":{
       "id":"3205",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Seminar",
+      "size":"35"
     },
     "content":{
         "Tisch":{
-          "amount":"0",
+          "amount":"35",
           "fixed":false
         },
         "Stuehle":{
-          "amount":"0",
+          "amount":"35",
           "fixed":false
         },
         "Blackboard":{
@@ -1163,11 +1201,11 @@
           "fixed":true
         },
         "Whiteboard":{
-          "amount":"0",
+          "amount":"4",
           "fixed":false
         },
         "Beamer":{
-          "amount":"0",
+          "amount":"1",
           "fixed":true
         }
     },
@@ -1194,11 +1232,30 @@
     "floor":"3",
     "room":{
       "id":"3201",
-      "type":"Sonstiges",
-      "size":"0"
+      "type":"Hörsaal",
+      "size":"50"
     },
     "content":{
-
+        "Tisch":{
+          "amount":"50",
+          "fixed":false
+        },
+        "Stuehle":{
+          "amount":"50",
+          "fixed":false
+        },
+        "Blackboard":{
+          "amount":"2",
+          "fixed":true
+        },
+        "Whiteboard":{
+          "amount":"1",
+          "fixed":false
+        },
+        "Beamer":{
+          "amount":"1",
+          "fixed":true
+        }
     },
 
     "north":"bn_3205",

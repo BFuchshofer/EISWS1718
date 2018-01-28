@@ -82,259 +82,263 @@ var testData = false;
 router.post( '/room', function( req, res ){
   req.on( 'data', function( chunk ){
     var data                                = JSON.parse( chunk );
-    switch( data.token ){
-      case "GET":
-        data                                    = {
-          "user": data.user,
-          "beacon": data.beacon,
-          "filter":{
-            "person": data.person,
-            "roomType": data.roomType,
-            "blackboard": data.blackboard,
-            "whiteboard": data.whiteboard,
-            "beamer": data.beamer,
-            "chairTable": data.chairTable
-          },
-          "token": data.token
-        };
+    if( data.token != null ){
+      switch( data.token ){
+        case "GET":
+          data                                    = {
+            "user": data.user,
+            "beacon": data.beacon,
+            "filter":{
+              "person": data.person,
+              "roomType": data.roomType,
+              "blackboard": data.blackboard,
+              "whiteboard": data.whiteboard,
+              "beamer": data.beamer,
+              "chairTable": data.chairTable
+            },
+            "token": data.token
+          };
 
-        if( data.beacon != null && data.beacon != "location error" && data.user != null && data.token != null ){
-          FUNCTIONS.suggestion( data.beacon, data.filter )
-          .then( function( result ){
-            if( result != -1 ){
-              if( result != "null" ){
-                FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
-                .then( function( alreadyUsed ){
-                  if( alreadyUsed == -1 ){
-                    FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
-                    .then( function( status ){
-                      result.status = status;
-                      var responseData                = {
-                        "token":data.token,
-                        "room_id": result.room.id,
-                        "remainingTime": result.status.data.duration,
-                        "user":data.user
-                    };
-                      // RESPONSE wenn alles geklappt hat
-                      console.log( '[RES-] /room - GET - sending "OK ( 200 )"');
-                      res.status( 200 ).send( responseData );
-                    });
-                  } else if( alreadyUsed == true ){
-                    // RESPONSE wenn der User den angegebenen Raum bereits reserviert hat
-                    console.log( '[RES-] /room - GET - checkUserRoom - sending "BAD REQUEST ( 400 )"' );
-                    res.status( 400 ).send( "This User has already reserved this room" );
-                  } else {
-                    // RESPONSE wenn der User bereits eine RaumID besitzt,
-                    //    diese allerdings nicht mit der gesendeten Übereinstimmt.
-                    console.log( '[RES-] /room - GET - checkUserRoom - sending "UNAUTHORIZED ( 401 )"' );
-                    res.status( 401 ).send( 'UNAUTHORIZED' );
-                  }
-                });
+          if( data.beacon != null && data.beacon != "location error" && data.user != null && data.token != null ){
+            FUNCTIONS.suggestion( data.beacon, data.filter )
+            .then( function( result ){
+              if( result != -1 ){
+                if( result != "null" ){
+                  FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
+                  .then( function( alreadyUsed ){
+                    if( alreadyUsed == -1 ){
+                      FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
+                      .then( function( status ){
+                        result.status = status;
+                        var responseData                = {
+                          "token":data.token,
+                          "room_id": result.room.id,
+                          "remainingTime": result.status.data.duration,
+                          "user":data.user
+                      };
+                        // RESPONSE wenn alles geklappt hat
+                        console.log( '[RES-] /room - GET - sending "OK ( 200 )"');
+                        res.status( 200 ).send( responseData );
+                      });
+                    } else if( alreadyUsed == true ){
+                      // RESPONSE wenn der User den angegebenen Raum bereits reserviert hat
+                      console.log( '[RES-] /room - GET - checkUserRoom - sending "This User has already reserved this room. ( 400 )"' );
+                      res.status( 400 ).send( "This User has already reserved this room." );
+                    } else {
+                      // RESPONSE wenn der User bereits eine RaumID besitzt
+                      console.log( '[RES-] /room - GET - checkUserRoom - sending "You already reserved or booked a room. ( 401 )"' );
+                      res.status( 401 ).send( 'You already reserved or booked a room.' );
+                    }
+                  });
+                } else {
+                  // RESPONSE wenn BeaconID nicht existiert
+                  console.log( '[RES-] /room - GET - suggestion - sending "This beacon does not exist. ( 416 )"' );
+                  res.status( 416 ).send( "This beacon does not exist." );
+                }
               } else {
-                // RESPONSE wenn BeaconID nicht existiert
-                console.log( '[RES-] /room - GET - suggestion - sending "REQUESTED RANGE NOT SATISFIABLE ( 416 )"' );
-                res.status( 416 ).send( "REQUESTED RANGE NOT SATISFIABLE" );
+                // RESPONSE wenn kein passender Raum gefunden wurde
+                console.log( '[RES-] /room - GET - suggestion - sending "No room found ( 404 )"');
+                res.status( 404 ).send( "No room found for the filters you send." );
               }
+            });
+          } else {
+            // RESPONSE wenn BeaconID oder UserID nicht gesetzt oder im falle
+            //    der BeaconID mit 'location error' gesetzt wurden
+            console.log( '[RES-] /room - GET - sending "Missing Information ( 400 )"' );
+            res.status( 400 ).send( "Request lacks some Information. Have you filled i 'beacon', 'user' and all the filters?" );
+          }
+
+          break;
+        case "UPDATE":
+          data                                    = {
+            "user": data.user,
+            "beacon": data.beacon,
+            "filter":{
+              "person": data.person,
+              "roomType": data.roomType,
+              "blackboard": data.blackboard,
+              "whiteboard": data.whiteboard,
+              "beamer": data.beamer,
+              "chairTable": data.chairTable
+            },
+            "room_id": data.room_id,
+            "token": data.token
+          };
+
+          if( data.beacon != null && data.beacon != "location error" && data.user != null && data.token != null ){
+            FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
+            .then( function( result ){
+              if( result == true ){
+                FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
+                .then( function( unset_result ){
+                  if( unset_result != "null" );
+                  FUNCTIONS.suggestion( data.beacon, data.filter )
+                  .then( function( result ){
+                    if( result != -1 ){
+                      if( result != "null" ){
+                        FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
+                        .then( function( alreadyUsed ){
+                          if( alreadyUsed == -1 ){
+                            FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
+                            .then( function( status ){
+                              result.status = status;
+                              var responseData                = {
+                                "token":data.token,
+                                "room_id": result.room.id,
+                                "remainingTime": result.status.data.duration,
+                                "user":data.user
+                              };
+                              // RESPONSE wenn alles geklappt hat
+                              console.log( '[RES-] /room - UPDATE - sending "OK ( 200 )"');
+                              res.status( 200 ).send( responseData );
+                            });
+                          } else {
+                            // RESPONSE wenn der User bereits eine RaumID besitzt,
+                            //    diese allerdings nicht mit der gesendeten Übereinstimmt.
+                            console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "This is not your room to update. ( 401 )"' );
+                            res.status( 401 ).send( 'This is not your room to update.' );
+                          }
+                        });
+                      } else {
+                        // RESPONSE wenn BeaconID nicht existiert
+                        console.log( '[RES-] /room - UPDATE - suggestion - sending "This beacon does not exists. ( 416 )"' );
+                        res.status( 416 ).send( "This beacon does not exists." );
+                      }
+                    }
+                  });
+                });
+              } else if( result == -1 ){
+                // RESPONSE wenn der User keinen Raum reserviert hat.
+                console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "You have no room reserved. ( 404 )"' );
+                res.status( 404 ).send("You have no room reserved.");
+              } else {
+                // RESPONSE wenn der vorherige Raum nicht dem User zugewiesen ist
+                console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "This is not your room to update. ( 401 )"');
+                res.status( 401 ).send( 'This is not your room to update.' );
+              }
+            });
+          } else {
+            // RESPONSE wenn BeaconID oder UserID nicht gesetzt oder im falle
+            //    der BeaconID mit 'location error' gesetzt wurden
+            console.log( '[RES-] /room - UPDATE - sending "Missing Information ( 400 )"' );
+            res.status( 400 ).send( "Request lacks some Information. Have you filled i 'beacon', 'user' and all the filters?" );
+          }
+          break;
+        case "BOOK":
+
+          data                                    = {
+            "user": data.user,
+            "room_id": data.room_id,
+            "token": data.token
+          };
+
+          FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
+          .then( function( result ){
+            if( result == true ){
+              FUNCTIONS.unsetUserRoom( 'rm_' + data.room_id , data.user )
+              .then( function( result ){
+                if( result != "null" ){
+                  FUNCTIONS.setUserRoom( 'rm_' + data.room_id, data.user, "BOOK")
+                  .then( function( status ){
+                    var responseData                = {
+                      "token":data.token,
+                      "room_id": data.room_id,
+                      "remainingTime": status.data.duration,
+                      "user":data.user
+                      };
+                    FUNCTIONS.sendMiniPC( data.room_id );
+
+                    // RESPONSE wenn alles geklappt hat
+                    console.log( '[RES-] /room - BOOK - sending "OK ( 200 )"');
+                    res.status( 200 ).send( responseData );
+                  });
+                }
+              });
+            } else if( result == -1 ){
+              // RESPONSE wenn der User keinen raum reserviert hat
+              console.log( '[RES-] /room - BOOK - checkUserRoom - sending "This user has no reserved room to be booked. ( 400 )"' );
+              res.status( 400 ).send( "This user has no reserved room to be booked." );
             } else {
-              // RESPONSE wenn kein passender Raum gefunden wurde
-              console.log( '[RES-] /room - GET - suggestion - sending "NOT FOUND ( 404 )"');
-              res.status( 404 ).send( "NOT FOUND" );
+              // RESPONSE wenn der User bereits eine RaumID besitzt,
+              //    diese allerdings nicht mit der gesendeten Übereinstimmt.
+              console.log( '[RES-] /room - BOOK - checkUserRoom - sending "This is not your room to book. ( 401 )"' );
+              res.status( 401 ).send( 'This is not your room to book.' );
             }
           });
-        } else {
-          // RESPONSE wenn BeaconID oder UserID nicht gesetzt oder im falle
-          //    der BeaconID mit 'location error' gesetzt wurden
-          console.log( '[RES-] /room - GET - sending "BAD REQUEST ( 400 )"' );
-          res.status( 400 ).send( "BAD REQUEST" );
-        }
+          break;
+        case "EXTEND":
 
-        break;
-      case "UPDATE":
-        data                                    = {
-          "user": data.user,
-          "beacon": data.beacon,
-          "filter":{
-            "person": data.person,
-            "roomType": data.roomType,
-            "blackboard": data.blackboard,
-            "whiteboard": data.whiteboard,
-            "beamer": data.beamer,
-            "chairTable": data.chairTable
-          },
-          "room_id": data.room_id,
-          "token": data.token
-        };
-
-        if( data.beacon != null && data.beacon != "location error" && data.user != null && data.token != null ){
           FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
           .then( function( result ){
             if( result == true ){
               FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
-              .then( function( unset_result ){
-                if( unset_result != "null" );
-                FUNCTIONS.suggestion( data.beacon, data.filter )
-                .then( function( result ){
-                  if( result != -1 ){
-                    if( result != "null" ){
-                      FUNCTIONS.checkUserRoom( "rm_" + result.room.id, data.user )
-                      .then( function( alreadyUsed ){
-                        if( alreadyUsed == -1 ){
-                          FUNCTIONS.setUserRoom( "rm_" + result.room.id, data.user, "RESERVE" )
-                          .then( function( status ){
-                            result.status = status;
-                            var responseData                = {
-                              "token":data.token,
-                              "room_id": result.room.id,
-                              "remainingTime": result.status.data.duration,
-                              "user":data.user
-                            };
-                            // RESPONSE wenn alles geklappt hat
-                            console.log( '[RES-] /room - UPDATE - sending "OK ( 200 )"');
-                            res.status( 200 ).send( responseData );
-                          });
-                        } else {
-                          // RESPONSE wenn der User bereits eine RaumID besitzt,
-                          //    diese allerdings nicht mit der gesendeten Übereinstimmt.
-                          console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "UNAUTHORIZED ( 401 )"' );
-                          res.status( 401 ).send( 'UNAUTHORIZED' );
-                        }
-                      });
-                    } else {
-                      // RESPONSE wenn BeaconID nicht existiert
-                      console.log( '[RES-] /room - UPDATE - suggestion - sending "REQUESTED RANGE NOT SATISFIABLE ( 416 )"' );
-                      res.status( 416 ).send( "REQUESTED RANGE NOT SATISFIABLE" );
-                    }
-                  }
-                });
+              .then( function( result ){
+                if( result != "null" ){
+                  FUNCTIONS.setUserRoom( "rm_" + data.room_id, data.user, "BOOK" )
+                  .then( function( status ){
+                    var responseData              = {
+                      "token":data.token,
+                      "room_id":data.room_id,
+                      "remainingTime": status.data.duration,
+                      "user":data.user
+                    };
+                    // RESPONSE wenn alles geklappt hat
+                    console.log( '[RES-] /room - EXTEND - sending "OK ( 200 )"');
+                    res.status( 200 ).send( responseData );
+                  });
+                }
               });
             } else if( result == -1 ){
-              // RESPONSE wenn der User keinen Raum reserviert hat.
-              console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "NOT FOUND ( 404 )"' );
-              res.sendStatus( 404 );
+              // RESPONSE wenn der User keinen raum reserviert hat
+              console.log( '[RES-] /room - EXTEND - checkUserRoom - sending "This user has no booked room to be extended. ( 400 )"' );
+              res.status( 400 ).send( "This user has no booked room to be extended." );
             } else {
-              // RESPONSE wenn der vorherige Raum nicht dem User zugewiesen ist
-              console.log( '[RES-] /room - UPDATE - checkUserRoom - sending "UNAUTHORIZED ( 401 )"');
-              res.status( 401 ).send( 'UNAUTHORIZED' );
+              // RESPONSE wenn der User bereits eine RaumID besitzt,
+              //    diese allerdings nicht mit der gesendeten Übereinstimmt.
+              console.log( '[RES-] /room - EXTEND - checkUserRoom - sending "This is not your room to extend. ( 401 )"' );
+              res.status( 401 ).send( 'This is not your room to extend.' );
             }
           });
-        } else {
-          // RESPONSE wenn BeaconID oder UserID nicht gesetzt oder im falle
-          //    der BeaconID mit 'location error' gesetzt wurden
-          console.log( '[RES-] /room - UPDATE - sending "BAD REQUEST ( 400 )"' );
-          res.status( 400 ).send( "BAD REQUEST" );
-        }
-        break;
-      case "BOOK":
+          break;
+        case "CANCEL":
 
-        data                                    = {
-          "user": data.user,
-          "room_id": data.room_id,
-          "token": data.token
-        };
-
-        FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
-        .then( function( result ){
-          if( result == true ){
-            FUNCTIONS.unsetUserRoom( 'rm_' + data.room_id , data.user )
-            .then( function( result ){
-              if( result != "null" ){
-                FUNCTIONS.setUserRoom( 'rm_' + data.room_id, data.user, "BOOK")
-                .then( function( status ){
-                  var responseData                = {
-                    "token":data.token,
-                    "room_id": data.room_id,
-                    "remainingTime": status.data.duration,
-                    "door_key": status.door_key,
-                    "user":data.user
-                    };
-
-                  // RESPONSE wenn alles geklappt hat
-                  console.log( '[RES-] /room - BOOK - sending "OK ( 200 )"');
-                  res.status( 200 ).send( responseData );
-                });
-              }
-            });
-          } else if( result == -1 ){
-            // RESPONSE wenn der User keinen raum reserviert hat
-            console.log( '[RES-] /room - BOOK - checkUserRoom - sending "BAD REQUEST ( 400 )"' );
-            res.status( 400 ).send( "This user has no reserved room to be booked" );
-          } else {
-            // RESPONSE wenn der User bereits eine RaumID besitzt,
-            //    diese allerdings nicht mit der gesendeten Übereinstimmt.
-            console.log( '[RES-] /room - BOOK - checkUserRoom - sending "UNAUTHORIZED ( 401 )"' );
-            res.status( 401 ).send( 'UNAUTHORIZED' );
-          }
-        });
-        break;
-      case "EXTEND":
-
-        FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
-        .then( function( result ){
-          if( result == true ){
-            FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
-            .then( function( result ){
-              if( result != "null" ){
-                FUNCTIONS.setUserRoom( "rm_" + data.room_id, data.user, "BOOK" )
-                .then( function( status ){
-                  var responseData              = {
-                    "token":data.token,
-                    "room_id":data.room_id,
-                    "remainingTime": status.data.duration,
-                    "user":data.user
-                  };
-                  // RESPONSE wenn alles geklappt hat
-                  console.log( '[RES-] /room - EXTEND - sending "OK ( 200 )"');
-                  res.status( 200 ).send( responseData );
-                });
-              }
-            });
-          } else if( result == -1 ){
-            // RESPONSE wenn der User keinen raum reserviert hat
-            console.log( '[RES-] /room - EXTEND - checkUserRoom - sending "BAD REQUEST ( 400 )"' );
-            res.status( 400 ).send( "This user has no booked room to be extended" );
-          } else {
-            // RESPONSE wenn der User bereits eine RaumID besitzt,
-            //    diese allerdings nicht mit der gesendeten Übereinstimmt.
-            console.log( '[RES-] /room - EXTEND - checkUserRoom - sending "UNAUTHORIZED ( 401 )"' );
-            res.status( 401 ).send( 'UNAUTHORIZED' );
-          }
-        });
-        break;
-      case "CANCEL":
-
-        FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
-        .then( function( result ){
-          if( result == -1 ){
-            var responseData = {
-              "token":data.token,
-              "room_id":"0",
-              "remainingTime":"0",
-              "user":data.user
-            };
-            // RESPONSE wenn der User keinen Raum gebucht oder reserviert hat
-            console.log( '[RES-] /room - CANCEL - sending "OK ( 200 )"' );
-            res.status( 200 ).send( responseData );
-          } else if( result == true ){
-            FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
-            .then( function( status ){
-              var responseData                = {
+          FUNCTIONS.checkUserRoom( "rm_" + data.room_id, data.user )
+          .then( function( result ){
+            if( result == -1 ){
+              var responseData = {
                 "token":data.token,
-                "room_id": data.room_id,
-                "remainingTime": status.duration,
+                "room_id":"0",
+                "remainingTime":"0",
                 "user":data.user
               };
-              // RESPONSE wenn alles geklappt hat
-              console.log( '[RES-] /room - CANCEL - sending "OK ( 200 )" > Room didnt exist');
+              // RESPONSE wenn der User keinen Raum gebucht oder reserviert hat
+              console.log( '[RES-] /room - CANCEL - sending "OK ( 200 )"' );
               res.status( 200 ).send( responseData );
-            });
-          } else {
-            // RESPONSE wenn der User bereits eine RaumID besitzt,
-            //    diese allerdings nicht mit der gesendeten Übereinstimmt.
-            console.log( '[RES-] /room - CANCEL - checkUserRoom - sending "UNAUTHORIZED ( 401 )"' );
-            res.status( 401 ).send( 'UNAUTHORIZED' );
-          }
-        });
-        break;
+            } else if( result == true ){
+              FUNCTIONS.unsetUserRoom( "rm_" + data.room_id, data.user )
+              .then( function( status ){
+                var responseData                = {
+                  "token":data.token,
+                  "room_id": data.room_id,
+                  "remainingTime": status.duration,
+                  "user":data.user
+                };
+                // RESPONSE wenn alles geklappt hat
+                console.log( '[RES-] /room - CANCEL - sending "OK ( 200 )" > Room didnt exist');
+                res.status( 200 ).send( responseData );
+              });
+            } else {
+              // RESPONSE wenn der User bereits eine RaumID besitzt,
+              //    diese allerdings nicht mit der gesendeten Übereinstimmt.
+              console.log( '[RES-] /room - CANCEL - checkUserRoom - sending "This is not your room to cancel. ( 401 )"' );
+              res.status( 401 ).send( 'This is not your room to cancel.' );
+            }
+          });
+          break;
+      }
+    } else {
+      console.log( '[RES-] /room - Token not set' );
+      res.status( 400 ).send( "Request lacks the Field token.");
     }
   });
 });
@@ -369,7 +373,7 @@ router.post( '/miniPcPing', function( req, res ){
         "pc_port":data.port
       });
     }
-    FUNCTIONS.setMiniPC( minipc_iparray[ minipc_iparray.length-1]);
+    FUNCTIONS.setMiniPc( minipc_iparray[ minipc_iparray.length-1] );
     res.status( 200 ).send( minipc_iparray[ minipc_iparray.length -1 ] );
   });
 });
@@ -424,7 +428,7 @@ router.post( '/roomList', function( req, res ){
     }
     DATABASE.setHashField( "rm_" + data.room_id, 'content', tmpContent);
 
-    console.log( '[RES-] /roomList - sending "OK ( 200 )"' );
+    //console.log( '[RES-] /roomList - sending "OK ( 200 )"' );
     res.status( 200 ).send( "OK" );
   });
 });

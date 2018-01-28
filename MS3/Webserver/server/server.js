@@ -8,7 +8,6 @@ global.bodyParser                           = require( 'body-parser' );
 
 global.ip                                   = require( 'ip' );
 
-global.randomstring                         = require( 'randomstring' );
 
 // VARIABLES
 global.VAR_WEBSERVER                        = require( './cfg/webserver.json' );
